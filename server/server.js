@@ -1,3 +1,5 @@
+const PORT_LISTEN = 8080
+
 http=require("http")
 
 
@@ -8,6 +10,7 @@ http.createServer((req,res) =>{
     })
     res.write('{"nom":"JeanKul","prenom":"TaMere"}')
     res.end()
-}).listen(8080,()=>{
-    console.log("J'écoute ta grand mère")
+}).listen(PORT_LISTEN,()=>{
+    console.log("Je suis allumé 😊 et j'écoute sur le port " + PORT_LISTEN)
+                                             
 })

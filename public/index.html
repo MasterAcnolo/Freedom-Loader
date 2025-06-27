@@ -8,7 +8,7 @@
 <body>
     
 
-    <form action="/download" method="POST">
+    <form action="/download" method="POST" id="downloadForm">
         <input name="url" placeholder="URL YouTube" id="UrlInput">
         <input type="checkbox" name="audioOnly" value="1"> MP3 seulement
         <select name="quality">
@@ -18,6 +18,7 @@
         <button type="submit">Télécharger</button>
     </form>
 
+    <div id="downloadStatus" style="margin-top: 1em; font-weight:bold;"></div>
 
     <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
     les données à traiter. Pour cela on définit une route vers /download, ca va
@@ -27,6 +28,7 @@
 
     <div id="videoInfo" style="margin-top: 20px;"></div>
 
+    <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>
 </body>
 </html>

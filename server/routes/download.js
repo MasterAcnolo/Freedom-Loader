@@ -6,7 +6,7 @@ const { exec } = require("child_process");
 router.post("/", (req, res) => {
     const options = {
       url: req.body.url,
-      audioOnly: req.body.format === "mp3",  // coché mp3
+      audioOnly: req.body.audioOnly === "1",  // coché mp3
       quality: req.body.quality || "best",   // par défaut best
       subtitles: req.body.subs === "1",      // imaginons un checkbox
       //FAUT RAJOUTER DES ARGUMENTS SOUS CETTE FORME

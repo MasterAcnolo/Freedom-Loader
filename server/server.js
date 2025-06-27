@@ -9,6 +9,8 @@ if (!fs.existsSync("downloads")) { // Si jamais il n'y a pas de dossier download
   fs.mkdirSync("downloads"); // On le crée
 }
 
+app.use(express.static("public")); // Ca c'est pour ouvrir le serveur, comme ça plus besoin d'utiliser live server
+
 app.post("/download", (req, res) => {
   const options = {
     url: req.body.url,
@@ -54,6 +56,26 @@ app.post("/download", (req, res) => {
     console.log("yt-dlp terminé :", stdout);
     res.send("✅ Téléchargement terminé !");
   });
+});
+
+app.post("/info", (req,res) =>{
+
+  const url = req.body.url;
+    if (!url) return res.status(400).send("❌ URL manquante");
+
+    const command = `yt-dlp --dump-json "${url}"`;
+
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).send("❌ Impossible de récupérer les infos.");
+      }
+      try {
+        const info = JSON.parse(stdout);
+        res.json(info);
+      } catch (e) {
+        res.status(500).send("❌ JSON illisible.");
+      }
+    });
 });
 
 app.listen(8080, () => {

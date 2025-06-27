@@ -1,67 +1,61 @@
 const express = require("express");
-const { exec } = require("child_process");
+const { exec } = require("child_process"); // Requis pour écrire dans un terminal
 const fs = require("fs");
-const path = require("path");
 
 const app = express();
+app.use(express.urlencoded({ extended: true })); // Pour pouvoir recevoir plein de truc
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-const downloadDir = path.join(__dirname, "downloads");
-if (!fs.existsSync(downloadDir)) {
-  fs.mkdirSync(downloadDir);
+if (!fs.existsSync("downloads")) { // Si jamais il n'y a pas de dossier downloads
+  fs.mkdirSync("downloads"); // On le crée
 }
 
-const allowedFormats = ["best", "mp3", "mp4"];
-
 app.post("/download", (req, res) => {
-  const videoUrl = req.body.url;
-  let format = req.body.format || "best";
+  const options = {
+    url: req.body.url,
+    audioOnly: req.body.format === "mp3",  // coché mp3
+    quality: req.body.quality || "best",   // par défaut best
+    subtitles: req.body.subs === "1",      // imaginons un checkbox
+    //FAUT RAJOUTER DES ARGUMENTS SOUS CETTE FORME
+  };
 
-  if (!videoUrl) {
-    return res.status(400).send("❌ Il faut envoyer une URL !");
+  if (!options.url) {
+    return res.status(400).send("❌ URL manquante !");
   }
 
-  if (!allowedFormats.includes(format)) {
-    format = "best"; 
+  // construction progressive de la commmande
+
+  // A SAVOIR QUE L'ON VA DISTINGUER DEUX TYPES D'ARGUMENTS SI j'AI BIEN COMPRIS, GENRE 
+  // LES ARGUMENTS OBLIGATOIRES ET LES ARGUMENTS FALCUTATIFS
+  // GENRE LES SOUS TITRE OU L'AUDIO ONLY QUI SONT NON ESSENTIEL
+
+  let command = `yt-dlp`;
+
+  if (options.audioOnly) {
+    command += " --extract-audio --audio-format mp3"; // AJOUT DE l'ONLY AUDIO SI JAMAIS ON LE CHECK, SINON CA PREND LA VALEUR PAR DEFAUT A SAVOIR VIDEO
   }
 
-  const safeUrl = `"${videoUrl.replace(/"/g, '\\"')}"`;
-
-  let command = "";
-
-  if (format === "mp3") {
-    command = `yt-dlp --extract-audio --audio-format mp3 -o "downloads/%(title)s.%(ext)s" ${safeUrl}`;
-  } else {
-    command = `yt-dlp -f ${format} -o "downloads/%(title)s.%(ext)s" ${safeUrl}`;
+  if (options.subtitles) {
+    command += " --write-subs --sub-lang en"; 
   }
 
-  console.log("▶️ Commande exécutée :", command);
+    command += ` -f ${options.quality}`; //QUALITE DU TELECHARGEMENT
+    command += ` -o "downloads/%(title)s.%(ext)s"`; // DOSSIER DE SORTIE 
+    command += ` "${options.url}"`; // L'URL DE BASE
 
-  exec(command, (error, stdout, stderr) => {
-    if (stdout) console.log("=== SORTIE ===", stdout);
-    if (stderr) console.error("=== STDERR ===", stderr);
+    // ON COOK LA COMMANDE FINALE ICI: 
+  console.log("🔧 Commande finale :", command);
 
+  exec(command, (error, stdout, stderr) => { // Error = Erreur Node JS || stdout = sortie de la commande du terminal || STDerr c'est les erreurs interne au terminal
     if (error) {
-      console.error("=== ERREUR ===", error);
-      return res.status(500).send(`❌ Problème pendant le téléchargement : ${stderr || error.message}`);
+      console.error("Erreur yt-dlp :", stderr || error.message);
+      return res.status(500).send("❌ Erreur pendant le téléchargement.");
     }
 
-    res.send("✅ Téléchargement lancé !");
+    console.log("yt-dlp terminé :", stdout);
+    res.send("✅ Téléchargement terminé !");
   });
 });
 
-app.get("/downloads", (req, res) => {
-  fs.readdir(downloadDir, (err, files) => {
-    if (err) {
-      return res.status(500).send("Erreur de lecture du dossier");
-    }
-    res.json(files);
-  });
-});
-
-const PORT = 8080;
-app.listen(PORT, () => {
-  console.log(`🟢 Serveur prêt : http://localhost:${PORT}`);
+app.listen(8080, () => {
+  console.log("🟢 Serveur prêt sur http://localhost:8080");
 });

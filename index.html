@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Freedom Loader</title>
 </head>
 <body>
     
-    <form action="http://localhost:8080/download" method="POST">
-        <input type="text" name="url" placeholder="Colle une URL YouTube" required>
-        <input type="checkbox" name="format" value="mp3" id="format"> MP3?
+
+    <form action="/download" method="POST">
+        <input name="url" placeholder="URL YouTube">
+        <input type="checkbox" name="audioOnly" value="1"> MP3 seulement
+        <select name="quality">
+            <option value="best">Meilleure qualité</option>
+            <option value="worst">Qualité minimale</option>
+        </select>
         <button type="submit">Télécharger</button>
     </form>
 
 
+    <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
+    les données à traiter. Pour cela on définit une route vers /download, ca va
+    être l'espèce de "canal" attribué a ça. Ca va faire que si jamais on veut ensuite recup
+    les infos du form, il faut aller sur ce canal précis (/download). La méthode POST dit
+    que l'on envoie des données.-->
 </body>
 </html>

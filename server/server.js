@@ -4,42 +4,60 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); 
+app.use(express.json());
 
 const downloadDir = path.join(__dirname, "downloads");
 if (!fs.existsSync(downloadDir)) {
   fs.mkdirSync(downloadDir);
 }
 
-app.post("/download", (req, res) => {
+const allowedFormats = ["best", "mp3", "mp4"];
 
+app.post("/download", (req, res) => {
   const videoUrl = req.body.url;
+  let format = req.body.format || "best";
 
   if (!videoUrl) {
-    return res.status(400).send("❌ URL manquante !");
+    return res.status(400).send("❌ Il faut envoyer une URL !");
+  }
+
+  if (!allowedFormats.includes(format)) {
+    format = "best"; 
   }
 
   const safeUrl = `"${videoUrl.replace(/"/g, '\\"')}"`;
 
-  const command = `yt-dlp -o "downloads/%(title)s.%(ext)s" ${safeUrl}`;
+  let command = "";
 
-  console.log("▶️ Commande yt-dlp exécutée :", command);
+  if (format === "mp3") {
+    command = `yt-dlp --extract-audio --audio-format mp3 -o "downloads/%(title)s.%(ext)s" ${safeUrl}`;
+  } else {
+    command = `yt-dlp -f ${format} -o "downloads/%(title)s.%(ext)s" ${safeUrl}`;
+  }
+
+  console.log("▶️ Commande exécutée :", command);
 
   exec(command, (error, stdout, stderr) => {
-    console.log("=== SORTIE ===");
-    console.log(stdout);
-
-    console.log("=== STDERR ===");
-    console.error(stderr);
+    if (stdout) console.log("=== SORTIE ===", stdout);
+    if (stderr) console.error("=== STDERR ===", stderr);
 
     if (error) {
-      console.error("=== ERREUR ===");
-      console.error(error);
-      return res.status(500).send(`❌ Erreur yt-dlp : ${stderr || error.message}`);
+      console.error("=== ERREUR ===", error);
+      return res.status(500).send(`❌ Problème pendant le téléchargement : ${stderr || error.message}`);
     }
 
     res.send("✅ Téléchargement lancé !");
+  });
+});
+
+app.get("/downloads", (req, res) => {
+  fs.readdir(downloadDir, (err, files) => {
+    if (err) {
+      return res.status(500).send("Erreur de lecture du dossier");
+    }
+    res.json(files);
   });
 });
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // fetch("https://api.nobelprize.org/2.1/nobelPrizes")
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         return data;
+        //         // Faut prendre son temps et faire chaque chose en son temps
+        //     })
+        //     .then(data => document.write(JSON.stringify(data))) 
+        //     .catch(error => console.log("Erreur:" , error))
+
+        fetch("https://api.chucknorris.io/jokes/random")
+            .then(response => response.json())
+            .then(data => {
+                return data.value;
+            })
+            .then(jokes => document.write(JSON.stringify(jokes)))
+            .catch(error => console.log("Erreur: ", error))
+
+            // Ne pas oublier de retourner les bons éléments au bon moment
+    </script>
+</body>
+</html>

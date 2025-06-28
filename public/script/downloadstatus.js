@@ -15,7 +15,7 @@ form.addEventListener("submit", async (e) => {
   button.disabled = true;
 
   // Affiche un message d'attente à l'utilisateur
-  statusDiv.textContent = "⏳ Téléchargement en cours...";
+  statusDiv.textContent = "Téléchargement en cours...";
 
   // Prépare les données du formulaire sous forme URL-encoded
   const formData = new FormData(form);

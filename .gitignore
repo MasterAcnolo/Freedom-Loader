@@ -2,3 +2,5 @@
 /downloads
 /dist
 yt-dlp.exe
+out/
+forge.config.js

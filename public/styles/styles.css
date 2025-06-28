@@ -1,31 +1,37 @@
 @import url("layout/form.css");
 @import url("layout/container.css");
 @import url("layout/ctr-infos.css");
+@import url("layout/header.css");
+@import url("layout/videoinfo.css");
+@import url("button/checkbox.css");
 
-*{
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html,body{
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
-
+    /* outline: 2px solid red; */
+      font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    /* background-color: #f5f5f5; */
+    background-image: linear-gradient(to left top, #838383, #a1a1a1, #bfbfbf, #dfdfdf, #ffffff);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
     color: #333;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: center;    
 }
 
-#downloadStatus {
-  margin-top: 0.5em;
-  font-weight: bold;
-  color: #eee;
-  min-height: 1.5em;
-}
 
 #videoInfo {
   margin-top: 100px; 
@@ -34,7 +40,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   border-radius: 8px;
-  color: #fff;
+  color: rgb(0, 0, 0);
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   transition: opacity 0.5s ease, max-height 0.5s ease;
   opacity: 0;
@@ -45,10 +51,4 @@ body {
 #videoInfo.visible {
   opacity: 1;
   max-height: 1000px;
-}
-
-label {
-    display: flex;
-    align-items: center;
-    font-size: 0.9em;
 }

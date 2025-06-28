@@ -29,11 +29,16 @@ body {
     color: #333;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+ 
 }
 
 
-#videoInfo {
+/* #videoInfo {
   margin-top: 100px; 
   padding: 1em;
   max-width: 600px;
@@ -51,4 +56,4 @@ body {
 #videoInfo.visible {
   opacity: 1;
   max-height: 1000px;
-}
+} */

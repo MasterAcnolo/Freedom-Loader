@@ -23,5 +23,5 @@ app.use("/info", infoRoute); // on associe le contenu de infos.js à /info
 
 
 app.listen(8080, () => {
-  console.log("🟢 Serveur prêt sur http://localhost:8080");
+  console.log("🟢 Serveur prêt sur http://localhost:8080 \n Bonjour!");
 });

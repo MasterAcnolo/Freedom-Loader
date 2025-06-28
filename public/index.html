@@ -5,15 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freedom Loader</title>
 
+    <!--CSS-->
     <link rel="stylesheet" href="styles/styles.css">
+    
+    <!--Icons-->
+    <link rel="icon" href="assets/icons/file-audio-solid.svg" type="image/svg+xml">
 </head>
 <body>
     
     <div class="container">
 
+        <header>
+            <h1> Freedom Loader </h1>
+            <p> Because why not? </p>
+        </header>
+        
         <form action="/download" method="POST" id="downloadForm">
-            <input name="url" placeholder="URL YouTube" id="UrlInput">
-            <input type="checkbox" name="audioOnly" value="1"> MP3 seulement
+            <input name="url" placeholder="URL" id="UrlInput">
+
+            <label class="checkbox-inline">
+
+                <label class="checkbox-mp3">
+                    <input type="checkbox" name="audioOnly" value="1">
+                    <div class="checkmark"></div>
+                </label>
+                <!-- <input type="checkbox" name="audioOnly" value="1"> -->
+                Audio seulement (MP3)
+            </label>
+            <!-- <input type="checkbox" name="audioOnly" value="1"> Audio seulement (MP3) -->
             <select name="quality">
                 <option value="best">Meilleure qualité</option>
                 <option value="worst">Qualité minimale</option>
@@ -21,7 +40,7 @@
             <button type="submit">Télécharger</button>
         </form>
 
-        <div id="downloadStatus" style="margin-top: 1em; font-weight:bold;"></div>
+        <div id="downloadStatus"></div>
 
         <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
         les données à traiter. Pour cela on définit une route vers /download, ca va
@@ -35,5 +54,6 @@
 
     <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>
+    
 </body>
 </html>

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { exec } = require("child_process");
+const path = require("path");
 
 router.post("/", (req, res) => {
   const options = {
@@ -14,6 +15,12 @@ router.post("/", (req, res) => {
     return res.status(400).send("❌ URL manquante !");
   }
 
+  // Récupérer le chemin Freedom Loader Output depuis app.locals
+  const outputFolder = req.app.locals.outputFolder;
+
+  // Construire le template de sortie
+  const outputTemplate = path.join(outputFolder, "%(title)s.%(ext)s");
+
   let command = `yt-dlp`;
 
   if (options.audioOnly) {
@@ -25,18 +32,18 @@ router.post("/", (req, res) => {
   }
 
   command += ` -f ${options.quality}`;
-  command += ` -o "downloads/%(title)s.%(ext)s"`;
+  command += ` -o "${outputTemplate}"`;
   command += ` "${options.url}"`;
 
   console.log("🔧 Commande finale :", command);
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error("Erreur yt-dlp :", stderr || error.message);
+      console.error("❌ Erreur yt-dlp :", stderr || error.message);
       return res.status(500).send("❌ Erreur pendant le téléchargement.");
     }
 
-    console.log("yt-dlp terminé :", stdout);
+    console.log("✅ yt-dlp terminé :", stdout);
     res.send("✅ Téléchargement terminé !");
   });
 });

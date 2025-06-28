@@ -9,26 +9,29 @@
 </head>
 <body>
     
+    <div class="container">
 
-    <form action="/download" method="POST" id="downloadForm">
-        <input name="url" placeholder="URL YouTube" id="UrlInput">
-        <input type="checkbox" name="audioOnly" value="1"> MP3 seulement
-        <select name="quality">
-            <option value="best">Meilleure qualité</option>
-            <option value="worst">Qualité minimale</option>
-        </select>
-        <button type="submit">Télécharger</button>
-    </form>
+        <form action="/download" method="POST" id="downloadForm">
+            <input name="url" placeholder="URL YouTube" id="UrlInput">
+            <input type="checkbox" name="audioOnly" value="1"> MP3 seulement
+            <select name="quality">
+                <option value="best">Meilleure qualité</option>
+                <option value="worst">Qualité minimale</option>
+            </select>
+            <button type="submit">Télécharger</button>
+        </form>
 
-    <div id="downloadStatus" style="margin-top: 1em; font-weight:bold;"></div>
+        <div id="downloadStatus" style="margin-top: 1em; font-weight:bold;"></div>
 
-    <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
-    les données à traiter. Pour cela on définit une route vers /download, ca va
-    être l'espèce de "canal" attribué a ça. Ca va faire que si jamais on veut ensuite recup
-    les infos du form, il faut aller sur ce canal précis (/download). La méthode POST dit
-    que l'on envoie des données.-->
+        <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
+        les données à traiter. Pour cela on définit une route vers /download, ca va
+        être l'espèce de "canal" attribué a ça. Ca va faire que si jamais on veut ensuite recup
+        les infos du form, il faut aller sur ce canal précis (/download). La méthode POST dit
+        que l'on envoie des données.-->
 
-    <div id="videoInfo" style="margin-top: 20px;"></div>
+        <div id="videoInfo" style="margin-top: 20px;"></div>
+
+    </div>
 
     <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>

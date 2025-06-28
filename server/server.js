@@ -26,13 +26,34 @@ app.locals.outputFolder = outputFolder;
 app.use(express.urlencoded({ extended: true }));
 
 // servir le dossier public comme site
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../public")));
+
 
 // routes
 app.use("/download", downloadRoute); // ex: /download
 app.use("/info", infoRoute);         // ex: /info
 
-app.listen(8080, () => {
-  console.log("🟢 Serveur prêt sur http://localhost:8080");
-  console.log("📂 Dossier de sortie :", outputFolder);
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
+
+// Export d'une fonction startServer qui retourne une promesse
+function startServer() {
+  return new Promise((resolve, reject) => {
+    console.log("🟢 Démarrage du serveur Express...");
+    const serverInstance = app.listen(8080, () => {
+      console.log("🟢 Serveur Express prêt sur http://localhost:8080");
+      resolve(serverInstance);
+    });
+    serverInstance.on('error', (err) => {
+      console.error("❌ Erreur serveur Express :", err);
+      reject(err);
+    });
+  });
+}
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+module.exports = { startServer };

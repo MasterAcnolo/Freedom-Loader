@@ -31,7 +31,10 @@ Dans le dossier Téléchargement (**C:\Users\VOTRE NOM\Downloads**) de votre ord
 
 ## Essayez de relancer l'application, de consulter les logs ou d'ouvrir la console de commande du navigateur en faisant le raccourci `CTRL+ SHIFT + I` où encore `View > Toggle Developper Tools `
 
-![Exemple Chemin](build/example-developertools.png)
+<!-- ![Exemple Chemin](build/example-developertools.png) -->
+<p align="center">
+  <img src="build/example-developertools.png" alt="Example Developper Tools" />
+</p>
 
 > Exemple ci dessus
 

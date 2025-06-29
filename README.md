@@ -2,22 +2,6 @@
 
 ---
 
-## Installation
+## Le Projet
 
-### 1. Clônage du Repositories
-
-```
-git clone https://github.com/MasterAcnolo/MP3-Downloader
-```
-
-### 2. Installation des dépendances
-
-```
-npm install express
-```
-
-## Pour lancer le serveur
-
-```
-node server/server.js
-```
+![Static Badge](https://img.shields.io/badge/Version-1.0.0-blue?style=flat&logo=Test)

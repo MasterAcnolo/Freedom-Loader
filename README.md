@@ -36,8 +36,6 @@ Dans le dossier Téléchargement (**C:\Users\VOTRE NOM\Downloads**) de votre ord
   <img src="build/example-developertools.png" alt="Example Developper Tools" />
 </p>
 
-> Exemple ci dessus
-
 ## 🏗️ Fonctionnalités à venir (Roadmap)
 
 - [ ] Plus de Choix de format

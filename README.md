@@ -78,7 +78,7 @@ Ce projet est open source et accueille volontiers vos contributions.
 Voici comment participer :
 
 - **🪲 Signalement de bugs**  
-   Merci d’utiliser le [système d’issues GitHub](https://github.com/MasterAcnolo/votre-repo/issues) pour remonter les bugs rencontrés.  
+   Merci d’utiliser le [système d’issues GitHub](https://github.com/MasterAcnolo/Freedom-Loader/issues) pour remonter les bugs rencontrés.  
    Essayez de fournir une reproduction claire et les logs si possible. Les logs se trouvent dans le dossier d’installation du programme. Exemple de chemin :  
   `C:\Users\[VOTRE NOM]\Desktop\Freedom Loader\resources\app\logs`  
   Le fichier aura un nom du type `combined-20xx-xx-xx.log`.  
@@ -87,7 +87,7 @@ Voici comment participer :
    Les Pull Requests sont les bienvenues ! Merci de forker le repo et de soumettre votre PR après avoir vérifié le respect des guidelines (tests, style, etc.).  
   <br>
 - **💡 Suggestions de fonctionnalités**  
-   Vous pouvez proposer de nouvelles idées via une [issue de type feature request](https://github.com/votre-utilisateur/votre-repo/issues).  
+   Vous pouvez proposer de nouvelles idées via une [issue de type feature request](https://github.com/MasterAcnolo/Freedom-Loader/issues).  
    Toute proposition claire et détaillée sera étudiée.  
   <br>
 - **💰 Soutenir le projet**

@@ -41,6 +41,7 @@ Dans le dossier Téléchargement (**C:\Users\VOTRE NOM\Downloads**) de votre ord
 - [ ] Plus de Choix de format
 - [ ] Support des Sous Titres
 - [ ] Meilleur UI / UX
+- [ ] Choix de langues
 - [ ] Téléchargement d'une partie de la vidéo
 - [ ] Renomage du fichier de sortie
 - [ ] Extraction / Division de la vidéo en utilisant le Chapitrage Natif

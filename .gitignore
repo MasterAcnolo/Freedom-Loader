@@ -1,6 +1,9 @@
 /node_modules
 /downloads
 /dist
+/logs
+/out
+
+
 yt-dlp.exe
-out/
 forge.config.js

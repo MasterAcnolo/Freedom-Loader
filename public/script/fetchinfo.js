@@ -3,37 +3,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const infoDiv = document.getElementById("videoInfo");
 
   let lastFetchedUrl = "";
+  const DEBUG = true;
 
   urlInput.addEventListener("input", async () => {
     const url = urlInput.value.trim();
-    console.log("Input détecté :", url);
+    if (DEBUG) console.log("[DEBUG] Input détecté :", url);
 
-    // Si URL vide ou trop courte : on vide et cache la div
     if (!url || url.length < 5) {
+      if (DEBUG) console.log("[DEBUG] URL vide ou trop courte, reset affichage.");
       infoDiv.innerHTML = "";
       infoDiv.classList.remove("visible");
       lastFetchedUrl = "";
       return;
     }
-    // Si même URL que précédemment, on ne fait rien
-    if (url === lastFetchedUrl) return;
+
+    if (url === lastFetchedUrl) {
+      if (DEBUG) console.log("[DEBUG] Même URL que précédemment, pas de fetch.");
+      return;
+    }
 
     lastFetchedUrl = url;
 
     try {
+      if (DEBUG) console.log("[DEBUG] Envoi requête POST vers /info avec URL:", url);
       const res = await fetch("/info", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({ url }),
       });
 
+      if (DEBUG) console.log("[DEBUG] Réponse status:", res.status);
+
       if (!res.ok) {
-        infoDiv.innerHTML = "❌ Impossible de récupérer les infos.";
+        console.error(`[ERROR] Réponse HTTP ${res.status}: ${res.statusText}`);
+        infoDiv.innerHTML = "❌ Impossible de récupérer les infos (erreur serveur).";
         infoDiv.classList.remove("visible");
         return;
       }
 
       const data = await res.json();
+      if (DEBUG) console.log("[DEBUG] Données reçues:", data);
+
+      // Vérification minimaliste
+      if (!data || !data.title || !data.thumbnail) {
+        console.warn("[WARNING] Données incomplètes", data);
+        infoDiv.innerHTML = "❌ Données incomplètes reçues.";
+        infoDiv.classList.remove("visible");
+        return;
+      }
 
       const minutes = Math.floor(data.duration / 60);
       const seconds = data.duration % 60;
@@ -67,11 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <li><strong>Catégories :</strong> ${categories}</li>
         </ul>
       `;
-      // Affiche la div avec la classe pour transition douce
       infoDiv.classList.add("visible");
+
+      if (DEBUG) console.log("[DEBUG] Info affichée avec succès.");
     } catch (e) {
-      console.error("Erreur lors de la récupération :", e);
-      infoDiv.innerHTML = "❌ Erreur lors de la récupération.";
+      console.error("[CRITICAL] Erreur lors de la récupération:", e);
+      infoDiv.innerHTML = "❌ Erreur réseau ou JSON.";
       infoDiv.classList.remove("visible");
     }
   });

@@ -17,10 +17,7 @@
 */
 
 const { createLogger, format, transports } = require("winston"); 
-// on importe Winston (logger populaire pour Node.js)
-
 const DailyRotateFile = require("winston-daily-rotate-file"); 
-// plugin pour Winston qui permet la rotation automatique des fichiers de logs
 
 const fs = require("fs");       // pour vérifier/créer le dossier de logs
 const path = require("path");   // pour gérer proprement les chemins
@@ -30,13 +27,13 @@ const logDir = path.join(__dirname, "../logs");
 // on le crée si inexistant
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
 
-// fonction pour générer une ligne de début de session (date ISO)
+// fonction pour générer une ligne de début de session 
 function getSessionStartLine() {
   const now = new Date().toISOString();
   return `--- Démarrage de la session : ${now} ---`;
 }
 
-// fonction pour générer une ligne de fin de session (date ISO)
+// fonction pour générer une ligne de fin de session 
 function getSessionEndLine() {
   const now = new Date().toISOString();
   return `--- Fin de la session : ${now} ---`;
@@ -54,7 +51,7 @@ const logger = createLogger({
   transports: [
     new DailyRotateFile({
       dirname: logDir,                     // dossier de logs
-      filename: "combined-%DATE%.log",     // nom de fichier journalier
+      filename: "LOGS-%DATE%.log",     // nom de fichier journalier
       datePattern: "YYYY-MM-DD",           // pattern de rotation
       zippedArchive: false,                // true = compression des archives
       maxFiles: "14d",                     // garde 14 jours d’historique
@@ -67,10 +64,9 @@ const logger = createLogger({
       options: { flags: "a" },             // mode append
     }),
     new transports.Console({
-      // sortie console colorisée (dev en local)
       format: format.combine(
         format.colorize(),
-        format.timestamp({ format: "HH:mm:ss" }), // horodatage plus court
+        format.timestamp({ format: "HH:mm:ss" }),
         format.printf(({ timestamp, level, message }) =>
           `${timestamp} | ${level} |  ${message}`
         )
@@ -84,7 +80,7 @@ function logSessionStart() {
   logger.info(getSessionStartLine());
 }
 
-// idem pour la fin de la session
+// pour la fin de la session
 function logSessionEnd() {
   logger.info(getSessionEndLine());
 }

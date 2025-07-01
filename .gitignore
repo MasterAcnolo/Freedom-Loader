@@ -1,8 +1,5 @@
 /node_modules
 /downloads
 /dist
-/logs
+logs/*.json
 /out
-
-
-yt-dlp.exe

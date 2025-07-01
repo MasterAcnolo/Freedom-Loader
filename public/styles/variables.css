@@ -1,9 +1,11 @@
 :root{
     --background-color : #0F172A;
+    --infos-box-color: #f1f1f1 ;
     --title-color: ;
     --subtitle-color : #a3aab4;
     --mp3-text-color: #0F172A;
     --default-text-color: #F8FAFC;
 
     --checkbox-pulse-color:#9bbcf1;
+
 }

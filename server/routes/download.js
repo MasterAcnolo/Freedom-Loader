@@ -69,8 +69,48 @@ router.post("/", (req, res) => {
       args.push("--write-subs", "--sub-lang", "en");
     }
 
-    // qualité souhaitée
-    args.push("-f", options.quality);
+    // // qualité souhaitée
+    // args.push("-f", options.quality);
+
+    // let format;
+    // if (options.quality === "best") {
+    //   format = "bestvideo+bestaudio/best";
+    // } else if (options.quality === "worst") {
+    //   format = "worstvideo+worstaudio/worst";
+    // } else {
+    //   format = "best";  // fallback
+    // }
+    // args.push("-f", format);
+
+  args.push("--no-continue");
+
+  let format;
+
+  switch (options.quality) {
+    case "best":
+      format = "bestvideo+bestaudio/best";
+      break;
+    case "medium":
+      // qualité moyenne, ex: 720p vidéo + meilleur audio
+      format = "bestvideo[height<=720]+bestaudio/best[height<=720]";
+      break;
+    case "worst":
+      format = "worstvideo+worstaudio/worst";
+      break;
+    case "1080":
+      format = "bestvideo[height<=1080]+bestaudio/best[height<=1080]";
+      break;
+    case "720":
+      format = "bestvideo[height<=720]+bestaudio/best[height<=720]";
+      break;
+    case "480":
+      format = "bestvideo[height<=480]+bestaudio/best[height<=480]";
+      break;
+    default:
+      format = "best";
+  }
+  args.push("-f", format);
+
     // modèle de sortie
     args.push("-o", outputTemplate);
     // enfin, l'URL à télécharger

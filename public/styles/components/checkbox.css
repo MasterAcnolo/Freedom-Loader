@@ -1,5 +1,3 @@
-/* From Uiverse.io by bociKond */ 
-/* Hide the default checkbox */
 .checkbox-mp3 input {
   position: absolute;
   opacity: 0;
@@ -16,9 +14,8 @@
   user-select: none;
 }
 
-/* Create a custom checkbox */
 .checkmark {
-  --clr: #0B6E4F;
+  --clr: #3B82F6 ;
   position: relative;
   top: 0;
   left: 0;
@@ -29,26 +26,22 @@
   transition: 300ms;
 }
 
-/* When the checkbox is checked, add a blue background */
 .checkbox-mp3 input:checked ~ .checkmark {
   background-color: var(--clr);
   border-radius: .5rem;
   animation: pulse 500ms ease-in-out;
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
 .checkbox-mp3 input:checked ~ .checkmark:after {
   display: block;
 }
 
-/* Style the checkmark/indicator */
 .container .checkmark:after {
   left: 0.45em;
   top: 0.25em;
@@ -61,7 +54,7 @@
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 #0B6E4F90;
+    box-shadow: 0 0 0 var(--checkbox-pulse-color);
     rotate: 20deg;
   }
 
@@ -70,11 +63,11 @@
   }
 
   75% {
-    box-shadow: 0 0 0 10px #0B6E4F60;
+    box-shadow: 0 0 0 10px var(--checkbox-pulse-color);
   }
 
   100% {
-    box-shadow: 0 0 0 13px #0B6E4F30;
+    box-shadow: 0 0 0 13px var(--checkbox-pulse-color);
     rotate: 0;
   }
 }

@@ -24,17 +24,22 @@ let mainWindow;
 
 async function createWindow() {
   logger.info("Creation de la fenetre...");
+  
   if (mainWindow) {
     logger.warn("La fenetre existe deja, pas de nouvelle creation");
     return;
   }
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 700,
+    title: "Freedom Loader",
+    width: 750,
+    height: 800,
+    minWidth: 750,
+    minHeight: 800,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
     },
+    // titleBarStyle: 'hidden',
   });
 
   try {

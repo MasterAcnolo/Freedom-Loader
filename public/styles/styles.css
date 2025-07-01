@@ -27,7 +27,7 @@ body {
     background-attachment: fixed; */
     width: 100%;
     height: 100%;
-    color:  #F8FAFC;
+    color: var(--default-text-color);
     display: flex;
     justify-content: center;
     align-items: center;   

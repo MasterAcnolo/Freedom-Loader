@@ -1,6 +1,6 @@
 # Freedom Loader
 
-![Static Badge](https://img.shields.io/badge/Latest-Release-1.0.1--beta-blue?style=flat) ![Static Badge](https://img.shields.io/badge/Build-1.0.2--beta-yellow?style=flat)
+![Static Badge](https://img.shields.io/badge/Latest-Release-1.0.1--blue?style=flat) ![Static Badge](https://img.shields.io/badge/Build-1.0.2--beta-yellow?style=flat)
 
 > Ce projet a pour but de permettre le téléchargement de contenu Vidéo/Audio de manière gratuite, open source et libre. Il permettra à terme de choisir
 

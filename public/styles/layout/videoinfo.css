@@ -4,7 +4,7 @@
   margin-left: auto;
   margin-right: auto;
   padding: 1.5em 2em;
-  background-color: #fff;
+  background-color: var(--infos-box-color);
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   color: #222;

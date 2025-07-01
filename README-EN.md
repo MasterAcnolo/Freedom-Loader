@@ -54,7 +54,7 @@ Try restarting the application, checking the logs, or opening the browser's deve
 ## 🖼️ Preview
 
 <p align="center">
-  <img src="build/exemple.png" alt="Example Image" />
+  <img src="build/apercu1.0.1.png" alt="Exemple d'application" />
 </p>
 
 > Here is an example of the app after launch and entering a URL

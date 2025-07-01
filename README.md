@@ -56,7 +56,7 @@ Essayez de relancer l'application, de consulter les logs ou d'ouvrir la console 
 ## 🖼️ Aperçu
 
 <p align="center">
-  <img src="build/exemple.png" alt="Exemple d'application" />
+  <img src="build/apercu1.0.1.png" alt="Exemple d'application" />
 </p>
 
 > Voici un exemple de l’application lancée après avoir saisi une URL.

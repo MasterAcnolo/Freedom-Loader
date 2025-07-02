@@ -7,7 +7,7 @@
   background-color: var(--infos-box-color);
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-  color: #222;
+  color: var(--video-info-text-color);
   font-size: 1rem;
   line-height: 1.5;
   opacity: 0;
@@ -27,7 +27,7 @@
 #videoInfo h3 {
   font-size: 1.8rem;
   margin-bottom: 0.6em;
-  color: #007bff;
+  color: var(--video-info-heading-color);
   font-weight: 700;
   word-break: break-word;
 }
@@ -51,15 +51,15 @@
 #videoInfo ul li {
   margin-bottom: 0.5em;
   font-weight: 500;
-  color: #444;
+  color: var(--video-info-list-color);
 }
 
 #videoInfo ul li strong {
-  color: #000;
+  color: var(--video-info-list-strong-color);
 }
 
 #videoInfo ul li a {
-  color: #007bff;
+  color: var(--video-info-link-color);
   text-decoration: none;
 }
 

@@ -1,0 +1,36 @@
+body.light {
+  /* Couleurs générales */
+  --background-color: #dadada;              /* fond clair */
+  --default-text-color: #222222;            /* texte sombre */
+  --subtitle-color: #007bff;                /* bleu accent */
+  --mp3-text-color: #000000;                /* texte checkbox */
+
+  /* Formulaire */
+  --form-bg-color: #ffffff;                 /* fond formulaire blanc */
+  --form-input-bg-color: #fafafa;           /* fond inputs */
+  --form-input-border-color: #cccccc;       /* bordure inputs */
+  --form-input-border-focus-color: #007bff; /* focus bleu */
+  --form-input-text-color: #333333;         /* texte inputs */
+  --form-input-placeholder-color: #888888;  /* placeholder */
+  --form-button-bg-color: #007bff;          /* bouton bleu */
+  --form-button-text-color: #ffffff;        /* texte bouton */
+  --form-button-bg-hover-color: #0056b3;    /* hover bleu foncé */
+
+  /* Checkbox */
+  --checkbox-bg-default: #cccccc;
+  --checkbox-bg-checked: #007bff;
+  --checkbox-checkmark-border-color: #ffffff;
+  --checkbox-pulse-color: rgba(0, 123, 255, 0.4);
+
+  /* Download status */
+  --download-status-color: #007bff;
+
+  /* Video Info Box */
+  --infos-box-color: #ffffff;
+  --video-info-text-color: #222222;
+  --video-info-heading-color: #007bff;
+  --video-info-list-color: #444444;
+  --video-info-list-strong-color: #000000;
+  --video-info-link-color: #007bff;
+  --video-info-link-hover-color: #0056b3;
+}

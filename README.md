@@ -2,11 +2,11 @@
 
 <!-- Release -->
 
-![Static Badge](https://img.shields.io/badge/Release-1.0.0-blue?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Release-1.1.0-blue?style=flat&logo=Test)
 
 <!-- Build -->
 
-![Static Badge](https://img.shields.io/badge/Build-1.0.1--beta-yellow?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Build-1.1.1--beta-yellow?style=flat&logo=Test)
 
 > Ce projet a pour but de permettre le téléchargement de contenu Vidéo/Audio de manière gratuite, open source et libre. Il permettra à terme de choisir
 
@@ -17,6 +17,8 @@
 ✅ Logs détaillés (console + fichiers logs)  
 ✅ Récupération automatique des informations  
 ✅ Téléchargement des playlists
+✅ Choix de thèmes
+✅ Choix du chemin de sortie des vidéos personnalisés
 
 ---
 

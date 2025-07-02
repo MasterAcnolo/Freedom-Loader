@@ -1,0 +1,48 @@
+body.vilbrequin {
+  /* Couleurs générales */
+  --background-color: #0a1f3d;             /* bleu Vilbrequin profond */
+  --default-text-color: #535353;           /* texte clair */
+  --subtitle-color: #001696;               /* bleu clair accent (turbo vibes) */
+  --mp3-text-color: #ffffff;               /* texte checkbox inline */
+
+  /* Formulaire */
+  --form-bg-color: #12284f;                /* fond formulaire bleu foncé */
+  --form-input-bg-color: #1c3760;          /* fond inputs bleu + clair */
+  --form-input-border-color: #2a4b80;      /* bordure bleue */
+  --form-input-border-focus-color: #00bfff; /* focus bleu clair */
+  --form-input-text-color: #f0f0f0;        /* texte inputs clair */
+  --form-input-placeholder-color: #b0c4de; /* placeholder gris bleuté */
+  --form-button-bg-color: #ffd700;         /* bouton jaune turbo */
+  --form-button-text-color: #0a1f3d;       /* texte bouton sombre */
+  --form-button-bg-hover-color: #e6c200;   /* hover jaune foncé */
+
+  /* Checkbox */
+  --checkbox-bg-default: #2a4b80;             /* bleu moyen */
+  --checkbox-bg-checked: #00bfff;             /* bleu clair accent */
+  --checkbox-checkmark-border-color: #f0f0f0; /* blanc cassé */
+  --checkbox-pulse-color: rgba(0,191,255,0.5); /* pulse bleu clair translucide */
+
+  /* Download status */
+  --download-status-color: #ffd700;           /* jaune turbo */
+
+  /* Video Info Box */
+  --infos-box-color: #12284f;                 /* fond infos bleu foncé */
+  --video-info-text-color: #f0f0f0;           /* texte clair */
+  --video-info-heading-color: #00bfff;        /* titres bleu clair */
+  --video-info-list-color: #dcdcdc;           /* texte liste gris clair */
+  --video-info-list-strong-color: #ffffff;    /* texte important blanc */
+  --video-info-link-color: #00bfff;           /* liens bleu clair */
+  --video-info-link-hover-color: #009acd;     /* liens hover bleu plus foncé */
+}
+
+/* Optionnel: motif turbo ou jantes */
+body.vilbrequin {
+  background-image: url('../../assets/images/Vilbrequin.avif'); /* adapte ton image */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body.vilbrequin .download-path{
+  color: white;
+}

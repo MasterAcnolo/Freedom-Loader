@@ -1,0 +1,36 @@
+body.fanatic{
+  /* Couleurs générales */
+  --background-color: #121212;              /* fond bleu nuit/noir */
+  --default-text-color: #eee;               /* texte clair principal */
+  --subtitle-color: #FF5900;                /* sous-titres, accent orange vif */
+  --mp3-text-color: #ffffff;                /* texte checkbox inline */
+
+  /* Formulaire */
+  --form-bg-color: #1e1e1e;                 /* fond formulaire sombre */
+  --form-input-bg-color: #2b2b2b;           /* fond inputs sombres */
+  --form-input-border-color: #333333;       /* bordure inputs */
+  --form-input-border-focus-color: #FF5900; /* bordure focus orange */
+  --form-input-text-color: #eeeeee;            /* texte inputs clair */
+  --form-input-placeholder-color: #666666; /* placeholder gris foncé */
+  --form-button-bg-color: #FF5900;          /* bouton orange */
+  --form-button-text-color: #121212;        /* texte bouton sombre */
+  --form-button-bg-hover-color: #e65500;    /* bouton hover orange foncé */
+
+  /* Checkbox */
+  --checkbox-bg-default: #555555;            /* gris moyen */
+  --checkbox-bg-checked: #ff6600;            /* orange vif */
+  --checkbox-checkmark-border-color: #eee;  /* blanc cassé */
+  --checkbox-pulse-color: rgba(255, 102, 0, 0.5); /* pulse orange translucide */
+
+  /* Download status */
+  --download-status-color: #FF5900;          /* orange */
+
+  /* Video Info Box */
+  --infos-box-color: #222222;                 /* fond infos sombre */
+  --video-info-text-color: #eee;              /* texte clair */
+  --video-info-heading-color: #FF5900;        /* titres orange */
+  --video-info-list-color: #ccc;               /* texte liste gris clair */
+  --video-info-list-strong-color: #fff;       /* texte important blanc */
+  --video-info-link-color: #FF5900;            /* liens orange */
+  --video-info-link-hover-color: #e65500;      /* liens hover orange foncé */
+}

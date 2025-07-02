@@ -1,12 +1,9 @@
 # Freedom Loader
 
-<!-- Release -->
-
-![Static Badge](https://img.shields.io/badge/Release-1.1.0-blue?style=flat&logo=Test)
-
-<!-- Build -->
 
 ![Static Badge](https://img.shields.io/badge/Build-1.1.1--beta-yellow?style=flat&logo=Test)
+
+![Static Badge](https://img.shields.io/badge/Latest%20Release_-1.0.1-blue?style=flat) ![Static Badge](https://img.shields.io/badge/Build-1.0.2%20Beta-yellow?style=flat)
 
 > Ce projet a pour but de permettre le téléchargement de contenu Vidéo/Audio de manière gratuite, open source et libre. Il permettra à terme de choisir
 
@@ -62,7 +59,7 @@ Essayez de relancer l'application, de consulter les logs ou d'ouvrir la console 
 ## 🖼️ Aperçu
 
 <p align="center">
-  <img src="build/exemple.png" alt="Exemple d'application" />
+  <img src="build/apercu1.0.1.png" alt="Exemple d'application" />
 </p>
 
 > Voici un exemple de l’application lancée après avoir saisi une URL.
@@ -78,7 +75,7 @@ Ce projet est open source et accueille volontiers vos contributions.
 Voici comment participer :
 
 - **🪲 Signalement de bugs**  
-   Merci d’utiliser le [système d’issues GitHub](https://github.com/MasterAcnolo/votre-repo/issues) pour remonter les bugs rencontrés.  
+   Merci d’utiliser le [système d’issues GitHub](https://github.com/MasterAcnolo/Freedom-Loader/issues) pour remonter les bugs rencontrés.  
    Essayez de fournir une reproduction claire et les logs si possible. Les logs se trouvent dans le dossier d’installation du programme. Exemple de chemin :  
   `C:\Users\[VOTRE NOM]\Desktop\Freedom Loader\resources\app\logs`  
   Le fichier aura un nom du type `combined-20xx-xx-xx.log`.  
@@ -87,7 +84,7 @@ Voici comment participer :
    Les Pull Requests sont les bienvenues ! Merci de forker le repo et de soumettre votre PR après avoir vérifié le respect des guidelines (tests, style, etc.).  
   <br>
 - **💡 Suggestions de fonctionnalités**  
-   Vous pouvez proposer de nouvelles idées via une [issue de type feature request](https://github.com/votre-utilisateur/votre-repo/issues).  
+   Vous pouvez proposer de nouvelles idées via une [issue de type feature request](https://github.com/MasterAcnolo/Freedom-Loader/issues).  
    Toute proposition claire et détaillée sera étudiée.  
   <br>
 - **💰 Soutenir le projet**

@@ -1,0 +1,9 @@
+2025-06-30 09:47:32 | INFO |  --- Démarrage de la session : 2025-06-30T07:47:32.665Z ---
+2025-06-30 09:47:32 | INFO |  App prete, demarrage du serveur Express...
+2025-06-30 09:47:32 | INFO |  Dossier Freedom Loader Output deja existant.
+2025-06-30 09:47:32 | INFO |  Demarrage du serveur Express...
+2025-06-30 09:47:32 | INFO |  Serveur Express pret sur http://localhost:8080
+2025-06-30 09:47:32 | ERROR |  Erreur serveur Express : listen EADDRINUSE: address already in use :::8080
+2025-06-30 09:47:32 | INFO |  Serveur Express demarre
+2025-06-30 09:47:32 | INFO |  Creation de la fenetre...
+2025-06-30 09:47:36 | INFO |  Fenetre chargee

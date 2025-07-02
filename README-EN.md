@@ -1,12 +1,9 @@
 # Freedom Loader
 
-<!-- Release -->
-
-![Static Badge](https://img.shields.io/badge/Release-1.1.0-blue?style=flat&logo=Test)
-
-<!-- Build -->
 
 ![Static Badge](https://img.shields.io/badge/Build-1.1.1--beta-yellow?style=flat&logo=Test)
+
+![Static Badge](https://img.shields.io/badge/Latest%20Release_-1.0.1-blue?style=flat) ![Static Badge](https://img.shields.io/badge/Build-1.0.2%20Beta-yellow?style=flat)
 
 > This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
 
@@ -62,7 +59,7 @@ Try restarting the application, checking the logs, or opening the browser's deve
 ## 🖼️ Preview
 
 <p align="center">
-  <img src="build/exemple.png" alt="Example Image" />
+  <img src="build/apercu1.0.1.png" alt="Exemple d'application" />
 </p>
 
 > Here is an example of the app after launch and entering a URL
@@ -78,7 +75,7 @@ This project is open-source and welcomes your contributions.
 Here is how to get involved:
 
 - **🪲 Bug Reporting**  
-   Please use the [GitHub issues system](https://github.com/MasterAcnolo/votre-repo/issues) to report any bugs you encounter.  
+   Please use the [GitHub issues system](https://github.com/MasterAcnolo/Freedom-Loader/issues) to report any bugs you encounter.  
    Try to provide clear reproduction steps and logs if possible. Logs are located in the installation folder of the program. Example path:  
    `C:\Users\[YOUR NAME]\Desktop\Freedom Loader\resources\app\logs`  
    The log file will be named something like `combined-20xx-xx-xx.log`  
@@ -87,7 +84,7 @@ Here is how to get involved:
    Pull Requests are welcome! Please fork the repo and submit your PR after ensuring you meet the contribution guidelines (tests, style, etc.).  
    <br>
 - **💡 Feature Suggestions**  
-   You can propose new ideas via a [feature request issue](https://github.com/votre-utilisateur/votre-repo/issues).  
+   You can propose new ideas via a [feature request issue](https://github.com/MasterAcnolo/Freedom-Loader/issues).  
    Any clear and detailed proposal will be reviewed.  
    <br>
 - **💰 Support the Project**

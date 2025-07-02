@@ -12,13 +12,14 @@
 
 ## 🚀 Features
 
-✅ Video Download (MP4)  
-✅ Audio Download (MP3)  
-✅ Detailed Logs (Console + Logs)  
-✅ Automatic Fetch of Information  
-✅ Playlist Download
-✅ Theme selection
-✅ Custom output path selection for videos
+✅ Video download (MP4)
+✅ Audio-only download (MP3)
+✅ Full playlist support
+✅ Automatic metadata retrieval (title, duration, etc.)
+✅ Detailed logs: console and rotating files (7 days)
+✅ Custom output path selection with saving
+✅ Multiple graphical themes available for interface customization
+✅ Simple, intuitive, and responsive interface
 
 ---
 

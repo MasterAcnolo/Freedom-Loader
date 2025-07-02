@@ -58,7 +58,7 @@ const logger = createLogger({
       filename: "LOGS-%DATE%.log",     // nom du fichier par date
       datePattern: "YYYY-MM-DD",       // pattern de date dans le nom
       zippedArchive: false,            // ne pas compresser les archives
-      maxFiles: "14d",                 // conserve 14 jours d’historique
+      maxFiles: "7d",                 // conserve 14 jours d’historique
       format: format.combine(
         format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         format.printf(({ timestamp, level, message }) =>

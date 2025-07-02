@@ -16,40 +16,56 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const express = require("express");        // importe Express
-const router = express.Router();           // crée un routeur Express indépendant
-const { execFile } = require("child_process"); // permet d’exécuter un programme externe
-const path = require("path");              // module pour gérer les chemins de fichiers
+const express = require("express");
+const router = express.Router();
+const { execFile } = require("child_process");
+const path = require("path");
+const fs = require("fs");
+const { logger } = require("../logger"); // on récupère ton logger Winston
 
-// chemin vers le binaire yt-dlp embarqué
 const ytDlpPath = path.join(__dirname, "../../yt-dlp.exe");
 
-// route POST sur la racine de ce routeur
+// Check si ya YT DLP
+if (!fs.existsSync(ytDlpPath)) {
+  logger.error(`❌ yt-dlp.exe introuvable à ${ytDlpPath}`);
+  throw new Error(`yt-dlp.exe introuvable à ${ytDlpPath}`);
+}
+
 router.post("/", (req, res) => {
-  const url = req.body.url;                // récupère l'URL depuis la requête POST
-  if (!url) return res.status(400).send("❌ URL manquante"); // validation simple
+  const url = req.body.url;
+  if (!url) {
+    logger.warn("Requête metadata sans URL");
+    return res.status(400).send("❌ URL manquante");
+  }
 
-  // exécute yt-dlp avec --dump-json pour récupérer les métadonnées de la vidéo
-  execFile(ytDlpPath, ["--dump-json", url], (error, stdout, stderr) => {
-    if (error) {
-      // gestion d’erreur : par exemple yt-dlp plante ou l’URL est invalide
-      console.error("Erreur lors de l'exécution de yt-dlp :", error);
-      console.error("stderr :", stderr);
-      return res.status(500).send("❌ Impossible de récupérer les infos.");
-    }
+  logger.info(`Requête metadata reçue pour ${url}`);
 
-    try {
-      // on parse le JSON envoyé par yt-dlp
-      const info = JSON.parse(stdout);
-      // on renvoie l’objet JSON directement au frontend
-      res.json(info);
-    } catch (e) {
-      // le JSON est mal formé
-      console.error("Erreur lors du parsing JSON :", e);
-      res.status(500).send("❌ JSON illisible.");
+  execFile(
+    ytDlpPath,
+    ["--dump-json", url],
+    { timeout: 10_000 }, // 10s de timeout
+    (error, stdout, stderr) => {
+      if (error) {
+        logger.error(`Erreur exécution yt-dlp: ${error.message}`);
+        logger.debug(`stderr: ${stderr}`);
+        return res.status(500).send("❌ Impossible de récupérer les infos.");
+      }
+
+      try {
+        // découpe multi-JSON propre
+        const infos = stdout
+          .trim()
+          .split("\n")
+          .map(line => JSON.parse(line));
+
+        logger.info(`Infos récupérées pour ${url} (${infos.length} élément(s))`);
+        res.json(infos.length === 1 ? infos[0] : infos);
+      } catch (e) {
+        logger.error(`Erreur parsing JSON: ${e.message}`);
+        return res.status(500).send("❌ JSON illisible.");
+      }
     }
-  });
+  );
 });
 
-// on exporte le routeur pour être utilisé dans app.js ou ailleurs
 module.exports = router;

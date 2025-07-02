@@ -56,7 +56,7 @@ Try restarting the application, checking the logs, or opening the browser's deve
 - [ ] Extract / Split video using native chapters
 - [ ] Parallel downloads
 - [ ] Skip sponsored parts of videos
-- [ ] Custom output path selection (default **C:\Users\Username\Downloads** with a **Freedom Loader Output** folder created)
+- [x] Custom output path selection (default **C:\Users\Username\Downloads** with a **Freedom Loader Output** folder created)
 
 ---
 

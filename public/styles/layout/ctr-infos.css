@@ -4,7 +4,7 @@
     min-height: 1.5em;  
     font-weight: bold;
     text-align: center;
-    color: #007bff;
+    color: var(--download-status-color);
 }
 
 label {

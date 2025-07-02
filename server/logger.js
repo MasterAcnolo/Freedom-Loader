@@ -16,53 +16,58 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { createLogger, format, transports } = require("winston"); 
-const DailyRotateFile = require("winston-daily-rotate-file"); 
+const { createLogger, format, transports } = require("winston");
+const DailyRotateFile = require("winston-daily-rotate-file");
+const fs = require("fs");       // Pour vérifier/créer le dossier de logs
+const path = require("path");   // Pour gérer proprement les chemins
 
-const fs = require("fs");       // pour vérifier/créer le dossier de logs
-const path = require("path");   // pour gérer proprement les chemins
-
-// on définit le dossier de logs
+// Définition du dossier où seront stockés les logs
 const logDir = path.join(__dirname, "../logs");
-// on le crée si inexistant
+
+// Création du dossier logs s’il n’existe pas encore
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
 
-// fonction pour générer une ligne de début de session 
+// Fonction utilitaire pour générer une ligne indiquant le début d’une session de logs
 function getSessionStartLine() {
   const now = new Date().toISOString();
   return `--- Démarrage de la session : ${now} ---`;
 }
 
-// fonction pour générer une ligne de fin de session 
+// Fonction utilitaire pour générer une ligne indiquant la fin d’une session de logs
 function getSessionEndLine() {
   const now = new Date().toISOString();
   return `--- Fin de la session : ${now} ---`;
 }
 
-// configuration principale de Winston
+// Configuration principale de Winston
+// - Niveau minimum d’écriture : info (enregistre info, warn, error, etc.)
+// - Formatage des logs avec timestamp lisible et format personnalisé
+// - Transports : écriture dans fichier journalier + console avec couleurs
 const logger = createLogger({
-  level: "info", // niveau de log minimum (info, warn, error, etc.)
+  level: "info",
   format: format.combine(
-    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }), // timestamp lisible
+    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     format.printf(({ timestamp, level, message }) =>
-      `${timestamp} | ${level.toUpperCase()} |  ${message}` // format de ligne de log
+      `${timestamp} | ${level.toUpperCase()} |  ${message}`
     )
   ),
   transports: [
+    // Rotation quotidienne des fichiers de logs
     new DailyRotateFile({
-      dirname: logDir,                     // dossier de logs
-      filename: "LOGS-%DATE%.log",     // nom de fichier journalier
-      datePattern: "YYYY-MM-DD",           // pattern de rotation
-      zippedArchive: false,                // true = compression des archives
-      maxFiles: "14d",                     // garde 14 jours d’historique
+      dirname: logDir,                  // dossier cible pour les logs
+      filename: "LOGS-%DATE%.log",     // nom du fichier par date
+      datePattern: "YYYY-MM-DD",       // pattern de date dans le nom
+      zippedArchive: false,            // ne pas compresser les archives
+      maxFiles: "7d",                 // conserve 14 jours d’historique
       format: format.combine(
         format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         format.printf(({ timestamp, level, message }) =>
           `${timestamp} | ${level.toUpperCase()} |  ${message}`
         )
       ),
-      options: { flags: "a" },             // mode append
+      options: { flags: "a" },         // mode ajout à la fin (append)
     }),
+    // Affichage des logs en console avec coloration et format simple
     new transports.Console({
       format: format.combine(
         format.colorize(),
@@ -75,17 +80,17 @@ const logger = createLogger({
   ],
 });
 
-// fonction d'utilitaire pour marquer le début de la session
+// Helper pour marquer clairement le début de session dans les logs
 function logSessionStart() {
   logger.info(getSessionStartLine());
 }
 
-// pour la fin de la session
+// Helper pour marquer la fin de session dans les logs
 function logSessionEnd() {
   logger.info(getSessionEndLine());
 }
 
-// exporte le logger et les helpers pour les autres modules
+// Export du logger principal et des helpers pour usage dans d’autres modules
 module.exports = {
   logger,
   logSessionStart,

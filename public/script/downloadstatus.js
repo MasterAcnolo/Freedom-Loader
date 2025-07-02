@@ -19,53 +19,53 @@
 // Récupération du formulaire de téléchargement
 const form = document.getElementById("downloadForm");
 
-// Div où on affiche l'état de progression (en cours, erreur, succès)
+// Élément où on affichera l’état du téléchargement (en cours, erreur, succès)
 const statusDiv = document.getElementById("downloadStatus");
 
-// Récupération du bouton de validation pour pouvoir le désactiver pendant la requête
+// Récupération du bouton de soumission pour pouvoir le désactiver pendant la requête
 const button = form.querySelector("button");
 
-// On intercepte la soumission du formulaire
+// Écouteur d’événement pour intercepter la soumission du formulaire
 form.addEventListener("submit", async (e) => {
-  e.preventDefault(); // empêche le rechargement de la page par le navigateur
+  e.preventDefault(); // Empêche le rechargement automatique de la page
 
-  // On désactive le bouton pour éviter les clics multiples
+  // Désactive le bouton pour éviter les clics multiples pendant la requête
   button.disabled = true;
 
-  // Affiche un message d'attente à l'utilisateur
+  // Affiche un message d’attente pour informer l’utilisateur
   statusDiv.textContent = "Téléchargement en cours...";
 
-  // Prépare les données du formulaire sous forme URL-encoded
+  // Prépare les données du formulaire au format URL-encoded
   const formData = new FormData(form);
   const params = new URLSearchParams(formData);
 
   try {
-    // Envoi de la requête POST vers /download avec les données du formulaire
+    // Envoie la requête POST vers /download avec les données du formulaire
     const res = await fetch("/download", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: params,
     });
 
-    // Si la réponse n'est pas un succès (code 4xx ou 5xx)
+    // Si la réponse n’est pas un succès (code HTTP 4xx ou 5xx)
     if (!res.ok) {
       statusDiv.textContent = "❌ Erreur pendant le téléchargement.";
       return;
     }
 
-    // On récupère le texte de la réponse du serveur
+    // Récupère le texte envoyé par le serveur (message de succès ou erreur)
     const text = await res.text();
 
-    // Affiche le message de fin de téléchargement (par exemple « Téléchargement terminé »)
+    // Affiche le message retourné par le serveur
     statusDiv.textContent = text;
   } catch {
-    // Gestion d'erreur en cas de problème réseau ou autre
+    // Gestion des erreurs réseau ou autres exceptions
     statusDiv.textContent = "❌ Une erreur s’est produite.";
   } finally {
-    // Réactive le bouton pour autoriser d'autres soumissions
+    // Réactive le bouton pour permettre d’autres soumissions
     button.disabled = false;
 
-    // Efface le message de status après 5 secondes pour garder l'UI propre
+    // Efface le message d’état après 5 secondes pour garder l’interface propre
     setTimeout(() => {
       statusDiv.textContent = "";
     }, 5000);

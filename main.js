@@ -16,19 +16,26 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
+const os = require("os");
 const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
 
 let mainWindow;
 
+/*
+  Fonction principale qui crée la fenêtre principale de l'application.
+  Elle évite la création multiple et configure les dimensions et options de la fenêtre.
+  Charge l'URL locale du serveur Express et gère les erreurs éventuelles.
+*/
 async function createWindow() {
-  logger.info("Creation de la fenetre...");
-  
+  logger.info("Création de la fenêtre...");
+
   if (mainWindow) {
-    logger.warn("La fenetre existe deja, pas de nouvelle creation");
+    logger.warn("La fenêtre existe déjà, pas de nouvelle création");
     return;
   }
+
   mainWindow = new BrowserWindow({
     title: "Freedom Loader",
     width: 750,
@@ -38,42 +45,92 @@ async function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: path.join(__dirname, "preload.js"), // Chargement du preload script sécurisé
     },
-    // titleBarStyle: 'hidden',
+    // titleBarStyle: 'hidden', // Option possible pour une barre de titre personnalisée
   });
 
   try {
     await mainWindow.loadURL("http://localhost:8080");
-    logger.info("Fenetre chargee");
+    logger.info("Fenêtre chargée");
   } catch (err) {
-    logger.error("Erreur chargement fenetre:", err);
+    logger.error("Erreur chargement fenêtre:", err);
   }
 
+  // Événement déclenché à la fermeture de la fenêtre principale
   mainWindow.on("closed", () => {
-    logger.info("Fenetre principale fermee");
+    logger.info("Fenêtre principale fermée");
     mainWindow = null;
   });
 }
 
+/*
+  Définition du chemin par défaut pour les téléchargements.
+  Ici, on utilise le dossier 'Downloads' de l'utilisateur avec un sous-dossier spécifique à l'application.
+*/
+const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
+
+/*
+  Gestionnaire IPC qui permet au renderer de demander à l'utilisateur
+  de sélectionner un dossier via une boîte de dialogue native.
+  On retourne le chemin sélectionné ou null si annulation.
+*/
+ipcMain.handle("select-download-folder", async () => {
+  logger.info("Demande de sélection d'un dossier reçue depuis le renderer");
+  try {
+    const result = await dialog.showOpenDialog({
+      properties: ["openDirectory"]
+    });
+    if (!result.canceled && result.filePaths.length > 0) {
+      logger.info(`Dossier sélectionné : ${result.filePaths[0]}`);
+      return result.filePaths[0];
+    }
+    return null;
+  } catch (err) {
+    logger.error(`Erreur lors de la sélection de dossier : ${err.message}`);
+    return null;
+  }
+});
+
+/*
+  Gestionnaire IPC pour exposer au renderer le chemin par défaut de téléchargement
+  afin qu'il puisse l'afficher ou l'utiliser comme valeur initiale.
+*/
+ipcMain.handle("get-default-download-path", () => {
+  return defaultDownloadPath;
+});
+
+/*
+  Événement déclenché quand l'application est prête.
+  On démarre le serveur Express, puis on crée la fenêtre principale.
+  En cas d'erreur, on log et on quitte l'application proprement.
+*/
 app.whenReady().then(async () => {
-  logSessionStart(); 
-  logger.info("App prete, demarrage du serveur Express...");
+  logSessionStart();
+  logger.info("App prête, démarrage du serveur Express...");
   const expressServer = require("./server/server.js");
   try {
     await expressServer.startServer();
-    logger.info("Serveur Express demarre");
+    logger.info("Serveur Express démarré");
     await createWindow();
   } catch (error) {
-    logger.error("Erreur serveur ou fenetre :", error);
+    logger.error("Erreur serveur ou fenêtre :", error);
     app.quit();
   }
 });
 
+/*
+  Quitte l'application lorsque toutes les fenêtres sont fermées,
+  sauf sous macOS où il est habituel de garder l'application active.
+*/
 app.on("window-all-closed", () => {
-  logger.info("Toutes fenetres fermees, quitte l'app");
+  logger.info("Toutes fenêtres fermées, quitte l'app");
   if (process.platform !== "darwin") app.quit();
 });
 
+/*
+  Avant de quitter l'application, on log la fin de session pour traçabilité.
+*/
 app.on("before-quit", () => {
-  logSessionEnd();  
+  logSessionEnd();
 });

@@ -1,5 +1,8 @@
 # Freedom Loader
 
+
+![Static Badge](https://img.shields.io/badge/Build-1.1.1--beta-yellow?style=flat&logo=Test)
+
 ![Static Badge](https://img.shields.io/badge/Latest%20Release_-1.0.1-blue?style=flat) ![Static Badge](https://img.shields.io/badge/Build-1.0.2%20Beta-yellow?style=flat)
 
 > This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
@@ -11,6 +14,8 @@
 ✅ Detailed Logs (Console + Logs)  
 ✅ Automatic Fetch of Information  
 ✅ Playlist Download
+✅ Theme selection
+✅ Custom output path selection for videos
 
 ---
 

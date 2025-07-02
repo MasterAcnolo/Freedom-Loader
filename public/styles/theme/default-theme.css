@@ -34,3 +34,7 @@
   --video-info-link-color: #007bff;
   --video-info-link-hover-color: #0056b3;
 }
+
+body.default .download-path #savePath {
+  color: #ffffff;
+}

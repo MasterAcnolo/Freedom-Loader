@@ -18,12 +18,12 @@
     <link rel="icon" href="assets/icons/file-audio-solid.svg" type="image/svg+xml">
 </head>
 <body>
-    
-    <div class="container">
+
+        <div class="container">
 
         <header>
-            <h1> Freedom Loader </h1>
-            <p> Because why not? </p>
+            <h1 id="title"> Freedom Loader </h1>
+            <p id="subtitle"> Because why not? </p>
         </header>
         
         <form action="/download" method="POST" id="downloadForm">
@@ -51,24 +51,40 @@
             <button type="submit">Télécharger</button>
         </form>
 
-        <div id="downloadStatus"></div>
-
         <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
         les données à traiter. Pour cela on définit une route vers /download, ca va
         être l'espèce de "canal" attribué a ça. Ca va faire que si jamais on veut ensuite recup
         les infos du form, il faut aller sur ce canal précis (/download). La méthode POST dit
         que l'on envoie des données.-->
-
-       
-
+        
     </div>
+
+    <div class="download-path">
+            Sera enregistré dans <span id="savePath"></span> 
+            <button id="changePath">Modifier</button>
+    </div>
+
+    <div id="downloadStatus"></div>
 
     <div class="infos-container">
          <div id="videoInfo" style="margin-top: 20px;"></div>
     </div>
     
+    <footer class="theme-switcher">
+            <label for="themeSelect">Thème :</label>
+            <select id="themeSelect" aria-label="Choisir le thème">
+            <!-- <option value="dark">Sombre</option>
+            <option value="light">Clair</option>
+            <option value="Chirac">Chirac</option>
+            <option value="Fanatic">Fanatic</option> -->
+            </select>
+    </footer>
+
+    <script src="script/custompath.js"></script>
     <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>
-    
+    <script src="script/chirac.js"></script>
+    <script src="script/customthemes.js"></script>
+
 </body>
 </html>

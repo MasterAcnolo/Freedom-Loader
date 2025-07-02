@@ -16,88 +16,88 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const express = require("express");        // framework web
-const { exec } = require("child_process"); // si besoin d’exécuter des commandes (pas utilisé ici directement)
-const fs = require("fs");                  // accès au système de fichiers
-const path = require("path");              // gestion de chemins
+const express = require("express");        // Framework web pour créer l’API et servir les fichiers
+const { exec } = require("child_process"); // Permet d’exécuter des commandes systèmes (pas utilisé directement ici)
+const fs = require("fs");                  // Module système pour gérer fichiers et dossiers
+const path = require("path");              // Gestion propre des chemins de fichiers et dossiers
 const debug = require("debug")("freedom-loader:server"); 
-// petit debugger coloré en console
+// Module de debug coloré en console, pratique pour dev
 
 const { logger, logSessionStart, logSessionEnd } = require("./logger");
-// récupère notre logger Winston + helpers de session
+// Import du logger Winston et helpers pour marquer début/fin de session
 
-const app = express(); // instancie l'application Express
+const app = express(); // Création de l’instance Express, notre serveur web
 
-// logSessionStart(); // désactivé, mais pourrait logguer le début de session
-
-// on définit le dossier de téléchargement dans le dossier Téléchargements de l’utilisateur
+// Définition du dossier par défaut où enregistrer les téléchargements
+// On prend le dossier Téléchargements de l’utilisateur Windows (USERPROFILE)
 const downloadsPath = path.join(process.env.USERPROFILE, "Downloads");
 const outputFolder = path.join(downloadsPath, "Freedom Loader Output");
 
-// création du dossier s’il n’existe pas
+// Création du dossier de sortie s’il n’existe pas déjà
 if (!fs.existsSync(outputFolder)) {
   try {
-    fs.mkdirSync(outputFolder, { recursive: true });
+    fs.mkdirSync(outputFolder, { recursive: true }); // création récursive au cas où
     logger.info("Dossier Freedom Loader Output cree dans Telechargements.");
   } catch (err) {
     logger.error("Impossible de creer le dossier :", err);
-    process.exit(1); // arrêt du programme en cas d’échec
+    process.exit(1); // Arrêt du programme si dossier non créé (critique)
   }
 } else {
   logger.info("Dossier Freedom Loader Output deja existant.");
 }
 
-// on rend ce dossier dispo via app.locals
+// On rend ce dossier accessible globalement via app.locals pour l’utiliser dans les routes
 app.locals.outputFolder = outputFolder;
 
-// configuration pour parser les requêtes POST en urlencoded
+// Middleware pour parser le corps des requêtes POST en application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-// sert les fichiers statiques (frontend)
+// Définition du dossier contenant les fichiers statiques (frontend)
+// Permet d’accéder au HTML, CSS, JS côté client
 const staticPath = path.join(__dirname, "../public");
 debug("Serveur statique sur", staticPath);
 app.use(express.static(staticPath));
 
-// enregistre les routes API
+// Import et enregistrement des routes API
+// Ces routes gèrent les requêtes pour les infos vidéo et téléchargement
 const infoRoute = require("./routes/info");
 const downloadRoute = require("./routes/download");
 debug("Routes /download et /info installees");
 app.use("/download", downloadRoute);
 app.use("/info", infoRoute);
 
-// route GET / de base
+// Route GET / qui sert la page principale index.html
 app.get("/", (req, res) => {
   debug("Requete GET / servie");
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-// fonction pour démarrer le serveur (Promise pour pouvoir await ailleurs)
+// Fonction pour démarrer le serveur Express
+// Retourne une Promise pour pouvoir await le démarrage dans d’autres modules
 function startServer() {
   return new Promise((resolve, reject) => {
     logger.info("Demarrage du serveur Express...");
     const serverInstance = app.listen(8080, () => {
       logger.info("Serveur Express pret sur http://localhost:8080");
-      resolve(serverInstance); // succès
+      resolve(serverInstance); // Serveur prêt, on résout la promesse
     });
+    // Gestion des erreurs serveur lors du démarrage
     serverInstance.on("error", (err) => {
       logger.error("Erreur serveur Express :", err);
-      reject(err);
+      reject(err); // Rejet de la promesse en cas d’erreur critique
     });
   });
 }
 
-// gestion de la fermeture propre du process
-// process.on("exit", () => {
-//   logSessionEnd();
-// });
-process.on("SIGINT", () => {   // Ctrl+C
+// Gestion propre de la fermeture du process pour logger la fin de session
+process.on("SIGINT", () => {   // Capture Ctrl+C (interruption)
   logSessionEnd();
   process.exit();
 });
-process.on("SIGTERM", () => {  // kill
+process.on("SIGTERM", () => {  // Capture kill ou arrêt du process
   logSessionEnd();
   process.exit();
 });
 
-// on exporte la fonction startServer pour que d’autres modules puissent la lancer
+// Export de la fonction startServer pour permettre son appel depuis d’autres fichiers
 module.exports = { startServer };

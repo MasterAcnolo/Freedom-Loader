@@ -15,15 +15,15 @@
 }
 
 .checkmark {
-  --clr: #3B82F6 ;
+  --clr: var(--checkbox-bg-checked);
   position: relative;
   top: 0;
   left: 0;
   height: 1.3em;
   width: 1.3em;
-  background-color: #ccc;
-  border-radius: 50%;
-  transition: 300ms;
+  background-color: var(--checkbox-bg-default);
+  border-radius: .5rem;
+  transition: background-color 300ms, border-radius 300ms;
 }
 
 .checkbox-mp3 input:checked ~ .checkmark {
@@ -47,7 +47,7 @@
   top: 0.25em;
   width: 0.25em;
   height: 0.5em;
-  border: solid #E0E0E2;
+  border: solid var(--checkbox-checkmark-border-color);
   border-width: 0 0.15em 0.15em 0;
   transform: rotate(45deg);
 }

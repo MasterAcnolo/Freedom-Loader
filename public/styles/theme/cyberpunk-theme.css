@@ -1,0 +1,45 @@
+body.cyberpunk {
+  /* Couleurs générales */
+  --background-color: #0d0d0d;                    /* noir profond */
+  --default-text-color: #e0e0e0;                   /* texte gris clair */
+  --subtitle-color: #ffea00;                       /* turquoise néon pour les sous-titres */
+  --mp3-text-color: #ffea00;                       /* jaune vif pour la checkbox */
+
+  /* Formulaire */
+  --form-bg-color: #141414;                        /* fond formulaire sombre */
+  --form-input-bg-color: #1a1a1a;                  /* inputs sombres */
+  --form-input-border-color: #333333;              /* bordure sobre */
+  --form-input-border-focus-color: #ffea00;        /* focus jaune néon */
+  --form-input-text-color: #e0e0e0;                /* texte clair */
+  --form-input-placeholder-color: #777777;         /* placeholder plus doux */
+  --form-button-bg-color: #ffea00;                 /* bouton jaune */
+  --form-button-text-color: #0d0d0d;               /* texte bouton noir */
+  --form-button-bg-hover-color: #d4c000;           /* hover jaune plus foncé */
+
+  /* Checkbox */
+  --checkbox-bg-default: #333333;                  /* fond checkbox sobre */
+  --checkbox-bg-checked: #ffea00;                  /* coché en jaune vif */
+  --checkbox-checkmark-border-color: #0d0d0d;      /* checkmark noir */
+  --checkbox-pulse-color: rgba(255, 234, 0, 0.5);  /* pulse néon jaune */
+
+  /* Download status */
+  --download-status-color: #fffbd1;                /* turquoise néon */
+
+  /* Video Info Box */
+  --infos-box-color: #1a1a1a;                      /* fond infos */
+  --video-info-text-color: #e0e0e0;                /* texte clair */
+  --video-info-heading-color: #ffea00;             /* titres turquoise néon */
+  --video-info-list-color: #cccccc;                /* texte liste gris clair */
+  --video-info-list-strong-color: #ffffff;         /* texte important blanc */
+  --video-info-link-color: #ffea00;                /* liens jaune néon */
+  --video-info-link-hover-color: #d4c000;          /* liens hover plus foncé */
+}
+
+body.cyberpunk {
+  background-image: url('../../assets/images/cyberpunk4.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+

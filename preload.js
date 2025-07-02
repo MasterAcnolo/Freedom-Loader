@@ -16,18 +16,16 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-function Chirac(){
-    const title = document.getElementById("title");
-    title.innerHTML = "Chirac Loader";
+const { contextBridge, ipcRenderer } = require("electron");
 
-    const subtitle = document.getElementById("subtitle");
-    subtitle.innerHTML = "J'aime les pommes";
-    subtitle.style.color= "black";
+/*
+  Expose dans le contexte global (window.electronAPI) deux méthodes sécurisées
+  pour que le renderer puisse interagir avec le main process via IPC.
 
-    document.body.style.backgroundImage = "url('assets/images/goat2.webp')";
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundAttachment = "fixed";
-    
-    console.log("Je serai le président de tous les français");
-}
+  - getDefaultDownloadPath : récupère le chemin de téléchargement par défaut.
+  - selectDownloadFolder : ouvre la boîte de dialogue pour choisir un dossier.
+*/
+contextBridge.exposeInMainWorld("electronAPI", {
+  getDefaultDownloadPath: () => ipcRenderer.invoke("get-default-download-path"),
+  selectDownloadFolder: () => ipcRenderer.invoke("select-download-folder"),
+});

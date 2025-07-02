@@ -12,14 +12,14 @@
 
 ## 🚀 Fonctionnalités
 
-✅ Téléchargement de vidéos (MP4)
-✅ Téléchargement audio uniquement (MP3)
-✅ Support des playlists complètes
-✅ Récupération automatique des métadonnées (titre, durée, etc.)
-✅ Logs détaillés : console et fichiers rotatifs (7 jours)
-✅ Choix du chemin de sortie personnalisé avec sauvegarde
-✅ Plusieurs thèmes graphiques au choix pour personnaliser l’interface
-✅ Interface simple, intuitive
+-✅ Téléchargement de vidéos (MP4)
+-✅ Téléchargement audio uniquement (MP3)
+-✅ Support des playlists complètes
+-✅ Récupération automatique des métadonnées (titre, durée, etc.)
+-✅ Logs détaillés : console et fichiers rotatifs (7 jours)
+-✅ Choix du chemin de sortie personnalisé avec sauvegarde
+-✅ Plusieurs thèmes graphiques au choix pour personnaliser l’interface
+-✅ Interface simple, intuitive
 
 ---
 

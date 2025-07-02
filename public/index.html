@@ -51,6 +51,11 @@
             <button type="submit">Télécharger</button>
         </form>
 
+        <div class="download-path">
+            Sera enregistré dans <span id="savePath"></span> 
+            <button id="changePath">Modifier</button>
+        </div>
+
         <div id="downloadStatus"></div>
 
         <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
@@ -67,9 +72,33 @@
          <div id="videoInfo" style="margin-top: 20px;"></div>
     </div>
     
+    <script src="script/custompath.js"></script>
     <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>
     <script src="script/chirac.js"></script>
     
 </body>
 </html>
+
+ <!-- ----------------------------------------------------
+| Freedom Loader                      [Lang FR|EN]   |
+ ----------------------------------------------------
+|  URL : [________________________]   [Copier]       |
+|                                                   |
+|  [ ] Audio seulement (MP3)                         |
+|  [ ] Sous-titres                                   |
+|  Qualité : [Best ▼]                                |
+|  Format  : [MP4 ▼]                                 |
+|                                                   |
+|  Chapitres : [ ] Chapitre 1                        |
+|              [ ] Chapitre 2                        |
+|                                                   |
+|  Nom de fichier : [__________]                     |
+|  Dossier : [C:/Downloads ▼]                        |
+|                                                   |
+|  [ Télécharger ]                                   |
+|                                                   |
+|  État du téléchargement : [====      50%    ====]  |
+ ----------------------------------------------------
+|        Historique | Paramètres | Infos vidéo       |
+ ---------------------------------------------------- -->

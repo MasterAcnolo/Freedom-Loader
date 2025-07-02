@@ -36,7 +36,8 @@
     "productName": "Freedom Loader",
     "files": [
       "**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "!logs/*.json"
     ],
     "directories": {
       "buildResources": "build"

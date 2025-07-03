@@ -43,6 +43,12 @@
       "buildResources": "build"
     },
     "asar": false,
+    "extraResources": [
+    {
+        "from": "build/confirm-icon.png",
+        "to": "confirm-icon.png"
+      }
+    ],
     "win": {
       "target": "nsis",
       "icon": "build/installer-icon.ico"

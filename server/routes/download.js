@@ -18,11 +18,12 @@ const router = express.Router();
 const { execFile } = require("child_process");
 const path = require("path");
 const fs = require("fs");
-
+const { Notification } = require("electron");
 const logger = require("../logger").logger;
 
 // Path vers le fichier exécutable yt-dlp (outil tiers pour le téléchargement)
-const ytDlpPath = path.join(__dirname, '../../yt-dlp.exe');
+// const ytDlpPath = path.join(__dirname, '../../yt-dlp.exe'); 
+const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.06.30.exe');
 
 router.post("/", (req, res) => {
   try {
@@ -144,6 +145,25 @@ router.post("/", (req, res) => {
     child.on("close", (code) => {
       logger.info(`yt-dlp terminé avec code de sortie : ${code}`);
       if (code === 0) {
+
+        const iconPath = path.join(process.resourcesPath, "confirm-icon.png"); // la sécurité pour toutes les machines
+
+        console.log("Icon path pour la notif :", iconPath);
+        
+        const notif = new Notification({
+          title: "Freedom Loader",
+          body: "Ton téléchargement est terminé, clique ici pour l'ouvrir.",
+          icon: iconPath,
+        });
+        
+        notif.on("click", () => {
+          console.log("Notification cliquée !");
+          //Pour pouvoir ouvrir le dossier de la vidéo
+          const { shell } = require("electron");
+          shell.openPath(requestedOutputFolder);
+        });
+
+        notif.show();
         res.send("✅ Téléchargement terminé !");
       } else {
         res.status(500).send(`❌ yt-dlp a échoué avec le code : ${code}`);

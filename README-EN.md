@@ -2,11 +2,11 @@
 
 <!-- Release -->
 
-![Static Badge](https://img.shields.io/badge/Release-1.1.0-blue?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Release-1.1.1-blue?style=flat&logo=Test)
 
-<!-- Build -->
+<!-- Build (Next Release) -->
 
-![Static Badge](https://img.shields.io/badge/Build-1.1.1--beta-yellow?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Build-1.1.2--beta-yellow?style=flat&logo=Test)
 
 > This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
 
@@ -20,6 +20,7 @@
 - ✅ Custom output path selection with saving
 - ✅ Multiple graphical themes available for interface customization
 - ✅ Simple, intuitive, and responsive interface
+- ✅ Notification system when download finished (Click = Open Output Folder)
 
 ---
 

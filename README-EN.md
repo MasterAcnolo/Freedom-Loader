@@ -2,11 +2,11 @@
 
 <!-- Release -->
 
-![Static Badge](https://img.shields.io/badge/Release-1.1.1-blue?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Release-1.1.2-blue?style=flat&logo=Test)
 
 <!-- Build (Next Release) -->
 
-![Static Badge](https://img.shields.io/badge/Build-1.1.2--beta-yellow?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Build-1.1.3--beta-yellow?style=flat&logo=Test)
 
 > This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
 

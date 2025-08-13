@@ -77,11 +77,13 @@ router.post("/", (req, res) => {
     // --no-continue pour forcer un téléchargement propre
     // --restrict-filenames pour éviter les caractères problématiques dans les noms
     const args = ["--no-continue", "--restrict-filenames"];
+    args.push("--concurrent-fragments", "8"); // Permet de télécharger plusieurs fragments en parallèle pour accélérer le processus
 
     // Si l'option audioOnly est activée, on ajoute les flags pour extraction audio en mp3
     if (options.audioOnly) {
-      args.push("--extract-audio", "--audio-format", "mp3");
+      args.push("-f", "bestaudio", "--extract-audio", "--audio-format", "mp3");
     }
+
 
     // Correspondance entre la qualité choisie et le format à demander à yt-dlp
     const qualityMap = {

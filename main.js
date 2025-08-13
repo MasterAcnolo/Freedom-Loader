@@ -16,12 +16,16 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
+// Désactive l'accélération GPU pour éviter les erreurs GPU sur certains systèmes
+app.disableHardwareAcceleration();
 const path = require("path");
 const os = require("os");
-const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
+const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
 
 let mainWindow;
+// Utilise le vrai dossier de logs défini dans logger.js
+const logsFolderPath = logDir;
 
 /*
   Fonction principale qui crée la fenêtre principale de l'application.
@@ -113,6 +117,32 @@ app.whenReady().then(async () => {
     await expressServer.startServer();
     logger.info("Serveur Express démarré");
     await createWindow();
+
+    // Ajout du menu personnalisé
+    const menuTemplate = [
+      // ... Menu standard Electron ...
+      {
+        label: "Logs",
+        submenu: [
+          {
+            label: "Ouvrir les logs",
+            click: () => {
+              shell.openPath(logsFolderPath);
+            }
+          }
+        ]
+      }
+    ];
+
+    // Fusionner avec le menu par défaut
+    const defaultMenu = Menu.getApplicationMenu();
+    let template = menuTemplate;
+    if (defaultMenu) {
+      template = [...Menu.getApplicationMenu().items.map(item => item), ...menuTemplate];
+    }
+    const finalMenu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(finalMenu);
+
   } catch (error) {
     logger.error("Erreur serveur ou fenêtre :", error);
     app.quit();

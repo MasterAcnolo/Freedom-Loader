@@ -20,12 +20,23 @@ const { createLogger, format, transports } = require("winston");
 const DailyRotateFile = require("winston-daily-rotate-file");
 const fs = require("fs");       // Pour vérifier/créer le dossier de logs
 const path = require("path");   // Pour gérer proprement les chemins
+const os = require("os");       // Pour gérer les chemins aussi 
 
 // Définition du dossier où seront stockés les logs
-const logDir = path.join(__dirname, "../logs");
+// const logDir = path.join(__dirname, "../logs"); Désactivé parce que cela requiert d'exec en admin mode. Donc pas pratique pour les gens
+
+let logDir;
+if (process.platform === "win32") {
+  logDir = path.join(os.homedir(), "AppData", "Local", "FreedomLoader", "logs");
+} else {
+  logDir = path.join(os.homedir(), ".freedomloader", "logs");
+}
 
 // Création du dossier logs s’il n’existe pas encore
-if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
+//if (!fs.existsSync(logDir)) fs.mkdirSync(logDir); OBSOLETE
+
+fs.mkdirSync(logDir, { recursive: true }); // Evite les erreurs 
+
 
 // Fonction utilitaire pour générer une ligne indiquant le début d’une session de logs
 function getSessionStartLine() {
@@ -95,4 +106,5 @@ module.exports = {
   logger,
   logSessionStart,
   logSessionEnd,
+  logDir,
 };

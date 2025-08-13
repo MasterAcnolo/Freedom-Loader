@@ -106,4 +106,5 @@ module.exports = {
   logger,
   logSessionStart,
   logSessionEnd,
+  logDir,
 };

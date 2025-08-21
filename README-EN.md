@@ -2,18 +2,18 @@
 
 <!-- Release -->
 
-![Static Badge](https://img.shields.io/badge/Release-1.1.2-blue?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Release-1.1.3-blue?style=flat&logo=Test)
 
 <!-- Build (Next Release) -->
 
-![Static Badge](https://img.shields.io/badge/Build-1.1.3--beta-yellow?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Build-1.2--beta-yellow?style=flat&logo=Test)
 
 > This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
 
 ## 🚀 Features
 
-- ✅ Video download (MP4)
-- ✅ Audio-only download (MP3)
+- ✅ Video download with metadata(MP4)
+- ✅ Audio-only download with thumbail and metadata(MP3)
 - ✅ Full playlist support
 - ✅ Automatic metadata retrieval (title, duration, etc.)
 - ✅ Detailed logs: console and rotating files (7 days)

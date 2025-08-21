@@ -23,7 +23,7 @@ const logger = require("../logger").logger;
 
 // Path vers le fichier exécutable yt-dlp (outil tiers pour le téléchargement)
 // const ytDlpPath = path.join(__dirname, '../../yt-dlp.exe'); 
-const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.06.30.exe');
+const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.08.20.exe');
 
 router.post("/", (req, res) => {
   try {
@@ -76,12 +76,26 @@ router.post("/", (req, res) => {
     // Construction du tableau d'arguments à passer à yt-dlp
     // --no-continue pour forcer un téléchargement propre
     // --restrict-filenames pour éviter les caractères problématiques dans les noms
-    const args = ["--no-continue", "--restrict-filenames"];
-    args.push("--concurrent-fragments", "8"); // Permet de télécharger plusieurs fragments en parallèle pour accélérer le processus
+   const args = [
+        "--no-continue",              // pas de reprise, c'est un choix que j'ai fait voila
+        "--restrict-filenames",       // noms de fichiers sans caractères spéciaux (Cyrilique, accents, etc.)
+        "--no-overwrites",            // évite d'écraser un fichier existant
+        "--embed-thumbnail",          // ajoute la pochette
+        "--add-metadata",             // ajoute les tags (titre, artiste, etc.)
+        "--concurrent-fragments", "8",// accélère le téléchargement
+        "--retries", "10",            // réessaie jusqu'à 10 fois en cas d'erreur
+        "--fragment-retries", "10"    // réessaie aussi 10 fois chaque fragment
+      ];
 
     // Si l'option audioOnly est activée, on ajoute les flags pour extraction audio en mp3
     if (options.audioOnly) {
-      args.push("-f", "bestaudio", "--extract-audio", "--audio-format", "mp3");
+      args.push(
+      "-f", 
+      "bestaudio", 
+      "--extract-audio",
+      "--audio-format", 
+      "mp3",
+    );
     }
 
 

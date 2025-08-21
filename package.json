@@ -1,9 +1,9 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "author": "MasterAcnolo",
-  "description": "Freedom Loader, parce que nous le valons bien",
+  "description": "Freedom Loader",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",

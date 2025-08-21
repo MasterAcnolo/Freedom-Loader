@@ -17,8 +17,7 @@
 */
 
 const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
-// Désactive l'accélération GPU pour éviter les erreurs GPU sur certains systèmes
-app.disableHardwareAcceleration();
+app.disableHardwareAcceleration(); // Désactive l'accélération GPU pour éviter les erreurs GPU sur certains systèmes
 const path = require("path");
 const os = require("os");
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");

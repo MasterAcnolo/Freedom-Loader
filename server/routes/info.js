@@ -24,7 +24,7 @@ const fs = require("fs");
 const { logger } = require("../logger"); // On récupère ton logger Winston
 
 // Path absolu vers l'exécutable yt-dlp
-const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.06.30.exe');
+const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.08.20.exe');
 
 // Vérification que yt-dlp.exe existe bien au lancement du module
 if (!fs.existsSync(ytDlpPath)) {

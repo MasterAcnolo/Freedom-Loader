@@ -78,7 +78,7 @@ router.post("/", (req, res) => {
     // --restrict-filenames pour éviter les caractères problématiques dans les noms
    const args = [
         "--no-continue",              // pas de reprise, c'est un choix que j'ai fait voila
-        "--restrict-filenames",       // noms de fichiers sans caractères spéciaux (Cyrilique, accents, etc.)
+        //"--restrict-filenames",       // noms de fichiers sans caractères spéciaux (Cyrilique, accents, etc.)
         "--no-overwrites",            // évite d'écraser un fichier existant
         "--embed-thumbnail",          // ajoute la pochette
         "--add-metadata",             // ajoute les tags (titre, artiste, etc.)

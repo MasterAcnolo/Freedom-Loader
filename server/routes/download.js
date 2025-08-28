@@ -23,7 +23,7 @@ const logger = require("../logger").logger;
 
 // Path vers le fichier exécutable yt-dlp (outil tiers pour le téléchargement)
 // const ytDlpPath = path.join(__dirname, '../../yt-dlp.exe'); 
-const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.08.20.exe');
+const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.08.27.exe');
 
 router.post("/", (req, res) => {
   try {

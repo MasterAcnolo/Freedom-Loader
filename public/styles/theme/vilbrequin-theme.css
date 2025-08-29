@@ -37,7 +37,7 @@ body.vilbrequin {
 
 /* Optionnel: motif turbo ou jantes */
 body.vilbrequin {
-  background-image: url('../../assets/images/Vilbrequin.avif'); /* adapte ton image */
+  background-image: url('../../assets/images/Vilbrequin.webp'); /* adapte ton image */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

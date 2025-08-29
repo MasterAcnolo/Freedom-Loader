@@ -2,11 +2,11 @@
 
 <!-- Release -->
 
-![Static Badge](https://img.shields.io/badge/Release-1.1.3-blue?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Release-1.2-blue?style=flat&logo=Test)
 
 <!-- Build (Next Release) -->
 
-![Static Badge](https://img.shields.io/badge/Build-1.2--beta-yellow?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Build-1.2.1--beta-yellow?style=flat&logo=Test)
 
 > This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
 
@@ -21,6 +21,7 @@
 - ✅ Multiple graphical themes available for interface customization
 - ✅ Simple, intuitive, and responsive interface
 - ✅ Notification system when download finished (Click = Open Output Folder)
+- ✅ Discord Rich Presence
 
 ---
 

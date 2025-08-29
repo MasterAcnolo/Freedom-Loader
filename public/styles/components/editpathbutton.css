@@ -29,13 +29,14 @@
   color: var(--form-button-text-color);
   border: none;
   padding: 0.3em 0.8em;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  font-size: 0.9rem;
+  font-weight: 550;
 }
 
 .download-path button#changePath:hover {
   background-color: var(--form-button-bg-hover-color);
-  transform: scale(1.05);
 }

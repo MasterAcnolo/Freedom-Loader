@@ -2,11 +2,11 @@
 
 <!-- Release -->
 
-![Static Badge](https://img.shields.io/badge/Release-1.1.3-blue?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Release-1.2-blue?style=flat&logo=Test)
 
 <!-- Build (Next Release) -->
 
-![Static Badge](https://img.shields.io/badge/Build-1.2--beta-yellow?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Build-1.2.1--beta-yellow?style=flat&logo=Test)
 
 > Ce projet a pour but de permettre le téléchargement de contenu Vidéo/Audio de manière gratuite, open source et libre. Il permettra à terme de choisir
 
@@ -21,6 +21,7 @@
 - ✅ Plusieurs thèmes graphiques au choix pour personnaliser l’interface
 - ✅ Interface simple, intuitive
 - ✅ Notification quand le téléchargement est fini (Click = Ouverture Dossier Output)
+- ✅ Discord Rich Presence
 
 ---
 

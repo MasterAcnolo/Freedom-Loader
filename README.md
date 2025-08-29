@@ -2,99 +2,100 @@
 
 <!-- Release -->
 
-![Static Badge](https://img.shields.io/badge/Release-1.1.3-blue?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Release-1.2-blue?style=flat&logo=Test)
 
 <!-- Build (Next Release) -->
 
-![Static Badge](https://img.shields.io/badge/Build-1.2--beta-yellow?style=flat&logo=Test)
+![Static Badge](https://img.shields.io/badge/Build-1.2.1--beta-yellow?style=flat&logo=Test)
 
-> Ce projet a pour but de permettre le téléchargement de contenu Vidéo/Audio de manière gratuite, open source et libre. Il permettra à terme de choisir
+> This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
 
-## 🚀 Fonctionnalités
+## 🚀 Features
 
-- ✅ Téléchargement de vidéos avec les métadonnées (MP4)
-- ✅ Téléchargement audio uniquement, avec la couverture ainsi que les métadonnées (MP3)
-- ✅ Support des playlists complètes
-- ✅ Récupération automatique des métadonnées (titre, durée, etc.)
-- ✅ Logs détaillés : console et fichiers rotatifs (7 jours)
-- ✅ Choix du chemin de sortie personnalisé avec sauvegarde
-- ✅ Plusieurs thèmes graphiques au choix pour personnaliser l’interface
-- ✅ Interface simple, intuitive
-- ✅ Notification quand le téléchargement est fini (Click = Ouverture Dossier Output)
+- ✅ Video download with metadata(MP4)
+- ✅ Audio-only download with thumbail and metadata(MP3)
+- ✅ Full playlist support
+- ✅ Automatic metadata retrieval (title, duration, etc.)
+- ✅ Detailed logs: console and rotating files (7 days)
+- ✅ Custom output path selection with saving
+- ✅ Multiple graphical themes available for interface customization
+- ✅ Simple, intuitive, and responsive interface
+- ✅ Notification system when download finished (Click = Open Output Folder)
+- ✅ Discord Rich Presence
 
 ---
 
 ## 🔧 Installation
 
-Pour installer l'application, il vous suffit de télécharger l'installateur dans la section releases, de prendre la dernière version et de l'exécuter.
+To install the application, simply download the installer from the releases section. Take the latest version and run it.
 
 ---
 
-## ❓ Questions fréquentes
+## ❓ Frequently Asked Questions
 
-### _Où se situent mes fichiers une fois téléchargés ?_
+### _Where are my downloaded files located?_
 
-Dans le dossier Téléchargements (**C:\Users\VOTRE NOM\Downloads**) de votre ordinateur, dans un dossier nommé **Freedom Loader Output**  
+In your computer's Downloads folder (**C:\Users\YOUR NAME\Downloads**), inside a folder named **Freedom Loader Output**  
 <br>
 
-### _Une fois le programme installé et lancé, j'ai une erreur_
+### _After installing and running the program, I get an error_
 
-Essayez de relancer l'application, de consulter les logs ou d'ouvrir la console de développement du navigateur en faisant le raccourci `CTRL + SHIFT + I` ou via `View > Toggle Developer Tools`.
+Try restarting the application, checking the logs, or opening the browser's developer console by pressing `CTRL + SHIFT + I` or by going to `View > Toggle Developer Tools`
 
-<!-- ![Exemple Chemin](build/example-developertools.png) -->
+<!-- ![Example Path](build/example-developertools.png) -->
 <p align="center">
-  <img src="build/example-developertools.png" alt="Exemple Developer Tools" />
+  <img src="build/example-developertools.png" alt="Example Developer Tools" />
 </p>
 
-## 🏗️ Fonctionnalités à venir (Roadmap)
+## 🏗️ Upcoming Features (Roadmap)
 
-- [ ] Plus de choix de formats
-- [ ] Support des sous-titres
-- [ ] Meilleure UI / UX
-- [ ] Choix des langues
-- [ ] Téléchargement d’une partie de la vidéo
-- [ ] Renommage du fichier de sortie
-- [ ] Extraction / découpage de la vidéo via chapitrage natif
-- [ ] Téléchargements parallèles
-- [ ] Suppression automatique des parties sponsorisées (skip sponsor)
-- [x] ~~Choix personnalisé du chemin de sortie (par défaut **C:\Users\Utilisateur\Downloads**, où un dossier **Freedom Loader Output** sera créé)~~
+- [ ] More format options
+- [ ] Subtitle support
+- [ ] Improved UI / UX
+- [ ] Language selection
+- [ ] Download a specific part of the video
+- [ ] Rename output file
+- [x] ~~Extract / Split video using native chapters~~
+- [ ] Parallel downloads
+- [ ] Skip sponsored parts of videos
+- [x] ~~Custom output path selection (default **C:\Users\Username\Downloads** with a **Freedom Loader Output** folder created)~~
 
 ---
 
-## 🖼️ Aperçu
+## 🖼️ Preview
 
 <p align="center">
   <img src="build/apercu1.0.1.png" alt="Exemple d'application" />
 </p>
 
-> Voici un exemple de l’application lancée après avoir saisi une URL.
+> Here is an example of the app after launch and entering a URL
 
 ---
 
-## ℹ️ À propos
+## ℹ️ About
 
-Ce projet a été réalisé en utilisant [![yt-dlp](https://img.shields.io/badge/yt--dlp-Visit%20Repo-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yt-dlp/yt-dlp)  
-Merci à eux de nous permettre d’utiliser leur API gratuitement et en open source.
+This project was built using [![yt-dlp](https://img.shields.io/badge/yt--dlp-Visit%20Repo-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yt-dlp/yt-dlp)  
+Thanks to them for providing a free and open-source API.
 
-Ce projet est open source et accueille volontiers vos contributions.  
-Voici comment participer :
+This project is open-source and welcomes your contributions.  
+Here is how to get involved:
 
-- **🪲 Signalement de bugs**  
-   Merci d’utiliser le [système d’issues GitHub](https://github.com/MasterAcnolo/Freedom-Loader/issues) pour remonter les bugs rencontrés.  
-   Essayez de fournir une reproduction claire et les logs si possible. Les logs se trouvent dans le dossier d’installation du programme. Exemple de chemin :  
-  `C:\Users\[VOTRE NOM]\Desktop\Freedom Loader\resources\app\logs`  
-  Le fichier aura un nom du type `combined-20xx-xx-xx.log`.  
-  <br>
+- **🪲 Bug Reporting**  
+   Please use the [GitHub issues system](https://github.com/MasterAcnolo/Freedom-Loader/issues) to report any bugs you encounter.  
+   Try to provide clear reproduction steps and logs if possible. Logs are located in the installation folder of the program. Example path:  
+   `C:\Users\[YOUR NAME]\Desktop\Freedom Loader\resources\app\logs`  
+   The log file will be named something like `combined-20xx-xx-xx.log`  
+   <br>
 - **🛠️ Contribution**  
-   Les Pull Requests sont les bienvenues ! Merci de forker le repo et de soumettre votre PR après avoir vérifié le respect des guidelines (tests, style, etc.).  
-  <br>
-- **💡 Suggestions de fonctionnalités**  
-   Vous pouvez proposer de nouvelles idées via une [issue de type feature request](https://github.com/MasterAcnolo/Freedom-Loader/issues).  
-   Toute proposition claire et détaillée sera étudiée.  
-  <br>
-- **💰 Soutenir le projet**
+   Pull Requests are welcome! Please fork the repo and submit your PR after ensuring you meet the contribution guidelines (tests, style, etc.).  
+   <br>
+- **💡 Feature Suggestions**  
+   You can propose new ideas via a [feature request issue](https://github.com/MasterAcnolo/Freedom-Loader/issues).  
+   Any clear and detailed proposal will be reviewed.  
+   <br>
+- **💰 Support the Project**
     <p>  
-    Si vous souhaitez m’encourager, vous pouvez faire un don sur  
+    If you'd like to support me, you can donate via  
     <a href="https://paypal.me/axelnicolas25">  
       <img src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white" alt="PayPal">  
     </a>  
@@ -102,12 +103,12 @@ Voici comment participer :
 
 ---
 
-## 📄 Licence
+## 📄 License
 
-Ce projet est sous licence **MIT** — voir le fichier [LICENSE](./LICENSE) pour plus d’informations.
+This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
 
 ---
 
 ## ⚠️ Disclaimer
 
-J’ai bien évidemment eu recours à l’IA pour m’aider sur certaines parties du projet. Utilisez l’IA avec parcimonie et soyez toujours conscient de ce que vous faites.
+I have obviously used AI assistance for some parts of this project. Use AI sparingly and always be aware of what you are doing.

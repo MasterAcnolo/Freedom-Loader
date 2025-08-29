@@ -101,3 +101,6 @@ process.on("SIGTERM", () => {  // Capture kill ou arrêt du process
 
 // Export de la fonction startServer pour permettre son appel depuis d’autres fichiers
 module.exports = { startServer };
+
+const { startRPC } = require("./discordRPC");
+startRPC();

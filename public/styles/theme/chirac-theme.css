@@ -1,7 +1,7 @@
 body.chirac {
   /* Background image Chirac */
-  background-image: url('../../assets/images/goat.webp'); 
-  background-position: right;
+  background-image: url('../../assets/images/Chirac.png'); 
+  /* background-position: right; */
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;

@@ -23,7 +23,7 @@ const logger = require("../logger").logger;
 
 // Path vers le fichier exécutable yt-dlp (outil tiers pour le téléchargement)
 // const ytDlpPath = path.join(__dirname, '../../yt-dlp.exe'); 
-const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.08.20.exe');
+const ytDlpPath = path.join(__dirname, '../../yt-dlp 2025.08.27.exe');
 
 router.post("/", (req, res) => {
   try {
@@ -78,7 +78,7 @@ router.post("/", (req, res) => {
     // --restrict-filenames pour éviter les caractères problématiques dans les noms
    const args = [
         "--no-continue",              // pas de reprise, c'est un choix que j'ai fait voila
-        "--restrict-filenames",       // noms de fichiers sans caractères spéciaux (Cyrilique, accents, etc.)
+        //"--restrict-filenames",       // noms de fichiers sans caractères spéciaux (Cyrilique, accents, etc.)
         "--no-overwrites",            // évite d'écraser un fichier existant
         "--embed-thumbnail",          // ajoute la pochette
         "--add-metadata",             // ajoute les tags (titre, artiste, etc.)

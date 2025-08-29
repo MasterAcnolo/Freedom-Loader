@@ -54,7 +54,7 @@ Try restarting the application, checking the logs, or opening the browser's deve
 - [ ] Language selection
 - [ ] Download a specific part of the video
 - [ ] Rename output file
-- [ ] Extract / Split video using native chapters
+- [x] ~~Extract / Split video using native chapters~~
 - [ ] Parallel downloads
 - [ ] Skip sponsored parts of videos
 - [x] ~~Custom output path selection (default **C:\Users\Username\Downloads** with a **Freedom Loader Output** folder created)~~

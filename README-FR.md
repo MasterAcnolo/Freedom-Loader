@@ -54,7 +54,7 @@ Essayez de relancer l'application, de consulter les logs ou d'ouvrir la console 
 - [ ] Choix des langues
 - [ ] Téléchargement d’une partie de la vidéo
 - [ ] Renommage du fichier de sortie
-- [ ] Extraction / découpage de la vidéo via chapitrage natif
+- [x] ~~Extraction / découpage de la vidéo via chapitrage natif~~
 - [ ] Téléchargements parallèles
 - [ ] Suppression automatique des parties sponsorisées (skip sponsor)
 - [x] ~~Choix personnalisé du chemin de sortie (par défaut **C:\Users\Utilisateur\Downloads**, où un dossier **Freedom Loader Output** sera créé)~~

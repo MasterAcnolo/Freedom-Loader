@@ -1,5 +1,7 @@
 # Freedom Loader
 
+> A besoin de FFMPEG pour fonctionner, si jamais il n'est pas installer suivez le guide [ici](https://lecrabeinfo.net/tutoriels/installer-ffmpeg-sur-windows/).
+
 <!-- Release -->
 
 ![Static Badge](https://img.shields.io/badge/Release-1.0.0-blue?style=flat&logo=Test)

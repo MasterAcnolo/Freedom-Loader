@@ -2,6 +2,8 @@
 
 <!-- Release -->
 
+> Require FFMPEG, Follow the tutorial [here](https://lecrabeinfo.net/tutoriels/installer-ffmpeg-sur-windows/) if you need some help.
+
 ![Static Badge](https://img.shields.io/badge/Release-1.2-blue?style=flat&logo=Test)
 
 <!-- Build (Next Release) -->

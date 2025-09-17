@@ -1,6 +1,10 @@
 /node_modules
 /downloads
 /dist
+/out
+
+/ressources/ffmpeg.exe
+/ressources/ffprobe.exe
+
 logs/*.json
 logs/*.log
-/out

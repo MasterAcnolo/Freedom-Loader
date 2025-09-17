@@ -37,13 +37,13 @@ const outputFolder = path.join(downloadsPath, "Freedom Loader");
 if (!fs.existsSync(outputFolder)) {
   try {
     fs.mkdirSync(outputFolder, { recursive: true }); // création récursive au cas où
-    logger.info("Dossier Freedom Loader Output cree dans Telechargements.");
+    logger.info("Dossier Freedom Loader cree dans Telechargements.");
   } catch (err) {
     logger.error("Impossible de creer le dossier :", err);
     process.exit(1); // Arrêt du programme si dossier non créé (critique)
   }
 } else {
-  logger.info("Dossier Freedom Loader Output deja existant.");
+  logger.info("Dossier Freedom Loader deja existant.");
 }
 
 // On rend ce dossier accessible globalement via app.locals pour l’utiliser dans les routes

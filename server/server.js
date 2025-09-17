@@ -31,7 +31,7 @@ const app = express(); // Création de l’instance Express, notre serveur web
 // Définition du dossier par défaut où enregistrer les téléchargements
 // On prend le dossier Téléchargements de l’utilisateur Windows (USERPROFILE)
 const downloadsPath = path.join(process.env.USERPROFILE, "Downloads");
-const outputFolder = path.join(downloadsPath, "Freedom Loader Output");
+const outputFolder = path.join(downloadsPath, "Freedom Loader");
 
 // Création du dossier de sortie s’il n’existe pas déjà
 if (!fs.existsSync(outputFolder)) {

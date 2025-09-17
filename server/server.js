@@ -31,19 +31,19 @@ const app = express(); // Création de l’instance Express, notre serveur web
 // Définition du dossier par défaut où enregistrer les téléchargements
 // On prend le dossier Téléchargements de l’utilisateur Windows (USERPROFILE)
 const downloadsPath = path.join(process.env.USERPROFILE, "Downloads");
-const outputFolder = path.join(downloadsPath, "Freedom Loader Output");
+const outputFolder = path.join(downloadsPath, "Freedom Loader");
 
 // Création du dossier de sortie s’il n’existe pas déjà
 if (!fs.existsSync(outputFolder)) {
   try {
     fs.mkdirSync(outputFolder, { recursive: true }); // création récursive au cas où
-    logger.info("Dossier Freedom Loader Output cree dans Telechargements.");
+    logger.info("Dossier Freedom Loader cree dans Telechargements.");
   } catch (err) {
     logger.error("Impossible de creer le dossier :", err);
     process.exit(1); // Arrêt du programme si dossier non créé (critique)
   }
 } else {
-  logger.info("Dossier Freedom Loader Output deja existant.");
+  logger.info("Dossier Freedom Loader deja existant.");
 }
 
 // On rend ce dossier accessible globalement via app.locals pour l’utiliser dans les routes

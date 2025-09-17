@@ -85,7 +85,7 @@ router.post("/", (req, res) => {
         "--concurrent-fragments", "8",// accélère le téléchargement
         "--retries", "10",            // réessaie jusqu'à 10 fois en cas d'erreur
         "--fragment-retries", "10"   , // réessaie aussi 10 fois chaque fragment
-        "--ffmpeg-location", "C:/ffmpeg/bin/ffmpeg.exe"
+        "--ffmpeg-location", path.join(__dirname, "../../ressources/ffmpeg.exe")
       ];
 
     // Si l'option audioOnly est activée, on ajoute les flags pour extraction audio en mp3

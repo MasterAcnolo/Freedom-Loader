@@ -48,6 +48,14 @@
       {
         "from": "build/confirm-icon.png",
         "to": "confirm-icon.png"
+      },
+      {
+        "from": "ressources/yt-dlp 2025.08.27.exe",
+        "to": "yt-dlp 2025.08.27.exe"
+      },
+      {
+        "from": "ressources/ffmpeg.exe",
+        "to": "ffmpeg.exe"
       }
     ],
     "win": {

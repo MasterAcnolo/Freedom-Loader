@@ -22,8 +22,8 @@ const { Notification } = require("electron");
 const logger = require("../logger").logger;
 
 // Path vers le fichier exécutable yt-dlp (outil tiers pour le téléchargement)
-// const ytDlpPath = path.join(__dirname, '../../yt-dlp.exe'); 
-const ytDlpPath = path.join(__dirname, '../../ressources/yt-dlp 2025.08.27.exe');
+// const ytDlpPath = path.join(process.resourcesPath, '../../yt-dlp.exe'); 
+const ytDlpPath = path.join(process.resourcesPath, 'yt-dlp 2025.08.27.exe');
 
 router.post("/", (req, res) => {
   try {
@@ -85,7 +85,7 @@ router.post("/", (req, res) => {
         "--concurrent-fragments", "8",// accélère le téléchargement
         "--retries", "10",            // réessaie jusqu'à 10 fois en cas d'erreur
         "--fragment-retries", "10"   , // réessaie aussi 10 fois chaque fragment
-        "--ffmpeg-location", path.join(__dirname, "../../ressources/ffmpeg.exe")
+        "--ffmpeg-location", path.join(process.resourcesPath, "ffmpeg.exe")
       ];
 
     // Si l'option audioOnly est activée, on ajoute les flags pour extraction audio en mp3

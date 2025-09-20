@@ -25,7 +25,7 @@ const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/log
 let mainWindow;
 // Utilise le vrai dossier de logs défini dans logger.js
 const logsFolderPath = logDir;
-
+app.setAppUserModelId("com.masteracnolo.freedomloader"); /* Pour la notif */
 /*
   Fonction principale qui crée la fenêtre principale de l'application.
   Elle évite la création multiple et configure les dimensions et options de la fenêtre.
@@ -40,7 +40,7 @@ async function createWindow() {
   }
 
   mainWindow = new BrowserWindow({
-    title: "Freedom Loader",
+    title: "Freedom Loader 1.2.2", // A Changer à chaque Version
     width: 750,
     height: 800,
     minWidth: 750,

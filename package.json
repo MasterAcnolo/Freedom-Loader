@@ -43,7 +43,7 @@
     "directories": {
       "buildResources": "build"
     },
-    "asar": false,
+    "asar": true,
     "extraResources": [
       {
         "from": "build/confirm-icon.png",

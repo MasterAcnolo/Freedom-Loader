@@ -8,7 +8,7 @@
 
 ![Static Badge](https://img.shields.io/badge/Build-1.2.3--beta-yellow?style=flat&logo=Test)
 
-> Ce projet a pour but de permettre le téléchargement de contenu Vidéo/Audio de manière gratuite, open source et libre. Il permettra à terme de choisir
+> Ce projet a pour but de permettre le téléchargement de contenu Vidéo/Audio de manière gratuite, open source et libre.
 
 ## 🚀 Fonctionnalités
 

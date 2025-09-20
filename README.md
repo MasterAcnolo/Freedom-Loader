@@ -8,7 +8,7 @@
 
 ![Static Badge](https://img.shields.io/badge/Build-1.2.3--beta-yellow?style=flat&logo=Test)
 
-> This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content. Eventually, it will allow users to choose
+> This project aims to enable free, open-source, and unrestricted downloading of Video/Audio content.
 
 ## 🚀 Features
 

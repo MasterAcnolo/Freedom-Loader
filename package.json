@@ -56,6 +56,10 @@
       {
         "from": "ressources/ffmpeg.exe",
         "to": "ffmpeg.exe"
+      },
+      {
+        "from": "ressources/ffprobe.exe",
+        "to": "ffprobe.exe"
       }
     ],
     "win": {

@@ -40,7 +40,7 @@ async function createWindow() {
   }
 
   mainWindow = new BrowserWindow({
-    title: "Freedom Loader 1.2.2", // A Changer à chaque Version
+    title: "Freedom Loader 1.2.3", // A Changer à chaque Version
     width: 750,
     height: 800,
     minWidth: 750,

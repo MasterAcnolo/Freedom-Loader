@@ -43,8 +43,9 @@ body.spicy {
 
 /* Optionnel: background piments */
 body.spicy {
-  background-image: url('../../assets/images/Spicy.webp');  
+  background-image: url('../../assets/images/spicy.webp');  
   background-size:contain;
   background-position: center;
   background-attachment: fixed;
+  background-repeat: no-repeat;
 }

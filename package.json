@@ -1,7 +1,7 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": "MasterAcnolo",
   "description": "Freedom Loader",
   "main": "main.js",
@@ -50,8 +50,8 @@
         "to": "confirm-icon.png"
       },
       {
-        "from": "ressources/yt-dlp 2025.08.27.exe",
-        "to": "yt-dlp 2025.08.27.exe"
+        "from": "ressources/yt-dlp 2025.09.23.exe",
+        "to": "yt-dlp 2025.09.23.exe"
       },
       {
         "from": "ressources/ffmpeg.exe",

@@ -23,7 +23,15 @@ const logger = require("../logger").logger;
 
 // Path vers le fichier exécutable yt-dlp (outil tiers pour le téléchargement)
 // const ytDlpPath = path.join(process.resourcesPath, '../../yt-dlp.exe'); 
-const ytDlpPath = path.join(process.resourcesPath, 'yt-dlp 2025.09.23.exe');
+const ytDlpPath = path.join(process.resourcesPath, 'yt-dlp.exe');
+
+execFile(ytDlpPath, ["-U"], (err, stdout, stderr) => {
+  if (err) {
+    logger.error("Erreur update yt-dlp:", err);
+    return;
+  }
+  logger.info(`Update yt-dlp : ${stdout}`);
+});
 
 router.post("/", (req, res) => {
   try {

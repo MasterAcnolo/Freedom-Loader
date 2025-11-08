@@ -77,7 +77,7 @@ Try restarting the application, checking the logs, or opening the developer cons
 ## Preview
 
 <p align="center">
-  <img src="build/apercu1.0.1.png" width="80%" />
+  <img src="build/apercu1.2.4.png" width="80%" />
 </p>
 
 ---

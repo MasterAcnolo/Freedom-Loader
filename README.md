@@ -1,7 +1,8 @@
 # Freedom Loader
 
-![Static Badge](https://img.shields.io/badge/Release-1.2.4-blue?style=flat)
-![Static Badge](https://img.shields.io/badge/Build-1.2.5--beta-yellow?style=flat)
+![Static Badge](https://img.shields.io/badge/Latest-Release-1.2.4-blue?style=flat)
+
+<!-- ![Static Badge](https://img.shields.io/badge/Next-Build-1.2.5--beta-yellow?style=flat) -->
 
 Freedom Loader is a Windows desktop application built with Electron.  
 It provides a simple and reliable way to download video or audio content with metadata and advanced options, without ads or questionable third-party services.  
@@ -57,7 +58,7 @@ Try restarting the application, checking the logs, or opening the developer cons
 - [ ] More format options
 - [ ] Linux version
 - [ ] Mobile version (APK)
-- [x] Auto-updating YT-DLP
+- [x] ~~Auto-updating YT-DLP~~
 - [ ] Automatic project updates
 - [ ] Better download status
 - [ ] Better website support (currently only YouTube is fully supported)
@@ -68,8 +69,8 @@ Try restarting the application, checking the logs, or opening the developer cons
 - [ ] Custom file naming
 - [ ] Parallel downloads
 - [ ] Automatic sponsor skipping
-- [x] Extract/split video using native chapters
-- [x] Custom output path selection
+- [x] ~~Extract/split video using native chapters~~
+- [x] ~~Custom output path selection~~
 
 ---
 
@@ -81,7 +82,7 @@ Try restarting the application, checking the logs, or opening the developer cons
 
 ---
 
-## ℹ Technologies
+## Technologies
 
 This project uses:  
 [![yt-dlp](https://img.shields.io/badge/yt--dlp-Visit%20Repo-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yt-dlp/yt-dlp)

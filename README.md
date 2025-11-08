@@ -46,7 +46,7 @@ Try restarting the application, checking the logs, or opening the developer cons
 `CTRL + SHIFT + I` -> “Toggle Developer Tools”.
 
 <p align="center">
-  <img src="build/example-developertools.png" width="80%" />
+  <img src="build/example-developertools.png" width="50%" />
 </p>
 
 ---

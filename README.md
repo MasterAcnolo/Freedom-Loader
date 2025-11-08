@@ -1,6 +1,6 @@
 # Freedom Loader
 
-![Static Badge](https://img.shields.io/badge/Release-1.2.4-blue?style=flat)
+![Static Badge](https://img.shields.io/badge/Release-1.3.0-blue?style=flat)
 
 <!-- ![Static Badge](https://img.shields.io/badge/Next-Build-1.2.5--beta-yellow?style=flat) -->
 

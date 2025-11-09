@@ -48,6 +48,10 @@
         "to": "confirm-icon.png"
       },
       {
+        "from": "build/error.png",
+        "to": "error.png"
+      },
+      {
         "from": "ressources/yt-dlp.exe",
         "to": "yt-dlp.exe"
       },

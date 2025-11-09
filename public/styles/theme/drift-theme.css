@@ -1,0 +1,47 @@
+body.drift {
+
+    background-image: url('../../assets/images/Drift.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    /* Palette principale */
+    --background-color: #0f1218;
+    --default-text-color: #3d4b61;
+    --subtitle-color: #1a1a1a;
+    --mp3-text-color: #c0d4ff;
+
+    /* Formulaire */
+    --form-bg-color: #1e222a;         
+    --form-input-bg-color: #13171d; 
+    --form-input-border-color: #3b4b6d;
+    --form-input-border-focus-color: #6ea8ff; 
+    --form-input-text-color: #f0f4ff;
+    --form-input-placeholder-color: #7a8fae;
+    --form-button-bg-color: #2a2979;
+    --form-button-text-color: #ffffff;
+    --form-button-bg-hover-color: #353393;
+
+    /* Checkbox */
+    --checkbox-bg-default: #2a2e38;
+    --checkbox-bg-checked: #2a2979;
+    --checkbox-checkmark-border-color: #ffffff;
+    --checkbox-pulse-color: rgba(76,108,255,0.3);
+
+    /* Download status */
+    --download-status-color: #ff8e8e;
+
+    /* Video Info Box */
+    --infos-box-color: #1e222a;
+    --video-info-text-color: #e8e8f0;
+    --video-info-heading-color: #9ab6ff;
+    --video-info-list-color: #c0d4ff;
+    --video-info-list-strong-color: #ffffff;
+    --video-info-link-color: #4c6cff;
+    --video-info-link-hover-color: #6c8dff;
+    }
+
+
+body.drift .download-path{
+    color: #ededed;
+}

@@ -1,0 +1,36 @@
+:root {
+  /* Couleurs générales */
+  --background-color: #001224;
+  --default-text-color: #eee;
+  --subtitle-color: #007bff;
+  --mp3-text-color: #000000;
+
+  /* Formulaire */
+  --form-bg-color: #ffffff;
+  --form-input-bg-color: #f9f9f9;
+  --form-input-border-color: #cccccc;
+  --form-input-border-focus-color: #0056b3;
+  --form-input-text-color: #333333;
+  --form-input-placeholder-color: #aaaaaa;
+  --form-button-bg-color: #007bff;
+  --form-button-text-color: #ffffff;
+  --form-button-bg-hover-color: #0056b3;
+
+  /* Checkbox */
+  --checkbox-bg-default: #cccccc;
+  --checkbox-bg-checked: #3B82F6;
+  --checkbox-checkmark-border-color: #E0E0E2;
+  --checkbox-pulse-color: rgba(59, 130, 246, 0.5);
+
+  /* Download status */
+  --download-status-color: #007bff;
+
+  /* Video Info Box */
+  --infos-box-color: #f0f0f0;
+  --video-info-text-color: #222222;
+  --video-info-heading-color: #007bff;
+  --video-info-list-color: #444444;
+  --video-info-list-strong-color: #000000;
+  --video-info-link-color: #007bff;
+  --video-info-link-hover-color: #0056b3;
+}

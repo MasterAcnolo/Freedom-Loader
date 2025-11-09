@@ -1,0 +1,46 @@
+body.nf {
+
+  background-image: url('../../assets/images/NF.jpg');
+  background-size: cover;
+  background-position: 70% center; 
+  background-attachment: fixed;
+
+  /* Couleurs générales */
+  --background-color: #1a1a1a;
+  --default-text-color: #e6dfd5;
+  --subtitle-color: #f5f0e6;
+  --mp3-text-color: #d8cfc2;
+
+  /* Formulaire */
+  --form-bg-color: #2a2a2a;
+  --form-input-bg-color: #222222;
+  --form-input-border-color: #4a4036;
+  --form-input-border-focus-color: #cbb89d;
+  --form-input-text-color: #f0e8dd;
+  --form-input-placeholder-color: #9a8f80;
+  --form-button-bg-color: #cbb89d;
+  --form-button-text-color: #1a1a1a;
+  --form-button-bg-hover-color: #b7a588;
+
+  /* Checkbox */
+  --checkbox-bg-default: #4a4036;
+  --checkbox-bg-checked: #cbb89d;
+  --checkbox-checkmark-border-color: #1a1a1a;
+  --checkbox-pulse-color: rgba(203,184,157,0.3);
+
+  /* Download status */
+  --download-status-color: #cbb89d;
+
+  /* Video Info Box */
+  --infos-box-color: #2a2a2a;
+  --video-info-text-color: #e6dfd5;
+  --video-info-heading-color: #f5f0e6;
+  --video-info-list-color: #d8cfc2;
+  --video-info-list-strong-color: #ffffff;
+  --video-info-link-color: #cbb89d;
+  --video-info-link-hover-color: #b7a588;
+}
+
+body.nf .download-path {
+  color: var(--default-text-color);
+}

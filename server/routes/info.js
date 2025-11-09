@@ -3,6 +3,8 @@ const router = express.Router();
 const { execFile } = require("child_process");
 const { logger } = require("../logger");
 const { userYtDlp } = require("../helpers/path");
+const getUserBrowser = require("../helpers/getBrowser")
+
 
 // const ytDlpPath = path.join(__dirname, '../../ressources/yt-dlp.exe');
 // const userYtDlp = path.join(process.env.APPDATA || process.env.USERPROFILE, 'FreedomLoader', 'yt-dlp.exe');
@@ -22,9 +24,20 @@ router.post("/", (req, res) => {
 
   logger.info(`Requête /info reçue pour ${url}`);
 
-  const args = ["--dump-single-json", "--ignore-errors", "--yes-playlist", url];
+  const args = ["--dump-single-json", "--ignore-errors", "--yes-playlist", url, "--cookies-from-browser" , `${getUserBrowser()}`];
 
   execFile(userYtDlp, args, { timeout: 30_000, maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
+
+    if (stderr) {
+      const lower = stderr.toLowerCase();
+      if (lower.includes("sign in to confirm") || lower.includes("failed to decrypt") || lower.includes("could not copy")) {
+        const browser = getUserBrowser();
+        return res.status(400).send(
+          `❌ Impossible d'extraire les cookies depuis ${browser}. Connectez-vous dans ce navigateur et réessayez.`
+        );
+      }
+    }
+
     if (error) {
       logger.error(`Erreur yt-dlp: ${error.message}`);
       if (stderr) logger.debug(`stderr: ${stderr}`);

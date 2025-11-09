@@ -1,7 +1,10 @@
 const path = require("path");
 
+const getUserBrowser = require("./getBrowser")
+
 function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
   const args = [
+    "--cookies-from-browser", `${getUserBrowser()}`,
     "--no-continue",
     "--no-overwrites",
     "--embed-thumbnail",
@@ -32,3 +35,4 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
 }
 
 module.exports = { buildYtDlpArgs };
+

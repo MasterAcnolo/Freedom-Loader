@@ -42,8 +42,6 @@ app.get("/", (req, res) => {
 // Fonction pour démarrer le serveur
 async function startServer() {
   return new Promise((resolve, reject) => {
-    logSessionStart();
-
     const server = app.listen(PORT, () => {
       logger.info(`Serveur Express prêt sur http://localhost:${PORT}`);
       resolve(server);

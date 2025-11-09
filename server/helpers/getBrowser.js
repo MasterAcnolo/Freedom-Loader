@@ -16,8 +16,6 @@ function getUserBrowser() {
   for (const browser of browsers) {
     if (fs.existsSync(browser.path)) {
       return browser.name;
-    } else{
-        
     }
   }
   notify.notifyCookiesBrowserError()

@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Playlist
     if (data.type === "playlist") {
       infoDiv.innerHTML = `
         <p style="color:orange;"><strong>Playlist détectée – ${data.count} vidéos</strong></p>

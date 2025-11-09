@@ -1,13 +1,18 @@
 const path = require("path");
 const fs = require("fs");
 const { app } = require("electron");
+const config = require("../../config");
 
-const userYtDlp = path.join(app.getPath("userData"), "yt-dlp.exe");
+let userYtDlp;
 const sourceYtDlp = path.join(process.resourcesPath, "yt-dlp.exe");
 
-if (!fs.existsSync(userYtDlp)) fs.copyFileSync(sourceYtDlp, userYtDlp);
+if (config.localMode === true) {
 
-module.exports = { 
-    userYtDlp, 
-    sourceYtDlp 
-};
+    userYtDlp = path.join(__dirname, "../../ressources/yt-dlp.exe");
+} else {
+
+    userYtDlp = path.join(app.getPath("userData"), "yt-dlp.exe");
+    if (!fs.existsSync(userYtDlp)) fs.copyFileSync(sourceYtDlp, userYtDlp);
+}
+
+module.exports = { userYtDlp, sourceYtDlp };

@@ -31,11 +31,10 @@ function startRPC() {
     console.error("Erreur Discord RPC :", err);
   });
 
-  // Gestion propre de la fermeture
+
   const cleanExit = () => {
-    if (intervalId) clearInterval(intervalId); // stop interval
+    if (intervalId) clearInterval(intervalId); 
     rpc.destroy(); // déconnecte proprement
-    console.log("Discord RPC arrêté proprement.");
   };
 
   process.on("exit", cleanExit);

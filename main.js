@@ -1,21 +1,4 @@
-/*
-  This file is part of Freedom Loader.
-
-  Copyright (C) 2025 MasterAcnolo
-
-  Freedom Loader is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License.
-
-  Freedom Loader is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-
+const config = require("./config.js")
 const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
 const path = require("path");
 const os = require("os");
@@ -37,7 +20,7 @@ async function createWindow() {
   }
 
   mainWindow = new BrowserWindow({
-    title: "Freedom Loader 1.3.0",
+    title: `Freedom Loader ${config.version}`,
     width: 750,
     height: 800,
     minWidth: 750,
@@ -50,7 +33,7 @@ async function createWindow() {
   });
 
   try {
-    await mainWindow.loadURL(`http://localhost:8787`);
+    await mainWindow.loadURL(`http://localhost:${config.applicationPort}`);
     logger.info("Fenêtre chargée");
   } catch (err) {
     logger.error("Erreur chargement fenêtre:", err);
@@ -108,6 +91,10 @@ app.whenReady().then(async () => {
   try {
     await expressServer.startServer();
     logger.info("Serveur Express démarré");
+
+    const { startRPC } = require("./server/discordRPC");
+    startRPC();
+
     await createWindow();
     setupMenu();
   } catch (err) {
@@ -115,6 +102,7 @@ app.whenReady().then(async () => {
     app.quit();
   }
 });
+
 
 app.on("window-all-closed", () => {
   logger.info("Toutes fenêtres fermées, quitte l'app");

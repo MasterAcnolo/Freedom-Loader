@@ -1,0 +1,43 @@
+body.cyberpunk {
+
+  background-image: url('../../assets/images/Cyberpunk.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  /* Couleurs générales */
+  --background-color: #0d0d0d;
+  --default-text-color: #e0e0e0;
+  --subtitle-color: #ffea00;
+  --mp3-text-color: #ffea00;
+
+  /* Formulaire */
+  --form-bg-color: #141414;
+  --form-input-bg-color: #1a1a1a;
+  --form-input-border-color: #333333;
+  --form-input-border-focus-color: #ffea00;
+  --form-input-text-color: #e0e0e0;
+  --form-input-placeholder-color: #777777;
+  --form-button-bg-color: #ffea00;
+  --form-button-text-color: #0d0d0d;
+  --form-button-bg-hover-color: #d4c000;
+
+  /* Checkbox */
+  --checkbox-bg-default: #333333;
+  --checkbox-bg-checked: #ffea00;
+  --checkbox-checkmark-border-color: #0d0d0d;
+  --checkbox-pulse-color: rgba(255, 234, 0, 0.5);
+
+  /* Download status */
+  --download-status-color: #fffbd1;
+
+  /* Video Info Box */
+  --infos-box-color: #1a1a1a;
+  --video-info-text-color: #e0e0e0;
+  --video-info-heading-color: #ffea00;
+  --video-info-list-color: #cccccc;
+  --video-info-list-strong-color: #ffffff;
+  --video-info-link-color: #ffea00;
+  --video-info-link-hover-color: #d4c000;
+}

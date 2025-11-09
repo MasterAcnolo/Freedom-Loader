@@ -1,0 +1,65 @@
+/* Layout */
+@import url("layout/form.css");
+@import url("layout/container.css");
+@import url("layout/header.css");
+@import url("layout/videoinfo.css");
+
+/* Components */
+@import url("components/checkbox.css");
+@import url("components/themebutton.css");
+
+@import url("theme/themeimport.css");
+@import url("components/editpathbutton.css");
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+#app {
+  display: block; 
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+#app.visible {
+  opacity: 1;
+}
+
+html,body{
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    /*outline: 2px solid red; /*<-- Utile pour le debug ça */ 
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    background-color: var(--background-color);
+    width: 100%;
+    height: 100%;
+    color: var(--default-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+header p{
+  color: var(--subtitle-color);
+}
+
+.checkbox-inline{
+  color: var(--mp3-text-color);
+}
+
+body, 
+.container, 
+input, 
+button, 
+select, 
+label {
+  transition: background-color 0.2s ease, color 0.5s ease, border-color 0.2s ease;
+}

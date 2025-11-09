@@ -1,0 +1,46 @@
+body.vilbrequin {
+
+  background-image: url('../../assets/images/Vilbrequin.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  /* Couleurs générales */
+  --background-color: #0a1f3d;
+  --default-text-color: #535353;
+  --subtitle-color: #001696;
+  --mp3-text-color: #ffffff;
+
+  /* Formulaire */
+  --form-bg-color: #12284f;
+  --form-input-bg-color: #1c3760;
+  --form-input-border-color: #2a4b80;
+  --form-input-border-focus-color: #00bfff;
+  --form-input-text-color: #f0f0f0;
+  --form-input-placeholder-color: #b0c4de;
+  --form-button-bg-color: #ffd700;
+  --form-button-text-color: #0a1f3d;  
+  --form-button-bg-hover-color: #e6c200;
+
+  /* Checkbox */
+  --checkbox-bg-default: #2a4b80;
+  --checkbox-bg-checked: #00bfff;
+  --checkbox-checkmark-border-color: #f0f0f0;
+  --checkbox-pulse-color: rgba(0,191,255,0.5);
+
+  /* Download status */
+  --download-status-color: #ffd700;
+
+  /* Video Info Box */
+  --infos-box-color: #12284f;
+  --video-info-text-color: #f0f0f0;
+  --video-info-heading-color: #00bfff;
+  --video-info-list-color: #dcdcdc;
+  --video-info-list-strong-color: #ffffff;
+  --video-info-link-color: #00bfff;
+  --video-info-link-hover-color: #009acd;
+}
+
+body.vilbrequin .download-path{
+  color: white;
+}

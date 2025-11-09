@@ -9,7 +9,6 @@ let intervalId;
 
 function startRPC() {
   rpc.on("ready", () => {
-    console.log("Connecté à Discord !");
 
     const presence = {
       largeImageKey: "icon",
@@ -26,11 +25,6 @@ function startRPC() {
       rpc.setActivity(presence);
     }, 15000);
   });
-
-  rpc.login({ clientId }).catch(err => {
-    console.error("Erreur Discord RPC :", err);
-  });
-
 
   const cleanExit = () => {
     if (intervalId) clearInterval(intervalId); 

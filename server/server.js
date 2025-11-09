@@ -7,7 +7,6 @@ const { execFile } = require("child_process");
 const { userYtDlp } = require("./helpers/path");
 
 const app = express();
-const PORT = config.applicationPort;
 
 // Dossier de téléchargement
 const outputFolder = path.join(process.env.USERPROFILE, "Downloads", "Freedom Loader");
@@ -42,8 +41,8 @@ app.get("/", (req, res) => {
 // Fonction pour démarrer le serveur
 async function startServer() {
   return new Promise((resolve, reject) => {
-    const server = app.listen(PORT, () => {
-      logger.info(`Serveur Express prêt sur http://localhost:${PORT}`);
+    const server = app.listen(config.applicationPort, () => {
+      logger.info(`Serveur Express prêt sur http://localhost:${config.applicationPort}`);
       resolve(server);
     });
 

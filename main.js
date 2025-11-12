@@ -73,6 +73,15 @@ function setupMenu() {
         },
       ],
     },
+    {
+      label: "Documentation",
+      submenu: [
+        {
+          label: "Accéder au Wiki",
+          click: () => shell.openExternal("https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html"),
+        },
+      ],
+    },
   ];
 
   const defaultMenu = Menu.getApplicationMenu();

@@ -1,5 +1,7 @@
+const packageJson = require("./package.json");
+
 module.exports = {
-    version: "1.3.0",
+    version: packageJson.version,
     applicationPort: "8787",
     debugMode: true,
     localMode: true,

@@ -14,6 +14,7 @@
     "debug": "^4.4.1",
     "discord-rpc": "^4.0.1",
     "electron-squirrel-startup": "^1.0.1",
+    "electron-updater": "^6.6.2",
     "express": "^5.1.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
@@ -33,6 +34,13 @@
   "build": {
     "appId": "com.masteracnolo.freedomloader",
     "productName": "Freedom Loader",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "MasterAcnolo",
+        "repo": "Freedom-Loader"
+      }
+    ],
     "files": [
       "**/*",
       "node_modules/**/*",

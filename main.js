@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron")
 const path = require("path");
 const os = require("os");
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
+const { initAutoUpdater } = require("./server/autoupdate.js");
 
 app.disableHardwareAcceleration(); // safe sur GPU old / soucis Electron
 
@@ -105,6 +106,7 @@ app.whenReady().then(async () => {
     startRPC();
 
     await createWindow();
+    initAutoUpdater(mainWindow);
     setupMenu();
   } catch (err) {
     logger.error("Erreur serveur ou fenêtre :", err);

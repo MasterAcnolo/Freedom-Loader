@@ -1,5 +1,6 @@
 const config = require('../config');
 const RPC = require("discord-rpc");
+const { logger } = require("./logger");
 
 const clientId = `${config.DiscordRPCID}`;
 const rpc = new RPC.Client({ transport: "ipc" });
@@ -32,7 +33,7 @@ function startRPC() {
         await rpc.destroy();
       }
     } catch (err) {
-      console.warn("Erreur lors de la fermeture du RPC :", err);
+      logger.error("Erreur lors de la fermeture du RPC :", err);
     } finally {
       process.exit();
     }
@@ -43,7 +44,7 @@ function startRPC() {
   process.on("SIGTERM", cleanExit);
 
   rpc.login({ clientId }).catch(err => {
-    console.warn("Impossible de connecter le RPC :", err);
+    logger.error("Impossible de connecter le RPC :", err);
   });
 }
 

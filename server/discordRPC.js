@@ -2,14 +2,12 @@ const config = require('../config');
 const RPC = require("discord-rpc");
 
 const clientId = `${config.DiscordRPCID}`;
-
 const rpc = new RPC.Client({ transport: "ipc" });
 
 let intervalId;
 
 function startRPC() {
   rpc.on("ready", () => {
-
     const presence = {
       largeImageKey: "icon",
       smallImageKey: "acnolo_pfp",
@@ -26,19 +24,26 @@ function startRPC() {
     }, 15000);
   });
 
-  const cleanExit = () => {
-    if (intervalId) clearInterval(intervalId); 
-    rpc.destroy(); // déconnecte proprement
-  };
+  async function cleanExit() {
+    try {
+      if (intervalId) clearInterval(intervalId);
+
+      if (rpc && rpc.transport) {
+        await rpc.destroy();
+      }
+    } catch (err) {
+      console.warn("Erreur lors de la fermeture du RPC :", err);
+    } finally {
+      process.exit();
+    }
+  }
 
   process.on("exit", cleanExit);
-  process.on("SIGINT", () => {
-    cleanExit();
-    process.exit();
-  });
-  process.on("SIGTERM", () => {
-    cleanExit();
-    process.exit();
+  process.on("SIGINT", cleanExit);
+  process.on("SIGTERM", cleanExit);
+
+  rpc.login({ clientId }).catch(err => {
+    console.warn("Impossible de connecter le RPC :", err);
   });
 }
 

@@ -1,7 +1,6 @@
-// server/autoUpdater.js
 const { autoUpdater } = require("electron-updater");
 const { dialog, app } = require("electron");
-const { logger } = require("./logger"); // ton logger centralisé
+const { logger } = require("./logger");
 
 function initAutoUpdater(mainWindow) {
   autoUpdater.on("update-available", (info) => {

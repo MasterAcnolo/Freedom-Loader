@@ -99,7 +99,7 @@ Contributions are welcome.
 
 Use the GitHub Issues system and include reproduction steps and logs when possible.  
 Logs can be found here:  
-`C:\Users\[USERNAME]\Desktop\Freedom Loader\resources\app\logs\combined-20xx-xx-xx.log`
+`C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\LOGS-20xx-xx-xx.log`
 
 ### Feature Requests
 

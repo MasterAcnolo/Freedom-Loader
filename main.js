@@ -3,17 +3,30 @@ const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron")
 const path = require("path");
 const os = require("os");
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
-const { initAutoUpdater } = require("./server/autoupdate.js");
+const { AutoUpdater } = require("./server/autoupdate.js");
+const gotLock = app.requestSingleInstanceLock();
+
+let mainWindow;
+
+if (!gotLock) {
+  app.quit(); // Une autre instance tourne déjà
+} else {
+  app.on("second-instance", () => {
+    // Si une autre instance essaie de démarrer, focus la fenêtre existante
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+}
 
 app.disableHardwareAcceleration(); // safe sur GPU old / soucis Electron
 
-let mainWindow;
 const logsFolderPath = logDir;
 const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
 
 app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
 
-// ---------- FENÊTRE ---------- //
 async function createWindow() {
   if (mainWindow) {
     logger.warn("La fenêtre existe déjà, pas de nouvelle création");
@@ -106,7 +119,7 @@ app.whenReady().then(async () => {
     startRPC();
 
     await createWindow();
-    initAutoUpdater(mainWindow);
+    AutoUpdater(mainWindow);
     setupMenu();
   } catch (err) {
     logger.error("Erreur serveur ou fenêtre :", err);

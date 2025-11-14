@@ -5,7 +5,6 @@ const path = require("path");
 const fs = require("fs");
 
 const { logger } = require("../logger");
-const config = require("../../config");
 const { isValidUrl, isSafePath } = require("../helpers/validation");
 const { buildYtDlpArgs } = require("../helpers/buildArgs");
 const { notifyDownloadFinished } = require("../helpers/notify");

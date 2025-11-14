@@ -67,6 +67,10 @@
         "to": "ffprobe.exe"
       },
       {
+        "from": "ressources/deno.exe",
+        "to": "deno.exe"
+      },
+      {
         "from": "server",
         "to": "server"
       }

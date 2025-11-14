@@ -24,9 +24,8 @@
   text-align: center;
   font-size: 0.8rem;
   color: #fff;
-  position: absolute;
-  width: 100%;
-  top: -20px;
+  content: "";
+
 }
 
 /* Responsive pour mobile */

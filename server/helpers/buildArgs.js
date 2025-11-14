@@ -13,7 +13,8 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--retries", "10",
     "--fragment-retries", "10",
     "--ffmpeg-location", path.join(process.resourcesPath, "ffmpeg.exe"),
-    "--extractor-args","youtube:player_client=default"
+    "--extractor-args","youtube:player_client=default",
+    "--js-runtimes", `deno:${path.join(process.resourcesPath, "deno.exe")}`
   ];
 
   if (audioOnly) args.push("-f", "bestaudio", "--extract-audio", "--audio-format", "mp3");

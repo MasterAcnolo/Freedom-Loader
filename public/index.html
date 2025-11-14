@@ -11,7 +11,6 @@
     ">
     <title></title>
 
-    <!--CSS-->
     <link rel="stylesheet" href="styles/styles.css">
     
 </head>
@@ -33,10 +32,8 @@
                     <input type="checkbox" name="audioOnly" value="1">
                     <div class="checkmark"></div>
                 </label>
-                <!-- <input type="checkbox" name="audioOnly" value="1"> -->
                 Audio seulement (MP3)
             </label>
-            <!-- <input type="checkbox" name="audioOnly" value="1"> Audio seulement (MP3) -->
             <select name="quality">
                 <option value="best">Meilleure qualité</option>
                 <option value="medium">Qualité moyenne</option>
@@ -48,8 +45,6 @@
 
             <button type="submit" onclick="startProgress()">Télécharger</button>
         </form>
-
-
 
         <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
         les données à traiter. Pour cela on définit une route vers /download, ca va
@@ -66,10 +61,10 @@
 
 
     <div id="downloadProgressWrapper">
-        <div id="downloadProgress"></div>
-        <div id="downloadProgressText">0%</div>
+        <div id="downloadProgress"></div>   
     </div>
 
+    <div id="downloadProgressText"></div>
 
     <div id="downloadStatus"></div>
 
@@ -79,12 +74,7 @@
     
     <footer class="theme-switcher">
             <label for="themeSelect">Thème :</label>
-            <select id="themeSelect" aria-label="Choisir le thème">
-            <!-- <option value="dark">Sombre</option>
-            <option value="light">Clair</option>
-            <option value="Chirac">Chirac</option>
-            <option value="Fanatic">Fanatic</option> -->
-            </select>
+            <select id="themeSelect" aria-label="Choisir le thème"></select>
     </footer>
 
     <script src="script/custompath.js"></script>

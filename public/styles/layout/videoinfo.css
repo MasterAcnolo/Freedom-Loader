@@ -21,7 +21,6 @@
 #videoInfo.visible {
   opacity: 1;
   max-height: 1500px; 
-  overflow: visible;
 }
 
 #videoInfo h3 {
@@ -67,6 +66,81 @@
 #videoInfo ul li a:focus {
   text-decoration: underline;
 }
+
+/* --- Playlist Mode --- */
+#videoInfo.playlist-mode {
+  max-width: 900px; 
+}
+
+/* Style du bloc "Playlist détectée" */
+#videoInfo.playlist-mode > p {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Layout liste des vidéos */
+#playlistVideos {
+  margin-top: 1em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+/* Un item de playlist */
+#playlistVideos > div {
+  background: #3f3f3f;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+#playlistVideos > div p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#videoInfo.playlist-mode {
+  max-width: 95%;
+}
+
+#playlistVideos > div:hover {
+  transform: scale(1.05);
+}
+
+#playlistVideos img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.copy-btn {
+  all: unset;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;          
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  vertical-align: middle;
+  transition: transform 0.1s ease, color 0.1s ease, opacity 0.15s ease;
+  font-size: 1em;
+}
+
+#playlistVideos > div p a{
+  text-decoration: none;
+  color: var(--video-info-link-color);
+}
+
+#playlistVideos > div p a:hover{
+  text-decoration: underline;
+}
+
 
 /* Responsive */
 @media (max-width: 480px) {

@@ -5,6 +5,7 @@
 
 /ressources/ffmpeg.exe
 /ressources/ffprobe.exe
+/ressources/deno.exe
 
 logs/*.json
 logs/*.log

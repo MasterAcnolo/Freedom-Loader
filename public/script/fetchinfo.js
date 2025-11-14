@@ -70,27 +70,89 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (data.type === "playlist") {
+
+      infoDiv.classList.add("playlist-mode");
       infoDiv.innerHTML = `
-        <p style="color:orange;"><strong>Playlist détectée – ${data.count} vidéos</strong></p>
-        <h3>${data.title}</h3>
-        <p><strong>Channel :</strong> ${data.channel || "Inconnu"}</p>
+      
+        <h3 style="color:var(--video-info-heading-color);"><strong>Playlist détectée: ${data.title}</strong></h3>
+        <h3 style="color:var(--video-info-heading-color);"><strong>Nombre de vidéos: ${data.count}</strong></h3>
+        <p><strong>Channel :</strong> ${data.channel || "Unknown"}</p>
         <div id="playlistVideos"></div>
       `;
       const listDiv = document.getElementById("playlistVideos");
-      data.videos.forEach(v => {
+     data.videos.forEach(v => {
         const durationStr = `${Math.floor(v.duration/60)}m ${(v.duration%60).toString().padStart(2,"0")}s`;
+        const videoUrl = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
+
         listDiv.innerHTML += `
           <div style="margin-bottom:12px;">
             <img src="${v.thumbnail}" width="160" alt="Thumbnail">
             <p><strong>${v.title}</strong></p>
             <p>Durée : ${durationStr}</p>
-            <p>URL : <a href="${v.webpage_url}" target="_blank">${v.webpage_url}</a></p>
+            <p><a href="${videoUrl}" target="_blank">URL</a> 
+              <button class="copy-btn" data-url="${videoUrl}">
+                📋
+              </button>
+            </p>
           </div>
         `;
       });
+
+      listDiv.addEventListener("click", (e) => {
+        if (e.target.classList.contains("copy-btn")) {
+          const btn = e.target;
+          if (btn.disabled) return;
+
+          btn.disabled = true;
+          const url = btn.dataset.url;
+
+          navigator.clipboard.writeText(url)
+            .then(() => {
+              const original = btn.textContent;
+
+              // fade out + shrink
+              btn.style.opacity = 0;
+              btn.style.transform = "scale(0.7)";
+
+              setTimeout(() => {
+                btn.textContent = "✅";
+                btn.style.opacity = 1;
+                btn.style.transform = "scale(1)";
+
+                setTimeout(() => {
+                  btn.style.opacity = 0;
+                  btn.style.transform = "scale(0.7)";
+
+                  setTimeout(() => {
+                    btn.textContent = original;
+                    btn.style.opacity = 1;
+                    btn.style.transform = "scale(1)";
+                    btn.disabled = false; // réactive le bouton
+                  }, 300);
+
+                }, 1000);
+
+              }, 300);
+
+            })
+            .catch(() => {
+              const original = btn.textContent;
+              btn.textContent = "❌";
+              setTimeout(() => {
+                btn.textContent = original;
+                btn.disabled = false;
+              }, 1500);
+            });
+        }
+      });
+
+
+
       infoDiv.classList.add("visible");
     return;
-  }
+  } else {
+  infoDiv.classList.remove("playlist-mode");
+}
 
 
     // Vidéo normale

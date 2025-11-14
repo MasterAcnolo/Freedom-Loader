@@ -3,7 +3,7 @@ const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron")
 const path = require("path");
 const os = require("os");
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
-const {AutoUpdater} = require("./server/autoupdate.js");
+const {AutoUpdater} = require("./server/update.js");
 const gotLock = app.requestSingleInstanceLock();
 
 let mainWindow;

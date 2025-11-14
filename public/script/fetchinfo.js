@@ -1,21 +1,3 @@
-/*
-  This file is part of Freedom Loader.
-
-  Copyright (C) 2025 MasterAcnolo
-
-  Freedom Loader is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License.
-
-  Freedom Loader is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-
 function formatDate(dateStr) {
   if (!dateStr || dateStr.length !== 8) return "Inconnue";
   return `${dateStr.slice(6,8)}/${dateStr.slice(4,6)}/${dateStr.slice(0,4)}`;
@@ -33,7 +15,7 @@ async function fetchVideoInfo(url) {
       body: new URLSearchParams({ url }),
     });
 
-    if (!res.ok) return { error: `Erreur serveur: ${res.status}` };
+    if (!res.ok) return { error: `Erreur Lors de la récupération des informations` };
 
     const data = await res.json();
     if (!data) return { error: "Données manquantes" };
@@ -52,9 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
   urlInput.addEventListener("input", async () => {
     const url = urlInput.value.trim();
 
-    if (!url || url.length < 5) {
+    // Si champ vide -> reset total
+    if (!url || url.length < 2) {
       infoDiv.innerHTML = "";
-      infoDiv.classList.remove("visible");
+      infoDiv.classList.remove("visible", "playlist-mode");
       lastFetchedUrl = "";
       return;
     }
@@ -63,25 +46,41 @@ document.addEventListener("DOMContentLoaded", () => {
     lastFetchedUrl = url;
 
     const data = await fetchVideoInfo(url);
+
+    // Gestion des erreurs
     if (data.error) {
-      infoDiv.innerHTML = `❌ ${data.error}`;
-      infoDiv.classList.remove("visible");
+      infoDiv.innerHTML = `
+        <div style="
+          padding:12px;
+          background:#380a0a;
+          border:1px solid #a93333;
+          border-radius:6px;
+          margin-top:10px;
+        ">
+          <strong>Erreur :</strong> ${data.error}
+        </div>
+      `;
+      infoDiv.classList.add("visible");
+      infoDiv.classList.remove("playlist-mode");
       return;
     }
 
+    // ---------- PLAYLIST ----------
     if (data.type === "playlist") {
-
       infoDiv.classList.add("playlist-mode");
       infoDiv.innerHTML = `
-      
         <h3 style="color:var(--video-info-heading-color);"><strong>Playlist détectée: ${data.title}</strong></h3>
         <h3 style="color:var(--video-info-heading-color);"><strong>Nombre de vidéos: ${data.count}</strong></h3>
         <p><strong>Channel :</strong> ${data.channel || "Unknown"}</p>
         <div id="playlistVideos"></div>
       `;
+
       const listDiv = document.getElementById("playlistVideos");
-     data.videos.forEach(v => {
-        const durationStr = `${Math.floor(v.duration/60)}m ${(v.duration%60).toString().padStart(2,"0")}s`;
+
+      data.videos.forEach(v => {
+        const durationStr = v.duration
+          ? `${Math.floor(v.duration / 60)}m ${(v.duration % 60).toString().padStart(2,"0")}s` : "Inconnue";
+
         const videoUrl = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
 
         listDiv.innerHTML += `
@@ -89,28 +88,25 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="${v.thumbnail}" width="160" alt="Thumbnail">
             <p><strong>${v.title}</strong></p>
             <p>Durée : ${durationStr}</p>
-            <p><a href="${videoUrl}" target="_blank">URL</a> 
-              <button class="copy-btn" data-url="${videoUrl}">
-                📋
-              </button>
+            <p><a href="${videoUrl}" target="_blank">URL</a>
+              <button class="copy-btn" data-url="${videoUrl}">📋</button>
             </p>
           </div>
         `;
       });
 
-      listDiv.addEventListener("click", (e) => {
-        if (e.target.classList.contains("copy-btn")) {
-          const btn = e.target;
+      // Gestion du bouton copier
+      listDiv.addEventListener("click", (event) => {
+        if (event.target.classList.contains("copy-btn")) {
+          const btn = event.target;
           if (btn.disabled) return;
 
           btn.disabled = true;
           const url = btn.dataset.url;
-
           navigator.clipboard.writeText(url)
             .then(() => {
               const original = btn.textContent;
 
-              // fade out + shrink
               btn.style.opacity = 0;
               btn.style.transform = "scale(0.7)";
 
@@ -127,13 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     btn.textContent = original;
                     btn.style.opacity = 1;
                     btn.style.transform = "scale(1)";
-                    btn.disabled = false; // réactive le bouton
+                    btn.disabled = false;
                   }, 300);
 
                 }, 1000);
 
               }, 300);
-
             })
             .catch(() => {
               const original = btn.textContent;
@@ -146,19 +141,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-
-
       infoDiv.classList.add("visible");
-    return;
-  } else {
-  infoDiv.classList.remove("playlist-mode");
-}
+      return;
+    }
 
+    infoDiv.classList.remove("playlist-mode");
 
-    // Vidéo normale
-    const durationStr = `${Math.floor(data.duration/60)}m ${(data.duration%60)
-      .toString()
-      .padStart(2,"0")}s`;
+    // ---------- VIDEO NORMALE ----------
+    const durationStr = data.duration
+      ? `${Math.floor(data.duration/60)}m ${(data.duration%60).toString().padStart(2,"0")}s`
+      : "Inconnue";
+
     const sizeStr = formatSize(data.filesize_approx);
     const readableDate = formatDate(data.upload_date);
     const categories = data.categories?.join(", ") || "Non spécifiées";
@@ -178,6 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <li><strong>Catégories :</strong> ${categories}</li>
       </ul>
     `;
+
     infoDiv.classList.add("visible");
   });
+
 })

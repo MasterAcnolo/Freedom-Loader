@@ -20,7 +20,7 @@ if (!gotLock) {
   });
 }
 
-app.disableHardwareAcceleration(); // safe sur GPU old / soucis Electron
+app.disableHardwareAcceleration();
 
 const logsFolderPath = logDir;
 const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
@@ -110,7 +110,9 @@ app.whenReady().then(async () => {
   logSessionStart();
   logger.info("App prête, démarrage du serveur Express...");
 
-  const expressServer = require("./server/server.js");
+  const serverPath = path.join(__dirname, "server", "server.js");
+  const expressServer = require(serverPath);
+
   try {
     await expressServer.startServer();
     logger.info("Serveur Express démarré");

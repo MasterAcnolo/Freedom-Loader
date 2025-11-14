@@ -6,7 +6,7 @@
   "description": "Freedom Loader",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron .",
     "dist": "electron-builder"
   },
   "dependencies": {
@@ -16,18 +16,11 @@
     "electron-squirrel-startup": "^1.0.1",
     "electron-updater": "^6.6.2",
     "express": "^5.1.0",
+    "webidl-conversions": "^8.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.8.1",
-    "@electron-forge/maker-deb": "^7.8.1",
-    "@electron-forge/maker-rpm": "^7.8.1",
-    "@electron-forge/maker-squirrel": "^7.8.1",
-    "@electron-forge/maker-zip": "^7.8.1",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.8.1",
-    "@electron-forge/plugin-fuses": "^7.8.1",
-    "@electron/fuses": "^1.8.0",
     "electron": "^37.1.0",
     "electron-builder": "^26.0.12"
   },
@@ -44,7 +37,9 @@
     "files": [
       "**/*",
       "node_modules/**/*",
-      "!logs/*.json"
+      "!logs/*.json",
+      "server/**/*",
+      "server/node_modules/**/*"
     ],
     "directories": {
       "buildResources": "build"
@@ -70,6 +65,10 @@
       {
         "from": "ressources/ffprobe.exe",
         "to": "ffprobe.exe"
+      },
+      {
+        "from": "server",
+        "to": "server"
       }
     ],
     "win": {

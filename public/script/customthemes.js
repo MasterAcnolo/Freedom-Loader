@@ -1,6 +1,3 @@
-
-// Définition des thèmes disponibles
-// Chaque thème a un label (affiché dans le select) et un subtitle (texte sous le titre)
 const themes = {
   default:    { label: "Default", subtitle: "Because why not?" },
   dark:       { label: "Sombre", subtitle: "Darkness is my ally" },
@@ -9,16 +6,11 @@ const themes = {
   nf:         { label: "NF", subtitle: "You call it music, i call it my Therapist" },
   drift:      { label: "Drift", subtitle: "Si la route t'appelle, contre appel" },
   fanatic:    { label: "Fanatic", subtitle: "Always Fnatic !" },
-  cyberpunk:  { label: "Cyberpunk", subtitle: "Wake up, choom. We’ve got a city to burn." },
   chirac:     { label: "Chirac", subtitle: "J'aime les pommes" },
-  spicy:      { label: "Spicy", subtitle: "The Spiciest One" },
-  vilbrequin: { label: "Vilbrequin", subtitle: "Rend l'argent" }
 };
-
 
 const themeSelect = document.getElementById("themeSelect");
 
-// Remplir le select avec les options à partir du dictionnaire
 function populateThemeSelect() {
   for (const [themeKey, themeInfo] of Object.entries(themes)) {
     const option = document.createElement("option");
@@ -28,14 +20,10 @@ function populateThemeSelect() {
   }
 }
 
-// Appliquer un thème sur le body et mettre à jour le subtitle
 function applyTheme(themeKey) {
-  // Supprimer les classes de tous les thèmes
   document.body.classList.remove(...Object.keys(themes));
-  // Ajouter la classe correspondant au thème sélectionné
   document.body.classList.add(themeKey);
 
-  // Mettre à jour le subtitle
   const subtitleElement = document.getElementById("subtitle");
   if (subtitleElement && themes[themeKey]) {
     subtitleElement.textContent = themes[themeKey].subtitle;
@@ -43,12 +31,10 @@ function applyTheme(themeKey) {
 
 }
 
-// Sauvegarder le thème choisi dans le navigateur
 function saveTheme(themeKey) {
   localStorage.setItem("selectedTheme", themeKey);
 }
 
-// Charger le thème sauvegardé au démarrage
 function loadTheme() {
   const savedTheme = localStorage.getItem("selectedTheme");
 

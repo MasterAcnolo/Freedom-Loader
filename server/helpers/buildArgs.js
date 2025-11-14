@@ -12,7 +12,8 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--concurrent-fragments", "8",
     "--retries", "10",
     "--fragment-retries", "10",
-    "--ffmpeg-location", path.join(process.resourcesPath, "ffmpeg.exe")
+    "--ffmpeg-location", path.join(process.resourcesPath, "ffmpeg.exe"),
+    "--extractor-args","youtube:player_client=default"
   ];
 
   if (audioOnly) args.push("-f", "bestaudio", "--extract-audio", "--audio-format", "mp3");

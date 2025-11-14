@@ -28,7 +28,9 @@ router.post("/", (req, res) => {
     "--cookies-from-browser",
     `${getUserBrowser()}`,
     "--extractor-args",
-    "youtube:player_client=default"
+    "youtube:player_client=default",
+    "--ignore-no-formats-error"
+
   ];
 
   execFile(userYtDlp, args, { timeout: 30_000, maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {

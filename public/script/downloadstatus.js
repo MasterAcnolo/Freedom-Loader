@@ -18,7 +18,7 @@ form.addEventListener("submit", async (e) => {
     });
 
     if (!res.ok) {
-      statusDiv.textContent = "❌ Erreur pendant le téléchargement.";
+      statusDiv.textContent = res;
       return;
     }
 

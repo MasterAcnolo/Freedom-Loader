@@ -12,6 +12,8 @@ const { notifyDownloadFinished } = require("../helpers/notify");
 
 const { userYtDlp } = require("../helpers/path");
 
+const listeners = [];
+
 router.post("/", (req, res) => {
   try {
     const options = {
@@ -31,6 +33,7 @@ router.post("/", (req, res) => {
     logger.info(args)
     const child = execFile(userYtDlp, args);
 
+
     child.on("error", err => {
       logger.error(`Erreur yt-dlp : ${err.message}`);
       res.status(500).send(`❌ Erreur yt-dlp : ${err.message}`);
@@ -48,10 +51,44 @@ router.post("/", (req, res) => {
       child.stderr.on("data", data => data.toString().split("\n").forEach(line => line.trim() && logger.error(`[yt-dlp stderr] ${line}`)));
     }
 
+    child.stdout.on("data", data => {
+      const lines = data.toString().split("\n");
+      lines.forEach(line => {
+        const match = line.match(/\[download\]\s+(\d+\.\d+)%/);
+        if (match) {
+          const percent = parseFloat(match[1]);
+          if (listeners.length > 0) {
+            listeners.forEach(fn => fn(percent));
+          }
+        }
+      });
+    });
+
   } catch (err) {
     logger.error(`Erreur serveur dans /download : ${err.message}`);
     res.status(500).send(`Erreur serveur : ${err.message}`);
   }
 });
+
+// SSE endpoint
+router.get("/progress", (req, res) => {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+
+  const sendProgress = (percent) => {
+    res.write(`data: ${percent}\n\n`);
+  };
+
+  listeners.push(sendProgress);
+
+  req.on('close', () => {
+    listeners.splice(listeners.indexOf(sendProgress), 1);
+    res.end();
+  });
+});
+
 
 module.exports = router;

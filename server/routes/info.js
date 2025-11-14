@@ -3,11 +3,7 @@ const router = express.Router();
 const { execFile } = require("child_process");
 const { logger } = require("../logger");
 const { userYtDlp } = require("../helpers/path");
-const getUserBrowser = require("../helpers/getBrowser")
-
-
-// const ytDlpPath = path.join(__dirname, '../../ressources/yt-dlp.exe');
-// const userYtDlp = path.join(process.env.APPDATA || process.env.USERPROFILE, 'FreedomLoader', 'yt-dlp.exe');
+const getUserBrowser = require("../helpers/getBrowser");
 
 function isValidUrl(url) {
   try {
@@ -24,7 +20,16 @@ router.post("/", (req, res) => {
 
   logger.info(`Requête /info reçue pour ${url}`);
 
-  const args = ["--dump-single-json", "--ignore-errors", "--yes-playlist", url, "--cookies-from-browser" , `${getUserBrowser()}`];
+  const args = [
+    "--dump-single-json",
+    "--ignore-errors",
+    "--yes-playlist",
+    url,
+    "--cookies-from-browser",
+    `${getUserBrowser()}`,
+    "--extractor-args",
+    "youtube:player_client=default"
+  ];
 
   execFile(userYtDlp, args, { timeout: 30_000, maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
 
@@ -69,13 +74,21 @@ router.post("/", (req, res) => {
       }
 
       // Vidéo unique
+      if (!data.title) {
+        return res.status(500).send("❌ Impossible de récupérer les infos pour cette vidéo.");
+
+      }
+
       logger.info(`Vidéo unique récupérée : ${data.title}`);
       res.json({ type: "video", ...data });
 
     } catch (e) {
+      // fallback aussi si JSON est illisible
       logger.error(`Erreur parsing JSON: ${e.message}`);
-      return res.status(500).send("❌ JSON illisible.");
+      return res.status(500).send("❌ Impossible de récupérer les infos (JSON illisible).");
+
     }
+
   });
 });
 

@@ -16,14 +16,27 @@ function resetProgress() {
   progressWrapper.style.display = "none";
 }
 
+function resetProgressFile() {
+  progressBar.style.width = "0%";
+  // progressWrapper reste visible
+}
+
 // Connexion SSE, c'est Server-sent events est une technologie grâce à laquelle un navigateur reçoit des mises à jour automatiques à partir d'un serveur via une connexion HTTP. 
 const evtSource = new EventSource("/download/progress");
 evtSource.onmessage = e => {
+  if (e.data === "reset") {
+    startProgress();
+    return;
+  }
+
+  if (e.data === "done") {
+    resetProgress();
+    return;
+  }
+
   const percent = parseFloat(e.data);
   if (!isNaN(percent)) {
     updateProgress(percent);
-    if (percent >= 100) {
-      setTimeout(resetProgress, 500);
-    }
+    if (percent >= 100) setTimeout(resetProgressFile, 500);
   }
 };

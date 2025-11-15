@@ -1,7 +1,5 @@
 function parseVideo(data) {
 
-    // logger.info(`Avant parse: ${JSON.stringify(data, null, 2)}`);
-
     return {
         type: "video",
         // id: data.id,
@@ -15,9 +13,7 @@ function parseVideo(data) {
 }
 
 function parsePlaylist(data) {
-
-    // logger.info(`Avant parse: ${JSON.stringify(data, null, 2)}`);
-
+    
     return {
         type: "playlist",
         title: data.title || data.id,

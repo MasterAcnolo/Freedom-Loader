@@ -21,6 +21,7 @@ async function downloadController(req, res) {
     const filePath = await fetchDownload(options, listeners);
     notifyDownloadFinished(filePath);
     res.send("✅ Téléchargement terminé !");
+    
   } catch (err) {
     logger.error(`Erreur serveur dans /download : ${err.message}`);
     res.status(500).send(`❌ ${err.message}`);

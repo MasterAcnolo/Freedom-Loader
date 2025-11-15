@@ -1,5 +1,3 @@
-const { logger } = require("../logger");
-
 function parseVideo(data) {
 
     // logger.info(`Avant parse: ${JSON.stringify(data, null, 2)}`);

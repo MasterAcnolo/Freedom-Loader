@@ -6,11 +6,18 @@ const config = require("../config");
 const { execFile } = require("child_process");
 const { userYtDlp } = require("./helpers/path");
 
+const {ffmpegPath, denoPath} = require("./helpers/path")
+
 const app = express();
 
+console.log("ffmpegPath:", ffmpegPath);
+console.log("denoPath:", denoPath);
+console.log("Files in ffmpegPath:", fs.readdirSync(ffmpegPath));
+
+
+app.use(express.json());
 // Dossier de téléchargement
 const outputFolder = path.join(process.env.USERPROFILE, "Downloads", "Freedom Loader");
-
 // Création du dossier si nécessaire
 try {
   fs.mkdirSync(outputFolder, { recursive: true });
@@ -31,8 +38,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Routes
-app.use("/download", require("./routes/download"));
-app.use("/info", require("./routes/info"));
+app.use("/download", require("./routes/download.route"));
+app.use("/info", require("./routes/info.route"));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));

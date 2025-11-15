@@ -1,0 +1,49 @@
+const express = require("express");
+const router = express.Router();
+
+const { fetchInfo } = require("../services/info.services");
+const { parseVideo, parsePlaylist } = require("../helpers/parseInfo");
+const { logger } = require("../logger");
+const { isValidUrl } = require("../helpers/validation");
+
+async function infoController(req, res){
+
+    const url = req.body.url || req.query.url; // Gérer POST et GET
+
+
+    /* Si pas d'url ou url invalide*/
+    if (!url || !isValidUrl(url)) return res.status(400).send("❌ URL invalide ou manquante");
+
+    logger.info(`Requête /info reçue par le controller. URL: ${url}`);
+
+    if (url.includes("?list")) {
+        logger.info("Type de contenu: Playlist")
+
+    } else{
+        logger.info("Type de contenu: Vidéo")
+    }
+
+    try {
+    const data = await fetchInfo(url);
+
+    if (data._type === "playlist") {
+
+        const playlist = parsePlaylist(data);
+        logger.info(`Playlist détectée : ${playlist.title} (${playlist.count} vidéos)`);
+        return res.json(playlist);
+
+    } else{
+        const video = parseVideo(data);
+        logger.info(`Vidéo unique récupérée : ${video.title}`);
+        return res.json(video);
+    }
+
+
+
+    } catch (err) {
+        return res.status(500).send(`❌ ${err.message}`);
+    }
+    
+}
+
+module.exports = {infoController};

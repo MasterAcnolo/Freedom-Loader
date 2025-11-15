@@ -1,8 +1,11 @@
 const path = require("path");
 
-const getUserBrowser = require("./getBrowser")
+const getUserBrowser = require("./getBrowser");
+const { ffmpegPath, denoPath} = require("./path");
+
 
 function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
+  
   const args = [
     "--cookies-from-browser", `${getUserBrowser()}`,
     "--no-continue",
@@ -12,9 +15,9 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--concurrent-fragments", "8",
     "--retries", "10",
     "--fragment-retries", "10",
-    "--ffmpeg-location", path.join(process.resourcesPath, "ffmpeg.exe"),
+    "--ffmpeg-location", ffmpegPath,
     "--extractor-args","youtube:player_client=default",
-    "--js-runtimes", `deno:${path.join(process.resourcesPath, "deno.exe")}`
+    "--js-runtimes", `deno:${denoPath}`
   ];
 
   if (audioOnly) args.push("-f", "bestaudio", "--extract-audio", "--audio-format", "mp3");

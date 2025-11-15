@@ -8,7 +8,7 @@ const config = require("../config")
 // Dossier de logs Windows
 const logDir = path.join(os.homedir(), "AppData", "Local", "FreedomLoader", "logs");
 
-// Création du dossier si nécessaire
+// Création du dossier "logs" si nécessaire
 fs.mkdirSync(logDir, { recursive: true });
 
 const logFormat = format.combine(

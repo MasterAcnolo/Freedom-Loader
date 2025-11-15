@@ -1,12 +1,14 @@
 const path = require("path");
 
-function isValidUrl(url) {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
+function isValidUrl(url) { 
+  try { 
+      new URL(url); 
+      return true; 
+      
+    } catch { 
+      return false; 
+    } 
+
 }
 
 function isSafePath(folder) {

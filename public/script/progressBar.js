@@ -26,17 +26,23 @@ const evtSource = new EventSource("/download/progress");
 evtSource.onmessage = e => {
   if (e.data === "reset") {
     startProgress();
+    window.electronAPI.setProgress(0);
     return;
   }
 
   if (e.data === "done") {
     resetProgress();
+    window.electronAPI.setProgress(-1); 
     return;
   }
 
   const percent = parseFloat(e.data);
   if (!isNaN(percent)) {
     updateProgress(percent);
-    if (percent >= 100) setTimeout(resetProgress, 500);
+    window.electronAPI.setProgress(percent); // update barre des tâches
+    if (percent >= 100) setTimeout(() => {
+      resetProgress();
+      window.electronAPI.setProgress(-1); // retire la barre
+    }, 500);
   }
 };

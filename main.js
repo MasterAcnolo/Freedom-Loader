@@ -76,6 +76,11 @@ ipcMain.handle("select-download-folder", async () => {
 
 ipcMain.handle("get-default-download-path", () => defaultDownloadPath);
 
+ipcMain.on("set-progress", (event, percent) => {
+  mainWindow.setProgressBar(percent / 100); // Electron attend 0 → 1
+});
+
+
 function setupMenu() {
   const menuTemplate = [
     {

@@ -4,6 +4,7 @@ const { execFile } = require("child_process");
 const { logger } = require("../logger");
 const { userYtDlp } = require("../helpers/path");
 const getUserBrowser = require("../helpers/getBrowser");
+const path = require("path");
 
 function isValidUrl(url) {
   try {
@@ -21,17 +22,20 @@ router.post("/", (req, res) => {
   logger.info(`Requête /info reçue pour ${url}`);
 
   const args = [
+    "--no-js-runtimes",
+    "--js-runtimes",
+    `deno:${path.join(process.resourcesPath, "deno.exe")}`,
     "--dump-single-json",
     "--ignore-errors",
     "--yes-playlist",
-    url,
     "--cookies-from-browser",
     `${getUserBrowser()}`,
     "--extractor-args",
     "youtube:player_client=default",
-    "--ignore-no-formats-error"
-
+    "--ignore-no-formats-error",
+    url,
   ];
+  console.log("JS RUNTIME:", `deno:${path.join(process.resourcesPath, "deno.exe")}`);
 
   execFile(userYtDlp, args, { timeout: 30_000, maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
 

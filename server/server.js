@@ -6,18 +6,19 @@ const config = require("../config");
 const { execFile } = require("child_process");
 const { userYtDlp } = require("./helpers/path");
 
+
 const {ffmpegPath, denoPath} = require("./helpers/path")
 
 const app = express();
 
 console.log("ffmpegPath:", ffmpegPath);
 console.log("denoPath:", denoPath);
-console.log("Files in ffmpegPath:", fs.readdirSync(ffmpegPath));
-
 
 app.use(express.json());
+
 // Dossier de téléchargement
 const outputFolder = path.join(process.env.USERPROFILE, "Downloads", "Freedom Loader");
+
 // Création du dossier si nécessaire
 try {
   fs.mkdirSync(outputFolder, { recursive: true });
@@ -27,7 +28,7 @@ try {
   process.exit(1);
 }
 
-// Mise à jour yt-dlp au démarrage
+// Mise à jour yt-dlp au 
 execFile(userYtDlp, ["-U"], (err, stdout, stderr) => {
   if (err) logger.warn("Erreur update yt-dlp:", err);
   else logger.info(`Update yt-dlp : ${stdout}`);

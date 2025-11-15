@@ -15,7 +15,7 @@ if (config.localMode) {
   denoPath = path.join(__dirname, "../../ressources/deno.exe"); 
 } else {
   userYtDlp = path.join(app.getPath("userData"), "yt-dlp.exe");
-  ffmpegPath = path.join(process.resourcesPath, "ressources"); // <- ici aussi
+  ffmpegPath = path.join(process.resourcesPath, "ffmpeg.exe"); 
   denoPath = path.join(process.resourcesPath, "deno.exe");
 
   if (!fs.existsSync(userYtDlp)) {

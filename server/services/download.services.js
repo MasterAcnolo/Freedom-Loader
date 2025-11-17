@@ -5,7 +5,7 @@ const fs = require("fs");
 const { logger } = require("../logger");
 const { buildYtDlpArgs } = require("../helpers/buildArgs");
 
-function fetchDownload(options, listeners) {
+function fetchDownload(options, listeners, speedListeners) {
 
   return new Promise((resolve, reject) => {
     const outputFolder = options.outputFolder || path.join(process.env.USERPROFILE, "Downloads", "Freedom Loader");
@@ -34,12 +34,24 @@ function fetchDownload(options, listeners) {
         if (line.startsWith("[download] Destination:")) listeners.forEach(fn => fn("reset"));
         const match = line.match(/\[download\]\s+(\d+\.\d+)%/);
         if (match) listeners.forEach(fn => fn(parseFloat(match[1])));
+
+        if (line.includes("MiB/s") || line.includes("KiB/s")) {
+            const match = line.match(/\d+(\.\d+)?[KM]?iB\/s/);
+            if (match) {
+                const speed = match[0];
+                speedListeners.forEach(fn => fn(speed));
+            }
+        }
+
+
       });
     });
 
     child.stderr.on("data", data => {
       data.toString().split("\n").forEach(line => line.trim() && logger.error(`[yt-dlp stderr] ${line}`));
     });
+
+    
   });
 }
 

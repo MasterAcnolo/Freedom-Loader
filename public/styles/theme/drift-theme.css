@@ -32,14 +32,18 @@ body.drift {
     --download-status-color: #ff8e8e;
 
     /* Video Info Box */
-    --infos-box-color: #1e222a;
+    --infos-box-color: #1e222ad0;
     --video-info-text-color: #e8e8f0;
     --video-info-heading-color: #9ab6ff;
     --video-info-list-color: #c0d4ff;
     --video-info-list-strong-color: #ffffff;
     --video-info-link-color: #4c6cff;
     --video-info-link-hover-color: #6c8dff;
+
+    /* Playlist Color */
+    --playlist-background-color: #424b5cc2;
     }
+
 
 
 body.drift .download-path{

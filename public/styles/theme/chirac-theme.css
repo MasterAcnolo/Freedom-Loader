@@ -33,12 +33,15 @@ body.chirac {
   
   /* Video Info Box */
   --infos-box-color: rgba(255, 255, 255, 0.9);
-  --video-info-text-color: #002395;
+  --video-info-text-color: #000000;
   --video-info-heading-color: #EF4135;
   --video-info-list-color: #444444;
   --video-info-list-strong-color: #000000;
   --video-info-link-color: #002395;
   --video-info-link-hover-color: #EF4135;
+
+  /* Playlist Color */
+  --playlist-background-color: #d1d1d1ca;
 }
 
 

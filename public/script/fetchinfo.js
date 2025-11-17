@@ -51,13 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.error) {
       infoDiv.innerHTML = `
         <div style="
-          padding:12px;
-          background:#380a0a;
-          border:1px solid #a93333;
-          border-radius:6px;
-          margin-top:10px;
+          padding:7px;
+          background:var(----infos-box-color);
         ">
-          <strong>Erreur :</strong> ${data.error}
+          <strong>${data.error}</strong> 
         </div>
       `;
       infoDiv.classList.add("visible");

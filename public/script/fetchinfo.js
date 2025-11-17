@@ -29,6 +29,8 @@ async function fetchVideoInfo(url) {
 document.addEventListener("DOMContentLoaded", () => {
   const urlInput = document.getElementById("UrlInput");
   const infoDiv = document.getElementById("videoInfo");
+  const loaderBox = document.getElementById("loaderBox");
+
   let lastFetchedUrl = "";
 
   urlInput.addEventListener("input", async () => {
@@ -45,7 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (url === lastFetchedUrl) return;
     lastFetchedUrl = url;
 
+    loaderBox.style.display = "flex";
     const data = await fetchVideoInfo(url);
+    loaderBox.style.display = "none";
 
     // Gestion des erreurs
     if (data.error) {
@@ -59,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       infoDiv.classList.add("visible");
       infoDiv.classList.remove("playlist-mode");
+      loaderBox.style.display = "none";
       return;
     }
 

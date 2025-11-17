@@ -5,6 +5,7 @@ const { buildYtDlpArgs } = require("../helpers/buildArgs");
 const { notifyDownloadFinished } = require("../helpers/notify");
 
 const listeners = [];
+const speedListeners = [];
 
 async function downloadController(req, res) {
   try {
@@ -18,7 +19,7 @@ async function downloadController(req, res) {
     if (!options.url || !isValidUrl(options.url)) return res.status(400).send("❌ URL invalide !");
     if (options.outputFolder && !isSafePath(options.outputFolder)) return res.status(400).send("❌ Chemin de sauvegarde non autorisé.");
 
-    const filePath = await fetchDownload(options, listeners);
+    const filePath = await fetchDownload(options, listeners, speedListeners);
     notifyDownloadFinished(filePath);
     res.send("✅ Téléchargement terminé !");
     
@@ -44,4 +45,21 @@ function progressController(req, res) {
   });
 }
 
-module.exports = { downloadController, progressController };
+function speedController(req, res) {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+
+  const sendSpeed = speed => res.write(`data: ${speed}\n\n`);
+  speedListeners.push(sendSpeed);
+
+  req.on('close', () => {
+    speedListeners.splice(speedListeners.indexOf(sendSpeed), 1);
+    res.end();
+  });
+}
+
+
+module.exports = { downloadController, progressController, speedController};

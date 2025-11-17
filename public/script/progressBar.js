@@ -2,11 +2,17 @@ const progressWrapper = document.getElementById("downloadProgressWrapper");
 const progressBar = document.getElementById("downloadProgress");
 const progressBarText = document.getElementById("downloadProgressText")
 
+const speedElement = document.getElementById("downloadSpeedText");
+const speedEvt = new EventSource("/download/speed");
+
 function startProgress() {
   progressWrapper.style.display = "block";
   progressBar.style.width = "0%";
   progressBarText.style.display = "block";
   progressBarText.innerHTML = "0%";
+
+  speedElement.style.display = "block";
+  speedElement.innerHTML = "0 Mib/s";
 }
 
 function updateProgress(percent) {
@@ -16,9 +22,12 @@ function updateProgress(percent) {
 
 function resetProgress() {
   progressBar.style.width = "0%";
-  progressBarText.innerHTML = "";
+  progressBarText.textContent = "";
   progressBarText.style.display = "none";
   progressWrapper.style.display = "none";
+
+  speedElement.textContent = "0 Mib/s";
+  speedElement.style.display = "none";
 }
 
 // Connexion SSE
@@ -37,6 +46,7 @@ evtSource.onmessage = e => {
   }
 
   const percent = parseFloat(e.data);
+  
   if (!isNaN(percent)) {
     updateProgress(percent);
     window.electronAPI.setProgress(percent); // update barre des tâches
@@ -45,4 +55,9 @@ evtSource.onmessage = e => {
       window.electronAPI.setProgress(-1); // retire la barre
     }, 500);
   }
+};
+
+speedEvt.onmessage = e => {
+  speedElement.style.display = "block";
+  speedElement.textContent = e.data; // ex: "5.2MiB/s"
 };

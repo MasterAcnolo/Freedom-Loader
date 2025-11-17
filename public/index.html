@@ -16,49 +16,46 @@
 </head>
 <body>
 
-        <div class="container">
+    <div class="theme-switcher">
+        <label for="themeSelect">Thème :</label>
+        <select id="themeSelect" aria-label="Choisir le thème"></select>
+        </div>
 
-        <header>
-            <h1 id="title"> Freedom Loader </h1>
-            <p id="subtitle"> Because why not? </p>
-        </header>
-        
-        <form action="/download" method="POST" id="downloadForm">
-            <input name="url" placeholder="URL" id="UrlInput">
+    <div class="container">
 
-            <label class="checkbox-inline">
+    <header>
+        <h1 id="title"> Freedom Loader </h1>
+        <p id="subtitle"> Because why not? </p>
+    </header>
+    
+    <form action="/download" method="POST" id="downloadForm">
+        <input name="url" placeholder="URL" id="UrlInput">
 
-                <label class="checkbox-mp3">
-                    <input type="checkbox" name="audioOnly" value="1">
-                    <div class="checkmark"></div>
-                </label>
-                Audio seulement (MP3)
+        <label class="checkbox-inline">
+
+            <label class="checkbox-mp3">
+                <input type="checkbox" name="audioOnly" value="1">
+                <div class="checkmark"></div>
             </label>
-            <select name="quality">
-                <option value="best">Meilleure qualité</option>
-                <option value="medium">Qualité moyenne</option>
-                <option value="worst">Qualité minimale</option>
-                <option value="1080">1080p</option>
-                <option value="720">720p</option>
-                <option value="480">480p</option>
-            </select>
+            Audio seulement (MP3)
+        </label>
+        <select name="quality">
+            <option value="best">Meilleure qualité</option>
+            <option value="medium">Qualité moyenne</option>
+            <option value="worst">Qualité minimale</option>
+            <option value="1080">1080p</option>
+            <option value="720">720p</option>
+            <option value="480">480p</option>
+        </select>
 
-            <button type="submit" onclick="startProgress()">Télécharger</button>
-        </form>
-
-        <!--Il faut utiliser un formulaire, parce que on doit envoyer a un serveur 
-        les données à traiter. Pour cela on définit une route vers /download, ca va
-        être l'espèce de "canal" attribué a ça. Ca va faire que si jamais on veut ensuite recup
-        les infos du form, il faut aller sur ce canal précis (/download). La méthode POST dit
-        que l'on envoie des données.-->
-        
+        <button type="submit" onclick="startProgress()">Télécharger</button>
+    </form>
     </div>
 
     <div class="download-path">
             Sera enregistré dans <span id="savePath"></span> 
             <button id="changePath">Modifier</button>
     </div>
-
 
     <div id="downloadProgressWrapper">
         <div id="downloadProgress"></div>   
@@ -69,18 +66,13 @@
         <div id="downloadSpeedText"></div>
     </div>
 
-
     <div id="downloadStatus"></div>
 
     <div class="infos-container">
-         <div id="videoInfo" style="margin-top: 20px;"></div>
+        <div id="videoInfo" style="margin-top: 20px;    "></div>
     </div>
-    
-    <footer class="theme-switcher">
-            <label for="themeSelect">Thème :</label>
-            <select id="themeSelect" aria-label="Choisir le thème"></select>
-    </footer>
 
+    <!-- Scripts -->
     <script src="script/custompath.js"></script>
     <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>

@@ -40,6 +40,9 @@ body.neon {
     --video-info-list-strong-color: #ffffff;
     --video-info-link-color: #5858f0;
     --video-info-link-hover-color: #7a7aff;
+
+    /* Playlist Color */
+    --playlist-background-color: #3e3e64;
 }
 
 body.neon .download-path {

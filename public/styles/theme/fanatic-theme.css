@@ -33,4 +33,7 @@ body.fanatic{
   --video-info-list-strong-color: #fff;
   --video-info-link-color: #FF5900;
   --video-info-link-hover-color: #e65500;
+
+  /* Playlist Color */
+  --playlist-background-color: #2b2b2b;
 }

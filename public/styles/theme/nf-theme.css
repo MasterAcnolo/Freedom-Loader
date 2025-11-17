@@ -39,6 +39,9 @@ body.nf {
   --video-info-list-strong-color: #ffffff;
   --video-info-link-color: #cbb89d;
   --video-info-link-hover-color: #b7a588;
+
+  /* Playlist Color */
+  --playlist-background-color: #4f4f4f;
 }
 
 body.nf .download-path {

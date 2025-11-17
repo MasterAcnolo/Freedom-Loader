@@ -20,7 +20,7 @@
   transition: width 0.2s ease;
 }
 
-#downloadProgressText {
+#downloadProgressText, #downloadSpeedText {
   text-align: center;
   font-size: 0.8rem;
   color: #fff;
@@ -35,7 +35,7 @@
     height: 10px;
   }
 
-  #downloadProgressText {
+  #downloadProgressText, #downloadSpeedText {
     font-size: 0.7rem;
   }
 }

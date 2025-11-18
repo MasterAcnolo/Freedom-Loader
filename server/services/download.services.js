@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const { logger } = require("../logger");
 const { buildYtDlpArgs } = require("../helpers/buildArgs");
+const notify = require("../helpers/notify")
 
 function fetchDownload(options, listeners, speedListeners) {
 
@@ -43,6 +44,9 @@ function fetchDownload(options, listeners, speedListeners) {
             }
         }
 
+        if (line.match(/ERROR: Could not copy .* cookie database/i)) {
+          notify.notifyCookiesBrowserError();
+        }
 
       });
     });

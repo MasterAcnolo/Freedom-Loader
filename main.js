@@ -1,33 +1,36 @@
-const config = require("./config.js")
+const config = require("./config.js");
 const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
 const path = require("path");
 const os = require("os");
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
-const {AutoUpdater} = require("./server/update.js");
-const gotLock = app.requestSingleInstanceLock();
+const { AutoUpdater } = require("./server/update.js");
 
 let mainWindow;
-
-if (!gotLock) {
-  app.quit(); // Une autre instance tourne déjà
-} else {
-  app.on("second-instance", () => {
-    // Si une autre instance essaie de démarrer, focus la fenêtre existante
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
-    }
-  });
-}
-
-app.disableHardwareAcceleration();
-
 const logsFolderPath = logDir;
 const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
 
 app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
+app.disableHardwareAcceleration();
 
-async function createWindow() {
+// Gestion single instance
+const gotLock = app.requestSingleInstanceLock();
+
+if (!gotLock) {
+  // Une instance existe déjà → fermer l'ancienne et continuer la nouvelle
+  // Ici la nouvelle instance continue normalement
+} else {
+  app.on("second-instance", () => {
+    // La vieille instance se ferme
+    if (mainWindow) {
+      logger.info("Nouvelle instance détectée, fermeture de l'ancienne...");
+      mainWindow.destroy();
+      mainWindow = null;
+    }
+  });
+}
+
+// Création fenêtre principale
+async function createMainWindow() {
   if (mainWindow) {
     logger.warn("La fenêtre existe déjà, pas de nouvelle création");
     return;
@@ -77,10 +80,10 @@ ipcMain.handle("select-download-folder", async () => {
 ipcMain.handle("get-default-download-path", () => defaultDownloadPath);
 
 ipcMain.on("set-progress", (event, percent) => {
-  mainWindow.setProgressBar(percent / 100); // Electron attend 0 → 1
+  if (mainWindow) mainWindow.setProgressBar(percent / 100); // Electron attend 0 → 1
 });
 
-
+// Menu
 function setupMenu() {
   const menuTemplate = [
     {
@@ -111,6 +114,7 @@ function setupMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(mergedTemplate));
 }
 
+// App ready
 app.whenReady().then(async () => {
   logSessionStart();
   logger.info("App prête, démarrage du serveur Express...");
@@ -125,7 +129,7 @@ app.whenReady().then(async () => {
     const { startRPC } = require("./server/discordRPC");
     startRPC();
 
-    await createWindow();
+    await createMainWindow();
     AutoUpdater(mainWindow);
     setupMenu();
   } catch (err) {
@@ -133,7 +137,6 @@ app.whenReady().then(async () => {
     app.quit();
   }
 });
-
 
 app.on("window-all-closed", () => {
   logger.info("Toutes fenêtres fermées, quitte l'app");

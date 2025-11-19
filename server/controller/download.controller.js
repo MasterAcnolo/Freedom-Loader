@@ -16,15 +16,15 @@ async function downloadController(req, res) {
       outputFolder: req.body.savePath || undefined,
     };
 
-    if (!options.url || !isValidUrl(options.url)) return res.status(400).send("❌ URL invalide !");
-    if (options.outputFolder && !isSafePath(options.outputFolder)) return res.status(400).send("❌ Chemin de sauvegarde non autorisé.");
+    if (!options.url || !isValidUrl(options.url)) return res.status(400).send("❌ Invalid URL !");
+    if (options.outputFolder && !isSafePath(options.outputFolder)) return res.status(400).send("❌ Save Path Not Allowed.");
 
     const filePath = await fetchDownload(options, listeners, speedListeners);
     notifyDownloadFinished(filePath);
-    res.send("✅ Téléchargement terminé !");
+    res.send("✅ Download Done !");
     
   } catch (err) {
-    logger.error(`Erreur serveur dans /download : ${err.message}`);
+    logger.error(`Server Error in /download : ${err.message}`);
     res.status(500).send(`❌ ${err.message}`);
   }
 }

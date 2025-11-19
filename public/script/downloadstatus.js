@@ -5,7 +5,7 @@ const button = form.querySelector("button");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   button.disabled = true; // Empêche les clics multiples
-  statusDiv.textContent = "Téléchargement en cours...";
+  statusDiv.textContent = "Download in progress...";
 
   const formData = new FormData(form);
   const params = new URLSearchParams(formData);
@@ -26,7 +26,7 @@ form.addEventListener("submit", async (e) => {
     statusDiv.textContent = text;
 
   } catch {
-    statusDiv.textContent = "❌ Une erreur s’est produite.";
+    statusDiv.textContent = "❌ An Error has Occured.";
   } finally {
     button.disabled = false;
 

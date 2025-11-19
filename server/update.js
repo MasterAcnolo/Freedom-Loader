@@ -5,18 +5,18 @@ const { logger } = require("./logger");
 function AutoUpdater() {
 
   autoUpdater.on("update-available", (info) => {
-    logger.info(`Nouvelle version disponible : ${info.version}`);
+    logger.info(`New Version Available : ${info.version}`);
     new Notification({
       title: "Freedom Loader",
-      body: `Nouvelle version disponible : ${info.version}. L'application va redémarrer`
+      body: `New Version Available : ${info.version}. Application will restart`
     }).show();
   });
 
   autoUpdater.on("update-downloaded", (info) => {
-    logger.info(`Mise à jour téléchargée : ${info.version}`);
+    logger.info(`Update Downloaded : ${info.version}`);
     new Notification({
       title: "Freedom Loader",
-      body: `Mise à jour ${info.version} téléchargée.`
+      body: `Update ${info.version} downloaded.`
     }).show();
 
     setTimeout(() => {
@@ -25,9 +25,9 @@ function AutoUpdater() {
   });
 
   autoUpdater.on("error", (err) => {
-    logger.error("Erreur auto-update :", err.message);
+    logger.error("Auto Update Error :", err.message);
     new Notification({
-      title: "Freedom Loader - Erreur de mise à jour",
+      title: "Freedom Loader - Update Error",
       body: err.message
     }).show();
   });
@@ -35,9 +35,9 @@ function AutoUpdater() {
   app.whenReady().then(async () => {
     try {
       await autoUpdater.checkForUpdates();
-      logger.info("Vérification des mises à jour effectuée");
+      logger.info("Update check completed");
     } catch (err) {
-      logger.error("Erreur lors du check update :", err.message);
+      logger.error("Error during update check :", err.message);
     }
   });
 }

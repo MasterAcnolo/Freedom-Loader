@@ -22,15 +22,15 @@ const outputFolder = path.join(process.env.USERPROFILE, "Downloads", "Freedom Lo
 // Création du dossier si nécessaire
 try {
   fs.mkdirSync(outputFolder, { recursive: true });
-  logger.info(`Dossier Freedom Loader prêt dans ${outputFolder}`);
+  logger.info(`Freedom Loader folder ready in ${outputFolder}`);
 } catch (err) {
-  logger.error("Impossible de créer le dossier :", err);
+  logger.error("Unable to create folder:", err);
   process.exit(1);
 }
 
 // Mise à jour yt-dlp au 
 execFile(userYtDlp, ["-U"], (err, stdout, stderr) => {
-  if (err) logger.warn("Erreur update yt-dlp:", err);
+  if (err) logger.warn("yt-dlp update error:", err);
   else logger.info(`Update yt-dlp : ${stdout}`);
 });
 
@@ -50,19 +50,19 @@ app.get("/", (req, res) => {
 async function startServer() {
   return new Promise((resolve, reject) => {
     const server = app.listen(config.applicationPort, () => {
-      logger.info(`Serveur Express prêt sur http://localhost:${config.applicationPort}`);
+      logger.info(`Express server ready at http://localhost:${config.applicationPort}`);
       resolve(server);
     });
 
     server.on("error", (err) => {
-      logger.error("Erreur serveur Express :", err);
+      logger.error("Express Server Error :", err);
       reject(err);
     });
 
     const gracefulExit = () => {
       logSessionEnd();
       server.close(() => {
-        logger.info("Serveur Express fermé proprement.");
+        logger.info("Express Server close cleanly.");
         process.exit();
       });
     };

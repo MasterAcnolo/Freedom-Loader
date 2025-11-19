@@ -17,19 +17,19 @@ function fetchDownload(options, listeners, speedListeners) {
 
     const child = execFile(userYtDlp, args);
 
-    child.on("error", err => reject(new Error(`Erreur yt-dlp : ${err.message}`)));
+    child.on("error", err => reject(new Error(`YT-DLP Error : ${err.message}`)));
 
     child.on("close", code => {
       listeners.forEach(fn => fn("done"));
       if (code === 0) resolve(outputFolder);
-      else reject(new Error(`yt-dlp a échoué avec le code : ${code}`));
+      else reject(new Error(`YT-DLP failed with code : ${code}`));
     });
 
     
     child.stdout.on("data", data => {
       data.toString().split("\n").forEach(line => {
         if (!line.trim()) return;
-        logger.info(`[yt-dlp stdout] ${line}`);
+        logger.info(`[yt-dlp] ${line}`);
 
         /* Barre de Chargement*/
         if (line.startsWith("[download] Destination:")) listeners.forEach(fn => fn("reset"));

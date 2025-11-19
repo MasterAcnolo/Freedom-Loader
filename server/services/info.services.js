@@ -25,24 +25,24 @@ function fetchInfo(url) {
             if (stderr) {
                 const lower = stderr.toLowerCase();
                 if (lower.includes("sign in to confirm") || lower.includes("failed to decrypt") || lower.includes("could not copy")) {
-                    return reject(new Error(`Impossible d'extraire les cookies depuis ${getUserBrowser()}. Connectez-vous dans ce navigateur et réessayez.`));
+                    return reject(new Error(`Unable to extract cookies from ${getUserBrowser()}. Please log in to this browser and try again.`));
                 }
             }
 
             if (error) {
-                logger.error(`Erreur yt-dlp: ${error.message}`);
+                logger.error(`YT-DLP Error: ${error.message}`);
                 if (stderr) logger.debug(`stderr: ${stderr}`);
-                return reject(new Error("Impossible de récupérer les infos."));
+                return reject(new Error("Unable to fetch Info."));
             }
 
-            if (!stdout) return reject(new Error("Aucune donnée reçue."));
+            if (!stdout) return reject(new Error("No Data Received."));
 
             try {
                 const data = JSON.parse(stdout);
                 resolve(data);
             } catch (e) {
-                logger.error(`Erreur parsing JSON: ${e.message}`);
-                reject(new Error("JSON illisible."));
+                logger.error(`JSON Parsing Error: ${e.message}`);
+                reject(new Error("JSON unreadable."));
             }
         });
     });

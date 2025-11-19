@@ -37,16 +37,16 @@ const logger = createLogger({
 });
 
 function getSessionStartLine() {
-  return `--- Démarrage de la session : ${new Date().toISOString()} ---`;
+  return `--- Starting session: ${new Date().toISOString()} ---`;
 }
 
 function getSessionEndLine() {
-  return `--- Fin de la session : ${new Date().toISOString()} ---`;
+  return `--- Ending session: ${new Date().toISOString()} ---`;
 }
 
 function logSessionStart() {
   logger.info(getSessionStartLine());
-  logger.info(`Version de l'Application: ${config.version}`)
+  logger.info(`Application Version: ${config.version}`)
 }
 
 function logSessionEnd() {

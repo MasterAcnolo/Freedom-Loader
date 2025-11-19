@@ -33,7 +33,7 @@ function startRPC() {
         await rpc.destroy();
       }
     } catch (err) {
-      logger.error("Erreur lors de la fermeture du RPC :", err);
+      logger.error("Error while closing the RPC:", err);
     } finally {
       process.exit();
     }
@@ -44,7 +44,7 @@ function startRPC() {
   process.on("SIGTERM", cleanExit);
 
   rpc.login({ clientId }).catch(err => {
-    logger.error("Impossible de connecter le RPC :", err);
+    logger.error("Unable to connect to the RPC:", err);
   });
 }
 

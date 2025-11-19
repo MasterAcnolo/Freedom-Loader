@@ -22,7 +22,7 @@ if (!gotLock) {
   app.on("second-instance", () => {
     // La vieille instance se ferme
     if (mainWindow) {
-      logger.info("Nouvelle instance détectée, fermeture de l'ancienne...");
+      logger.info("New Instance Detected, closing the older...");
       mainWindow.destroy();
       mainWindow = null;
     }
@@ -32,7 +32,7 @@ if (!gotLock) {
 // Création fenêtre principale
 async function createMainWindow() {
   if (mainWindow) {
-    logger.warn("La fenêtre existe déjà, pas de nouvelle création");
+    logger.warn("Window already exists, no new creation!");
     return;
   }
 
@@ -51,13 +51,13 @@ async function createMainWindow() {
 
   try {
     await mainWindow.loadURL(`http://localhost:${config.applicationPort}`);
-    logger.info("Fenêtre chargée");
+    logger.info("Window Loaded");
   } catch (err) {
-    logger.error("Erreur chargement fenêtre:", err);
+    logger.error("Window Loading Error:", err);
   }
 
   mainWindow.on("closed", () => {
-    logger.info("Fenêtre principale fermée");
+    logger.info("Main Window Closed");
     mainWindow = null;
   });
 }
@@ -72,7 +72,7 @@ ipcMain.handle("select-download-folder", async () => {
     }
     return null;
   } catch (err) {
-    logger.error(`Erreur lors de la sélection de dossier : ${err.message}`);
+    logger.error(`Error when creating Output Folder : ${err.message}`);
     return null;
   }
 });
@@ -90,7 +90,7 @@ function setupMenu() {
       label: "Logs",
       submenu: [
         {
-          label: "Ouvrir les logs",
+          label: "Open Logs",
           click: () => shell.openPath(logsFolderPath),
         },
       ],
@@ -99,7 +99,7 @@ function setupMenu() {
       label: "Documentation",
       submenu: [
         {
-          label: "Accéder au Wiki",
+          label: "Go to Wiki",
           click: () => shell.openExternal("https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html"),
         },
       ],
@@ -117,14 +117,14 @@ function setupMenu() {
 // App ready
 app.whenReady().then(async () => {
   logSessionStart();
-  logger.info("App prête, démarrage du serveur Express...");
+  logger.info("App Ready, Server Express starting...");
 
   const serverPath = path.join(__dirname, "server", "server.js");
   const expressServer = require(serverPath);
 
   try {
     await expressServer.startServer();
-    logger.info("Serveur Express démarré");
+    logger.info("Express Server Started");
 
     const { startRPC } = require("./server/discordRPC");
     startRPC();
@@ -133,13 +133,13 @@ app.whenReady().then(async () => {
     AutoUpdater(mainWindow);
     setupMenu();
   } catch (err) {
-    logger.error("Erreur serveur ou fenêtre :", err);
+    logger.error("Window or Server error :", err);
     app.quit();
   }
 });
 
 app.on("window-all-closed", () => {
-  logger.info("Toutes fenêtres fermées, quitte l'app");
+  logger.info("All Window Closed, shuting down app");
   if (process.platform !== "darwin") app.quit();
 });
 

@@ -15,7 +15,7 @@ async function fetchVideoInfo(url) {
       body: new URLSearchParams({ url }),
     });
 
-    if (!res.ok) return { error: `Erreur Lors de la récupération des informations` };
+    if (!res.ok) return { error: `An Error occured when fetching info` };
 
     const data = await res.json();
     if (!data) return { error: "Données manquantes" };

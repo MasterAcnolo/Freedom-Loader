@@ -12,9 +12,9 @@ async function infoController(req, res){
 
 
     /* Si pas d'url ou url invalide*/
-    if (!url || !isValidUrl(url)) return res.status(400).send("❌ URL invalide ou manquante");
+    if (!url || !isValidUrl(url)) return res.status(400).send("❌ Invalid URL Or Missing");
 
-    logger.info(`Requête /info reçue par le controller. URL: ${url}`);
+    logger.info(`/Info Request receive by the Info Controller. URL: ${url}`);
 
     if (url.includes("?list")) {
         logger.info("Type de contenu: Playlist")
@@ -29,12 +29,12 @@ async function infoController(req, res){
     if (data._type === "playlist") {
 
         const playlist = parsePlaylist(data);
-        logger.info(`Playlist détectée : ${playlist.title} (${playlist.count} vidéos)`);
+        logger.info(`Playlist : ${playlist.title} (${playlist.count} vidéos)`);
         return res.json(playlist);
 
     } else{
         const video = parseVideo(data);
-        logger.info(`Vidéo unique récupérée : ${video.title}`);
+        logger.info(`Unique Video: ${video.title}`);
         return res.json(video);
     }
 

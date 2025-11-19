@@ -4,15 +4,15 @@ const path = require("path");
 const { logger, logSessionStart, logSessionEnd } = require("./logger");
 const config = require("../config");
 const { execFile } = require("child_process");
-const { userYtDlp } = require("./helpers/path");
+const { userYtDlp, ffmpegPath, denoPath} = require("./helpers/path");
 
-
-const {ffmpegPath, denoPath} = require("./helpers/path")
 
 const app = express();
 
-console.log("ffmpegPath:", ffmpegPath);
-console.log("denoPath:", denoPath);
+logger.info("FFMPEG Path:", ffmpegPath);
+logger.info("Deno Path:", denoPath);
+logger.info("YT-DLP Path:", userYtDlp);
+
 
 app.use(express.json());
 

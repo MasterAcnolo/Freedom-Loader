@@ -2,7 +2,7 @@
   <img
     src="./public/assets/logo/Freedom Loader White.png"
     alt="Banner"
-    style="width: 100%; max-width: 1000px;"
+    style="width: 50%;;"
   />
 </div>
 <br>

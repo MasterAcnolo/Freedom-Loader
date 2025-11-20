@@ -2,9 +2,10 @@
   <img
     src="./public/assets/logo/Freedom Loader.png"
     alt="Banner"
-    style="width: 100%; max-width: 1000px; filter: invert(1);"
+    style="width: 100%; max-width: 1000px; filter: invert();"
   />
 </div>
+<br>
 
 ![Static Badge](https://img.shields.io/badge/Release-1.3.0-blue?style=flat)
 [![Freedom Loader](https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white)](https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html)

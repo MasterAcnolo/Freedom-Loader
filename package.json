@@ -51,6 +51,10 @@
         "to": "confirm-icon.png"
       },
       {
+        "from": "build/app-icon.ico",
+        "to": "app-icon.ico"
+      },
+      {
         "from": "build/error.png",
         "to": "error.png"
       },
@@ -77,13 +81,13 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "build/installer-icon.ico"
+      "icon": "build/app-icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "perMachine": true,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "build/installer-icon.ico",
+      "installerIcon": "build/app-icon.ico",
       "uninstallerIcon": "build/uninstaller-icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,

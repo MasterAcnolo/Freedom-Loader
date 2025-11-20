@@ -1,6 +1,6 @@
 <div align="center">
   <img
-    src="./public/assets/logo/FreedomLoader2.png"
+    src="./build/banner.png"
     alt="Banner"
     style="width: 50%;;"/>
 

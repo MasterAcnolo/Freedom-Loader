@@ -4,11 +4,11 @@
     alt="Banner"
     style="width: 50%;;"
   />
+
+  <img src="https://img.shields.io/badge/Release-1.3.0-blue?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white)](https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html">
 </div>
 <br>
-
-![Static Badge](https://img.shields.io/badge/Release-1.3.0-blue?style=flat)
-[![Freedom Loader](https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white)](https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html)
 
 Freedom Loader is a **Windows desktop** application built with **Electron**.  
 It provides a simple and reliable way to download video or audio content with metadata and advanced options, without ads or questionable third-party services.  

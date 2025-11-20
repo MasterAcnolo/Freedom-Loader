@@ -1,4 +1,4 @@
-<div style="width: 100%; text-align: center;">
+<div align="center">
   <img
     src="./public/assets/logo/Freedom Loader White.png"
     alt="Banner"

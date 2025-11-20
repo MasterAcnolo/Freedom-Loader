@@ -100,7 +100,7 @@ function setupMenu() {
       submenu: [
         {
           label: "Go to Wiki",
-          click: () => shell.openExternal("https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html"),
+          click: () => shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html"),
         },
       ],
     },

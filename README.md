@@ -44,7 +44,7 @@ The goal is to offer a clean, user-friendly, and transparent download experience
 ## Installation
 
 Download the latest installer from the **Releases** page and run it (Defender could stop you but click on "Run Anyway" and it's good).  
-Actually, **Firefox Browser** is the only browser supported for cookies. Follow the tutorial in the wiki page. Firefox Section. [Link](https://)
+Actually, **Firefox Browser** is the only browser supported for get cookies. You should install it. Follow the tutorial in the wiki page if you need some help, Firefox Section. [Link](https://)
 
 ---
 

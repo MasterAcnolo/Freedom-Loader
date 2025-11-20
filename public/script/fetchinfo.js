@@ -18,11 +18,11 @@ async function fetchVideoInfo(url) {
     if (!res.ok) return { error: `An Error occured when fetching info` };
 
     const data = await res.json();
-    if (!data) return { error: "Données manquantes" };
+    if (!data) return { error: "Data is Missing" };
 
     return data;
   } catch (e) {
-    return { error: "Erreur réseau ou JSON" };
+    return { error: "Network or JSON Issue" };
   }
 }
 
@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.type === "playlist") {
       infoDiv.classList.add("playlist-mode");
       infoDiv.innerHTML = `
-        <h3 style="color:var(--video-info-heading-color);"><strong>Playlist détectée: ${data.title}</strong></h3>
-        <h3 style="color:var(--video-info-heading-color);"><strong>Nombre de vidéos: ${data.count}</strong></h3>
+        <h3 style="color:var(--video-info-heading-color);"><strong>Playlist Detected: ${data.title}</strong></h3>
+        <h3 style="color:var(--video-info-heading-color);"><strong>Video Count: ${data.count}</strong></h3>
         <p><strong>Channel :</strong> ${data.channel || "Unknown"}</p>
         <div id="playlistVideos"></div>
       `;
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div style="margin-bottom:12px;">
             <img src="${v.thumbnail}" width="160" alt="Thumbnail">
             <p><strong>${v.title}</strong></p>
-            <p>Durée : ${durationStr}</p>
+            <p>Duration : ${durationStr}</p>
             <p><a href="${videoUrl}" target="_blank">URL</a>
               <button class="copy-btn" data-url="${videoUrl}">📋</button>
             </p>
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ---------- VIDEO NORMALE ----------
     const durationStr = data.duration
       ? `${Math.floor(data.duration/60)}m ${(data.duration%60).toString().padStart(2,"0")}s`
-      : "Inconnue";
+      : "Unknown";
 
     const sizeStr = formatSize(data.filesize_approx);
     const readableDate = formatDate(data.upload_date);
@@ -162,15 +162,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <h3>${data.title}</h3>
       <img src="${data.thumbnail}" width="320" alt="Thumbnail">
       <ul>
-        <li><strong>Durée :</strong> ${durationStr}</li>
+        <li><strong>Duration :</strong> ${durationStr}</li>
         <li><strong>Uploader :</strong> ${data.uploader || "Inconnu"}</li>
-        <li><strong>Date d’upload :</strong> ${readableDate}</li>
-        <li><strong>Vues :</strong> ${data.view_count?.toLocaleString() || "?"}</li>
+        <li><strong>Upload Date :</strong> ${readableDate}</li>
+        <li><strong>Views :</strong> ${data.view_count?.toLocaleString() || "?"}</li>
         <li><strong>Likes :</strong> ${data.like_count?.toLocaleString() || "?"}</li>
         <li><strong>URL :</strong> <a href="${data.webpage_url}" target="_blank">${data.webpage_url}</a></li>
         <li><strong>Channel :</strong> <a href="${data.channel_url}" target="_blank">${data.channel_url}</a></li>
-        <li><strong>Taille estimée :</strong> ${sizeStr}</li>
-        <li><strong>Catégories :</strong> ${categories}</li>
+        <li><strong>Estimed Size :</strong> ${sizeStr}</li>
+        <li><strong>Category :</strong> ${categories}</li>
       </ul>
     `;
 

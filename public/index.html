@@ -40,21 +40,21 @@
             Audio seulement (MP3)
         </label>
         <select name="quality">
-            <option value="best">Meilleure qualité</option>
-            <option value="medium">Qualité moyenne</option>
-            <option value="worst">Qualité minimale</option>
+            <option value="best">Best Quality</option>
+            <option value="medium">Medium Quality</option>
+            <option value="worst">Lowest Quality</option>
             <option value="1080">1080p</option>
             <option value="720">720p</option>
             <option value="480">480p</option>
         </select>
 
-        <button type="submit" onclick="startProgress()">Télécharger</button>
+        <button type="submit" onclick="startProgress()">Download</button>
     </form>
     </div>
 
     <div class="download-path">
-            Sera enregistré dans <span id="savePath"></span> 
-            <button id="changePath">Modifier</button>
+            Will be save on <span id="savePath"></span> 
+            <button id="changePath">Edit</button>
     </div>
 
     <div id="downloadProgressWrapper">

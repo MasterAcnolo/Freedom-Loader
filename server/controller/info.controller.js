@@ -17,10 +17,10 @@ async function infoController(req, res){
     logger.info(`/Info Request receive by the Info Controller. URL: ${url}`);
 
     if (url.includes("?list")) {
-        logger.info("Type de contenu: Playlist")
+        logger.info("Estimated Data Type: Playlist")
 
     } else{
-        logger.info("Type de contenu: Vidéo")
+        logger.info("Estimated Data Type: Video")
     }
 
     try {

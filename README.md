@@ -2,9 +2,11 @@
   <img
     src="./public/assets/logo/Freedom Loader White.png"
     alt="Banner"
-    style="width: 50%;;"
-  />
+    style="width: 50%;;"/>
 
+</div>
+
+<div align="center">
   <img src="https://img.shields.io/badge/Release-1.3.0-blue?style=for-the-badge">
   <img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white)](https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html">
 </div>

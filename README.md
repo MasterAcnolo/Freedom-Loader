@@ -1,8 +1,8 @@
 <div style="width: 100%; text-align: center;">
   <img
-    src="./public/assets/logo/Freedom Loader.png"
+    src="./public/assets/logo/Freedom Loader White.png"
     alt="Banner"
-    style="width: 100%; max-width: 1000px; filter: invert();"
+    style="width: 100%; max-width: 1000px;"
   />
 </div>
 <br>

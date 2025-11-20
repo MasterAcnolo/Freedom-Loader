@@ -16,7 +16,7 @@ app.disableHardwareAcceleration();
 const gotLock = app.requestSingleInstanceLock();
 
 if (!gotLock) {
-  // Une instance existe déjà → fermer l'ancienne et continuer la nouvelle
+  // Une instance existe déjà -> fermer l'ancienne et continuer la nouvelle
   // Ici la nouvelle instance continue normalement
 } else {
   app.on("second-instance", () => {

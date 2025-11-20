@@ -14,7 +14,8 @@ function startRPC() {
       smallImageKey: "acnolo_pfp",
       smallImageText: "By MasterAcnolo",
       startTimestamp: new Date(),
-      details: "github.com/MasterAcnolo/Freedom-Loader",
+      details: `Open Source Download Tools - ${config.version}`,
+      state: "masteracnolo.github.io/No-Sense/FreedomLoader",
     };
 
     rpc.setActivity(presence);

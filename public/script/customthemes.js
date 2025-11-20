@@ -8,6 +8,7 @@ const themes = {
   drift:      { label: "Drift", subtitle: "Si la route t'appelle, contre appel" },
   fanatic:    { label: "Fanatic", subtitle: "Always Fnatic !" },
   chirac:     { label: "Chirac", subtitle: "J'aime les pommes" },
+  spicy:      { label: "Spicy", subtitle: "The Spiciest One" },
 };
 
 const themeSelect = document.getElementById("themeSelect");

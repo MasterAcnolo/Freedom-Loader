@@ -6,7 +6,7 @@ const notify = require("./notify")
 function getUserBrowser() {
   const userProfile = os.homedir();
 
-  // Liste des navigateurs supportés par yt-dlp
+  // Liste des navigateurs supportés par yt-dlp (Actuellement je peux que garantir Firefox, Désolé)
   const browsers = [
     { name: "firefox", path: path.join(userProfile, "AppData", "Roaming", "Mozilla", "Firefox", "Profiles") },
     // { name: "chrome", path: path.join(userProfile, "AppData", "Local", "Google", "Chrome", "User Data", "Default") },

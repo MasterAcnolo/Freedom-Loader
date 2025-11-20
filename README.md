@@ -44,7 +44,7 @@ The goal is to offer a clean, user-friendly, and transparent download experience
 ## Installation
 
 Download the latest installer from the **Releases** page and run it (Defender could stop you but click on "Run Anyway" and it's good).  
-Actually, **Firefox Browser** isr r
+Actually, **Firefox Browser** is the only browser supported for cookies. Follow the tutorial in the wiki page. Firefox Section. [Link](https://)
 
 ---
 

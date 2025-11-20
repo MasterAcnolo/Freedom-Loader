@@ -8,9 +8,9 @@
 
 <div align="center">
   <img src="https://img.shields.io/badge/Release-1.3.0-blue?style=for-the-badge">
-  
+
   <a href="https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html">
-    <img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white)">
+    <img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white">
   </a>
 </div>
 <br>

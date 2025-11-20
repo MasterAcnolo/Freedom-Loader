@@ -1,10 +1,15 @@
-# Freedom Loader
+<div style="width: 100%; text-align: center;">
+  <img
+    src="./public/assets/logo/Freedom Loader.png"
+    alt="Banner"
+    style="width: 100%; max-width: 1000px; filter: invert(1);"
+  />
+</div>
 
 ![Static Badge](https://img.shields.io/badge/Release-1.3.0-blue?style=flat)
+[![Freedom Loader](https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white)](https://masteracnolo.github.io/No-Sense/pages/FreedomLoader/index.html)
 
-<!-- ![Static Badge](https://img.shields.io/badge/Next-Build-1.2.5--beta-yellow?style=flat) -->
-
-Freedom Loader is a Windows desktop application built with Electron.  
+Freedom Loader is a **Windows desktop** application built with **Electron**.  
 It provides a simple and reliable way to download video or audio content with metadata and advanced options, without ads or questionable third-party services.  
 The goal is to offer a clean, user-friendly, and transparent download experience. It's important for me to make media content downloading accessible to people who love music or videos and don’t always have an internet connection.
 
@@ -14,11 +19,14 @@ The goal is to offer a clean, user-friendly, and transparent download experience
 
 - Video download with metadata (MP4)
 - Audio-only download with thumbnail and tags (MP3)
-- Full playlist support
+- Full playlist support and better display in UI
 - Automatic metadata retrieval (title, duration, author, etc.)
 - Detailed logs (console + rotating files for 7 days)
+- Progress Bar for download and network speed indicator
+- Better UX when fetching info
 - Custom output path with persistence
 - Automatic dependency updates (YT-DLP)
+- Automatic Application Update
 - Multiple UI themes
 - Simple, responsive interface
 - Notifications on download completion (click to open folder)
@@ -29,7 +37,7 @@ The goal is to offer a clean, user-friendly, and transparent download experience
 ## Installation
 
 Download the latest installer from the **Releases** page and run it (Defender could stop you but click on "Run Anyway" and it's good).  
-No additional setup is required.
+Actually, **Firefox Browser** isr r
 
 ---
 
@@ -54,16 +62,15 @@ Try restarting the application, checking the logs, or opening the developer cons
 
 ## Roadmap
 
-- [ ] Website for Freedom Loader
+- [x] ~~Website for Freedom Loader~~
 - [ ] More format options
 - [ ] Linux version
-- [ ] Mobile version (APK)
 - [x] ~~Auto-updating YT-DLP~~
-- [ ] Automatic project updates
-- [ ] Better download status
-- [ ] Better website support (currently only YouTube is fully supported)
+- [x] ~~Automatic project updates~~
+- [x] ~~Better download status~~
+- [ ] Better website support (currently only YouTube is fully supported, other site could work but i can't prove it)
 - [ ] Subtitle support
-- [ ] UI/UX improvements
+- [x] ~~UI/UX improvements~~
 - [ ] Language selection
 - [ ] Download specific parts of a video
 - [ ] Custom file naming
@@ -84,10 +91,31 @@ Try restarting the application, checking the logs, or opening the developer cons
 
 ## Technologies
 
-This project uses:  
-[![yt-dlp](https://img.shields.io/badge/yt--dlp-Visit%20Repo-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
+This project uses:
 
-Huge thanks to the yt-dlp team for providing an outstanding open-source tool.
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+
+  <a href="https://github.com/yt-dlp/yt-dlp">
+    <img src="https://img.shields.io/badge/yt--dlp-Visit%20Repo-cf0000?style=for-the-badge&logo=github&logoColor=white">
+  </a>
+
+  <a href="https://github.com/FFmpeg/FFmpeg">
+    <img src="https://img.shields.io/badge/FFmpeg-Visit%20Repo-666666?style=for-the-badge&logo=ffmpeg&logoColor=white" />
+  </a>
+
+  <a href="https://nodejs.org/">
+    <img src="https://img.shields.io/badge/Node.js-Visit%20Repo-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+  </a>
+
+  <a href="https://github.com/electron/electron">
+    <img src="https://img.shields.io/badge/Electron-Visit%20Repo-47848F?style=for-the-badge&logo=electron&logoColor=white" />
+  </a>
+
+  <a href="https://github.com/denoland/deno/">
+    <img src="https://img.shields.io/badge/Deno-Visit%20Repo-14e0cc?style=for-the-badge&logo=deno&logoColor=white" />
+  </a>
+
+</div>
 
 ---
 

@@ -1,46 +1,47 @@
 body.nf {
-  /* Couleurs générales */
-  --background-color: #1a1a1a;              /* fond sombre neutre */
-  --default-text-color: #e6dfd5;            /* texte beige clair */
-  --subtitle-color: #f5f0e6;                /* beige très clair (titres) */
-  --mp3-text-color: #d8cfc2;                /* texte checkbox */
 
-  /* Formulaire */
-  --form-bg-color: #2a2a2a;                 /* fond formulaire gris sombre */
-  --form-input-bg-color: #222222;           /* fond inputs sombre */
-  --form-input-border-color: #4a4036;       /* bordure beige/brun */
-  --form-input-border-focus-color: #cbb89d; /* beige doré en focus */
-  --form-input-text-color: #f0e8dd;         /* texte clair/beige */
-  --form-input-placeholder-color: #9a8f80;  /* placeholder beige/gris */
-  --form-button-bg-color: #cbb89d;          /* bouton beige doré */
-  --form-button-text-color: #1a1a1a;        /* texte sombre */
-  --form-button-bg-hover-color: #b7a588;    /* hover beige plus foncé */
-
-  /* Checkbox */
-  --checkbox-bg-default: #4a4036;             /* brun/gris */
-  --checkbox-bg-checked: #cbb89d;             /* beige doré */
-  --checkbox-checkmark-border-color: #1a1a1a; /* noir profond */
-  --checkbox-pulse-color: rgba(203,184,157,0.3); /* halo beige doux */
-
-  /* Download status */
-  --download-status-color: #cbb89d;           /* beige doré */
-
-  /* Video Info Box */
-  --infos-box-color: #2a2a2a;                 /* fond sombre */
-  --video-info-text-color: #e6dfd5;           /* texte beige clair */
-  --video-info-heading-color: #f5f0e6;        /* titres beige clair */
-  --video-info-list-color: #d8cfc2;           /* texte liste */
-  --video-info-list-strong-color: #ffffff;    /* texte fort blanc cassé */
-  --video-info-link-color: #cbb89d;           /* liens beige doré */
-  --video-info-link-hover-color: #b7a588;     /* hover beige plus foncé */
-}
-
-/* Fond inspiré de ton image beige */
-body.nf {
-  background-image: url('../../assets/images/NF.jpg'); /* mets ton image ici */
+  background-image: url('../../assets/images/NF.jpg');
   background-size: cover;
   background-position: 70% center; 
   background-attachment: fixed;
+
+  /* Couleurs générales */
+  --background-color: #1a1a1a;
+  --default-text-color: #e6dfd5;
+  --subtitle-color: #f5f0e6;
+  --mp3-text-color: #d8cfc2;
+
+  /* Formulaire */
+  --form-bg-color: #2a2a2a;
+  --form-input-bg-color: #222222;
+  --form-input-border-color: #4a4036;
+  --form-input-border-focus-color: #cbb89d;
+  --form-input-text-color: #f0e8dd;
+  --form-input-placeholder-color: #9a8f80;
+  --form-button-bg-color: #cbb89d;
+  --form-button-text-color: #1a1a1a;
+  --form-button-bg-hover-color: #b7a588;
+
+  /* Checkbox */
+  --checkbox-bg-default: #4a4036;
+  --checkbox-bg-checked: #cbb89d;
+  --checkbox-checkmark-border-color: #1a1a1a;
+  --checkbox-pulse-color: rgba(203,184,157,0.3);
+
+  /* Download status */
+  --download-status-color: #cbb89d;
+
+  /* Video Info Box */
+  --infos-box-color: #2a2a2a;
+  --video-info-text-color: #e6dfd5;
+  --video-info-heading-color: #f5f0e6;
+  --video-info-list-color: #d8cfc2;
+  --video-info-list-strong-color: #ffffff;
+  --video-info-link-color: #cbb89d;
+  --video-info-link-hover-color: #b7a588;
+
+  /* Playlist Color */
+  --playlist-background-color: #4f4f4f;
 }
 
 body.nf .download-path {

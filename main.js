@@ -96,6 +96,15 @@ function setupMenu() {
       ],
     },
     {
+      label: "Website",
+      submenu: [
+        {
+          label: "Go to Website",
+          click: () => shell.openExternal("https://masteracnolo.github.io/FreedomLoader/"),
+        },
+      ],
+    },
+    {
       label: "Documentation",
       submenu: [
         {
@@ -104,6 +113,7 @@ function setupMenu() {
         },
       ],
     },
+    
   ];
 
   const defaultMenu = Menu.getApplicationMenu();

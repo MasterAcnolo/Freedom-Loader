@@ -13,6 +13,9 @@
   <a href="https://masteracnolo.github.io/No-Sense/FreedomLoader/index.html">
     <img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white">
   </a>
+  <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER">
+    <img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white">
+  </a>
 </div>
 <br>
 

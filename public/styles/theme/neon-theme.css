@@ -1,0 +1,50 @@
+body.neon {
+
+    background: (url("../../assets/images/drift.jpg"));
+    background-image: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* dégradé sombre violet/bleu */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    /* Couleurs générales */
+    --background-color: #1b1b2f;
+    --default-text-color: #e0e0ff;
+    --subtitle-color: #a3a3ff;
+    --mp3-text-color: #c0c0ff;
+
+    /* Formulaire */
+    --form-bg-color: #2c2c4a;
+    --form-input-bg-color: #1f1f3a;
+    --form-input-border-color: #5858f0;
+    --form-input-border-focus-color: #a3a3ff;
+    --form-input-text-color: #ffffff;
+    --form-input-placeholder-color: #8888ff;
+    --form-button-bg-color: #5858f0;
+    --form-button-text-color: #ffffff;
+    --form-button-bg-hover-color: #7a7aff;
+
+    /* Checkbox */
+    --checkbox-bg-default: #302b63;
+    --checkbox-bg-checked: #5858f0;
+    --checkbox-checkmark-border-color: #ffffff;
+    --checkbox-pulse-color: rgba(88,88,240,0.3);
+
+    /* Download status */
+    --download-status-color: #a3a3ff;
+
+    /* Video Info Box */
+    --infos-box-color: #2c2c4a;
+    --video-info-text-color: #e0e0ff;
+    --video-info-heading-color: #a3a3ff;
+    --video-info-list-color: #c0c0ff;
+    --video-info-list-strong-color: #ffffff;
+    --video-info-link-color: #5858f0;
+    --video-info-link-hover-color: #7a7aff;
+
+    /* Playlist Color */
+    --playlist-background-color: #3e3e64;
+}
+
+body.neon .download-path {
+  color: var(--default-text-color);
+}

@@ -1,20 +1,20 @@
 :root {
   /* Couleurs générales */
-  --background-color: #001224;            /* body background bleu nuit */
-  --default-text-color: #eee;             /* texte clair principal */
-  --subtitle-color: #007bff;              /* sous-titres, header p */
-  --mp3-text-color: #000000;              /* couleur texte checkbox inline */
+  --background-color: #001224;
+  --default-text-color: #eee;
+  --subtitle-color: #007bff;
+  --mp3-text-color: #000000;
 
   /* Formulaire */
-  --form-bg-color: #ffffff;               /* fond du formulaire */
-  --form-input-bg-color: #f9f9f9;         /* fond inputs */
-  --form-input-border-color: #cccccc;     /* bordure inputs */
-  --form-input-border-focus-color: #0056b3; /* bordure focus */
-  --form-input-text-color: #333333;       /* texte inputs */
-  --form-input-placeholder-color: #aaaaaa; /* placeholder */
-  --form-button-bg-color: #007bff;         /* bouton bg */
-  --form-button-text-color: #ffffff;       /* texte bouton */
-  --form-button-bg-hover-color: #0056b3;   /* bouton hover */
+  --form-bg-color: #ffffff;
+  --form-input-bg-color: #f9f9f9;
+  --form-input-border-color: #cccccc;
+  --form-input-border-focus-color: #0056b3;
+  --form-input-text-color: #333333;
+  --form-input-placeholder-color: #aaaaaa;
+  --form-button-bg-color: #007bff;
+  --form-button-text-color: #ffffff;
+  --form-button-bg-hover-color: #0056b3;
 
   /* Checkbox */
   --checkbox-bg-default: #cccccc;

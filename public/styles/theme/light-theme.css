@@ -1,20 +1,20 @@
 body.light {
   /* Couleurs générales */
-  --background-color: #dadada;              /* fond clair */
-  --default-text-color: #222222;            /* texte sombre */
-  --subtitle-color: #007bff;                /* bleu accent */
-  --mp3-text-color: #000000;                /* texte checkbox */
+  --background-color: #dadada;
+  --default-text-color: #222222;
+  --subtitle-color: #007bff;
+  --mp3-text-color: #000000;
 
   /* Formulaire */
-  --form-bg-color: #ffffff;                 /* fond formulaire blanc */
-  --form-input-bg-color: #fafafa;           /* fond inputs */
-  --form-input-border-color: #cccccc;       /* bordure inputs */
-  --form-input-border-focus-color: #007bff; /* focus bleu */
-  --form-input-text-color: #333333;         /* texte inputs */
-  --form-input-placeholder-color: #888888;  /* placeholder */
-  --form-button-bg-color: #007bff;          /* bouton bleu */
-  --form-button-text-color: #ffffff;        /* texte bouton */
-  --form-button-bg-hover-color: #0056b3;    /* hover bleu foncé */
+  --form-bg-color: #ffffff;
+  --form-input-bg-color: #fafafa;
+  --form-input-border-color: #cccccc;
+  --form-input-border-focus-color: #007bff;
+  --form-input-text-color: #333333;
+  --form-input-placeholder-color: #888888;
+  --form-button-bg-color: #007bff;
+  --form-button-text-color: #ffffff;
+  --form-button-bg-hover-color: #0056b3;
 
   /* Checkbox */
   --checkbox-bg-default: #cccccc;
@@ -33,4 +33,7 @@ body.light {
   --video-info-list-strong-color: #000000;
   --video-info-link-color: #007bff;
   --video-info-link-hover-color: #0056b3;
+
+  /* Playlist Color */
+  --playlist-background-color: #c5c5c5b2;
 }

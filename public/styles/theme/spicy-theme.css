@@ -1,50 +1,47 @@
-/* 
-
-  
-
-*/
-
 body.spicy {
-  /* Couleurs générales */
-  --background-color: #121212;             /* fond noir profond */
-  --default-text-color: #581010;           /* texte clair */
-  --subtitle-color: #3d0909;               /* accent rouge piment */
-  --mp3-text-color: #ffffff;               /* texte checkbox inline */
+    /* Couleurs générales */
+    --background-color: #121212;             /* fond noir profond */
+    --default-text-color: #ffffff;           /* texte clair */
+    --subtitle-color: #f87918;               /* accent rouge piment */
+    --mp3-text-color: #ffffff;               /* texte checkbox inline */
 
-  /* Formulaire */
-  --form-bg-color: #1a1a1a;                /* fond formulaire gris très foncé */
-  --form-input-bg-color: #2b2b2b;          /* fond inputs gris foncé */
-  --form-input-border-color: #444444;      /* bordure gris */
-  --form-input-border-focus-color: #ff1a1a; /* focus rouge piment */
-  --form-input-text-color: #eeeeee;        /* texte inputs */
-  --form-input-placeholder-color: #888888; /* placeholder gris moyen */
-  --form-button-bg-color: #ff1a1a;         /* bouton rouge vif */
-  --form-button-text-color: #ffffff;       /* texte bouton blanc */
-  --form-button-bg-hover-color: #cc0000;   /* hover rouge foncé */
+    /* Formulaire */
+    --form-bg-color: #1a1a1a;                /* fond formulaire gris très foncé */
+    --form-input-bg-color: #2b2b2b;          /* fond inputs gris foncé */
+    --form-input-border-color: #444444;      /* bordure gris */
+    --form-input-border-focus-color: #ff1a1a; /* focus rouge piment */
+    --form-input-text-color: #eeeeee;        /* texte inputs */
+    --form-input-placeholder-color: #888888; /* placeholder gris moyen */
+    --form-button-bg-color: #ff1a1a;         /* bouton rouge vif */
+    --form-button-text-color: #ffffff;       /* texte bouton blanc */
+    --form-button-bg-hover-color: #cc0000;   /* hover rouge foncé */
 
-  /* Checkbox */
-  --checkbox-bg-default: #555555;            /* gris moyen */
-  --checkbox-bg-checked: #ff1a1a;            /* rouge piment */
-  --checkbox-checkmark-border-color: #f5f5f5; /* blanc cassé */
-  --checkbox-pulse-color: rgba(255, 26, 26, 0.5); /* pulse rouge translucide */
+    /* Checkbox */
+    --checkbox-bg-default: #555555;            /* gris moyen */
+    --checkbox-bg-checked: #ff1a1a;            /* rouge piment */
+    --checkbox-checkmark-border-color: #f5f5f5; /* blanc cassé */
+    --checkbox-pulse-color: rgba(255, 26, 26, 0.5); /* pulse rouge translucide */
 
-  /* Download status */
-  --download-status-color: #ffffff;          /* rouge vif */
+    /* Download status */
+    --download-status-color: #ffffff;          /* rouge vif */
 
-  /* Video Info Box */
-  --infos-box-color: #1a1a1a;                /* fond infos gris foncé */
-  --video-info-text-color: #f5f5f5;          /* texte clair */
-  --video-info-heading-color: #ff1a1a;       /* titres rouges */
-  --video-info-list-color: #cccccc;          /* texte liste gris clair */
-  --video-info-list-strong-color: #ffffff;   /* texte important blanc */
-  --video-info-link-color: #ff1a1a;          /* liens rouges */
-  --video-info-link-hover-color: #cc0000;    /* liens hover rouge foncé */
+    /* Video Info Box */
+    --infos-box-color: #1a1a1a;                /* fond infos gris foncé */
+    --video-info-text-color: #f5f5f5;          /* texte clair */
+    --video-info-heading-color: #ff1a1a;       /* titres rouges */
+    --video-info-list-color: #cccccc;          /* texte liste gris clair */
+    --video-info-list-strong-color: #ffffff;   /* texte important blanc */
+    --video-info-link-color: #ff1a1a;          /* liens rouges */
+    --video-info-link-hover-color: #cc0000;    /* liens hover rouge foncé */
+
+    /* Playlist Color */
+    --playlist-background-color: #353232;
 }
 
 /* Optionnel: background piments */
 body.spicy {
-  background-image: url('../../assets/images/spicy.webp');  
-  background-size:contain;
+  background-image: url('../../assets/images/Spicy.png');  
+  background-size:cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;

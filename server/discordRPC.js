@@ -1,47 +1,51 @@
-/*
-  This file is part of Freedom Loader.
-
-  Copyright (C) 2025 MasterAcnolo
-
-  Freedom Loader is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License.
-
-  Freedom Loader is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-
+const config = require('../config');
 const RPC = require("discord-rpc");
-const clientId = "1410934537051181146";
+const { logger } = require("./logger");
+
+const clientId = `${config.DiscordRPCID}`;
 const rpc = new RPC.Client({ transport: "ipc" });
+
+let intervalId;
 
 function startRPC() {
   rpc.on("ready", () => {
-    console.log("✅ Connecté à Discord !");
-
     const presence = {
-        largeImageKey: "icon",
-        smallImageKey: "acnolo_pfp",
-        smallImageText: "By MasterAcnolo",
-        startTimestamp: new Date(), // compteur de temps
-        details: "github.com/MasterAcnolo/Freedom-Loader",
+      largeImageKey: "icon",
+      smallImageKey: "acnolo_pfp",
+      smallImageText: "By MasterAcnolo",
+      startTimestamp: new Date(),
+      details: `Open Source Download Tools - ${config.version}`,
+      state: "masteracnolo.github.io/No-Sense/FreedomLoader",
     };
 
     rpc.setActivity(presence);
 
-    // Mise à jour toutes les 15 secondes si tu veux garder le compteur à jour
-    setInterval(() => {
+    // Met à jour la présence toutes les 15s
+    intervalId = setInterval(() => {
       rpc.setActivity(presence);
     }, 15000);
   });
 
+  async function cleanExit() {
+    try {
+      if (intervalId) clearInterval(intervalId);
+
+      if (rpc && rpc.transport) {
+        await rpc.destroy();
+      }
+    } catch (err) {
+      logger.error("Error while closing the RPC:", err);
+    } finally {
+      process.exit();
+    }
+  }
+
+  process.on("exit", cleanExit);
+  process.on("SIGINT", cleanExit);
+  process.on("SIGTERM", cleanExit);
+
   rpc.login({ clientId }).catch(err => {
-    console.error("Erreur Discord RPC :", err);
+    logger.error("Unable to connect to the RPC:", err);
   });
 }
 

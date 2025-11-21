@@ -1,16 +1,15 @@
 body.chirac {
-  /* Background image Chirac */
+  
   background-image: url('../../assets/images/Chirac.png'); 
-  /* background-position: right; */
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   
-  /* Couleurs drapeau français */
-  --background-color: rgba(255, 255, 255, 0.85); /* blanc légèrement transparent pour lisibilité */
-  --default-text-color: #002395; /* bleu foncé */
-  --subtitle-color: #EF4135; /* rouge vif */
-  --mp3-text-color: #002395; /* bleu */
+
+  --background-color: rgba(255, 255, 255, 0.85); 
+  --default-text-color: #002395;
+  --subtitle-color: #EF4135;
+  --mp3-text-color: #002395;
   
   /* Formulaire */
   --form-bg-color: rgba(255, 255, 255, 0.9);
@@ -19,9 +18,9 @@ body.chirac {
   --form-input-border-focus-color: #EF4135;
   --form-input-text-color: #002395;
   --form-input-placeholder-color: #999999;
-  --form-button-bg-color: #002395; /* bleu */
+  --form-button-bg-color: #002395; 
   --form-button-text-color: #ffffff;
-  --form-button-bg-hover-color: #EF4135; /* rouge */
+  --form-button-bg-hover-color: #EF4135;
   
   /* Checkbox */
   --checkbox-bg-default: #cccccc;
@@ -34,21 +33,17 @@ body.chirac {
   
   /* Video Info Box */
   --infos-box-color: rgba(255, 255, 255, 0.9);
-  --video-info-text-color: #002395;
+  --video-info-text-color: #000000;
   --video-info-heading-color: #EF4135;
   --video-info-list-color: #444444;
   --video-info-list-strong-color: #000000;
   --video-info-link-color: #002395;
   --video-info-link-hover-color: #EF4135;
 
-    /* animation d'apparition */
-  opacity: 0;
-  transition: opacity 0.8s ease, background-color 0.8s ease;
+  /* Playlist Color */
+  --playlist-background-color: #d1d1d1ca;
 }
 
-body.chirac.theme-active {
-  opacity: 1;
-}
 
 /* 
 

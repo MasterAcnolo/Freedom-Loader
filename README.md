@@ -10,7 +10,7 @@
   <a href="https://github.com/MasterAcnolo/Freedom-Loader/releases">
     <img src="https://img.shields.io/badge/Release-1.3.0-blue?style=for-the-badge">
   </a>
-  <a href="https://masteracnolo.github.io/No-Sense/FreedomLoader/index.html">
+  <a href="https://masteracnolo.github.io/FreedomLoader/index.html">
     <img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white">
   </a>
   <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER">

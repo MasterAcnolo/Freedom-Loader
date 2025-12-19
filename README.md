@@ -103,7 +103,7 @@ Try restarting the application, checking the logs, or opening the developer cons
 
 This project uses:
 
-<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+<div style="display: flex;">
 
 <a href="https://github.com/yt-dlp/yt-dlp"> <img src="https://img.shields.io/badge/yt--dlp-Visit%20Repo-cf0000?style=for-the-badge&logo=github&logoColor=white"></a>
 

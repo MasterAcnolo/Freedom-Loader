@@ -1,0 +1,49 @@
+body.songbird {
+
+  background-image: url('../../assets/images/Songbird.webp');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+
+  /* Couleurs générales */
+  --background-color: #0a0a0a; /* noir profond */
+  --default-text-color: #ff2a2a; /* rouge néon */
+  --subtitle-color: #f2f2f2; /* rouge sombre */
+  --mp3-text-color: #ff4d4d; /* rouge un peu plus clair */
+
+  /* Formulaire */
+  --form-bg-color: rgba(20,0,0,0.85); /* noir semi-transparent avec rouge */
+  --form-input-bg-color: #1a0a0a;
+  --form-input-border-color: #ff2a2a;
+  --form-input-border-focus-color: #b30000;
+  --form-input-text-color: #ffffff;
+  --form-input-placeholder-color: #950404;
+  --form-button-bg-color: #b30000;
+  --form-button-text-color: #ffffff;
+  --form-button-bg-hover-color: #ff2a2a;
+
+  /* Checkbox */
+  --checkbox-bg-default: #630000;
+  --checkbox-bg-checked: #ff2a2a;
+  --checkbox-checkmark-border-color: #ffffff;
+  --checkbox-pulse-color: rgba(255,42,42,0.3);
+
+  /* Download status */
+  --download-status-color: #ff2a2a;
+
+  /* Video Info Box */
+  --infos-box-color: rgba(30,0,0,0.9);
+  --video-info-text-color: #ff4d4d;
+  --video-info-heading-color: #ff2a2a;
+  --video-info-list-color: #b30000;
+  --video-info-list-strong-color: #ffffff;
+  --video-info-link-color: #ff2a2a;
+  --video-info-link-hover-color: #b30000;
+
+  /* Playlist Color */
+  --playlist-background-color: #3f0000;
+}
+
+body.cyberpunk .download-path {
+  color: var(--default-text-color);
+}

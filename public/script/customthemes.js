@@ -1,104 +1,60 @@
-/*
-  This file is part of Freedom Loader.
-
-  Copyright (C) 2025 MasterAcnolo
-
-  Freedom Loader is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License.
-
-  Freedom Loader is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-
-// Liste des thèmes disponibles (clé = nom, valeur = label affiché)
 const themes = {
-  default: "Default",
-  dark: "Sombre",
-  light: "Clair",
-  nf : "NF",
-  chirac: "Chirac",
-  fanatic: "Fanatic",
-  cyberpunk: "Cyberpunk",
-  spicy: "Spicy",
-  vilbrequin: "Vilbrequin"
-};
-
-const themeSubtitles = {
-  default: "Because why not?",
-  dark: "Darkness is my ally",
-  light: "Qui aime ce thème ?",
-  nf : "You call it music, i call it my Therapist",
-  chirac: "J'aime les pommes",
-  fanatic: "Always Fnatic !",
-  cyberpunk: "Wake up, choom. We’ve got a city to burn.",
-  spicy: "The Spiciest One",
-  vilbrequin: "Rend l'argent"
+  default:    { label: "Default", subtitle: "Because why not?" },
+  dark:       { label: "Sombre", subtitle: "Darkness is my ally" },
+  light:      { label: "Clair", subtitle: "Qui aime ce thème ?" },
+  neon:       { label: "Néon", subtitle: "How was your day ?"},
+  nf:         { label: "NF", subtitle: "You call it music, i call it my Therapist" },
+  songbird:   { label: "Songbird", subtitle: "From Her to Eternity" },
+  drift:      { label: "Drift", subtitle: "Si la route t'appelle, contre appel" },
+  fanatic:    { label: "Fanatic", subtitle: "Always Fnatic !" },
+  chirac:     { label: "Chirac", subtitle: "J'aime les pommes" },
+  spicy:      { label: "Spicy", subtitle: "The Spiciest One" },
 };
 
 const themeSelect = document.getElementById("themeSelect");
 
-// Remplir le select avec les options
 function populateThemeSelect() {
-  for (const [key, label] of Object.entries(themes)) {
+  for (const [themeKey, themeInfo] of Object.entries(themes)) {
     const option = document.createElement("option");
-    option.value = key;
-    option.textContent = label;
+    option.value = themeKey;        
+    option.textContent = themeInfo.label; 
     themeSelect.appendChild(option);
   }
 }
 
-// Appliquer le thème sur le body et changer le subtitle
-function applyTheme(themeName) {
-  // Supprime les classes thème précédentes
+function applyTheme(themeKey) {
   document.body.classList.remove(...Object.keys(themes));
-  // Ajoute la classe du thème actuel
-  document.body.classList.add(themeName);
+  document.body.classList.add(themeKey);
 
-  // Modifier le subtitle
-  const subtitle = document.getElementById("subtitle");
-  if (subtitle && themeSubtitles[themeName]) {
-    subtitle.textContent = themeSubtitles[themeName];
+  const subtitleElement = document.getElementById("subtitle");
+  if (subtitleElement && themes[themeKey]) {
+    subtitleElement.textContent = themes[themeKey].subtitle;
   }
 
-  // Optionnel : animation spéciale Chirac
-  if (themeName === "chirac") {
-    requestAnimationFrame(() => {
-      document.body.classList.add("theme-active");
-    });
-  } else {
-    document.body.classList.remove("theme-active");
-  }
 }
 
-// Sauvegarder le thème en localStorage
-function saveTheme(themeName) {
-  localStorage.setItem("selectedTheme", themeName);
+function saveTheme(themeKey) {
+  localStorage.setItem("selectedTheme", themeKey);
 }
 
-// Charger le thème au démarrage
 function loadTheme() {
   const savedTheme = localStorage.getItem("selectedTheme");
+
   if (savedTheme && themes[savedTheme]) {
     applyTheme(savedTheme);
     themeSelect.value = savedTheme;
   } else {
-    applyTheme("dark");
+    applyTheme("dark");  // thème par défaut
     themeSelect.value = "dark";
   }
 }
 
-// Quand l’utilisateur change le select
-themeSelect.addEventListener("change", (e) => {
-  const selected = e.target.value;
-  if (themes[selected]) {
-    applyTheme(selected);
-    saveTheme(selected);
+// Quand l'utilisateur change le thème depuis le select
+themeSelect.addEventListener("change", (event) => {
+  const selectedTheme = event.target.value;
+  if (themes[selectedTheme]) {
+    applyTheme(selectedTheme);
+    saveTheme(selectedTheme);
   }
 });
 

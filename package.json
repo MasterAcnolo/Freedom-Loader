@@ -1,12 +1,12 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "author": "MasterAcnolo",
   "description": "Freedom Loader",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron --trace-warnings .",
     "dist": "electron-builder"
   },
   "dependencies": {
@@ -14,29 +14,32 @@
     "debug": "^4.4.1",
     "discord-rpc": "^4.0.1",
     "electron-squirrel-startup": "^1.0.1",
+    "electron-updater": "^6.6.2",
     "express": "^5.1.0",
+    "webidl-conversions": "^8.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.8.1",
-    "@electron-forge/maker-deb": "^7.8.1",
-    "@electron-forge/maker-rpm": "^7.8.1",
-    "@electron-forge/maker-squirrel": "^7.8.1",
-    "@electron-forge/maker-zip": "^7.8.1",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.8.1",
-    "@electron-forge/plugin-fuses": "^7.8.1",
-    "@electron/fuses": "^1.8.0",
     "electron": "^37.1.0",
     "electron-builder": "^26.0.12"
   },
   "build": {
     "appId": "com.masteracnolo.freedomloader",
     "productName": "Freedom Loader",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "MasterAcnolo",
+        "repo": "Freedom-Loader"
+      }
+    ],
     "files": [
       "**/*",
       "node_modules/**/*",
-      "!logs/*.json"
+      "!logs/*.json",
+      "server/**/*",
+      "server/node_modules/**/*"
     ],
     "directories": {
       "buildResources": "build"
@@ -46,6 +49,14 @@
       {
         "from": "build/confirm-icon.png",
         "to": "confirm-icon.png"
+      },
+      {
+        "from": "build/app-icon.ico",
+        "to": "app-icon.ico"
+      },
+      {
+        "from": "build/error.png",
+        "to": "error.png"
       },
       {
         "from": "ressources/yt-dlp.exe",
@@ -58,17 +69,25 @@
       {
         "from": "ressources/ffprobe.exe",
         "to": "ffprobe.exe"
+      },
+      {
+        "from": "ressources/deno.exe",
+        "to": "deno.exe"
+      },
+      {
+        "from": "server",
+        "to": "server"
       }
     ],
     "win": {
       "target": "nsis",
-      "icon": "build/installer-icon.ico"
+      "icon": "build/app-icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "perMachine": true,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "build/installer-icon.ico",
+      "installerIcon": "build/app-icon.ico",
       "uninstallerIcon": "build/uninstaller-icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,

@@ -7,7 +7,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron --trace-warnings .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "update": "npm update"
   },
   "dependencies": {
     "chalk": "^4.1.2",

@@ -33,4 +33,7 @@ body.dark {
   --video-info-list-strong-color: #ffffff;
   --video-info-link-color: #2196f3;
   --video-info-link-hover-color: #1976d2;
+
+  /* Playlist Color */
+  --playlist-background-color: #303030;
 }

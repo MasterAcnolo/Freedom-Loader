@@ -2,6 +2,7 @@ const config = require("./config.js");
 const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
 const path = require("path");
 const os = require("os");
+const fs = require("fs");
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
 const { AutoUpdater } = require("./server/update.js");
 
@@ -12,21 +13,54 @@ const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader
 app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
 app.disableHardwareAcceleration();
 
+
 // Gestion single instance
 const gotLock = app.requestSingleInstanceLock();
+
+// Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
+function checkNativeDependencies() {
+  const deps = [
+    { name: "yt-dlp.exe", path: path.join(process.resourcesPath, "yt-dlp.exe") },
+    { name: "ffmpeg.exe", path: path.join(process.resourcesPath, "ffmpeg.exe") },
+    { name: "ffprobe.exe", path: path.join(process.resourcesPath, "ffprobe.exe") },
+    { name: "deno.exe", path: path.join(process.resourcesPath, "deno.exe") },
+  ];
+  const missing = deps.filter(dep => !fs.existsSync(dep.path));
+  let errorMsg = "";
+  if (missing.length > 0) {
+    const missingList = missing.map(dep => dep.name).join(", ");
+    logger.error(`Missing dependencies: ${missingList}`);
+    errorMsg += `The following files are missing in the 'ressources' folder:\n${missingList}`;
+  }
+  if (errorMsg) {
+    app.whenReady().then(() => {
+      dialog.showErrorBox(
+        "Missing dependencies",
+        `${errorMsg}\n\nThe application will now exit. Try to reinstall`
+      );
+      app.quit();
+    });
+    return false;
+  }
+  return true;
+}
 
 if (!gotLock) {
   // Une instance existe déjà -> fermer l'ancienne et continuer la nouvelle
   // Ici la nouvelle instance continue normalement
 } else {
-  app.on("second-instance", () => {
-    // La vieille instance se ferme
-    if (mainWindow) {
-      logger.info("New Instance Detected, closing the older...");
-      mainWindow.destroy();
-      mainWindow = null;
-    }
-  });
+  if (!checkNativeDependencies()) {
+    // Arrêt déjà géré dans la fonction
+  } else {
+    app.on("second-instance", () => {
+      // La vieille instance se ferme
+      if (mainWindow) {
+        logger.info("New Instance Detected, closing the older...");
+        mainWindow.destroy();
+        mainWindow = null;
+      }
+    });
+  }
 }
 
 // Création fenêtre principale

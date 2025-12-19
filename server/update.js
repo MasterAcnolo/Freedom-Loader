@@ -17,7 +17,9 @@ function AutoUpdater() {
     new Notification({
       title: "Freedom Loader",
       body: `Update ${info.version} downloaded.`
-    }).show();
+    }).on("click", () =>
+      shell.openExternal("https://github.com/MasterAcnolo/Freedom-Loader/releases/latest")
+    ).show();
 
     setTimeout(() => {
       autoUpdater.quitAndInstall();

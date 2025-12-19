@@ -105,25 +105,15 @@ This project uses:
 
 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
 
-  <a href="https://github.com/yt-dlp/yt-dlp">
-    <img src="https://img.shields.io/badge/yt--dlp-Visit%20Repo-cf0000?style=for-the-badge&logo=github&logoColor=white">
-  </a>
+<a href="https://github.com/yt-dlp/yt-dlp"> <img src="https://img.shields.io/badge/yt--dlp-Visit%20Repo-cf0000?style=for-the-badge&logo=github&logoColor=white"></a>
 
-  <a href="https://github.com/FFmpeg/FFmpeg">
-    <img src="https://img.shields.io/badge/FFmpeg-Visit%20Repo-666666?style=for-the-badge&logo=ffmpeg&logoColor=white" />
-  </a>
+<a href="https://github.com/FFmpeg/FFmpeg"> <img src="https://img.shields.io/badge/FFmpeg-Visit%20Repo-666666?style=for-the-badge&logo=ffmpeg&logoColor=white" /></a>
 
-  <a href="https://nodejs.org/">
-    <img src="https://img.shields.io/badge/Node.js-Visit%20Repo-339933?style=for-the-badge&logo=node.js&logoColor=white" />
-  </a>
+<a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-Visit%20Repo-339933?style=for-the-badge&logo=node.js&logoColor=white" /></a>
 
-  <a href="https://github.com/electron/electron">
-    <img src="https://img.shields.io/badge/Electron-Visit%20Repo-47848F?style=for-the-badge&logo=electron&logoColor=white" />
-  </a>
+<a href="https://github.com/electron/electron"><img src="https://img.shields.io/badge/Electron-Visit%20Repo-47848F?style=for-the-badge&logo=electron&logoColor=white" /></a>
 
-  <a href="https://github.com/denoland/deno/">
-    <img src="https://img.shields.io/badge/Deno-Visit%20Repo-14e0cc?style=for-the-badge&logo=deno&logoColor=white" />
-  </a>
+<a href="https://github.com/denoland/deno/"><img src="https://img.shields.io/badge/Deno-Visit%20Repo-14e0cc?style=for-the-badge&logo=deno&logoColor=white" /></a>
 
 </div>
 

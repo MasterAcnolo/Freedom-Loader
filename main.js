@@ -150,46 +150,6 @@ ipcMain.on("open-wiki", () => {
   shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html");
 });
 
-// Menu
-function setupMenu() {
-  const menuTemplate = [
-    {
-      label: "Logs",
-      submenu: [
-        {
-          label: "Open Logs",
-          click: () => shell.openPath(logsFolderPath),
-        },
-      ],
-    },
-    {
-      label: "Website",
-      submenu: [
-        {
-          label: "Go to Website",
-          click: () => shell.openExternal("https://masteracnolo.github.io/FreedomLoader/"),
-        },
-      ],
-    },
-    {
-      label: "Documentation",
-      submenu: [
-        {
-          label: "Go to Wiki",
-          click: () => shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html"),
-        },
-      ],
-    },
-    
-  ];
-
-  const defaultMenu = Menu.getApplicationMenu();
-  const mergedTemplate = defaultMenu
-    ? [...defaultMenu.items.map(item => item), ...menuTemplate]
-    : menuTemplate;
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate(mergedTemplate));
-}
 
 // App ready
 app.whenReady().then(async () => {
@@ -208,7 +168,6 @@ app.whenReady().then(async () => {
 
     await createMainWindow();
     AutoUpdater(mainWindow);
-    setupMenu();
   } catch (err) {
     logger.error("Window or Server error :", err);
     app.quit();

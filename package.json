@@ -1,13 +1,14 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "author": "MasterAcnolo",
   "description": "Freedom Loader",
   "main": "main.js",
   "scripts": {
     "start": "electron --trace-warnings .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "update": "npm update"
   },
   "dependencies": {
     "chalk": "^4.1.2",

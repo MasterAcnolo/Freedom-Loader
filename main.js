@@ -77,6 +77,7 @@ async function createMainWindow() {
     height: 800,
     minWidth: 750,
     minHeight: 800,
+    frame:false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -116,6 +117,37 @@ ipcMain.handle("get-default-download-path", () => defaultDownloadPath);
 
 ipcMain.on("set-progress", (event, percent) => {
   if (mainWindow) mainWindow.setProgressBar(percent / 100); // Electron attend 0 → 1
+});
+
+// Topbar window controls
+ipcMain.on("window-minimize", () => {
+  if (mainWindow) mainWindow.minimize();
+});
+ipcMain.on("window-maximize", () => {
+  if (mainWindow) {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow.maximize();
+    }
+  }
+});
+ipcMain.on("window-close", () => {
+  if (mainWindow) mainWindow.close();
+});
+
+// Topbar custom actions
+ipcMain.on("open-devtools", () => {
+  if (mainWindow) mainWindow.webContents.openDevTools({ mode: 'detach' });
+});
+ipcMain.on("open-logs", () => {
+  if (logsFolderPath) shell.openPath(logsFolderPath);
+});
+ipcMain.on("open-website", () => {
+  shell.openExternal("https://masteracnolo.github.io/FreedomLoader/index.html");
+});
+ipcMain.on("open-wiki", () => {
+  shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html");
 });
 
 // Menu

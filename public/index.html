@@ -12,9 +12,23 @@
     <title></title>
 
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/layout/topbar.css">
     
 </head>
 <body>
+  <div class="topbar">
+    <div class="custom-controls">
+      <button id="devtools-btn" title="Dev Tools">Tools</button>
+      <button id="logs-btn" title="Logs">Logs</button>
+      <button id="website-btn" title="Website">Website</button>
+      <button id="wiki-btn" title="Wiki">Wiki</button>
+    </div>
+    <div class="window-controls">
+      <button id="minimize-btn" title="Réduire"><img src="assets/icon/minimize.svg"></button>
+      <button id="maximize-btn" title="Maximiser"><img src="assets/icon/maximize.svg"></button>
+      <button id="close-btn" title="Fermer"><img src="assets/icon/close.svg"></button>
+    </div>
+  </div>
 
     <div class="theme-switcher">
         <label for="themeSelect">Thème :</label>
@@ -86,6 +100,7 @@
     <script src="script/fetchinfo.js"></script>
     <script src="script/progressBar.js"></script>
     <script src="script/customthemes.js"></script>
+    <script type="module" src="script/topbar.js"></script>
 
 </body>
 </html>

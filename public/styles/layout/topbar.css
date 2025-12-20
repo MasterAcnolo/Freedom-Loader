@@ -97,3 +97,20 @@
   background: #c50f1f;
   transform: scale(0.9);
 }
+
+.version-badge {
+  position: fixed;
+  right: 18px;
+  bottom: 12px;
+  z-index: 2000;
+  font-size: 0.85em;
+  color: #b0b0b0;
+  background: none;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 2px 8px;
+  opacity: 0.7;
+  pointer-events: none;
+  box-shadow: none;
+  user-select: none;
+}

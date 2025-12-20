@@ -16,19 +16,20 @@
     
 </head>
 <body>
-  <div class="topbar">
-    <div class="custom-controls">
-      <button id="devtools-btn" title="Dev Tools">Tools</button>
-      <button id="logs-btn" title="Logs">Logs</button>
-      <button id="website-btn" title="Website">Website</button>
-      <button id="wiki-btn" title="Wiki">Wiki</button>
+
+    <div class="topbar">
+        <div class="custom-controls">
+            <button id="devtools-btn" title="Dev Tools">Tools</button>
+            <button id="logs-btn" title="Logs">Logs</button>
+            <button id="website-btn" title="Website">Website</button>
+            <button id="wiki-btn" title="Wiki">Wiki</button>
+        </div>
+        <div class="window-controls">
+            <button id="minimize-btn" title="Réduire"><img src="assets/icon/minimize.svg"></button>
+            <button id="maximize-btn" title="Maximiser"><img src="assets/icon/maximize.svg"></button>
+            <button id="close-btn" title="Fermer"><img src="assets/icon/close.svg"></button>
+        </div>
     </div>
-    <div class="window-controls">
-      <button id="minimize-btn" title="Réduire"><img src="assets/icon/minimize.svg"></button>
-      <button id="maximize-btn" title="Maximiser"><img src="assets/icon/maximize.svg"></button>
-      <button id="close-btn" title="Fermer"><img src="assets/icon/close.svg"></button>
-    </div>
-  </div>
 
     <div class="theme-switcher">
         <label for="themeSelect">Thème :</label>
@@ -94,6 +95,8 @@
         <div id="videoInfo" style="margin-top: 20px;"></div>
     </div>
 
+    <span id="version-badge" class="version-badge">v1.3.1</span>
+    
     <!-- Scripts -->
     <script src="script/custompath.js"></script>
     <script src="script/downloadstatus.js"></script>

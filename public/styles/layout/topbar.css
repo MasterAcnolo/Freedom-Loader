@@ -1,0 +1,95 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 48px;
+  width: 100vw;
+
+  background: #1f1f1f98;
+  color: #eaeaea;
+
+  -webkit-app-region: drag;
+  user-select: none;
+
+}
+
+/* LEFT - custom buttons */
+.custom-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-left: 12px;
+}
+
+/* RIGHT - window buttons */
+.window-controls {
+  display: flex;
+  align-items: center;
+}
+
+/* GLOBAL BUTTON RESET */
+.topbar button {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  -webkit-app-region: no-drag;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.15s ease, transform 0.1s ease;
+
+}
+
+/* Custom buttons (Logs / Wiki / etc.) */
+.custom-controls button {
+  height: 32px;
+  padding: 0 14px;
+
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+.custom-controls button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Window buttons (Windows style) */
+.window-controls button {
+  width: 46px;
+  height: 48px;
+
+  font-size: 12px;
+}
+
+.window-controls button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.window-controls img {
+  width: 27px;
+  height: 27px;
+  pointer-events: none;
+  filter: invert(100%);
+}
+
+
+#close-btn:hover {
+  background: #e81123;
+  color: #fff;
+}
+
+/* Active effect */
+.topbar button:active {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(0.9);
+}
+
+#close-btn:active {
+  background: #c50f1f;
+  transform: scale(0.9);
+}

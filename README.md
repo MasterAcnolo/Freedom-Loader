@@ -7,15 +7,9 @@
 </div>
 
 <div align="center">
-  <a href="https://github.com/MasterAcnolo/Freedom-Loader/releases">
-    <img src="https://img.shields.io/badge/Release-1.3.0-blue?style=for-the-badge">
-  </a>
-  <a href="https://masteracnolo.github.io/FreedomLoader/index.html">
-    <img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white">
-  </a>
-  <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER">
-    <img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white">
-  </a>
+  <a href="https://github.com/MasterAcnolo/Freedom-Loader/releases"><img src="https://img.shields.io/badge/Release-1.3.1-blue?style=for-the-badge"></a>
+  <a href="https://masteracnolo.github.io/FreedomLoader/index.html"><img src="https://img.shields.io/badge/Freedom%20Loader-Open%20Page-111111?style=for-the-badge&logo=terminal&logoColor=white"></a>
+  <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 </div>
 <br>
 
@@ -103,29 +97,13 @@ Try restarting the application, checking the logs, or opening the developer cons
 
 This project uses:
 
-<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-
-  <a href="https://github.com/yt-dlp/yt-dlp">
-    <img src="https://img.shields.io/badge/yt--dlp-Visit%20Repo-cf0000?style=for-the-badge&logo=github&logoColor=white">
-  </a>
-
-  <a href="https://github.com/FFmpeg/FFmpeg">
-    <img src="https://img.shields.io/badge/FFmpeg-Visit%20Repo-666666?style=for-the-badge&logo=ffmpeg&logoColor=white" />
-  </a>
-
-  <a href="https://nodejs.org/">
-    <img src="https://img.shields.io/badge/Node.js-Visit%20Repo-339933?style=for-the-badge&logo=node.js&logoColor=white" />
-  </a>
-
-  <a href="https://github.com/electron/electron">
-    <img src="https://img.shields.io/badge/Electron-Visit%20Repo-47848F?style=for-the-badge&logo=electron&logoColor=white" />
-  </a>
-
-  <a href="https://github.com/denoland/deno/">
-    <img src="https://img.shields.io/badge/Deno-Visit%20Repo-14e0cc?style=for-the-badge&logo=deno&logoColor=white" />
-  </a>
-
-</div>
+<p>
+  <a href="https://github.com/yt-dlp/yt-dlp"><img src="https://img.shields.io/badge/yt--dlp-Visit%20Repo-cf0000?style=for-the-badge&logo=github&logoColor=white"></a>
+  <a href="https://github.com/FFmpeg/FFmpeg"><img src="https://img.shields.io/badge/FFmpeg-Visit%20Repo-666666?style=for-the-badge&logo=ffmpeg&logoColor=white"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-Visit%20Repo-339933?style=for-the-badge&logo=node.js&logoColor=white"></a>
+  <a href="https://github.com/electron/electron"><img src="https://img.shields.io/badge/Electron-Visit%20Repo-47848F?style=for-the-badge&logo=electron&logoColor=white"></a>
+  <a href="https://github.com/denoland/deno/"><img src="https://img.shields.io/badge/Deno-Visit%20Repo-14e0cc?style=for-the-badge&logo=deno&logoColor=white"></a>
+</p>
 
 ---
 

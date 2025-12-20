@@ -15,7 +15,7 @@ function startRPC() {
       smallImageText: "By MasterAcnolo",
       startTimestamp: new Date(),
       details: `Open Source Download Tools - ${config.version}`,
-      state: "masteracnolo.github.io/No-Sense/FreedomLoader",
+      state: "masteracnolo.github.io/FreedomLoader",
     };
 
     rpc.setActivity(presence);

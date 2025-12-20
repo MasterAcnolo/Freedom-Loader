@@ -45,24 +45,25 @@ function checkNativeDependencies() {
   return true;
 }
 
-if (!gotLock) {
-  // Une instance existe déjà -> fermer l'ancienne et continuer la nouvelle
-  // Ici la nouvelle instance continue normalement
-} else {
-  if (!checkNativeDependencies()) {
-    // Arrêt déjà géré dans la fonction
+if(!config.localMode){
+  if (!gotLock) {
+    // Une instance existe déjà -> fermer l'ancienne et continuer la nouvelle
+    // Ici la nouvelle instance continue normalement
   } else {
-    app.on("second-instance", () => {
-      // La vieille instance se ferme
-      if (mainWindow) {
-        logger.info("New Instance Detected, closing the older...");
-        mainWindow.destroy();
-        mainWindow = null;
-      }
-    });
+    if (!checkNativeDependencies()) {
+      // Arrêt déjà géré dans la fonction
+    } else {
+      app.on("second-instance", () => {
+        // La vieille instance se ferme
+        if (mainWindow) {
+          logger.info("New Instance Detected, closing the older...");
+          mainWindow.destroy();
+          mainWindow = null;
+        }
+      });
+    }
   }
 }
-
 // Création fenêtre principale
 async function createMainWindow() {
   if (mainWindow) {

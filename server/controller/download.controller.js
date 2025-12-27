@@ -25,7 +25,7 @@ async function downloadController(req, res) {
     
   } catch (err) {
     logger.error(`Server Error in /download : ${err.message}`);
-    res.status(500).send(`❌ ${err.message}`);
+    res.status(500).send(`❌ Server Error`);
   }
 }
 

@@ -5,7 +5,7 @@ const { logger, logSessionStart, logSessionEnd } = require("./logger");
 const config = require("../config");
 const { execFile } = require("child_process");
 const { userYtDlp } = require("./helpers/path");
-
+const { rateLimite } = require("./helpers/rateLimit")
 
 const app = express();
 
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/download", require("./routes/download.route"));
 app.use("/info", require("./routes/info.route"));
 
-app.get("/", (req, res) => {
+app.get("/",  rateLimite ,(req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 

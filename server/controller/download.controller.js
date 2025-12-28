@@ -1,7 +1,6 @@
 const { fetchDownload } = require("../services/download.services");
 const { logger } = require("../logger");
 const { isValidUrl, isSafePath } = require("../helpers/validation");
-const { buildYtDlpArgs } = require("../helpers/buildArgs");
 const { notifyDownloadFinished } = require("../helpers/notify");
 
 const listeners = [];

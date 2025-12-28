@@ -1,6 +1,3 @@
-const express = require("express");
-const router = express.Router();
-
 const { fetchInfo } = require("../services/info.services");
 const { parseVideo, parsePlaylist } = require("../helpers/parseInfo");
 const { logger } = require("../logger");

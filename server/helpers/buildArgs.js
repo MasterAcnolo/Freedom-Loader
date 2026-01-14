@@ -17,7 +17,8 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--fragment-retries", "10",
     "--ffmpeg-location", ffmpegPath,
     "--extractor-args","youtube:player_client=default",
-    "--js-runtimes", `deno:${denoPath}`
+    "--js-runtimes", `deno:${denoPath}`,
+    "-S", "vcodec:h264" // Will be replaced with a variables when i will add the settings panel (Next Update ?)
   ];
 
   if (audioOnly) args.push("-f", "bestaudio", "--extract-audio", "--audio-format", "mp3");

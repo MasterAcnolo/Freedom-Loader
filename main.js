@@ -3,8 +3,11 @@ const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron")
 const path = require("path");
 const os = require("os");
 const fs = require("fs");
+
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
 const { AutoUpdater } = require("./server/update.js");
+const { configFeatures } = require("./config.js");
+const { startRPC } = require("./server/discordRPC");
 
 let mainWindow;
 const logsFolderPath = logDir;
@@ -77,7 +80,7 @@ async function createMainWindow() {
     height: 800,
     minWidth: 750,
     minHeight: 800,
-    frame:false,
+    frame: !configFeatures.customTopBar,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -163,11 +166,15 @@ app.whenReady().then(async () => {
     await expressServer.startServer();
     logger.info("Express Server Started");
 
-    const { startRPC } = require("./server/discordRPC");
-    startRPC();
+    ipcMain.handle("features", () => {
+        return configFeatures;
+    });
+
+    configFeatures.discordRPC ? startRPC() : "";
 
     await createMainWindow();
-    AutoUpdater(mainWindow);
+    configFeatures.AutoUpdater ? AutoUpdater(mainWindow) : ""; // Auto Update 
+
   } catch (err) {
     logger.error("Window or Server error :", err);
     app.quit();

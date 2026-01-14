@@ -21,4 +21,12 @@ function setupTopbarListeners() {
   });
 }
 
-setupTopbarListeners();
+setupTopbarListeners(); // IF it put it the if check. It don't work. Why ?
+
+const features = await window.electronAPI.getFeatures();
+
+if(!features.customTopBar){
+  document.getElementById("topbar").style.display = "none"; 
+  document.getElementById("container").style.marginTop = "0";
+  document.getElementById("theme-switcher").style.top = "30px";  
+} 

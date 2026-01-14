@@ -25,156 +25,164 @@ async function fetchVideoInfo(url) {
     return { error: "Network or JSON Issue" };
   }
 }
+async function init() {
+  const configFeatures = await window.electronAPI.getFeatures();
 
-document.addEventListener("DOMContentLoaded", () => {
-  const urlInput = document.getElementById("UrlInput");
-  const infoDiv = document.getElementById("videoInfo");
-  const loaderBox = document.getElementById("loaderBox");
+  if (!configFeatures.autoCheckInfo) return;
 
-  let lastFetchedUrl = "";
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlInput = document.getElementById("UrlInput");
+    const infoDiv = document.getElementById("videoInfo");
+    const loaderBox = document.getElementById("loaderBox");
 
-  urlInput.addEventListener("input", async () => {
-    const url = urlInput.value.trim();
+    let lastFetchedUrl = "";
 
-    // Si champ vide -> reset total
-    if (!url || url.length < 2) {
-      infoDiv.innerHTML = "";
-      infoDiv.classList.remove("visible", "playlist-mode");
-      lastFetchedUrl = "";
-      return;
-    }
+    urlInput.addEventListener("input", async () => {
+      const url = urlInput.value.trim();
 
-    if (url === lastFetchedUrl) return;
-    lastFetchedUrl = url;
+      // Si champ vide -> reset total
+      if (!url || url.length < 2) {
+        infoDiv.innerHTML = "";
+        infoDiv.classList.remove("visible", "playlist-mode");
+        lastFetchedUrl = "";
+        return;
+      }
 
-    loaderBox.style.display = "flex";
-    const data = await fetchVideoInfo(url);
-    loaderBox.style.display = "none";
+      if (url === lastFetchedUrl) return;
+      lastFetchedUrl = url;
 
-    // Gestion des erreurs
-    if (data.error) {
-      infoDiv.innerHTML = `
-        <div style="
-          padding:7px;
-          background:var(----infos-box-color);
-        ">
-          <strong>${data.error}</strong> 
-        </div>
-      `;
-      infoDiv.classList.add("visible");
-      infoDiv.classList.remove("playlist-mode");
+      loaderBox.style.display = "flex";
+      const data = await fetchVideoInfo(url);
       loaderBox.style.display = "none";
-      return;
-    }
 
-    // ---------- PLAYLIST ----------
-    if (data.type === "playlist") {
-      infoDiv.classList.add("playlist-mode");
-      infoDiv.innerHTML = `
-        <h3 style="color:var(--video-info-heading-color);"><strong>Playlist Detected: ${data.title}</strong></h3>
-        <h3 style="color:var(--video-info-heading-color);"><strong>Video Count: ${data.count}</strong></h3>
-        <p><strong>Channel :</strong> ${data.channel || "Unknown"}</p>
-        <div id="playlistVideos"></div>
-      `;
-
-      const listDiv = document.getElementById("playlistVideos");
-
-      data.videos.forEach(v => {
-        const durationStr = v.duration
-          ? `${Math.floor(v.duration / 60)}m ${(v.duration % 60).toString().padStart(2,"0")}s` : "Inconnue";
-
-        const videoUrl = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
-
-        listDiv.innerHTML += `
-          <div style="margin-bottom:12px;">
-            <img src="${v.thumbnail}" width="160" alt="Thumbnail">
-            <p><strong>${v.title}</strong></p>
-            <p>Duration : ${durationStr}</p>
-            <p><a href="${videoUrl}" target="_blank">URL</a>
-              <button class="copy-btn" data-url="${videoUrl}">📋</button>
-            </p>
+      // Gestion des erreurs
+      if (data.error) {
+        infoDiv.innerHTML = `
+          <div style="
+            padding:7px;
+            background:var(----infos-box-color);
+          ">
+            <strong>${data.error}</strong> 
           </div>
         `;
-      });
+        infoDiv.classList.add("visible");
+        infoDiv.classList.remove("playlist-mode");
+        loaderBox.style.display = "none";
+        return;
+      }
 
-      // Gestion du bouton copier
-      listDiv.addEventListener("click", (event) => {
-        if (event.target.classList.contains("copy-btn")) {
-          const btn = event.target;
-          if (btn.disabled) return;
+      // ---------- PLAYLIST ----------
+      if (data.type === "playlist") {
+        infoDiv.classList.add("playlist-mode");
+        infoDiv.innerHTML = `
+          <h3 style="color:var(--video-info-heading-color);"><strong>Playlist Detected: ${data.title}</strong></h3>
+          <h3 style="color:var(--video-info-heading-color);"><strong>Video Count: ${data.count}</strong></h3>
+          <p><strong>Channel :</strong> ${data.channel || "Unknown"}</p>
+          <div id="playlistVideos"></div>
+        `;
 
-          btn.disabled = true;
-          const url = btn.dataset.url;
-          navigator.clipboard.writeText(url)
-            .then(() => {
-              const original = btn.textContent;
+        const listDiv = document.getElementById("playlistVideos");
 
-              btn.style.opacity = 0;
-              btn.style.transform = "scale(0.7)";
+        data.videos.forEach(v => {
+          const durationStr = v.duration
+            ? `${Math.floor(v.duration / 60)}m ${(v.duration % 60).toString().padStart(2,"0")}s` : "Inconnue";
 
-              setTimeout(() => {
-                btn.textContent = "✅";
-                btn.style.opacity = 1;
-                btn.style.transform = "scale(1)";
+          const videoUrl = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
+
+          listDiv.innerHTML += `
+            <div style="margin-bottom:12px;">
+              <img src="${v.thumbnail}" width="160" alt="Thumbnail">
+              <p><strong>${v.title}</strong></p>
+              <p>Duration : ${durationStr}</p>
+              <p><a href="${videoUrl}" target="_blank">URL</a>
+                <button class="copy-btn" data-url="${videoUrl}">📋</button>
+              </p>
+            </div>
+          `;
+        });
+
+        // Gestion du bouton copier
+        listDiv.addEventListener("click", (event) => {
+          if (event.target.classList.contains("copy-btn")) {
+            const btn = event.target;
+            if (btn.disabled) return;
+
+            btn.disabled = true;
+            const url = btn.dataset.url;
+            navigator.clipboard.writeText(url)
+              .then(() => {
+                const original = btn.textContent;
+
+                btn.style.opacity = 0;
+                btn.style.transform = "scale(0.7)";
 
                 setTimeout(() => {
-                  btn.style.opacity = 0;
-                  btn.style.transform = "scale(0.7)";
+                  btn.textContent = "✅";
+                  btn.style.opacity = 1;
+                  btn.style.transform = "scale(1)";
 
                   setTimeout(() => {
-                    btn.textContent = original;
-                    btn.style.opacity = 1;
-                    btn.style.transform = "scale(1)";
-                    btn.disabled = false;
-                  }, 300);
+                    btn.style.opacity = 0;
+                    btn.style.transform = "scale(0.7)";
 
-                }, 1000);
+                    setTimeout(() => {
+                      btn.textContent = original;
+                      btn.style.opacity = 1;
+                      btn.style.transform = "scale(1)";
+                      btn.disabled = false;
+                    }, 300);
 
-              }, 300);
-            })
-            .catch(() => {
-              const original = btn.textContent;
-              btn.textContent = "❌";
-              setTimeout(() => {
-                btn.textContent = original;
-                btn.disabled = false;
-              }, 1500);
-            });
-        }
-      });
+                  }, 1000);
+
+                }, 300);
+              })
+              .catch(() => {
+                const original = btn.textContent;
+                btn.textContent = "❌";
+                setTimeout(() => {
+                  btn.textContent = original;
+                  btn.disabled = false;
+                }, 1500);
+              });
+          }
+        });
+
+        infoDiv.classList.add("visible");
+        return;
+      }
+
+      infoDiv.classList.remove("playlist-mode");
+
+      // ---------- VIDEO NORMALE ----------
+      const durationStr = data.duration
+        ? `${Math.floor(data.duration/60)}m ${(data.duration%60).toString().padStart(2,"0")}s`
+        : "Unknown";
+
+      const sizeStr = formatSize(data.filesize_approx);
+      const readableDate = formatDate(data.upload_date);
+      const categories = data.categories?.join(", ") || "Non spécifiées";
+
+      infoDiv.innerHTML = `
+        <h3>${data.title}</h3>
+        <img src="${data.thumbnail}" width="320" alt="Thumbnail">
+        <ul>
+          <li><strong>Duration :</strong> ${durationStr}</li>
+          <li><strong>Uploader :</strong> ${data.uploader || "Inconnu"}</li>
+          <li><strong>Upload Date :</strong> ${readableDate}</li>
+          <li><strong>Views :</strong> ${data.view_count?.toLocaleString() || "?"}</li>
+          <li><strong>Likes :</strong> ${data.like_count?.toLocaleString() || "?"}</li>
+          <li><strong>URL :</strong> <a href="${data.webpage_url}" target="_blank">${data.webpage_url}</a></li>
+          <li><strong>Channel :</strong> <a href="${data.channel_url}" target="_blank">${data.channel_url}</a></li>
+          <li><strong>Estimed Size :</strong> ${sizeStr}</li>
+          <li><strong>Category :</strong> ${categories}</li>
+        </ul>
+      `;
 
       infoDiv.classList.add("visible");
-      return;
-    }
+    });
 
-    infoDiv.classList.remove("playlist-mode");
+  })
 
-    // ---------- VIDEO NORMALE ----------
-    const durationStr = data.duration
-      ? `${Math.floor(data.duration/60)}m ${(data.duration%60).toString().padStart(2,"0")}s`
-      : "Unknown";
+};
 
-    const sizeStr = formatSize(data.filesize_approx);
-    const readableDate = formatDate(data.upload_date);
-    const categories = data.categories?.join(", ") || "Non spécifiées";
-
-    infoDiv.innerHTML = `
-      <h3>${data.title}</h3>
-      <img src="${data.thumbnail}" width="320" alt="Thumbnail">
-      <ul>
-        <li><strong>Duration :</strong> ${durationStr}</li>
-        <li><strong>Uploader :</strong> ${data.uploader || "Inconnu"}</li>
-        <li><strong>Upload Date :</strong> ${readableDate}</li>
-        <li><strong>Views :</strong> ${data.view_count?.toLocaleString() || "?"}</li>
-        <li><strong>Likes :</strong> ${data.like_count?.toLocaleString() || "?"}</li>
-        <li><strong>URL :</strong> <a href="${data.webpage_url}" target="_blank">${data.webpage_url}</a></li>
-        <li><strong>Channel :</strong> <a href="${data.channel_url}" target="_blank">${data.channel_url}</a></li>
-        <li><strong>Estimed Size :</strong> ${sizeStr}</li>
-        <li><strong>Category :</strong> ${categories}</li>
-      </ul>
-    `;
-
-    infoDiv.classList.add("visible");
-  });
-
-})
+init();

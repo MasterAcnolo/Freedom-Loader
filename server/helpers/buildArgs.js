@@ -2,6 +2,7 @@ const path = require("path");
 
 const getUserBrowser = require("./getBrowser");
 const { ffmpegPath, denoPath} = require("./path");
+const { configFeatures } = require("../../config.js");
 
 
 function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
@@ -10,8 +11,8 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--cookies-from-browser", `${getUserBrowser()}`,
     "--no-continue",
     "--no-overwrites",
-    "--embed-thumbnail",
-    "--add-metadata",
+    configFeatures.addThumbail ? "--embed-thumbnail" : null,
+    configFeatures.addMetadata ? "--add-metadata" : null,
     "--concurrent-fragments", "8",
     "--retries", "10",
     "--fragment-retries", "10",
@@ -37,7 +38,7 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
   args.push("-o", path.join(outputFolder, "%(title)s.%(ext)s"));
   args.push(url);
 
-  return args;
+  return args.filter(Boolean);
 }
 
 module.exports = { buildYtDlpArgs };

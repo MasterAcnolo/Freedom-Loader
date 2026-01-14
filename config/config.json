@@ -1,0 +1,13 @@
+{
+  "autoUpdate": true,
+  "discordRPC": true,
+  "customTopBar": true,
+  "autoDownloadPlaylist": true,
+  "logSystem": true,
+  "autoCheckInfo": true,
+  "outputTitleCheck": true,
+  "addThumbnail": true,
+  "addMetadata": true,
+  "downloadSystem": true,
+  "notifySystem": true
+}

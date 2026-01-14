@@ -101,20 +101,43 @@ async function createMainWindow() {
   });
 }
 
+function validateDownloadPath(userPath) {
+  const userHome = os.homedir(); // C:\Users\<User>
+
+  if (!userPath) return path.join(userHome, "Downloads", "Freedom Loader");
+
+  // Résolution canonique et suivi des symlinks
+  const resolved = fs.realpathSync(path.resolve(userPath));
+  const normalizedHome = path.resolve(userHome) + path.sep;
+
+  if (!resolved.startsWith(normalizedHome)) {
+    throw new Error("Chemin non autorisé : uniquement les sous-dossiers du dossier utilisateur sont permis !");
+  }
+
+  return resolved;
+}
+
+
 // IPC
 ipcMain.handle("select-download-folder", async () => {
   try {
     const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
     if (!result.canceled && result.filePaths.length > 0) {
-      logger.info(`Dossier sélectionné : ${result.filePaths[0]}`);
-      return result.filePaths[0];
+      const validatedPath = validateDownloadPath(result.filePaths[0]);
+      logger.info(`Folder Checked and Valid : ${validatedPath}`);
+      return validatedPath;
     }
     return null;
   } catch (err) {
-    logger.error(`Error when creating Output Folder : ${err.message}`);
+    logger.error(`An Error Occured when validating folder : ${err.message}`);
     return null;
   }
 });
+
+ipcMain.handle("validate-download-path", (event, userPath) => {
+  return validateDownloadPath(userPath);
+});
+
 
 ipcMain.handle("get-default-download-path", () => defaultDownloadPath);
 

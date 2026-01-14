@@ -4,7 +4,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getDefaultDownloadPath: () => ipcRenderer.invoke("get-default-download-path"),
   selectDownloadFolder: () => ipcRenderer.invoke("select-download-folder"),
   setProgress: (percent) => ipcRenderer.send("set-progress", percent),
-  getFeatures: () => ipcRenderer.invoke("features")
+  getFeatures: () => ipcRenderer.invoke("features"),
+  getValidatedDownloadPath: (path) => ipcRenderer.invoke("validate-download-path", path)
 });
 
 // Contrôles de fenêtre et outils custom pour la topbar

@@ -57,6 +57,10 @@
         "to": "app-icon.ico"
       },
       {
+        "from": "build/banner.bmp",
+        "to": "banner.bmp"
+      },
+      {
         "from": "build/error.png",
         "to": "error.png"
       },
@@ -91,6 +95,7 @@
       "allowToChangeInstallationDirectory": true,
       "installerIcon": "build/app-icon.ico",
       "uninstallerIcon": "build/uninstaller-icon.ico",
+      "installerSidebar": "build/banner.bmp",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Freedom Loader"

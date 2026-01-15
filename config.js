@@ -12,7 +12,6 @@ let features = {};
 function loadFeatures() {
     const raw = fs.readFileSync(featuresPath, "utf-8");
     features = JSON.parse(raw);
-    console.log(features)
     return features;
 }
 

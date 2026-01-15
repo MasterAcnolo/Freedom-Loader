@@ -12,7 +12,7 @@ function validateCodec(codec){
   ]
 
   if(validCodec.includes(codec)){
-      logger.info("Codec Valid:", codec)
+      logger.info(`Codec Valid: ${codec}`)
       return codec
   } else{
     logger.error(`Codec not valid: ${codec}. Using default codec`)
@@ -21,6 +21,26 @@ function validateCodec(codec){
 }
 
 function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
+
+  logger.info("--- CONFIGURATION ---");
+
+  logger.info(`CONFIG autoUpdate: ${configFeatures.autoUpdate}`);
+  logger.info(`CONFIG discordRPC: ${configFeatures.discordRPC}`);
+  logger.info(`CONFIG customTopBar: ${configFeatures.customTopBar}`);
+  logger.info(`CONFIG autoCheckInfo: ${configFeatures.autoCheckInfo}`);
+  logger.info(`CONFIG addThumbnail: ${configFeatures.addThumbnail}`);
+  logger.info(`CONFIG addMetadata: ${configFeatures.addMetadata}`);
+  logger.info(`CONFIG verboseLogs: ${configFeatures.verboseLogs}`);
+  logger.info(`CONFIG autoDownloadPlaylist: ${configFeatures.autoDownloadPlaylist}`);
+  logger.info(`CONFIG customCodec: ${configFeatures.customCodec}`);
+
+  // ACTIVATE THEM WHEN THE FEATURE IS IMPLEMENTED
+  // logger.info(`CONFIG logSystem: ${configFeatures.logSystem}`);
+  // logger.info(`CONFIG outputTitleCheck: ${configFeatures.outputTitleCheck}`);
+  // logger.info(`CONFIG downloadSystem: ${configFeatures.downloadSystem}`);
+  // logger.info(`CONFIG notifySystem: ${configFeatures.notifySystem}`);
+
+  logger.info("---------------------");
   
   const args = [
     configFeatures.verboseLogs ? "--verbose" : null, // Verbose Logs

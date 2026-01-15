@@ -83,6 +83,10 @@
       {
         "from": "server",
         "to": "server"
+      },
+      {
+        "from": "config/config.json",
+        "to": "config.json"
       }
     ],
     "win": {

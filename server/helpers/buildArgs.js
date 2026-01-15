@@ -8,10 +8,12 @@ const { configFeatures } = require("../../config.js");
 function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
   
   const args = [
+    configFeatures.verboseLogs ? "--verbose" : null, // Verbose Logs
     "--cookies-from-browser", `${getUserBrowser()}`,
     "--no-continue",
     "--no-overwrites",
-    configFeatures.addThumbail ? "--embed-thumbnail" : null,
+    "--newline", // YT-DLP Logs Format 
+    configFeatures.addThumbnail ? "--embed-thumbnail" : null,
     configFeatures.addMetadata ? "--add-metadata" : null,
     "--concurrent-fragments", "8",
     "--retries", "10",
@@ -19,7 +21,8 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--ffmpeg-location", ffmpegPath,
     "--extractor-args","youtube:player_client=default",
     "--js-runtimes", `deno:${denoPath}`,
-    "-S", "vcodec:h264" // Will be replaced with a variables when i will add the settings panel (Next Update ?)
+    "-S", "vcodec:h264", // Will be replaced with a variables when i will add the settings panel (Next Update ?)
+    configFeatures.autoDownloadPlaylist ? "--yes-playlist" : "--no-playlist"
   ];
 
   if (audioOnly) args.push("-f", "bestaudio", "--extract-audio", "--audio-format", "mp3");

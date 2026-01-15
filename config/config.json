@@ -2,12 +2,15 @@
   "autoUpdate": true,
   "discordRPC": true,
   "customTopBar": true,
-  "autoDownloadPlaylist": true,
-  "logSystem": true,
   "autoCheckInfo": true,
-  "outputTitleCheck": true,
   "addThumbnail": true,
   "addMetadata": true,
+  "verboseLogs": false,
+  "autoDownloadPlaylist": true,
+
+  
+  "logSystem": true,
+  "outputTitleCheck": true,
   "downloadSystem": true,
   "notifySystem": true
 }

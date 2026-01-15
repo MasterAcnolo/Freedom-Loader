@@ -16,6 +16,7 @@ const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader
 app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
 app.disableHardwareAcceleration();
 
+ipcMain.handle("version", () => config.version);
 
 // Gestion single instance
 const gotLock = app.requestSingleInstanceLock();

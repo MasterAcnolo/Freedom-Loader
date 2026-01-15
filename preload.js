@@ -17,5 +17,6 @@ contextBridge.exposeInMainWorld("topbarAPI", {
   openDevTools: () => ipcRenderer.send("open-devtools"),
   openLogs: () => ipcRenderer.send("open-logs"),
   openWebsite: () => ipcRenderer.send("open-website"),
-  openWiki: () => ipcRenderer.send("open-wiki")
+  openWiki: () => ipcRenderer.send("open-wiki"),
+  openConfig: () => ipcRenderer.send("open-config")
 });

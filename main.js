@@ -31,10 +31,10 @@ const gotLock = app.requestSingleInstanceLock();
 // Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
 function checkNativeDependencies() {
   const deps = [
-    { name: "yt-dlp.exe", path: path.join(process.resourcesPath, "yt-dlp.exe") },
-    { name: "ffmpeg.exe", path: path.join(process.resourcesPath, "ffmpeg.exe") },
-    { name: "ffprobe.exe", path: path.join(process.resourcesPath, "ffprobe.exe") },
-    { name: "deno.exe", path: path.join(process.resourcesPath, "deno.exe") },
+    { name: "yt-dlp.exe", path: path.join(process.resourcesPath, "binaries","yt-dlp.exe") },
+    { name: "ffmpeg.exe", path: path.join(process.resourcesPath, "binaries", "ffmpeg.exe") },
+    { name: "ffprobe.exe", path: path.join(process.resourcesPath, "binaries", "ffprobe.exe") },
+    { name: "deno.exe", path: path.join(process.resourcesPath, "binaries", "deno.exe") },
   ];
   const missing = deps.filter(dep => !fs.existsSync(dep.path));
   let errorMsg = "";
@@ -193,7 +193,8 @@ app.whenReady().then(async () => {
   logSessionStart();
   logger.info("App Ready, Server Express starting...");
 
-  const serverPath = path.join(__dirname, "server", "server.js");
+  const serverPath = path.join(__dirname, "server", "server.js")
+
   const expressServer = require(serverPath);
 
   try {

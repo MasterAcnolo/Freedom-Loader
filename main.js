@@ -11,6 +11,13 @@ const { startRPC } = require("./server/discordRPC");
 
 let mainWindow;
 const logsFolderPath = logDir;
+
+const basePath = config.localMode
+  ? path.join(__dirname, "config")
+  : path.join(path.dirname(process.execPath), "resources");
+
+const configFolderPath = path.join(basePath, "config.json");
+
 const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
 
 app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
@@ -175,6 +182,9 @@ ipcMain.on("open-website", () => {
 });
 ipcMain.on("open-wiki", () => {
   shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html");
+});
+ipcMain.on("open-config", () => {
+  if (configFolderPath) shell.openPath(configFolderPath);
 });
 
 

@@ -21,7 +21,6 @@ const configFeatures = loadFeatures();
 module.exports = {
     version: packageJson.version,
     applicationPort: "8787",
-    debugMode: true,
     localMode,
     DiscordRPCID: "1410934537051181146",
     configFeatures

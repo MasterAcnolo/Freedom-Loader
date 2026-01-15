@@ -39,9 +39,7 @@
     "files": [
       "**/*",
       "node_modules/**/*",
-      "!logs/*.json",
-      "server/**/*",
-      "server/node_modules/**/*"
+      "!logs/*.json"
     ],
     "directories": {
       "buildResources": "build"
@@ -66,23 +64,19 @@
       },
       {
         "from": "ressources/yt-dlp.exe",
-        "to": "yt-dlp.exe"
+        "to": "binaries/yt-dlp.exe"
       },
       {
         "from": "ressources/ffmpeg.exe",
-        "to": "ffmpeg.exe"
+        "to": "binaries/ffmpeg.exe"
       },
       {
         "from": "ressources/ffprobe.exe",
-        "to": "ffprobe.exe"
+        "to": "binaries/ffprobe.exe"
       },
       {
         "from": "ressources/deno.exe",
-        "to": "deno.exe"
-      },
-      {
-        "from": "server",
-        "to": "server"
+        "to": "binaries/deno.exe"
       },
       {
         "from": "config/config.json",

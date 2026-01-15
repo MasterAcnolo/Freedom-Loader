@@ -3,7 +3,22 @@ const path = require("path");
 const getUserBrowser = require("./getBrowser");
 const { ffmpegPath, denoPath} = require("./path");
 const { configFeatures } = require("../../config.js");
+const { logger } = require("../logger");
 
+function validateCodec(codec){
+
+  const validCodec = [
+    "av01","vp9.2", "vp9" , "h265" , "h264" , "vp8" , "h263", "theora" 
+  ]
+
+  if(validCodec.includes(codec)){
+      logger.info("Codec Valid:", codec)
+      return codec
+  } else{
+    logger.error(`Codec not valid: ${codec}. Using default codec`)
+    return "h264"
+  }
+}
 
 function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
   
@@ -21,7 +36,7 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--ffmpeg-location", ffmpegPath,
     "--extractor-args","youtube:player_client=default",
     "--js-runtimes", `deno:${denoPath}`,
-    "-S", "vcodec:h264", // Will be replaced with a variables when i will add the settings panel (Next Update ?)
+    "-S", `vcodec:${validateCodec(configFeatures.customCodec) || "h264"}`,
     configFeatures.autoDownloadPlaylist ? "--yes-playlist" : "--no-playlist"
   ];
 

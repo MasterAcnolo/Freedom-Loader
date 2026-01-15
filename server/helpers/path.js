@@ -9,14 +9,14 @@ let userYtDlp;
 let ffmpegPath;
 let denoPath;
 
-const sourceYtDlp = path.join(process.resourcesPath, "yt-dlp.exe");
+const sourceYtDlp = path.join(process.resourcesPath, "binaries","yt-dlp.exe");
 
 if (config.localMode) {
   userYtDlp = path.join(__dirname, "../../ressources/yt-dlp.exe");
   ffmpegPath = path.join(__dirname, "../../ressources/"); // <- contient ffmpeg.exe et ffprobe.exe
   denoPath = path.join(__dirname, "../../ressources/deno.exe"); 
 } else {
-  userYtDlp = path.join(app.getPath("userData"),"binaries","yt-dlp.exe");
+  userYtDlp = path.join(app.getPath("userData"),"yt-dlp.exe");
   ffmpegPath = path.join(process.resourcesPath, "binaries","ffmpeg.exe"); 
   denoPath = path.join(process.resourcesPath, "binaries","deno.exe");
 

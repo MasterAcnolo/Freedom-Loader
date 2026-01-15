@@ -13,10 +13,10 @@ let mainWindow;
 const logsFolderPath = logDir;
 
 const basePath = config.localMode
-  ? path.join(__dirname, "config")
+  ? path.join(__dirname )
   : path.join(path.dirname(process.execPath), "resources");
 
-const configFolderPath = path.join(basePath, "config.json");
+const configFolderPath = path.join(basePath, "config" ,"config.json");
 
 const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
 

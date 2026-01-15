@@ -80,7 +80,7 @@
       },
       {
         "from": "config/config.json",
-        "to": "config.json"
+        "to": "config/config.json"
       }
     ],
     "win": {

@@ -1,9 +1,8 @@
 <div align="center">
-  <img
+  <a href="https://masteracnolo.github.io/FreedomLoader/"><img
     src="./build/banner.png"
     alt="Banner"
-    style="width: 50%;;"/>
-
+    style="width: 50%;;"/></a>
 </div>
 
 <div align="center">

@@ -32,11 +32,20 @@
         </div>
     </div>
 
-    <div class="theme-switcher" id="theme-switcher">
+    <div class="theme-switcher" id="theme-switcher" style="display: none;">
         <label for="themeSelect">Thème :</label>
         <select id="themeSelect" aria-label="Choisir le thème"></select>
     </div>
+    
+    <button id="settings-button" class="settings-button" onclick="openPanel()"> <img src="assets/icon/settings.png"> </button>
 
+    <div class="settings-panel" id="settings-panel" style="display: none;">
+        <h3> Settings Panel </h3>
+        <div class="container">
+            
+        </div>
+    </div>
+ 
     <div class="container" id="container">
 
     <header>
@@ -100,6 +109,7 @@
     
     <!-- Scripts -->
     <script src="script/custompath.js"></script>
+    <script src="script/settingsPanel.js"></script>
     <script src="script/appVersion.js"></script>
     <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>

@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   selectDownloadFolder: () => ipcRenderer.invoke("select-download-folder"),
   setProgress: (percent) => ipcRenderer.send("set-progress", percent),
   getFeatures: () => ipcRenderer.invoke("features"),
+  setFeature: (key, value) => ipcRenderer.invoke("set-feature", { key, value }),
   getVersion: () => ipcRenderer.invoke("version"),
   getValidatedDownloadPath: (path) => ipcRenderer.invoke("validate-download-path", path)
 });

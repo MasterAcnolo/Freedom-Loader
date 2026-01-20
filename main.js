@@ -204,6 +204,22 @@ app.whenReady().then(async () => {
     ipcMain.handle("features", () => {
         return configFeatures;
     });
+    
+    ipcMain.handle("set-feature", (event, { key, value }) => {
+      try {
+        // update mémoire
+        configFeatures[key] = value;
+
+        // écriture directe sur le JSON
+        fs.writeFileSync(configFolderPath, JSON.stringify(configFeatures, null, 2), "utf-8");
+
+        logger.info(`Feature updated: ${key} = ${value}`);
+        return true;
+      } catch (err) {
+        logger.error(`set-feature failed (${key}): ${err.message}`);
+        return false;
+      }
+    });
 
     configFeatures.discordRPC ? startRPC() : "";
 

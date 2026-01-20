@@ -52,9 +52,9 @@ body {
 
 /* Because why not */
 #reference{
-  position: absolute;
+  position: fixed;
   pointer-events: none;
-  bottom: 0;
+  bottom:0vh;
   left: 10px;
   font-size: 1em;
   color: #b0b0b02f;

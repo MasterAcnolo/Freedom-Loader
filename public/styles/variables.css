@@ -33,4 +33,14 @@
   --video-info-list-strong-color: #000000;
   --video-info-link-color: #007bff;
   --video-info-link-hover-color: #0056b3;
+
+  /* Settings */
+  --settings-button-bg-color: var(--form-bg-color);
+  --settings-button-text-color: var(--default-text-color);  
+
+  --settings-bg-primary-color: var(--form-bg-color);
+  --settings-bg-secondary-color: var(--form-bg-color);
+  --settings-text-color: var(--default-text-color);  
+  --settings-subtitle-color: #aaa;
+
 }

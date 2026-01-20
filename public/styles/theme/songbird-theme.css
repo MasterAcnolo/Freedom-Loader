@@ -42,6 +42,15 @@ body.songbird {
 
   /* Playlist Color */
   --playlist-background-color: #3f0000;
+  
+  /* Settings */
+  --settings-button-bg-color: rgba(29, 0, 0, 0.784);
+  --settings-button-text-color: var(--default-text-color);  
+
+  --settings-bg-primary-color: #121212;
+  --settings-bg-secondary-color: #1a1a1a;
+  --settings-text-color: var(--default-text-color); 
+  --settings-subtitle-color: #7a7979; 
 }
 
 body.cyberpunk .download-path {

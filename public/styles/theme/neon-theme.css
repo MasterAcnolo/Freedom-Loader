@@ -43,6 +43,15 @@ body.neon {
 
     /* Playlist Color */
     --playlist-background-color: #3e3e64;
+
+    /* Settings */
+    --settings-button-bg-color: #202038;
+    --settings-button-text-color: var(--default-text-color);  
+
+    --settings-bg-primary-color: #242454;
+    --settings-bg-secondary-color: #2f2f6f;
+    --settings-text-color: var(--default-text-color); 
+    --settings-subtitle-color: #d2d2d2; 
 }
 
 body.neon .download-path {

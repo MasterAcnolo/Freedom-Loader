@@ -25,10 +25,9 @@ async function fetchVideoInfo(url) {
     return { error: "Network or JSON Issue" };
   }
 }
-async function init() {
-  const configFeatures = await window.electronAPI.getFeatures();
 
-  if (!configFeatures.autoCheckInfo) return;
+
+async function init() {
 
   document.addEventListener("DOMContentLoaded", () => {
     const urlInput = document.getElementById("UrlInput");
@@ -38,6 +37,10 @@ async function init() {
     let lastFetchedUrl = "";
 
     urlInput.addEventListener("input", async () => {
+
+      const configFeatures = await window.electronAPI.getFeatures();
+      if (!configFeatures.autoCheckInfo) return;
+
       const url = urlInput.value.trim();
 
       // Si champ vide -> reset total

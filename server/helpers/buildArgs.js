@@ -56,7 +56,9 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
     "--ffmpeg-location", ffmpegPath,
     "--extractor-args","youtube:player_client=default",
     "--js-runtimes", `deno:${denoPath}`,
-    "-S", `vcodec:${validateCodec(configFeatures.customCodec) || "h264"}`,
+    "-S", 
+    `vcodec:${validateCodec(configFeatures.customCodec) || "h264"}`+
+    `,acodec:aac`,
     configFeatures.autoDownloadPlaylist ? "--yes-playlist" : "--no-playlist"
   ];
 

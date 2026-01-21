@@ -205,6 +205,49 @@ app.whenReady().then(async () => {
         return configFeatures;
     });
 
+    const featureWhitelist = new Set([
+        "autoUpdate",
+        "discordRPC",
+        "customTopBar",
+        "autoCheckInfo",
+        "addThumbnail",
+        "addMetadata",
+        "verboseLogs",
+        "autoDownloadPlaylist",
+        "customCodec"
+      ]);
+
+    
+    ipcMain.handle("set-feature", (event, { key, value }) => {
+        try {
+          if (!featureWhitelist.has(key)) {
+            logger.warn(`Rejected feature (not whitelisted): ${key}`);
+            return false;
+          }
+
+          // optionnel mais propre
+          if (configFeatures[key] === value) {
+            return true;
+          }
+
+          configFeatures[key] = value;
+
+          fs.writeFileSync(
+            configFolderPath,
+            JSON.stringify(configFeatures, null, 2),
+            "utf-8"
+          );
+
+          logger.info(`Feature updated: ${key} = ${value}`);
+          return true;
+
+        } catch (err) {
+          logger.error(`set-feature failed (${key}): ${err.message}`);
+          return false;
+        }
+      });
+
+
     configFeatures.discordRPC ? startRPC() : "";
 
     await createMainWindow();

@@ -36,4 +36,14 @@ body.dark {
 
   /* Playlist Color */
   --playlist-background-color: #303030;
+
+  /* Settings */
+  --settings-button-bg-color: #1e1e1e;
+  --settings-button-text-color: var(--default-text-color);  
+
+  --settings-bg-primary-color: #1e1e1e;
+  --settings-bg-secondary-color: #2a2a2a;
+  --settings-text-color: var(--default-text-color); 
+  --settings-subtitle-color: #aaa;
+
 }

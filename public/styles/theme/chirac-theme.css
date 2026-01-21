@@ -42,6 +42,16 @@ body.chirac {
 
   /* Playlist Color */
   --playlist-background-color: #d1d1d1ca;
+
+  /* Settings */ 
+  --settings-button-bg-color: #00196a;
+  --settings-button-text-color: #dcdcdc;  
+
+  --settings-bg-primary-color: #0b0528;
+  --settings-bg-secondary-color: #1c1055;
+
+  --settings-text-color: #cecece; 
+  --settings-subtitle-color: #adadad;
 }
 
 

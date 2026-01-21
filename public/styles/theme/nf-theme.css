@@ -42,6 +42,15 @@ body.nf {
 
   /* Playlist Color */
   --playlist-background-color: #4f4f4f;
+
+  /* Settings */
+  --settings-button-bg-color: #2a2a2a;
+  --settings-button-text-color: var(--default-text-color);  
+
+  --settings-bg-primary-color: #2a2a2a;
+  --settings-bg-secondary-color: #313131;
+  --settings-text-color: var(--default-text-color); 
+  --settings-subtitle-color: #7a7979; 
 }
 
 body.nf .download-path {

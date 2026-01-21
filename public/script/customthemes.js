@@ -1,8 +1,7 @@
 const themes = {
-  default:    { label: "Default", subtitle: "Because why not?" },
   dark:       { label: "Sombre", subtitle: "Darkness is my ally" },
   light:      { label: "Clair", subtitle: "Qui aime ce thème ?" },
-  neon:       { label: "Néon", subtitle: "How was your day ?"},
+  neon:       { label: "Purple", subtitle: "How was your day ?"},
   nf:         { label: "NF", subtitle: "You call it music, i call it my Therapist" },
   songbird:   { label: "Songbird", subtitle: "From Her to Eternity" },
   drift:      { label: "Drift", subtitle: "Si la route t'appelle, contre appel" },

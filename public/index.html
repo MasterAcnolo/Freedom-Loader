@@ -23,7 +23,6 @@
             <button id="logs-btn" title="Logs">Logs</button>
             <button id="website-btn" title="Website">Website</button>
             <button id="wiki-btn" title="Wiki">Wiki</button>
-            <button id="config-btn" title="Configuration">Configuration</button>
         </div>
         <div class="window-controls">
             <button id="minimize-btn" title="Réduire"><img src="assets/icon/minimize.svg"></button>
@@ -31,12 +30,170 @@
             <button id="close-btn" title="Fermer"><img src="assets/icon/close.svg"></button>
         </div>
     </div>
+    
+    <button class="settings-button" id="settings-button">
+        <svg width="800px" height="800px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><title>ionicons-v5-q</title><path d="M262.29,192.31a64,64,0,1,0,57.4,57.4A64.13,64.13,0,0,0,262.29,192.31ZM416.39,256a154.34,154.34,0,0,1-1.53,20.79l45.21,35.46A10.81,10.81,0,0,1,462.52,326l-42.77,74a10.81,10.81,0,0,1-13.14,4.59l-44.9-18.08a16.11,16.11,0,0,0-15.17,1.75A164.48,164.48,0,0,1,325,400.8a15.94,15.94,0,0,0-8.82,12.14l-6.73,47.89A11.08,11.08,0,0,1,298.77,470H213.23a11.11,11.11,0,0,1-10.69-8.87l-6.72-47.82a16.07,16.07,0,0,0-9-12.22,155.3,155.3,0,0,1-21.46-12.57,16,16,0,0,0-15.11-1.71l-44.89,18.07a10.81,10.81,0,0,1-13.14-4.58l-42.77-74a10.8,10.8,0,0,1,2.45-13.75l38.21-30a16.05,16.05,0,0,0,6-14.08c-.36-4.17-.58-8.33-.58-12.5s.21-8.27.58-12.35a16,16,0,0,0-6.07-13.94l-38.19-30A10.81,10.81,0,0,1,49.48,186l42.77-74a10.81,10.81,0,0,1,13.14-4.59l44.9,18.08a16.11,16.11,0,0,0,15.17-1.75A164.48,164.48,0,0,1,187,111.2a15.94,15.94,0,0,0,8.82-12.14l6.73-47.89A11.08,11.08,0,0,1,213.23,42h85.54a11.11,11.11,0,0,1,10.69,8.87l6.72,47.82a16.07,16.07,0,0,0,9,12.22,155.3,155.3,0,0,1,21.46,12.57,16,16,0,0,0,15.11,1.71l44.89-18.07a10.81,10.81,0,0,1,13.14,4.58l42.77,74a10.8,10.8,0,0,1-2.45,13.75l-38.21,30a16.05,16.05,0,0,0-6.05,14.08C416.17,247.67,416.39,251.83,416.39,256Z" style="fill:none;stroke:var(--settings-button-text-color);stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>
+    </button>
 
-    <div class="theme-switcher" id="theme-switcher">
-        <label for="themeSelect">Thème :</label>
-        <select id="themeSelect" aria-label="Choisir le thème"></select>
+
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-modal">
+
+            <button class="close-btn" onclick="closePanel()">✕</button>
+            
+            <div class="settings-title">
+                <h2>SETTINGS</h2>
+                <p style="font-size: 0.8em;">Changes are saved automatically. <br> Somes changes could need a restart</p>
+                </div>
+
+            <!-- Basic Settings visibles -->
+            <div class="settings-section">
+                <h3>Basic Settings</h3>
+
+                <div class="setting-item" id="theme" style="margin-left: 32px;">
+                    <div class="setting-info">
+                        <div style="display: flex;">
+                        <span class="setting-title">Thème</span>
+
+                        <select id="themeSelect" data-key="theme" aria-label="Choisir le thème">
+
+                        </select>
+                        </div>
+                        <small>Choose the theme of the application</small>
+                    </div>
+                </div>
+
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="discordRPC" id="discordRPC">
+                    <div class="setting-info">
+                    <span class="setting-title">Discord RPC</span>
+                    <small>Enable/disable Discord Rich Presence for your app.</small>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="autoDownloadPlaylist" id="autoDownloadPlaylist">
+                    <div class="setting-info">
+                    <span class="setting-title">Download Playlist automatically?</span>
+                    <small>If enabled, playlists will download without confirmation.</small>
+                    </div>
+                </div>
+
+                <!-- <div class="setting-item">
+                    <input type="checkbox" data-key="notifySystem" id="notifySystem">
+                    <div class="setting-info">
+                    <span class="setting-title">Notification at the end</span>
+                    <small>Notify when a download finishes.</small>
+                    </div>
+                </div> -->
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="customTopBar" id="customTopBar">
+                    <div class="setting-info">
+                    <span class="setting-title">Custom Top bar</span>
+                    <small>Use this if the topbar is missing or you prefer a custom one.</small>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="autoCheckInfo" id="autoCheckInfo">
+                    <div class="setting-info">
+                    <span class="setting-title">Auto Fetch Info</span>
+                    <small>Automatically fetch information for new downloads.</small>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Advanced Settings -->
+                <details class="settings-section">
+                <summary>Advanced Settings</summary>
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="autoUpdate" id="autoUpdate">
+                    <div class="setting-info">
+                    <span class="setting-title">Auto Update</span>
+                    <small>Enable automatic app updates.</small>
+                    </div>
+                </div>
+
+                <!-- <div class="setting-item">
+                    <input type="checkbox" data-key="outputTitleCheck" id="outputTitleCheck">
+                    <div class="setting-info">
+                    <span class="setting-title">Output title (special chars)</span>
+                    <small>Check for unusual characters in output titles.</small>
+                    </div>
+                </div> -->
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="addMetadata" id="addMetadata">
+                    <div class="setting-info">
+                    <span class="setting-title">Add Metadata</span>
+                    <small>Include metadata in downloaded files.</small>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="addThumbnail" id="addThumbnail">
+                    <div class="setting-info">
+                    <span class="setting-title">Add Thumbnail</span>
+                    <small>Include thumbnails in downloaded files.</small>
+                    </div>
+                </div>
+
+                <div class="setting-item" style="margin-left: 32px; margin-top: 20px;">
+                    <div class="setting-info">
+                        <span class="setting-title">Custom Codec</span>
+                        <select data-key="customCodec">
+                        <option value="h264">H264</option>
+                        <option value="vp9">VP9</option>
+                        <option value="av1">AV1</option>
+                        </select>
+                        <small>Choose your preferred video codec.</small>
+                    </div>
+                </div>
+
+                </details>
+
+                <!-- Developer Settings -->
+                <details class="settings-section">
+                <summary>Developer Settings</summary>
+
+                <!-- <div class="setting-item">
+                    <input type="checkbox" data-key="downloadSystem" id="downloadSystem">
+                    <div class="setting-info">
+                    <span class="setting-title">Download System</span>
+                    <small>Enable/disable the internal download system.</small>
+                    </div>
+                </div> -->
+
+                <!-- <div class="setting-item">
+                    <input type="checkbox" data-key="logSystem" id="logSystem">
+                    <div class="setting-info">
+                    <span class="setting-title">Log System</span>
+                    <small>Enable logging system.</small>
+                    </div>
+                </div> -->
+
+                <div class="setting-item">
+                    <input type="checkbox" data-key="verboseLogs" id="verboseLogs">
+                    <div class="setting-info">
+                    <span class="setting-title">Verbose Logs</span>
+                    <small>Show verbose logs for debugging purposes.</small>
+                    </div>
+                </div>
+
+                </details>
+
+                <div class="settings-footer">
+                <button id="open-json-btn">Open JSON Configuration</button>
+            </div>
+
+
+        </div>
     </div>
-
+ 
     <div class="container" id="container">
 
     <header>
@@ -97,9 +254,13 @@
     </div>
 
     <span id="version-badge" class="version-badge"></span>
+
+    <h2 id="reference"> Because Why Not ? </h2>
+
     
     <!-- Scripts -->
     <script src="script/custompath.js"></script>
+    <script src="script/settingsPanel.js"></script>
     <script src="script/appVersion.js"></script>
     <script src="script/downloadstatus.js"></script>
     <script src="script/fetchinfo.js"></script>

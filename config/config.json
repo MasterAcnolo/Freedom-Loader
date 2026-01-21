@@ -8,8 +8,6 @@
   "verboseLogs": false,
   "autoDownloadPlaylist": true,
   "customCodec": "h264",
-
-  
   "logSystem": true,
   "outputTitleCheck": true,
   "downloadSystem": true,

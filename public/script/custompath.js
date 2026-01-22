@@ -1,41 +1,62 @@
 window.addEventListener("DOMContentLoaded", async () => {
   const savePathElem = document.getElementById("savePath");
+  const form = document.getElementById("downloadForm");
 
-  // Essayer de charger depuis le localStorage
-  let savedPath = localStorage.getItem("customDownloadPath");
-
-  // Sinon demander le chemin par défaut à l'API Electron
-  if (!savedPath) {
-    savedPath = await window.electronAPI.getDefaultDownloadPath();
-  }
-
-  // Afficher le chemin
-  if (savePathElem) {
-    savePathElem.textContent = savedPath;
-  }
-
-  //  Créer l'input caché s'il n'existe pas déjà
+  // input caché = DERNIER chemin validé par le back
   let hidden = document.getElementById("savePathInput");
   if (!hidden) {
     hidden = document.createElement("input");
     hidden.type = "hidden";
     hidden.name = "savePath";
     hidden.id = "savePathInput";
-    document.getElementById("downloadForm").appendChild(hidden);
+    form.appendChild(hidden);
   }
-  hidden.value = savedPath;
 
-  //  Gestion du bouton de modification
-  document.getElementById("changePath").addEventListener("click", async () => {
-    const selectedPath = await window.electronAPI.selectDownloadFolder();
-    if (selectedPath) {
-      // Met à jour l'affichage
-      savePathElem.textContent = selectedPath;
-      hidden.value = selectedPath;
+  async function applyPathFromBack(path) {
+    savePathElem.textContent = path;
+    hidden.value = path;
+    localStorage.setItem("customDownloadPath", path); // UX only
+  }
 
-      // Et le stocke en localStorage pour la prochaine fois
-      localStorage.setItem("customDownloadPath", selectedPath);
+  async function loadInitialPath() {
+    // On affiche ce que le user a vu la dernière fois (UX)
+    const cached = localStorage.getItem("customDownloadPath");
+    if (cached) {
+      savePathElem.textContent = cached;
     }
-  });
-});
 
+    // MAIS la source de vérité reste le back
+    try {
+      const validatedPath = await window.electronAPI.getValidatedDownloadPath(
+        cached
+      );
+      await applyPathFromBack(validatedPath);
+    } catch {
+      // fallback sûr
+      const defaultPath =
+        await window.electronAPI.getDefaultDownloadPath();
+      await applyPathFromBack(defaultPath);
+    }
+  }
+
+  await loadInitialPath();
+
+  document
+    .getElementById("changePath")
+    .addEventListener("click", async () => {
+      try {
+        const selectedPath =
+          await window.electronAPI.selectDownloadFolder();
+
+        if (!selectedPath) return; // annulé
+
+        // Validation back obligatoire
+        const validatedPath =
+          await window.electronAPI.getValidatedDownloadPath(selectedPath);
+
+        await applyPathFromBack(validatedPath);
+      } catch (err) {
+        alert("Dossier non autorisé.");
+      }
+    });
+});

@@ -1,22 +1,22 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "author": "MasterAcnolo",
   "description": "Freedom Loader",
   "main": "main.js",
   "scripts": {
     "start": "electron --trace-warnings .",
-    "dist": "electron-builder",
+    "build": "electron-builder",
     "update": "npm update"
   },
   "dependencies": {
     "chalk": "^4.1.2",
     "debug": "^4.4.1",
     "discord-rpc": "^4.0.1",
-    "electron-squirrel-startup": "^1.0.1",
     "electron-updater": "^6.6.2",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
     "webidl-conversions": "^8.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
@@ -38,9 +38,7 @@
     "files": [
       "**/*",
       "node_modules/**/*",
-      "!logs/*.json",
-      "server/**/*",
-      "server/node_modules/**/*"
+      "!logs/*.json"
     ],
     "directories": {
       "buildResources": "build"
@@ -56,28 +54,32 @@
         "to": "app-icon.ico"
       },
       {
+        "from": "build/banner.bmp",
+        "to": "banner.bmp"
+      },
+      {
         "from": "build/error.png",
         "to": "error.png"
       },
       {
         "from": "ressources/yt-dlp.exe",
-        "to": "yt-dlp.exe"
+        "to": "binaries/yt-dlp.exe"
       },
       {
         "from": "ressources/ffmpeg.exe",
-        "to": "ffmpeg.exe"
+        "to": "binaries/ffmpeg.exe"
       },
       {
         "from": "ressources/ffprobe.exe",
-        "to": "ffprobe.exe"
+        "to": "binaries/ffprobe.exe"
       },
       {
         "from": "ressources/deno.exe",
-        "to": "deno.exe"
+        "to": "binaries/deno.exe"
       },
       {
-        "from": "server",
-        "to": "server"
+        "from": "config/config.json",
+        "to": "config/config.json"
       }
     ],
     "win": {
@@ -90,6 +92,7 @@
       "allowToChangeInstallationDirectory": true,
       "installerIcon": "build/app-icon.ico",
       "uninstallerIcon": "build/uninstaller-icon.ico",
+      "installerSidebar": "build/banner.bmp",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Freedom Loader"

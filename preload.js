@@ -3,7 +3,11 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("electronAPI", {
   getDefaultDownloadPath: () => ipcRenderer.invoke("get-default-download-path"),
   selectDownloadFolder: () => ipcRenderer.invoke("select-download-folder"),
-  setProgress: (percent) => ipcRenderer.send("set-progress", percent)
+  setProgress: (percent) => ipcRenderer.send("set-progress", percent),
+  getFeatures: () => ipcRenderer.invoke("features"),
+  setFeature: (key, value) => ipcRenderer.invoke("set-feature", { key, value }),
+  getVersion: () => ipcRenderer.invoke("version"),
+  getValidatedDownloadPath: (path) => ipcRenderer.invoke("validate-download-path", path)
 });
 
 // Contrôles de fenêtre et outils custom pour la topbar
@@ -14,5 +18,6 @@ contextBridge.exposeInMainWorld("topbarAPI", {
   openDevTools: () => ipcRenderer.send("open-devtools"),
   openLogs: () => ipcRenderer.send("open-logs"),
   openWebsite: () => ipcRenderer.send("open-website"),
-  openWiki: () => ipcRenderer.send("open-wiki")
+  openWiki: () => ipcRenderer.send("open-wiki"),
+  openConfig: () => ipcRenderer.send("open-config")
 });

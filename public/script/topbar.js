@@ -10,6 +10,7 @@ function setupTopbarListeners() {
     const logsBtn = document.getElementById('logs-btn');
     const websiteBtn = document.getElementById('website-btn');
     const wikiBtn = document.getElementById('wiki-btn');
+    const configBtn = document.getElementById('config-btn');
 
     if (minBtn) minBtn.onclick = () => topbarAPI.minimize();
     if (maxBtn) maxBtn.onclick = () => topbarAPI.maximize();
@@ -18,7 +19,16 @@ function setupTopbarListeners() {
     if (logsBtn) logsBtn.onclick = () => topbarAPI.openLogs();
     if (websiteBtn) websiteBtn.onclick = () => topbarAPI.openWebsite();
     if (wikiBtn) wikiBtn.onclick = () => topbarAPI.openWiki();
+    if (configBtn) configBtn.onclick = () => topbarAPI.openConfig();
   });
 }
 
-setupTopbarListeners();
+setupTopbarListeners(); // IF it put it the if check. It don't work. Why ?
+
+const features = await window.electronAPI.getFeatures();
+
+if(!features.customTopBar){
+  document.getElementById("topbar").style.display = "none"; 
+  document.getElementById("container").style.marginTop = "0";
+  document.getElementById("theme-switcher").style.top = "30px";  
+} 

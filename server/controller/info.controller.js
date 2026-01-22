@@ -1,6 +1,3 @@
-const express = require("express");
-const router = express.Router();
-
 const { fetchInfo } = require("../services/info.services");
 const { parseVideo, parsePlaylist } = require("../helpers/parseInfo");
 const { logger } = require("../logger");
@@ -12,7 +9,7 @@ async function infoController(req, res){
 
 
     /* Si pas d'url ou url invalide*/
-    if (!url || !isValidUrl(url)) return res.status(400).send("❌ Invalid URL Or Missing");
+    if (!url || typeof url !== "string" || !isValidUrl(url)) return res.status(400).send("❌ Invalid URL Or Missing");
 
     logger.info(`/Info Request receive by the Info Controller. URL: ${url}`);
 
@@ -40,7 +37,8 @@ async function infoController(req, res){
 
 
     } catch (err) {
-        return res.status(500).send(`❌ ${err.message}`);
+        logger.error(`Info controller error: ${err && err.message ? err.message : err}`);
+        return res.status(500).send(`❌ Unable to fetch info`);
     }
     
 }

@@ -1,7 +1,6 @@
 const { fetchDownload } = require("../services/download.services");
 const { logger } = require("../logger");
 const { isValidUrl, isSafePath } = require("../helpers/validation");
-const { buildYtDlpArgs } = require("../helpers/buildArgs");
 const { notifyDownloadFinished } = require("../helpers/notify");
 
 const listeners = [];
@@ -25,7 +24,7 @@ async function downloadController(req, res) {
     
   } catch (err) {
     logger.error(`Server Error in /download : ${err.message}`);
-    res.status(500).send(`❌ ${err.message}`);
+    res.status(500).send(`❌ Server Error`);
   }
 }
 

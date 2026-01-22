@@ -36,6 +36,17 @@ body.spicy {
 
     /* Playlist Color */
     --playlist-background-color: #353232;
+
+    /* Settings */ 
+    --settings-button-bg-color: #1a1a1a;
+    --settings-button-text-color: #dcdcdc;  
+
+    --settings-bg-primary-color: #1a1a1a;
+    --settings-bg-secondary-color: #292929;
+
+    --settings-text-color: #cecece; 
+    --settings-subtitle-color: #adadad;
+
 }
 
 /* Optionnel: background piments */

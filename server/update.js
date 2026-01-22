@@ -1,5 +1,5 @@
 const { autoUpdater } = require("electron-updater");
-const { app, Notification } = require("electron");
+const { app, Notification, shell} = require("electron");
 const { logger } = require("./logger");
 
 function AutoUpdater() {

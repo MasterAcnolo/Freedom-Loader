@@ -1,12 +1,12 @@
 /* Layout */
 @import url("layout/form.css");
+@import url("layout/settingsPanel.css");
 @import url("layout/container.css");
 @import url("layout/header.css");
 @import url("layout/videoinfo.css");
 
 /* Components */
 @import url("components/checkbox.css");
-@import url("components/themebutton.css");
 @import url("components/loader.css");
 
 @import url("theme/themeimport.css");
@@ -47,6 +47,16 @@ body {
     flex-direction: column;
     align-items: center;
 
+}
+
+/* Because why not */
+#reference{
+  position: fixed;
+  pointer-events: none;
+  bottom:0vh;
+  left: 10px;
+  font-size: 1em;
+  color: #b0b0b02f;
 }
 
 /* Scrollbar globale pour Chromium/Electron */

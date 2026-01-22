@@ -1,0 +1,234 @@
+/* SETTINGS BUTTON */
+.settings-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    opacity: 0.8;
+    background-color: var(--settings-button-bg-color);
+    border-radius: 14px;
+    padding: 8px;
+    border: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-button svg {
+    width: 40px;
+    height: 40px;
+    stroke: var(--settings-button-text-color);
+}
+
+.settings-button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+.settings-button:active {
+    transform: scale(0.95);
+}
+
+
+/* SETTINGS PANEL */
+.settings-panel {
+    position: fixed;
+    top: 60px;
+    right: 40px;
+    width: 40vw;
+    max-width: 320px;
+    max-height: 80vh;
+    background-color: var(--settings-bg-primary-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    display: none;
+    overflow-y: auto;
+    z-index: 9999;
+    animation: slideIn 0.2s ease-out;
+    color: var(--settings-text-color);
+}
+
+.settings-panel::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; 
+}
+
+.settings-modal {
+    width: 100%;
+    min-height: auto; 
+    max-height: none;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: none;
+
+}
+
+/* TITLE */
+.settings-title {
+    margin-bottom: 20px;
+}
+
+.settings-title h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.settings-title p {
+    font-size: 14px;
+    color: #ccc;
+    margin-top: 4px;
+}
+
+/* SECTION */
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background: var(--settings-bg-secondary-color);
+    border-radius: 12px;
+    gap: 6px;
+}
+
+.settings-section h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+/* SETTING ITEM */
+.setting-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+.setting-item input[type="checkbox"] {
+    margin: 0;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.setting-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.setting-info small {
+    font-size: 12px;
+    color: var(--settings-subtitle-color);
+    margin-top: 2px;
+    font-style: italic;
+}
+
+#theme .settings-title{
+    display: flex;
+}
+
+.setting-item select {
+  width: 70%;
+  background: #fff;
+  border: 1px solid #242424;
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: #000;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.setting-item select:hover,
+.setting-item select:focus {
+  background: #474747;
+  color: #fff;
+  outline: none;
+}
+
+/* SELECT */
+.settings-section select {
+    margin-left: 10px;
+}
+
+/* DETAILS / DROPDOWN */
+details {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background: #2a2a2a;
+    border-radius: 12px;
+}
+
+details[open] {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+details summary {
+    cursor: pointer;
+}
+
+/* FOOTER */
+.settings-footer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#open-json-btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: var(--form-button-bg-color);
+    color: #fff;
+}
+
+#experimental-args {
+    width: 100%;
+    min-height: 80px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 8px;
+    color: #fff;
+    border: 1px solid #333;
+    resize: vertical;
+}
+
+/* CLOSE BTN */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+/* ANIMATION */
+@keyframes popIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

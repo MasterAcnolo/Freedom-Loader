@@ -36,4 +36,14 @@ body.fanatic{
 
   /* Playlist Color */
   --playlist-background-color: #2b2b2b;
+
+  /* Settings */
+  --settings-button-bg-color: #1e1e1e;
+  --settings-button-text-color: #dcdcdc;  
+
+  --settings-bg-primary-color: #1e1e1e;
+  --settings-bg-secondary-color: #2d2d2d;
+
+  --settings-text-color: #cecece; 
+  --settings-subtitle-color: #adadad;
 }

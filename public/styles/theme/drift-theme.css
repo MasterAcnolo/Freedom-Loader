@@ -42,7 +42,17 @@ body.drift {
 
     /* Playlist Color */
     --playlist-background-color: #424b5cc2;
-    }
+
+    /* Settings */
+    --settings-button-bg-color: #1e222ace;
+    --settings-button-text-color: #b3b3b4;  
+
+    --settings-bg-primary-color: #1e222a;
+    --settings-bg-secondary-color: #272d38;
+
+    --settings-text-color: #bababa; 
+    --settings-subtitle-color: #cacaca;
+}
 
 
 

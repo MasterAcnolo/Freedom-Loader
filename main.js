@@ -251,7 +251,7 @@ app.whenReady().then(async () => {
     configFeatures.discordRPC ? startRPC() : "";
 
     await createMainWindow();
-    configFeatures.AutoUpdater ? AutoUpdater(mainWindow) : ""; // Auto Update 
+    configFeatures.autoUpdate ? AutoUpdater(mainWindow) : ""; // Auto Update 
 
   } catch (err) {
     logger.error("Window or Server error :", err);

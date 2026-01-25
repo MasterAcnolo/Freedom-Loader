@@ -1,66 +1,164 @@
 # Contributing to Freedom Loader
 
-Welcome! Thanks for being interested in Freedom Loader. Your contributions-bug reports, feature ideas, or code improvements-are always appreciated. Every contribution makes Freedom Loader better 💪
+Welcome! Thanks for your interest in Freedom Loader. Your contributions—bug reports, feature ideas, or code improvements—are always appreciated. Every contribution makes Freedom Loader better.
 
 ---
 
-## 1. Check Before Contributing
-- Make sure your issue, bug, or feature request doesn't already exist.
-- Search issues and pull requests before creating a new one.
-- Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+## Quick Links
+
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Issue Templates](.github/ISSUE_TEMPLATE/)
+- [Pull Request Templates](.github/PULL_REQUEST_TEMPLATE/)
+- [Security Policy](SECURITY.md)
 
 ---
 
-## 2. Report an Issue
-Found a bug, weird behavior, or have an idea? Open an [**issue**](https://github.com/MasterAcnolo/Freedom-Loader/issues) using the **Bug Report template**.  
-Make sure to include:
-- Steps to reproduce the issue  
-- App version and environment (OS, Node, Browser, etc.)  
-- Logs if possible: `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\LOGS-20xx-xx-xx.log`  
-- Screenshots if relevant
+## Ways to Contribute
+
+### 1. Report a Bug
+
+Found a bug or unexpected behavior? Open an [**issue**](https://github.com/MasterAcnolo/Freedom-Loader/issues) using the **Bug Report** template.
+
+**Please include:**
+- Clear description of the bug
+- Steps to reproduce
+- App version and environment (Windows version, Firefox version if relevant)
+- Logs from: `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\LOGS-YYYY-MM-DD.log`
+- Screenshots if applicable
+
+### 2. Request a Feature
+
+Have an idea to improve Freedom Loader? Open a [**Feature Request**](https://github.com/MasterAcnolo/Freedom-Loader/issues/new/choose).
+
+**Tips:**
+- Describe the problem it solves
+- Explain your proposed solution
+- Include use cases and examples
+
+### 3. Submit Code Changes
+
+**Before starting:**
+- Check existing issues and PRs to avoid duplicates
+- For major changes, open an issue first to discuss
+- Follow the project's code style and conventions
+
+**Process:**
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Make your changes
+4. Test thoroughly on Windows 10/11
+5. Commit with clear messages: `git commit -m "Add feature X"`
+6. Push to your fork: `git push origin feature/your-feature-name`
+7. Open a Pull Request using the appropriate template
+
+**Code Guidelines:**
+- Use camelCase for variables and functions
+- Comment complex logic
+- Keep commits focused and atomic
+- Update documentation if needed
+- Don't modify version numbers (done during release)
+
+### 4. Improve Documentation
+
+Documentation improvements are always welcome:
+- Fix typos or unclear sections
+- Add missing examples
+- Update outdated information
+- Improve README, wiki, or guides
+
+Small contributions matter—don't hesitate to submit documentation PRs.
 
 ---
 
-## 3. Submit a Pull Request
-To fix a bug, add a feature, or improve docs:
-1. Fork the repository  
-2. Create a branch: `git checkout -b feature/my-awesome-feature`  
-3. Make your changes  
-4. Add tests or verification steps  
-5. Test everything locally  
-6. Open a PR to the `main` branch  
+## Development Setup
 
-**Tips for PRs:**
-- Keep titles and descriptions clear and concise  
-- Document what you change and why  
-- Follow existing code style (camelCase for variables/functions)  
-- Small commits focused on a single purpose are easier to review  
+### Prerequisites
+- Node.js 16.x or higher
+- npm or yarn
+- Git
+- Windows 10/11 (for testing)
 
----
+### Setup
+```bash
+# Clone your fork
+git clone https://github.com/YOUR-USERNAME/Freedom-Loader.git
+cd Freedom-Loader
 
-## 4. Improve the Documentation
-Docs are important: README, wiki, guides… If something is unclear, improve it!  
-Small contributions like fixing typos or adding examples are always welcome.
+# Install dependencies
+npm install
 
----
+# Run in development mode
+npm start
 
-## 5. Testing & Verification
-- Test new features thoroughly  
-- Ensure bug fixes actually fix the reported issue  
-- Include any relevant logs or screenshots  
+# Build for production
+npm run build
+```
 
----
-
-## 6. Review & Merge
-- After submitting a PR, it will be reviewed by maintainers  
-- Be open to feedback and changes  
-- We try to respond quickly, but sometimes have other priorities
-
----
-
-## 7. Code of Conduct
-Please contribute respectfully and constructively. Everyone is welcome as long as discussions remain polite and productive.
+### Project Structure
+```
+Freedom-Loader/
+├── main.js           # Electron main process
+├── preload.js        # Electron preload script
+├── config.js         # Global configuration
+├── server/           # Express backend
+│   ├── routes/       # API routes
+│   ├── controller/   # Business logic
+│   └── helpers/      # Utility functions
+├── public/           # Frontend (HTML, CSS, JS)
+└── ressources/       # Binaries (yt-dlp, ffmpeg, etc.)
+```
 
 ---
 
-Thanks to Zakaria for the website icon. Check him out here: [IG Link](https://www.instagram.com/designmark_studio/) 🔥
+## Testing
+
+Before submitting a PR, verify:
+- [ ] Download functionality works (video/audio)
+- [ ] Playlist downloads work
+- [ ] Settings panel functions correctly
+- [ ] Custom path selection works
+- [ ] No errors in application logs
+- [ ] UI changes work on all themes (if applicable)
+- [ ] Tested on Windows 10 and/or Windows 11
+
+---
+
+## Pull Request Review Process
+
+1. **Submission**: Open PR with clear description using the template
+2. **Review**: Maintainers review code and provide feedback
+3. **Updates**: Address feedback and push updates
+4. **Approval**: Once approved, PR will be merged
+5. **Release**: Changes included in next release
+
+**Response times:**
+- Bug fixes: Usually reviewed within 2-3 days
+- Features: May take longer depending on complexity
+- Documentation: Often reviewed quickly
+
+---
+
+## Code of Conduct
+
+Be respectful and constructive in all interactions. We welcome everyone as long as discussions remain polite and productive.
+
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
+
+---
+
+## Questions?
+
+- Check the [FAQ](https://masteracnolo.github.io/FreedomLoader/pages/faq.html)
+- Review the [Wiki](https://masteracnolo.github.io/FreedomLoader/pages/wiki.html)
+- Open a [Question issue](https://github.com/MasterAcnolo/Freedom-Loader/issues/new/choose)
+
+---
+
+## Credits
+
+Thanks to **Zakaria** for the website icon design.  
+Check out his work: [IG @designmark_studio](https://www.instagram.com/designmark_studio/)
+
+---
+
+**Thank you for contributing to Freedom Loader!**

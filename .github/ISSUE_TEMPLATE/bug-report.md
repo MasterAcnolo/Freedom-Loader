@@ -3,7 +3,7 @@ name: "[BUG] Issues Template "
 about: Report something that doesn't work fine
 title: "[BUG] Name of the bug / issues"
 labels: bug
-assignees: MasterAcnolo
+assignees: "MasterAcnolo"
 
 ---
 

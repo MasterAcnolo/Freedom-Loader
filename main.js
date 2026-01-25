@@ -7,7 +7,7 @@ const fs = require("fs");
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
 const { AutoUpdater } = require("./server/update.js");
 const { configFeatures } = require("./config.js");
-const { startRPC } = require("./server/discordRPC");
+const { startRPC, stopRPC} = require("./server/discordRPC");
 
 let mainWindow;
 const logsFolderPath = logDir;
@@ -264,4 +264,7 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
-app.on("before-quit", () => logSessionEnd());
+app.on("before-quit", () => {
+  logSessionEnd() 
+  stopRPC()
+});

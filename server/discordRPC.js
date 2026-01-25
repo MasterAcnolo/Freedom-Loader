@@ -17,7 +17,7 @@ function startRPC() {
       details: `Open Source Download Tools - ${config.version}`,
       state: "masteracnolo.github.io/FreedomLoader",
     };
-
+    rpc.clearActivity()
     rpc.setActivity(presence);
 
     // Met à jour la présence toutes les 15s
@@ -26,27 +26,26 @@ function startRPC() {
     }, 15000);
   });
 
-  async function cleanExit() {
-    try {
-      if (intervalId) clearInterval(intervalId);
-
-      if (rpc && rpc.transport) {
-        await rpc.destroy();
-      }
-    } catch (err) {
-      logger.error("Error while closing the RPC:", err);
-    } finally {
-      process.exit();
-    }
-  }
-
-  process.on("exit", cleanExit);
-  process.on("SIGINT", cleanExit);
-  process.on("SIGTERM", cleanExit);
-
   rpc.login({ clientId }).catch(err => {
     logger.error("Unable to connect to the RPC:", err);
   });
 }
 
-module.exports = { startRPC };
+async function stopRPC(){
+    try {
+      if (intervalId) clearInterval(intervalId);
+
+      if (rpc && rpc.transport) {
+        await rpc.clearActivity()
+        await rpc.destroy();
+      } else{
+        logger.error("Not Able to close RPC")
+      }
+      
+    } catch (err) {
+      logger.error("Error while closing the RPC:", err);
+    }
+  }
+
+
+module.exports = { startRPC, stopRPC};

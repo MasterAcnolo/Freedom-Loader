@@ -1,7 +1,7 @@
 ---
-name: "[BUG] Issues Template "
+name: "Bug Report"
 about: Report something that doesn't work fine
-title: "[BUG] Name of the bug / issues"
+title: "[BUG]"
 labels: bug
 assignees: "MasterAcnolo"
 

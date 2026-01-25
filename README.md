@@ -371,6 +371,7 @@ You are free to use, modify, and redistribute this software under the terms of t
 - [Electron](https://www.electronjs.org/) for the desktop application framework
 - The open-source community for continuous support and contributions
 - [@SpicyFire21](https://github.com/SpicyFire21) to be the spiciest one
+- Jacques Chirac to love Apples
 - All users who test, report issues, and help improve the application
 
 ---

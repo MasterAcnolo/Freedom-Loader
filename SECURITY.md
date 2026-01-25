@@ -150,7 +150,6 @@ Security updates are released as:
 
 For security-related questions or concerns:
 
-- **Email**: masteracnolo25@gmail.com (Subject: [SECURITY])
 - **GitHub**: [@MasterAcnolo](https://github.com/MasterAcnolo)
 
 ---

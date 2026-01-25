@@ -41,29 +41,35 @@ The primary goal is to make media downloading accessible to users who want offli
 
 ### Core Functionality
 
-- Video downloads with full metadata (MP4 format)
-- Audio-only downloads with embedded thumbnails and tags (MP3 format)
-- Complete playlist support with improved UI display
-- Automatic metadata retrieval (title, duration, author, thumbnail, etc.)
-- Native chapter extraction for video splitting
-- Custom output directory with persistent configuration
+- **Multi-format downloads** - MP4 video with full metadata or MP3 audio with embedded artwork
+- **Video information preview** - Fetch and display video metadata before downloading
+- **Quality selection** - Choose from best, medium, lowest quality or specific resolutions (1080p, 720p, 480p)
+- **Playlist support** - Download entire playlists with optional auto-download mode
+- **Metadata embedding** - Automatic retrieval and embedding of title, artist, duration, and thumbnail
+- **Video codec options** - Support for H.264, H.265, AV1, VP9, VP9.2, and Theora codecs
+- **Custom output directory** - User-configurable download location with path validation
+- **Cookie integration** - Firefox cookie support for accessing age-restricted and member-only content
 
 ### User Interface
 
-- Multiple theme support
-- Real-time download progress with network speed indicator
-- Responsive, modern design
-- System notifications on download completion (click to open folder)
-- Enhanced loading states during metadata fetching
+- **Custom window controls** - Frameless window with custom top bar (optional)
+- **Theme system** - Multiple pre-built themes with dynamic switching
+- **Real-time progress tracking** - Live download progress bar with network speed indicator
+- **Server-Sent Events (SSE)** - Non-blocking progress updates via event streaming
+- **Settings panel** - In-app configuration interface with live updates
+- **Quick access toolbar** - Direct links to logs, website, wiki, and developer tools
 
 ### System Features
 
-- Automatic YT-DLP updates
-- Automatic application updates via electron-updater
-- Structured logging system with 7-day rotation
-- Discord Rich Presence integration (optional)
-- Firefox cookie integration for protected content
-- Custom Top Bar
+- **Automatic updates** - Electron-updater integration with GitHub releases
+- **YT-DLP auto-update** - Keeps the download engine up-to-date on startup
+- **Structured logging** - Winston-based logging with daily file rotation (7-day retention)
+- **Discord Rich Presence** - Optional integration showing current download activity
+- **Single instance enforcement** - Prevents multiple app instances from running simultaneously
+- **Native dependency validation** - Startup checks for yt-dlp, FFmpeg, FFprobe, and Deno binaries
+- **Rate limiting** - Express-based request throttling to prevent server overload
+- **Graceful shutdown** - Proper cleanup of servers, logs, and RPC connections
+- **System notifications** - Windows notifications on download completion (clickable to open folder)
 
 ## Installation
 

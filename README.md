@@ -290,14 +290,14 @@ npm run build
 
 ### Completed
 
-- [x] Website and documentation
-- [x] Automatic YT-DLP updates
-- [x] Automatic application updates
-- [x] Enhanced download status display
-- [x] Video chapter extraction
-- [x] Custom output path selection
-- [x] Custom codec selection
-- [x] Settings Panel with toggle switch for features.
+- [x] ~~Website and documentation~~
+- [x] ~~Automatic YT-DLP updates~~
+- [x] ~~Automatic application updates~~
+- [x] ~~Enhanced download status display~~
+- [x] ~~Video chapter extraction~~
+- [x] ~~Custom output path selection~~
+- [x] ~~Custom codec selection~~
+- [x] ~~Settings Panel with toggle switch for features.~~
 
 ### In Progress
 

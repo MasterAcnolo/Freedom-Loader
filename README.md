@@ -278,6 +278,42 @@ npm start
 npm run build
 ```
 
+### Additional Dependencies
+
+This project relies on several external binaries.  
+Some of them are **not included** in the public repository and must be added manually.
+
+You must download the required binaries and place them in the `ressources` folder, using the exact filenames listed below.
+
+#### Required binaries
+
+- **Deno**
+  - Download from: https://sourceforge.net/projects/deno.mirror/files/latest/download
+  - Rename to: `deno.exe`
+
+- **FFmpeg**
+  - Download from: https://www.ffmpeg.org/download.html
+  - Required files:
+    - `ffmpeg.exe`
+    - `ffprobe.exe`
+
+- **yt-dlp**
+  - Already bundled with the project  
+  - No manual installation required
+
+Final folder structure:
+
+```
+ressources/
+├── deno.exe
+├── ffmpeg.exe
+├── ffprobe.exe
+└── yt-dlp.exe
+```
+
+> These binaries are required for the application to start correctly.  
+> If any of them are missing, an error message will be displayed at application startup.
+
 ### Development Guidelines
 
 - Follow existing code style and conventions

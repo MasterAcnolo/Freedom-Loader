@@ -404,6 +404,7 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) for the robust download engine
 - [FFmpeg](https://ffmpeg.org/) for media processing capabilities
+- [Deno](https://deno.com/) for helping me bypassing challenges
 - [Electron](https://www.electronjs.org/) for the desktop application framework
 - The open-source community for continuous support and contributions
 - [@SpicyFire21](https://github.com/SpicyFire21) to be the spiciest one

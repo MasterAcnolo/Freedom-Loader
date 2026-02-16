@@ -7,7 +7,7 @@
 
 ### **A clean, open-source multimedia downloader for Windows**
 
-[![Release](https://img.shields.io/badge/Release-1.4.2-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+[![Release](https://img.shields.io/badge/Release-1.4.3-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 [![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/FreedomLoader/)
   <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>

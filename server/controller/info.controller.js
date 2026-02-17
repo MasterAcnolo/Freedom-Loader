@@ -13,7 +13,7 @@ async function infoController(req, res){
 
     logger.info(`/Info Request receive by the Info Controller. URL: ${url}`);
 
-    if (url.includes("?list")) {
+    if (url.includes("&list")) {
         logger.info("Estimated Data Type: Playlist")
 
     } else{

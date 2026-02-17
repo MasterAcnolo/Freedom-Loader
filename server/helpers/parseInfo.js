@@ -2,12 +2,6 @@ function parseVideo(data) {
 
     return {
         type: "video",
-        // id: data.id,
-        // title: data.title,
-        // url: data.webpage_url,
-        // duration: data.duration,
-        // thumbnail: data.thumbnail,
-        // uploader: data.uploader
         ...data
     };
 }

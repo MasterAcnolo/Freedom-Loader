@@ -45,18 +45,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     .getElementById("changePath")
     .addEventListener("click", async () => {
       try {
-        const selectedPath =
+        // selectDownloadFolder already returns a validated path
+        const validatedPath =
           await window.electronAPI.selectDownloadFolder();
 
-        if (!selectedPath) return; // annulé
-
-        // Validation back obligatoire
-        const validatedPath =
-          await window.electronAPI.getValidatedDownloadPath(selectedPath);
+        if (!validatedPath) return; // cancelled
 
         await applyPathFromBack(validatedPath);
       } catch (err) {
-        alert("Dossier non autorisé.");
+        alert("Folder not allowed.");
       }
     });
 });

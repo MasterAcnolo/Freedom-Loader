@@ -1,16 +1,20 @@
 const path = require("path");
 const fs = require("fs");
+const os = require("os");
 const { app } = require("electron");
 const config = require("../../config");
 
 const { logger } = require("../logger.js");
 
-// Centralisation de tous les chemins de ressources
+// Centralized resource paths
 const resourcesPath = config.localMode 
   ? path.join(__dirname, "../../ressources")
   : process.resourcesPath;
 
-// Chemins des binaires
+// Default download folder (centralized)
+const defaultDownloadFolder = path.join(os.homedir(), "Downloads", "Freedom Loader");
+
+// Binary paths
 let userYtDlp;
 let ffmpegPath;
 let denoPath;
@@ -32,14 +36,14 @@ if (config.localMode) {
 
 }
 
-// Chemins des icônes de notification
+// Notification icon paths
 const iconPaths = {
   confirm: path.join(resourcesPath, "confirm-icon.png"),
   error: path.join(resourcesPath, "error.png"),
   app: path.join(resourcesPath, "app-icon.ico")
 };
 
-// Chemins des binaires pour vérification
+// Binary paths for verification
 const binaryPaths = {
   ytDlp: path.join(resourcesPath, "binaries", "yt-dlp.exe"),
   ffmpeg: path.join(resourcesPath, "binaries", "ffmpeg.exe"),
@@ -51,4 +55,4 @@ if (!userYtDlp){ logger.error("Missing YT-DLP")}
 if (!ffmpegPath){ logger.error("Missing FFMPEG")}
 if (!denoPath){ logger.error("Missing DENO")}
 
-module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath };
+module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath, defaultDownloadFolder };

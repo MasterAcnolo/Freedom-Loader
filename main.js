@@ -18,7 +18,8 @@ const basePath = config.localMode
 
 const configFolderPath = path.join(basePath, "config" ,"config.json");
 
-const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
+// Default download path (centralized, lazy loaded)
+let defaultDownloadPath;
 
 app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
 app.disableHardwareAcceleration();
@@ -30,7 +31,7 @@ const gotLock = app.requestSingleInstanceLock();
 
 // Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
 function checkNativeDependencies() {
-  // Import des chemins centralisés après l'initialisation de l'app
+  // Import centralized paths after app initialization
   const { binaryPaths } = require("./server/helpers/path");
   
   const deps = [
@@ -113,23 +114,29 @@ async function createMainWindow() {
 }
 
 function validateDownloadPath(userPath) {
-  const userHome = os.homedir(); // C:\Users\<User>
+  const { isSafePath } = require("./server/helpers/validation");
+  
+  // Lazy load default path
+  if (!defaultDownloadPath) {
+    const { defaultDownloadFolder } = require("./server/helpers/path");
+    defaultDownloadPath = defaultDownloadFolder;
+  }
 
-  if (!userPath) return path.join(userHome, "Downloads", "Freedom Loader");
+  if (!userPath) return defaultDownloadPath;
 
   try {
-    // Résolution canonique et suivi des symlinks
+    // Canonical resolution and symlink following
     const resolved = fs.realpathSync(path.resolve(userPath));
-    const normalizedHome = path.resolve(userHome) + path.sep;
-
-    if (!resolved.startsWith(normalizedHome)) {
-      throw new Error("Chemin non autorisé : uniquement les sous-dossiers du dossier utilisateur sont permis !");
+    
+    // Use the same validation as backend (allows all drives except system folders)
+    if (!isSafePath(resolved)) {
+      throw new Error("Path not allowed: system folders are blocked!");
     }
 
     return resolved;
   } catch (err) {
     logger.error(`Invalid download path: ${userPath} - ${err.message}`);
-    throw new Error(`Chemin invalide ou inaccessible : ${err.message}`);
+    throw new Error(`Invalid or inaccessible path: ${err.message}`);
   }
 }
 
@@ -138,14 +145,19 @@ function validateDownloadPath(userPath) {
 ipcMain.handle("select-download-folder", async () => {
   try {
     const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
-    if (!result.canceled && result.filePaths.length > 0) {
-      const validatedPath = validateDownloadPath(result.filePaths[0]);
-      logger.info(`Folder Checked and Valid : ${validatedPath}`);
+    if (result.canceled) {
+      logger.info("Folder selection cancelled by user");
+      return null;
+    }
+    if (result.filePaths.length > 0) {
+      const selectedPath = result.filePaths[0];
+      const validatedPath = validateDownloadPath(selectedPath);
+      logger.info(`Folder selected and validated: ${validatedPath}`);
       return validatedPath;
     }
     return null;
   } catch (err) {
-    logger.error(`An Error Occured when validating folder : ${err.message}`);
+    logger.warn(`Unsafe or invalid folder rejected: ${err.message}`);
     return null;
   }
 });
@@ -155,7 +167,13 @@ ipcMain.handle("validate-download-path", (event, userPath) => {
 });
 
 
-ipcMain.handle("get-default-download-path", () => defaultDownloadPath);
+ipcMain.handle("get-default-download-path", () => {
+  if (!defaultDownloadPath) {
+    const { defaultDownloadFolder } = require("./server/helpers/path");
+    defaultDownloadPath = defaultDownloadFolder;
+  }
+  return defaultDownloadPath;
+});
 
 ipcMain.on("set-progress", (event, percent) => {
   if (mainWindow) mainWindow.setProgressBar(percent / 100); // Electron attend 0 → 1

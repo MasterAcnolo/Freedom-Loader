@@ -259,10 +259,11 @@ app.whenReady().then(async () => {
       });
 
 
-    configFeatures.discordRPC ? startRPC() : ""; // Discord RPC
+    if (configFeatures.discordRPC) startRPC(); // Discord RPC
 
     await createMainWindow();
-    configFeatures.autoUpdate ? AutoUpdater(mainWindow) : ""; // Auto Update 
+
+    if (configFeatures.autoUpdate) AutoUpdater(mainWindow); // Auto Update
 
   } catch (err) {
     logger.error("Window or Server error :", err);

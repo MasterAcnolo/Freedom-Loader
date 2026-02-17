@@ -18,6 +18,7 @@ async function downloadController(req, res) {
     if (!options.url || !isValidUrl(options.url)) return res.status(400).send("❌ Invalid URL !");
     if (options.outputFolder && !isSafePath(options.outputFolder)) return res.status(400).send("❌ Save Path Not Allowed.");
 
+    // Get output folder when the download is finished, 
     const filePath = await fetchDownload(options, listeners, speedListeners);
     notifyDownloadFinished(filePath);
     res.send("✅ Download Done !");

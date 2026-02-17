@@ -3,13 +3,17 @@ const DailyRotateFile = require("winston-daily-rotate-file");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-const config = require("../config")
+const config = require("../config");
 
 // Dossier de logs Windows
 const logDir = path.join(os.homedir(), "AppData", "Local", "FreedomLoader", "logs");
 
 // Création du dossier "logs" si nécessaire
-fs.mkdirSync(logDir, { recursive: true });
+try {
+  fs.mkdirSync(logDir, { recursive: true });
+} catch (error) {
+  console.error(`Failed to create log directory: ${error.message}`);
+}
 
 const logFormat = format.combine(
   format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
@@ -36,21 +40,13 @@ const logger = createLogger({
   ],
 });
 
-function getSessionStartLine() {
-  return `--- Starting session: ${new Date().toISOString()} ---`;
-}
-
-function getSessionEndLine() {
-  return `--- Ending session: ${new Date().toISOString()} ---`;
-}
-
 function logSessionStart() {
-  logger.info(getSessionStartLine());
+  logger.info(`--- Starting session: ${new Date().toISOString()} ---`);
   logger.info(`Application Version: ${config.version}`)
 }
 
 function logSessionEnd() {
-  logger.info(getSessionEndLine());
+  logger.info(`--- Ending session: ${new Date().toISOString()} ---`);
 }
 
 module.exports = {

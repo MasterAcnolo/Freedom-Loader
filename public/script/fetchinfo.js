@@ -80,7 +80,7 @@ async function init() {
         infoDiv.innerHTML = `
           <div class="playlist-header">
             <div class="playlist-info">
-              <div class="playlist-badge">Playlist détectée</div>
+              <div class="playlist-badge">Detected Playlist</div>
               <h3 class="playlist-title">${data.title}</h3>
               <div class="playlist-meta">
                 <span class="playlist-count">

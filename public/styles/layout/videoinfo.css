@@ -69,80 +69,293 @@
 
 /* --- Playlist Mode --- */
 #videoInfo.playlist-mode {
-  max-width: 900px; 
+  max-width: 95%; 
 }
 
-/* Style du bloc "Playlist détectée" */
-#videoInfo.playlist-mode > p {
-  text-align: center;
-  font-size: 1.1rem;
+/* Playlist Header */
+.playlist-header {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.playlist-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.4rem 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  font-size: 0.8rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--video-info-text-color);
+  margin-bottom: 1rem;
+}
+
+.playlist-info {
+  flex: 1;
+}
+
+.playlist-title {
+  font-size: 1.9rem;
+  margin: 0 0 0.6rem 0;
+  color: var(--video-info-heading-color);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.playlist-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--video-info-text-color);
+  opacity: 0.85;
+  flex-wrap: wrap;
+}
+
+.playlist-count,
+.playlist-channel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 500;
+}
+
+.playlist-count svg,
+.playlist-channel svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 /* Layout liste des vidéos */
 #playlistVideos {
   margin-top: 1em;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
-/* Un item de playlist */
-#playlistVideos > div {
+/* Carte vidéo playlist */
+.playlist-video-card {
   background: var(--playlist-background-color);
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  text-align: center;
-  transition: transform 0.2s ease;
-}
-
-#playlistVideos > div p {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 
-#videoInfo.playlist-mode {
-  max-width: 95%;
+.playlist-video-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--video-info-link-color), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
-#playlistVideos > div:hover {
+.playlist-video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.playlist-video-card:hover::before {
+  opacity: 1;
+}
+
+/* Thumbnail wrapper avec durée */
+.video-thumbnail-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.playlist-video-card:hover .video-thumbnail {
   transform: scale(1.05);
 }
 
-#playlistVideos img {
-  width: 100%;
+.video-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(4px);
+}
+
+/* Contenu vidéo */
+.video-content {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.02));
+}
+
+.video-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--video-info-heading-color);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.8em;
+  transition: color 0.2s ease;
+}
+
+.playlist-video-card:hover .video-title {
+  color: var(--video-info-link-color);
+}
+
+.video-uploader {
+  font-size: 0.9rem;
+  color: var(--video-info-text-color);
+  opacity: 0.7;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Actions vidéo */
+.video-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.video-link {
+  flex: 1;
+  text-decoration: none;
+  color: var(--video-info-link-color);
+  font-size: 0.9rem;
+  padding: 0.5rem 0.9rem;
   border-radius: 8px;
-  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+  text-align: center;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.video-link svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.video-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  transform: translateY(-1px);
 }
 
 .copy-btn {
-  all: unset;
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
   display: inline-flex;          
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  vertical-align: middle;
-  transition: transform 0.1s ease, color 0.1s ease, opacity 0.15s ease;
-  font-size: 1em;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
 }
 
-#playlistVideos > div p a{
-  text-decoration: none;
-  color: var(--video-info-link-color);
+.copy-btn svg {
+  width: 18px;
+  height: 18px;
+  color: var(--video-info-text-color);
 }
 
-#playlistVideos > div p a:hover{
-  text-decoration: underline;
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.copy-btn:active {
+  transform: scale(0.95);
+}
+
+.copy-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 
 /* Responsive */
+@media (max-width: 768px) {
+  #playlistVideos {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .playlist-header {
+    padding: 1.5rem;
+  }
+
+  .playlist-title {
+    font-size: 1.5rem;
+  }
+
+  .playlist-meta {
+    gap: 0.8rem;
+  }
+}
+
 @media (max-width: 480px) {
   #videoInfo {
     padding: 1em;
@@ -151,5 +364,22 @@
 
   #videoInfo h3 {
     font-size: 1.4rem;
+  }
+
+  #playlistVideos {
+    grid-template-columns: 1fr;
+  }
+
+  .playlist-header {
+    padding: 1.2rem;
+  }
+
+  .playlist-title {
+    font-size: 1.3rem;
+  }
+
+  .playlist-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
   }
 }

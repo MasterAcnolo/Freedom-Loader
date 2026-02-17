@@ -157,6 +157,8 @@ ipcMain.on("set-progress", (event, percent) => {
 ipcMain.on("window-minimize", () => {
   if (mainWindow) mainWindow.minimize();
 });
+
+// Toggle Maximize -> UnMaximize
 ipcMain.on("window-maximize", () => {
   if (mainWindow) {
     if (mainWindow.isMaximized()) {
@@ -166,6 +168,7 @@ ipcMain.on("window-maximize", () => {
     }
   }
 });
+
 ipcMain.on("window-close", () => {
   if (mainWindow) mainWindow.close();
 });
@@ -248,7 +251,7 @@ app.whenReady().then(async () => {
       });
 
 
-    configFeatures.discordRPC ? startRPC() : "";
+    configFeatures.discordRPC ? startRPC() : ""; // Discord RPC
 
     await createMainWindow();
     configFeatures.autoUpdate ? AutoUpdater(mainWindow) : ""; // Auto Update 
@@ -261,7 +264,6 @@ app.whenReady().then(async () => {
 
 app.on("window-all-closed", () => {
   logger.info("All Window Closed, shuting down app");
-  if (process.platform !== "darwin") app.quit();
 });
 
 app.on("before-quit", () => {

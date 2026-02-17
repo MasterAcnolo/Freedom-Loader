@@ -263,10 +263,12 @@ app.whenReady().then(async () => {
 });
 
 app.on("window-all-closed", () => {
-  logger.info("All Window Closed, shuting down app");
+  logger.info("Shuting Down App...");
+  app.quit();
 });
 
 app.on("before-quit", () => {
-  logSessionEnd() 
   stopRPC()
+  logger.info("All Services Stopped. Have a nice day!")
+  logSessionEnd() 
 });

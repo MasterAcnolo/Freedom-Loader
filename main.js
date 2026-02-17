@@ -30,11 +30,14 @@ const gotLock = app.requestSingleInstanceLock();
 
 // Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
 function checkNativeDependencies() {
+  // Import des chemins centralisés après l'initialisation de l'app
+  const { binaryPaths } = require("./server/helpers/path");
+  
   const deps = [
-    { name: "yt-dlp.exe", path: path.join(process.resourcesPath, "binaries","yt-dlp.exe") },
-    { name: "ffmpeg.exe", path: path.join(process.resourcesPath, "binaries", "ffmpeg.exe") },
-    { name: "ffprobe.exe", path: path.join(process.resourcesPath, "binaries", "ffprobe.exe") },
-    { name: "deno.exe", path: path.join(process.resourcesPath, "binaries", "deno.exe") },
+    { name: "yt-dlp.exe", path: binaryPaths.ytDlp },
+    { name: "ffmpeg.exe", path: binaryPaths.ffmpeg },
+    { name: "ffprobe.exe", path: binaryPaths.ffprobe },
+    { name: "deno.exe", path: binaryPaths.deno },
   ];
   const missing = deps.filter(dep => !fs.existsSync(dep.path));
   let errorMsg = "";
@@ -114,15 +117,20 @@ function validateDownloadPath(userPath) {
 
   if (!userPath) return path.join(userHome, "Downloads", "Freedom Loader");
 
-  // Résolution canonique et suivi des symlinks
-  const resolved = fs.realpathSync(path.resolve(userPath));
-  const normalizedHome = path.resolve(userHome) + path.sep;
+  try {
+    // Résolution canonique et suivi des symlinks
+    const resolved = fs.realpathSync(path.resolve(userPath));
+    const normalizedHome = path.resolve(userHome) + path.sep;
 
-  if (!resolved.startsWith(normalizedHome)) {
-    throw new Error("Chemin non autorisé : uniquement les sous-dossiers du dossier utilisateur sont permis !");
+    if (!resolved.startsWith(normalizedHome)) {
+      throw new Error("Chemin non autorisé : uniquement les sous-dossiers du dossier utilisateur sont permis !");
+    }
+
+    return resolved;
+  } catch (err) {
+    logger.error(`Invalid download path: ${userPath} - ${err.message}`);
+    throw new Error(`Chemin invalide ou inaccessible : ${err.message}`);
   }
-
-  return resolved;
 }
 
 
@@ -267,8 +275,8 @@ app.on("window-all-closed", () => {
   app.quit();
 });
 
-app.on("before-quit", () => {
-  stopRPC()
+app.on("before-quit", async () => {
+  await stopRPC();
   logger.info("All Services Stopped. Have a nice day!")
-  logSessionEnd() 
+  logSessionEnd(); 
 });

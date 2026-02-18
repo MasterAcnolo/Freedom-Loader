@@ -78,9 +78,27 @@ async function init() {
       if (data.type === "playlist") {
         infoDiv.classList.add("playlist-mode");
         infoDiv.innerHTML = `
-          <h3 style="color:var(--video-info-heading-color);"><strong>Playlist Detected: ${data.title}</strong></h3>
-          <h3 style="color:var(--video-info-heading-color);"><strong>Video Count: ${data.count}</strong></h3>
-          <p><strong>Channel :</strong> ${data.channel || "Unknown"}</p>
+          <div class="playlist-header">
+            <div class="playlist-info">
+              <div class="playlist-badge">Detected Playlist</div>
+              <h3 class="playlist-title">${data.title}</h3>
+              <div class="playlist-meta">
+                <span class="playlist-count">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  ${data.count} vidéos
+                </span>
+                ${data.channel ? `<span class="playlist-channel">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                    <path d="M5 20C5 16.134 8.134 13 12 13C15.866 13 19 16.134 19 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  ${data.channel}
+                </span>` : ''}
+              </div>
+            </div>
+          </div>
           <div id="playlistVideos"></div>
         `;
 
@@ -88,39 +106,58 @@ async function init() {
 
         data.videos.forEach(v => {
           const durationStr = v.duration
-            ? `${Math.floor(v.duration / 60)}m ${(v.duration % 60).toString().padStart(2,"0")}s` : "Inconnue";
+            ? `${Math.floor(v.duration / 60)}:${(v.duration % 60).toString().padStart(2,"0")}` : "--:--";
 
           const videoUrl = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
 
           listDiv.innerHTML += `
-            <div style="margin-bottom:12px;">
-              <img src="${v.thumbnail}" width="160" alt="Thumbnail">
-              <p><strong>${v.title}</strong></p>
-              <p>Duration : ${durationStr}</p>
-              <p><a href="${videoUrl}" target="_blank">URL</a>
-                <button class="copy-btn" data-url="${videoUrl}">📋</button>
-              </p>
+            <div class="playlist-video-card">
+              <div class="video-thumbnail-wrapper">
+                <img src="${v.thumbnail}" alt="${v.title}" class="video-thumbnail">
+                <span class="video-duration">${durationStr}</span>
+              </div>
+              <div class="video-content">
+                <h4 class="video-title" title="${v.title}">${v.title}</h4>
+                ${v.uploader ? `<p class="video-uploader">${v.uploader}</p>` : ''}
+                <div class="video-actions">
+                  <a href="${videoUrl}" target="_blank" class="video-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Ouvrir
+                  </a>
+                  <button class="copy-btn" data-url="${videoUrl}" title="Copier l'URL">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           `;
         });
 
         // Gestion du bouton copier
         listDiv.addEventListener("click", (event) => {
-          if (event.target.classList.contains("copy-btn")) {
-            const btn = event.target;
+          if (event.target.classList.contains("copy-btn") || event.target.closest(".copy-btn")) {
+            const btn = event.target.closest(".copy-btn") || event.target;
             if (btn.disabled) return;
 
             btn.disabled = true;
             const url = btn.dataset.url;
             navigator.clipboard.writeText(url)
               .then(() => {
-                const original = btn.textContent;
+                const original = btn.innerHTML;
 
                 btn.style.opacity = 0;
                 btn.style.transform = "scale(0.7)";
 
                 setTimeout(() => {
-                  btn.textContent = "✅";
+                  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>`;
                   btn.style.opacity = 1;
                   btn.style.transform = "scale(1)";
 
@@ -129,7 +166,7 @@ async function init() {
                     btn.style.transform = "scale(0.7)";
 
                     setTimeout(() => {
-                      btn.textContent = original;
+                      btn.innerHTML = original;
                       btn.style.opacity = 1;
                       btn.style.transform = "scale(1)";
                       btn.disabled = false;
@@ -140,10 +177,12 @@ async function init() {
                 }, 300);
               })
               .catch(() => {
-                const original = btn.textContent;
-                btn.textContent = "❌";
+                const original = btn.innerHTML;
+                btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>`;
                 setTimeout(() => {
-                  btn.textContent = original;
+                  btn.innerHTML = original;
                   btn.disabled = false;
                 }, 1500);
               });

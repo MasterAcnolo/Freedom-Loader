@@ -16,10 +16,14 @@ async function downloadController(req, res) {
     };
 
     if (!options.url || !isValidUrl(options.url)) return res.status(400).send("❌ Invalid URL !");
-    if (options.outputFolder && !isSafePath(options.outputFolder)) return res.status(400).send("❌ Save Path Not Allowed.");
+    if (options.outputFolder && !isSafePath(options.outputFolder)) {
+      logger.warn(`Unsafe download path rejected: ${options.outputFolder}`);
+      return res.status(400).send("❌ Save Path Not Allowed.");
+    }
 
-    const filePath = await fetchDownload(options, listeners, speedListeners);
-    notifyDownloadFinished(filePath);
+    // Get output folder when the download is finished
+    const outputFolder = await fetchDownload(options, listeners, speedListeners);
+    notifyDownloadFinished(outputFolder);
     res.send("✅ Download Done !");
     
   } catch (err) {

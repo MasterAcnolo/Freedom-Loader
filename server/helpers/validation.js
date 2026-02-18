@@ -13,7 +13,7 @@ function isValidUrl(url) {
 
 function isSafePath(folder) {
   if (!folder || folder.length < 3) return false;
-  const unsafe = ["System32", "/etc", "\\Windows"];
+  const unsafe = ["System32", "\\Windows"];
   const resolved = path.resolve(folder);
   return !unsafe.some(u => resolved.includes(u));
 }

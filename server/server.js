@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs");
 const path = require("path");
 const { logger, logSessionEnd } = require("./logger");
 const config = require("../config");
@@ -11,19 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-// Dossier de téléchargement
-const outputFolder = path.join(process.env.USERPROFILE, "Downloads", "Freedom Loader");
-
-// Création du dossier si nécessaire
-try {
-  fs.mkdirSync(outputFolder, { recursive: true });
-  logger.info(`Freedom Loader folder ready in ${outputFolder}`);
-} catch (err) {
-  logger.error("Unable to create folder:", err);
-  process.exit(1);
-}
-
-// Mise à jour yt-dlp au 
+// Mise à jour yt-dlp au démarrage
 execFile(userYtDlp, ["-U"], (err, stdout, stderr) => {
   if (err) logger.warn("yt-dlp update error:", err);
   else logger.info(`Update yt-dlp : ${stdout}`);

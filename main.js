@@ -18,7 +18,8 @@ const basePath = config.localMode
 
 const configFolderPath = path.join(basePath, "config" ,"config.json");
 
-const defaultDownloadPath = path.join(os.homedir(), "Downloads", "Freedom Loader");
+// Default download path (centralized, lazy loaded)
+let defaultDownloadPath;
 
 app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
 app.disableHardwareAcceleration();
@@ -30,11 +31,14 @@ const gotLock = app.requestSingleInstanceLock();
 
 // Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
 function checkNativeDependencies() {
+  // Import centralized paths after app initialization
+  const { binaryPaths } = require("./server/helpers/path");
+  
   const deps = [
-    { name: "yt-dlp.exe", path: path.join(process.resourcesPath, "binaries","yt-dlp.exe") },
-    { name: "ffmpeg.exe", path: path.join(process.resourcesPath, "binaries", "ffmpeg.exe") },
-    { name: "ffprobe.exe", path: path.join(process.resourcesPath, "binaries", "ffprobe.exe") },
-    { name: "deno.exe", path: path.join(process.resourcesPath, "binaries", "deno.exe") },
+    { name: "yt-dlp.exe", path: binaryPaths.ytDlp },
+    { name: "ffmpeg.exe", path: binaryPaths.ffmpeg },
+    { name: "ffprobe.exe", path: binaryPaths.ffprobe },
+    { name: "deno.exe", path: binaryPaths.deno },
   ];
   const missing = deps.filter(dep => !fs.existsSync(dep.path));
   let errorMsg = "";
@@ -110,36 +114,52 @@ async function createMainWindow() {
 }
 
 function validateDownloadPath(userPath) {
-  const userHome = os.homedir(); // C:\Users\<User>
-
-  if (!userPath) return path.join(userHome, "Downloads", "Freedom Loader");
-
-  // Résolution canonique et suivi des symlinks
-  const resolved = fs.realpathSync(path.resolve(userPath));
-  const normalizedHome = path.resolve(userHome) + path.sep;
-
-  if (!resolved.startsWith(normalizedHome)) {
-    throw new Error("Chemin non autorisé : uniquement les sous-dossiers du dossier utilisateur sont permis !");
+  const { isSafePath } = require("./server/helpers/validation");
+  
+  // Lazy load default path
+  if (!defaultDownloadPath) {
+    const { defaultDownloadFolder } = require("./server/helpers/path");
+    defaultDownloadPath = defaultDownloadFolder;
   }
 
-  return resolved;
+  if (!userPath) return defaultDownloadPath;
+
+  try {
+    // Canonical resolution and symlink following
+    const resolved = fs.realpathSync(path.resolve(userPath));
+    
+    // Use the same validation as backend (allows all drives except system folders)
+    if (!isSafePath(resolved)) {
+      throw new Error("Path not allowed: system folders are blocked!");
+    }
+
+    return resolved;
+  } catch (err) {
+    logger.error(`Invalid download path: ${userPath} - ${err.message}`);
+    throw new Error(`Invalid or inaccessible path: ${err.message}`);
+  }
 }
 
 
 // IPC
 ipcMain.handle("select-download-folder", async () => {
-  try {
-    const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
-    if (!result.canceled && result.filePaths.length > 0) {
-      const validatedPath = validateDownloadPath(result.filePaths[0]);
-      logger.info(`Folder Checked and Valid : ${validatedPath}`);
-      return validatedPath;
-    }
-    return null;
-  } catch (err) {
-    logger.error(`An Error Occured when validating folder : ${err.message}`);
+  const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
+  if (result.canceled) {
+    logger.info("Folder selection cancelled by user");
     return null;
   }
+  if (result.filePaths.length > 0) {
+    const selectedPath = result.filePaths[0];
+    try {
+      const validatedPath = validateDownloadPath(selectedPath);
+      logger.info(`Folder selected and validated: ${validatedPath}`);
+      return validatedPath;
+    } catch (err) {
+      logger.warn(`Unsafe or invalid folder rejected: ${err.message}`);
+      throw err; // Propagate error to UI
+    }
+  }
+  return null;
 });
 
 ipcMain.handle("validate-download-path", (event, userPath) => {
@@ -147,7 +167,13 @@ ipcMain.handle("validate-download-path", (event, userPath) => {
 });
 
 
-ipcMain.handle("get-default-download-path", () => defaultDownloadPath);
+ipcMain.handle("get-default-download-path", () => {
+  if (!defaultDownloadPath) {
+    const { defaultDownloadFolder } = require("./server/helpers/path");
+    defaultDownloadPath = defaultDownloadFolder;
+  }
+  return defaultDownloadPath;
+});
 
 ipcMain.on("set-progress", (event, percent) => {
   if (mainWindow) mainWindow.setProgressBar(percent / 100); // Electron attend 0 → 1
@@ -157,6 +183,8 @@ ipcMain.on("set-progress", (event, percent) => {
 ipcMain.on("window-minimize", () => {
   if (mainWindow) mainWindow.minimize();
 });
+
+// Toggle Maximize -> UnMaximize
 ipcMain.on("window-maximize", () => {
   if (mainWindow) {
     if (mainWindow.isMaximized()) {
@@ -166,6 +194,7 @@ ipcMain.on("window-maximize", () => {
     }
   }
 });
+
 ipcMain.on("window-close", () => {
   if (mainWindow) mainWindow.close();
 });
@@ -248,10 +277,11 @@ app.whenReady().then(async () => {
       });
 
 
-    configFeatures.discordRPC ? startRPC() : "";
+    if (configFeatures.discordRPC) startRPC(); // Discord RPC
 
     await createMainWindow();
-    configFeatures.autoUpdate ? AutoUpdater(mainWindow) : ""; // Auto Update 
+
+    if (configFeatures.autoUpdate) AutoUpdater(mainWindow); // Auto Update
 
   } catch (err) {
     logger.error("Window or Server error :", err);
@@ -260,11 +290,12 @@ app.whenReady().then(async () => {
 });
 
 app.on("window-all-closed", () => {
-  logger.info("All Window Closed, shuting down app");
-  if (process.platform !== "darwin") app.quit();
+  logger.info("Shuting Down App...");
+  app.quit();
 });
 
-app.on("before-quit", () => {
-  logSessionEnd() 
-  stopRPC()
+app.on("before-quit", async () => {
+  await stopRPC();
+  logger.info("All Services Stopped. Have a nice day!")
+  logSessionEnd(); 
 });

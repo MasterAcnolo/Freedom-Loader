@@ -53,7 +53,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
         await applyPathFromBack(validatedPath);
       } catch (err) {
-        alert("Folder not allowed.");
+        alert("This folder is not allowed. Only specific folders (Users, Downloads, Documents) are authorized for downloads.");
       }
     });
 });

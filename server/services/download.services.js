@@ -3,23 +3,33 @@ const { userYtDlp, defaultDownloadFolder } = require("../helpers/path");
 const fs = require("fs");
 const { logger } = require("../logger");
 const { buildYtDlpArgs } = require("../helpers/buildArgs");
-const notify = require("../helpers/notify")
+const notify = require("../helpers/notify");
+const path = require("path");
+const { isSafePath } = require("../helpers/validation");
 
 function fetchDownload(options, listeners, speedListeners) {
 
   return new Promise((resolve, reject) => {
     const outputFolder = options.outputFolder || defaultDownloadFolder;
     
+    // Normalize path and validate it's safe (within Users folder)
+    let safeOutputFolder = path.resolve(outputFolder);
+    
+    if (!isSafePath(safeOutputFolder)) {
+      logger.warn(`Path not allowed, using default instead: ${safeOutputFolder}`);
+      safeOutputFolder = path.resolve(defaultDownloadFolder);
+    }
+    
     // Create download folder if it doesn't exist
     try {
-      fs.mkdirSync(outputFolder, { recursive: true });
-      logger.info(`Output folder ready: ${outputFolder}`);
+      fs.mkdirSync(safeOutputFolder, { recursive: true });
+      logger.info(`Output folder ready: ${safeOutputFolder}`);
     } catch (err) {
       logger.error(`Failed to create output folder: ${err.message}`);
       return reject(new Error(`Unable to create download folder: ${err.message}`));
     }
 
-    const args = buildYtDlpArgs({ ...options, outputFolder });
+    const args = buildYtDlpArgs({ ...options, outputFolder: safeOutputFolder });
     logger.info(`[yt-dlp args] ${args.join(" ")}`);
 
     const child = execFile(userYtDlp, args);
@@ -28,7 +38,7 @@ function fetchDownload(options, listeners, speedListeners) {
 
     child.on("close", code => {
       listeners.forEach(fn => fn("done"));
-      if (code === 0) resolve(outputFolder);
+      if (code === 0) resolve(safeOutputFolder);
       else reject(new Error(`YT-DLP failed with code : ${code}`));
     });
 

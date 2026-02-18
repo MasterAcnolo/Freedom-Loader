@@ -143,23 +143,23 @@ function validateDownloadPath(userPath) {
 
 // IPC
 ipcMain.handle("select-download-folder", async () => {
-  try {
-    const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
-    if (result.canceled) {
-      logger.info("Folder selection cancelled by user");
-      return null;
-    }
-    if (result.filePaths.length > 0) {
-      const selectedPath = result.filePaths[0];
+  const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
+  if (result.canceled) {
+    logger.info("Folder selection cancelled by user");
+    return null;
+  }
+  if (result.filePaths.length > 0) {
+    const selectedPath = result.filePaths[0];
+    try {
       const validatedPath = validateDownloadPath(selectedPath);
       logger.info(`Folder selected and validated: ${validatedPath}`);
       return validatedPath;
+    } catch (err) {
+      logger.warn(`Unsafe or invalid folder rejected: ${err.message}`);
+      throw err; // Propagate error to UI
     }
-    return null;
-  } catch (err) {
-    logger.warn(`Unsafe or invalid folder rejected: ${err.message}`);
-    return null;
   }
+  return null;
 });
 
 ipcMain.handle("validate-download-path", (event, userPath) => {

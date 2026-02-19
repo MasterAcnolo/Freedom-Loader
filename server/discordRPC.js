@@ -20,10 +20,6 @@ function startRPC() {
     rpc.clearActivity()
     rpc.setActivity(presence);
 
-    // Met à jour la présence toutes les 15s
-    intervalId = setInterval(() => {
-      rpc.setActivity(presence);
-    }, 15000);
   });
 
   rpc.login({ clientId }).catch(err => {

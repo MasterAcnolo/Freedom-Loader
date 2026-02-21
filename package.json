@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "electron": "^37.1.0",
-    "electron-builder": "^26.4.0"
+    "electron-builder": "^25.1.8"
   },
   "build": {
     "appId": "com.masteracnolo.freedomloader",

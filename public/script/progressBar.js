@@ -30,7 +30,7 @@ function resetProgress() {
   speedElement.style.display = "none";
 }
 
-// Connexion SSE
+// SSE Connexion
 const evtSource = new EventSource("/download/progress");
 evtSource.onmessage = e => {
   if (e.data === "reset") {
@@ -49,10 +49,10 @@ evtSource.onmessage = e => {
   
   if (!isNaN(percent)) {
     updateProgress(percent);
-    window.electronAPI.setProgress(percent); // update barre des tâches
+    window.electronAPI.setProgress(percent); // Update Task Bar
     if (percent >= 100) setTimeout(() => {
       resetProgress();
-      window.electronAPI.setProgress(-1); // retire la barre
+      window.electronAPI.setProgress(-1); // Remove the bar
     }, 500);
   }
 };

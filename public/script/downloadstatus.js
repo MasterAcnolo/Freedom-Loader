@@ -4,7 +4,7 @@ const button = form.querySelector("button");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  button.disabled = true; // Empêche les clics multiples
+  button.disabled = true; // Avoid multiple clicks
   statusDiv.textContent = "Download in progress...";
 
   const formData = new FormData(form);

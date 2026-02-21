@@ -5,7 +5,8 @@ const path = require("path");
 
 const localMode = !app.isPackaged;
 
-const featuresPath = localMode ? path.join(__dirname, "./config/config.json") : path.join(path.join(process.resourcesPath,"config/" ,"config.json"));
+// Change path for JSON file
+const featuresPath =  path.join(path.join(`${localMode ? __dirname : process.resourcesPath}`,"config/" , "config.json"));
 
 let features = {};
 

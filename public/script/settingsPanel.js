@@ -15,7 +15,7 @@ function closePanel() {
     settingsPanel.style.display = "none";
 }
 
-// charge les features
+
 async function loadSettings() {
   const features = await window.electronAPI.getFeatures();
 
@@ -33,7 +33,7 @@ async function loadSettings() {
   });
 }
 
-// ouvrir le JSON
+// Open The JSON
 document.getElementById("open-json-btn").addEventListener("click", () => {
   window.topbarAPI.openConfig(); // ton IPC existant
 });

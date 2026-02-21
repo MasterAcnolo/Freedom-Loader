@@ -5,10 +5,11 @@ const { isValidUrl } = require("../helpers/validation");
 
 async function infoController(req, res){
 
-    const url = req.body.url || req.query.url; // Gérer POST et GET
+    const url = req.body.url || req.query.url; // POST et GET
 
 
-    /* Si pas d'url, url non-string ou url invalide*/
+    // If no url, non-string url or invalid url
+
     if (!url || typeof url !== "string" || !isValidUrl(url)) return res.status(400).send("❌ Invalid URL Or Missing");
 
     logger.info(`/Info Request receive by the Info Controller. URL: ${url}`);

@@ -4,7 +4,7 @@ const { downloadController, progressController, speedController } = require("../
 
 router.post("/", downloadController);
 
-// SSE pour la progression du téléchargement
+// SSE for download progress
 router.get("/progress", progressController);
 router.get("/speed", speedController);
 

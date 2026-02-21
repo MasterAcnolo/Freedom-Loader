@@ -17,8 +17,8 @@ function fetchInfo(url) {
     return new Promise((resolve, reject) => {
 
         execFile(userYtDlp,[...args, url],
-            {   timeout: 30_000, // 30s, si jamais plus, abandon de la requête
-                maxBuffer: 10 * 1024 * 1024 },  // 10MO de réponse max (Par défaut: 200ko)
+            {   timeout: 30_000, // 30s, if more timeout
+                maxBuffer: 10 * 1024 * 1024 },  // 10MO max response (Default: 200ko)
                 
                 (error, stdout, stderr) => {
 

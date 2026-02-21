@@ -23,7 +23,7 @@ const sourceYtDlp = path.join(resourcesPath, "binaries","yt-dlp.exe");
 
 if (config.localMode) {
   userYtDlp = path.join(__dirname, "../../ressources/yt-dlp.exe");
-  ffmpegPath = path.join(__dirname, "../../ressources/"); // <- contient ffmpeg.exe et ffprobe.exe
+  ffmpegPath = path.join(__dirname, "../../ressources/"); // <- has ffmpeg.exe and ffprobe.exe
   denoPath = path.join(__dirname, "../../ressources/deno.exe"); 
 } else {
   userYtDlp = path.join(app.getPath("userData"),"yt-dlp.exe");
@@ -33,7 +33,6 @@ if (config.localMode) {
   if (!fs.existsSync(userYtDlp)) {
     fs.copyFileSync(sourceYtDlp, userYtDlp);
   }
-
 }
 
 // Notification icon paths

@@ -43,7 +43,7 @@ async function init() {
 
       const url = urlInput.value.trim();
 
-      // Si champ vide -> reset total
+      // IF field empty -> total reset
       if (!url || url.length < 2) {
         infoDiv.innerHTML = "";
         infoDiv.classList.remove("visible", "playlist-mode");
@@ -58,7 +58,7 @@ async function init() {
       const data = await fetchVideoInfo(url);
       loaderBox.style.display = "none";
 
-      // Gestion des erreurs
+
       if (data.error) {
         infoDiv.innerHTML = `
           <div style="
@@ -139,7 +139,7 @@ async function init() {
           `;
         });
 
-        // Gestion du bouton copier
+        // Copy Button
         listDiv.addEventListener("click", (event) => {
           if (event.target.classList.contains("copy-btn") || event.target.closest(".copy-btn")) {
             const btn = event.target.closest(".copy-btn") || event.target;

@@ -43,12 +43,12 @@ function loadTheme() {
     applyTheme(savedTheme);
     themeSelect.value = savedTheme;
   } else {
-    applyTheme("dark");  // thème par défaut
+    applyTheme("dark");
     themeSelect.value = "dark";
   }
 }
 
-// Quand l'utilisateur change le thème depuis le select
+// When the user changes the theme from the select
 themeSelect.addEventListener("change", (event) => {
   const selectedTheme = event.target.value;
   if (themes[selectedTheme]) {

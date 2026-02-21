@@ -48,7 +48,7 @@ function fetchDownload(options, listeners, speedListeners) {
         if (!line.trim()) return;
         logger.info(`[yt-dlp] ${line}`);
 
-        /* Progress Bar */
+        // Progress Bar 
         if (line.startsWith("[download] Destination:")) listeners.forEach(fn => fn("reset"));
         const match = line.match(/\[download\]\s+(\d+\.\d+)%/);
         if (match) listeners.forEach(fn => fn(parseFloat(match[1])));

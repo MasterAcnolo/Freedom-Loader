@@ -5,10 +5,10 @@ const path = require("path");
 const os = require("os");
 const config = require("../config");
 
-// Dossier de logs Windows
+// Logs folder in Windows
 const logDir = path.join(os.homedir(), "AppData", "Local", "FreedomLoader", "logs");
 
-// Création du dossier "logs" si nécessaire
+// Create "Logs" folder if needed
 try {
   fs.mkdirSync(logDir, { recursive: true });
 } catch (error) {
@@ -20,7 +20,7 @@ const logFormat = format.combine(
   format.printf(({ timestamp, level, message }) => `${timestamp} | ${level.toUpperCase()} |  ${message}`)
 );
 
-// Configuration du logger
+// Logger configuration
 const logger = createLogger({
   level: "info",
   format: logFormat,

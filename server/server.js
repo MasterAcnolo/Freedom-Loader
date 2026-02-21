@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-// Mise à jour yt-dlp au démarrage
+// Update YT-DLP on Startup
 execFile(userYtDlp, ["-U"], (err, stdout, stderr) => {
   if (err) logger.warn("yt-dlp update error:", err);
   else logger.info(`Update yt-dlp : ${stdout}`);
@@ -24,11 +24,11 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/download", require("./routes/download.route"));
 app.use("/info", require("./routes/info.route"));
 
+// When we get API Root, it return the front pages.
 app.get("/",  rateLimite ,(req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-// Fonction pour démarrer le serveur
 async function startServer() {
   return new Promise((resolve, reject) => {
     const server = app.listen(config.applicationPort, () => {

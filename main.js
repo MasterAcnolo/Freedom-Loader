@@ -1,7 +1,6 @@
 const config = require("./config.js");
 const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
 const path = require("path");
-const os = require("os");
 const fs = require("fs");
 
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
@@ -93,6 +92,7 @@ async function createMainWindow() {
     minWidth: 750,
     minHeight: 800,
     frame: !configFeatures.customTopBar,
+    devTools: `${app.isPackaged ? false : true}`,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const { app } = require("electron");
-const config = require("../../config");
+const config = require("../../config.js");
 
 const { logger } = require("../logger.js");
 

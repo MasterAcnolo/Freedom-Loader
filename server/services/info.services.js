@@ -1,6 +1,6 @@
 const { execFile } = require("child_process");
-const { userYtDlp, denoPath } = require("../helpers/path");
-const getUserBrowser = require("../helpers/getBrowser");
+const { userYtDlp, denoPath } = require("../helpers/path.helpers");
+const getUserBrowser = require("../helpers/getBrowser.helpers");
 const { logger } = require("../logger");
 
 function fetchInfo(url) {

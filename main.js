@@ -114,7 +114,7 @@ async function createMainWindow() {
 }
 
 function validateDownloadPath(userPath) {
-  const { isSafePath } = require("./server/helpers/validation");
+  const { isSafePath } = require("./server/helpers/validation.helpers.js");
   
   // Lazy load default path
   if (!defaultDownloadPath) {

@@ -1,11 +1,11 @@
 const { execFile } = require("child_process");
-const { userYtDlp, defaultDownloadFolder } = require("../helpers/path");
+const { userYtDlp, defaultDownloadFolder } = require("../helpers/path.helpers");
 const fs = require("fs");
 const { logger } = require("../logger");
-const { buildYtDlpArgs } = require("../helpers/buildArgs");
-const notify = require("../helpers/notify");
+const { buildYtDlpArgs } = require("../helpers/buildArgs.helpers");
+const notify = require("../helpers/notify.helpers");
 const path = require("path");
-const { isSafePath } = require("../helpers/validation");
+const { isSafePath } = require("../helpers/validation.helpers");
 
 function fetchDownload(options, listeners, speedListeners) {
 

@@ -31,7 +31,7 @@ const gotLock = app.requestSingleInstanceLock();
 // Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
 function checkNativeDependencies() {
   // Import centralized paths after app initialization
-  const { binaryPaths } = require("./server/helpers/path");
+  const { binaryPaths } = require("./server/helpers/path.helpers.js");
   
   const deps = [
     { name: "yt-dlp.exe", path: binaryPaths.ytDlp },
@@ -118,7 +118,7 @@ function validateDownloadPath(userPath) {
   
   // Lazy load default path
   if (!defaultDownloadPath) {
-    const { defaultDownloadFolder } = require("./server/helpers/path");
+    const { defaultDownloadFolder } = require("./server/helpers/path.helpers.js");
     defaultDownloadPath = defaultDownloadFolder;
   }
 

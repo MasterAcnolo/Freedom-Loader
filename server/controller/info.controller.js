@@ -1,7 +1,7 @@
 const { fetchInfo } = require("../services/info.services");
-const { parseVideo, parsePlaylist } = require("../helpers/parseInfo");
+const { parseVideo, parsePlaylist } = require("../helpers/parseInfo.helpers");
 const { logger } = require("../logger");
-const { isValidUrl } = require("../helpers/validation");
+const { isValidUrl } = require("../helpers/validation.helpers");
 
 async function infoController(req, res){
 

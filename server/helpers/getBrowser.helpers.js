@@ -1,7 +1,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const notify = require("./notify")
+const notify = require("./notify.helpers")
 const { logger } = require("../logger");
 
 function getUserBrowser() {

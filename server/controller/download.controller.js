@@ -1,7 +1,7 @@
 const { fetchDownload } = require("../services/download.services");
 const { logger } = require("../logger");
-const { isValidUrl, isSafePath } = require("../helpers/validation");
-const { notifyDownloadFinished } = require("../helpers/notify");
+const { isValidUrl, isSafePath } = require("../helpers/validation.helpers");
+const { notifyDownloadFinished } = require("../helpers/notify.helpers");
 
 const listeners = [];
 const speedListeners = [];

@@ -1,7 +1,6 @@
 const config = require("./config.js");
 const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
 const path = require("path");
-const os = require("os");
 const fs = require("fs");
 
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
@@ -32,7 +31,7 @@ const gotLock = app.requestSingleInstanceLock();
 // Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
 function checkNativeDependencies() {
   // Import centralized paths after app initialization
-  const { binaryPaths } = require("./server/helpers/path");
+  const { binaryPaths } = require("./server/helpers/path.helpers.js");
   
   const deps = [
     { name: "yt-dlp.exe", path: binaryPaths.ytDlp },
@@ -93,6 +92,7 @@ async function createMainWindow() {
     minWidth: 750,
     minHeight: 800,
     frame: !configFeatures.customTopBar,
+    devTools: `${app.isPackaged ? false : true}`,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -114,11 +114,11 @@ async function createMainWindow() {
 }
 
 function validateDownloadPath(userPath) {
-  const { isSafePath } = require("./server/helpers/validation");
+  const { isSafePath } = require("./server/helpers/validation.helpers.js");
   
   // Lazy load default path
   if (!defaultDownloadPath) {
-    const { defaultDownloadFolder } = require("./server/helpers/path");
+    const { defaultDownloadFolder } = require("./server/helpers/path.helpers.js");
     defaultDownloadPath = defaultDownloadFolder;
   }
 

@@ -1,5 +1,5 @@
 const { Notification, shell } = require("electron");
-const { iconPaths } = require("./path");
+const { iconPaths } = require("./path.helpers");
 
 function notifyDownloadFinished(folder) {
   const notif = new Notification({

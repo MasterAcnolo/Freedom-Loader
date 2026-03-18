@@ -1,9 +1,9 @@
 const path = require("path");
 
-const getUserBrowser = require("./getBrowser");
-const { ffmpegPath, denoPath} = require("./path");
+const getUserBrowser = require("./getBrowser.helpers.js");
+const { ffmpegPath, denoPath} = require("./path.helpers.js");
 const { configFeatures } = require("../../config.js");
-const { logger } = require("../logger");
+const { logger } = require("../logger.js");
 
 function validateCodec(codec){
 

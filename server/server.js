@@ -3,8 +3,8 @@ const path = require("path");
 const { logger, logSessionEnd } = require("./logger");
 const config = require("../config");
 const { execFile } = require("child_process");
-const { userYtDlp } = require("./helpers/path");
-const { rateLimite } = require("./helpers/rateLimit")
+const { userYtDlp } = require("./helpers/path.helpers");
+const { rateLimite } = require("./helpers/rateLimit.helpers")
 
 const app = express();
 

@@ -1,7 +1,7 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "author": "MasterAcnolo",
   "description": "Freedom Loader",
   "main": "main.js",
@@ -22,7 +22,7 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
-    "electron": "^37.1.0",
+    "electron": "^41.2.0",
     "electron-builder": "^26.8.1"
   },
   "build": {

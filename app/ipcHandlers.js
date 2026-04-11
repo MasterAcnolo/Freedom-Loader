@@ -1,17 +1,9 @@
 const { ipcMain, dialog, shell } = require("electron");
 const fs = require("fs");
-const path = require("path");
 const { logger, logDir } = require("../server/logger");
-const { configFeatures } = require("../config");
+const { configFeatures, featuresPath } = require("../config"); 
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
-
-const configFolderPath = path.join(
-  config.localMode
-
-    ? path.join(__dirname, "..")
-    : path.join(path.dirname(process.execPath), "resources"), "config", "config.json"
-);
 
 const FEATURE_WHITELIST = new Set([
   "autoUpdate",
@@ -24,6 +16,8 @@ const FEATURE_WHITELIST = new Set([
   "autoDownloadPlaylist",
   "customCodec",
 ]);
+
+const configFolderPath = featuresPath;
 
 function registerIpcHandlers(getMainWindow) {
     

@@ -42,7 +42,7 @@ body.light {
   --settings-button-text-color: var(--default-text-color);  
 
   --settings-bg-primary-color: #cbcbcb;
-  --settings-bg-secondary-color: #cbcbcb;
+  --settings-bg-secondary-color: #b8b8b8;
   --settings-text-color: var(--default-text-color); 
   --settings-subtitle-color: #656565; 
 }

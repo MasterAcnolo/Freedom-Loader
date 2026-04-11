@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "name": "",
+    "author": "",
+    "version": "1.0.0",
+    "formatVersion": "1.0"
+  },
+
+  "style": {
+    "background": {
+      "image": "",
+      "size": "cover",
+      "position": "center",
+      "attachment": "fixed"
+    },
+
+    "colors": {
+      "background": "",
+      "text": {
+        "default": "",
+        "subtitle": "",
+        "mp3": ""
+      }
+    },
+
+    "form": {
+      "background": "",
+      "input": {
+        "background": "",
+        "border": "",
+        "borderFocus": "",
+        "text": "",
+        "placeholder": ""
+      },
+      "button": {
+        "background": "",
+        "text": "",
+        "hover": ""
+      }
+    },
+
+    "checkbox": {
+      "background": {
+        "default": "",
+        "checked": ""
+      },
+      "checkmarkBorder": "",
+      "pulse": ""
+    },
+
+    "download": {
+      "status": ""
+    },
+
+    "videoInfo": {
+      "background": "",
+      "text": "",
+      "heading": "",
+      "list": "",
+      "strong": "",
+      "link": "",
+      "linkHover": ""
+    },
+
+    "playlist": {
+      "background": ""
+    },
+
+    "settings": {
+      "button": {
+        "background": "",
+        "text": ""
+      },
+      "background": {
+        "primary": "",
+        "secondary": ""
+      },
+      "text": "",
+      "subtitle": ""
+    }
+  }
+}

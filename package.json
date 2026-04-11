@@ -37,8 +37,7 @@
     ],
     "files": [
       "**/*",
-      "node_modules/**/*",
-      "!logs/*.json"
+      "node_modules/**/*"
     ],
     "directories": {
       "buildResources": "build"

@@ -17,6 +17,7 @@
     "electron-updater": "^6.6.2",
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.1",
+    "jszip": "^3.10.1",
     "webidl-conversions": "^8.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
@@ -45,6 +46,10 @@
     },
     "asar": true,
     "extraResources": [
+      {
+        "from": "theme",
+        "to": "theme"
+      },
       {
         "from": "build/confirm-icon.png",
         "to": "confirm-icon.png"

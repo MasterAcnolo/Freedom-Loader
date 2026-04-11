@@ -17,20 +17,22 @@
 </head>
 <body>
 
-    <div class="topbar" id="topbar">
-        <div class="custom-controls">
-            <button id="devtools-btn" title="Dev Tools">Tools</button>
-            <button id="logs-btn" title="Logs">Logs</button>
-            <button id="website-btn" title="Website">Website</button>
-            <button id="wiki-btn" title="Wiki">Wiki</button>
+    <header>
+        <div class="topbar" id="topbar">
+            <div class="custom-controls">
+                <button id="devtools-btn" title="Dev Tools">Tools</button>
+                <button id="logs-btn" title="Logs">Logs</button>
+                <button id="website-btn" title="Website">Website</button>
+                <button id="wiki-btn" title="Wiki">Wiki</button>
+            </div>
+            <div class="window-controls">
+                <button id="minimize-btn" title="Réduire"><img src="assets/icon/minimize.svg"></button>
+                <button id="maximize-btn" title="Maximiser"><img src="assets/icon/maximize.svg"></button>
+                <button id="close-btn" title="Fermer"><img src="assets/icon/close.svg"></button>
+            </div>
         </div>
-        <div class="window-controls">
-            <button id="minimize-btn" title="Réduire"><img src="assets/icon/minimize.svg"></button>
-            <button id="maximize-btn" title="Maximiser"><img src="assets/icon/maximize.svg"></button>
-            <button id="close-btn" title="Fermer"><img src="assets/icon/close.svg"></button>
-        </div>
-    </div>
-    
+    </header>
+
     <button class="settings-button" id="settings-button">
         <svg width="800px" height="800px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><title>ionicons-v5-q</title><path d="M262.29,192.31a64,64,0,1,0,57.4,57.4A64.13,64.13,0,0,0,262.29,192.31ZM416.39,256a154.34,154.34,0,0,1-1.53,20.79l45.21,35.46A10.81,10.81,0,0,1,462.52,326l-42.77,74a10.81,10.81,0,0,1-13.14,4.59l-44.9-18.08a16.11,16.11,0,0,0-15.17,1.75A164.48,164.48,0,0,1,325,400.8a15.94,15.94,0,0,0-8.82,12.14l-6.73,47.89A11.08,11.08,0,0,1,298.77,470H213.23a11.11,11.11,0,0,1-10.69-8.87l-6.72-47.82a16.07,16.07,0,0,0-9-12.22,155.3,155.3,0,0,1-21.46-12.57,16,16,0,0,0-15.11-1.71l-44.89,18.07a10.81,10.81,0,0,1-13.14-4.58l-42.77-74a10.8,10.8,0,0,1,2.45-13.75l38.21-30a16.05,16.05,0,0,0,6-14.08c-.36-4.17-.58-8.33-.58-12.5s.21-8.27.58-12.35a16,16,0,0,0-6.07-13.94l-38.19-30A10.81,10.81,0,0,1,49.48,186l42.77-74a10.81,10.81,0,0,1,13.14-4.59l44.9,18.08a16.11,16.11,0,0,0,15.17-1.75A164.48,164.48,0,0,1,187,111.2a15.94,15.94,0,0,0,8.82-12.14l6.73-47.89A11.08,11.08,0,0,1,213.23,42h85.54a11.11,11.11,0,0,1,10.69,8.87l6.72,47.82a16.07,16.07,0,0,0,9,12.22,155.3,155.3,0,0,1,21.46,12.57,16,16,0,0,0,15.11,1.71l44.89-18.07a10.81,10.81,0,0,1,13.14,4.58l42.77,74a10.8,10.8,0,0,1-2.45,13.75l-38.21,30a16.05,16.05,0,0,0-6.05,14.08C416.17,247.67,416.39,251.83,416.39,256Z" style="fill:none;stroke:var(--settings-button-text-color);stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>
     </button>
@@ -198,73 +200,75 @@
         </div>
     </div>
  
-    <div class="container" id="container">
+    <main>
+        <div class="container" id="container">
+            <h1 id="title"> Freedom Loader </h1>
+            <p id="subtitle"> Because why not? </p>
+            
+            <form action="/download" method="POST" id="downloadForm">
+                <div class="url-input-container">
+                    <input type="text" name="url" placeholder="URL" id="UrlInput">
+                    <button type="button" id="pasteBtn" class="paste-btn" title="Paste from clipboard">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
 
-    <header>
-        <h1 id="title"> Freedom Loader </h1>
-        <p id="subtitle"> Because why not? </p>
-    </header>
-    
-    <form action="/download" method="POST" id="downloadForm">
-        <div class="url-input-container">
-            <input type="text" name="url" placeholder="URL" id="UrlInput">
-            <button type="button" id="pasteBtn" class="paste-btn" title="Paste from clipboard">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
+                <label class="checkbox-inline">
+
+                    <label class="checkbox-mp3">
+                        <input type="checkbox" name="audioOnly" value="1">
+                        <div class="checkmark"></div>
+                    </label>
+                    Audio Only (MP3)
+                </label>
+                <select name="quality">
+                    <option value="best">Best Quality</option>
+                    <option value="medium">Medium Quality</option>
+                    <option value="worst">Lowest Quality</option>
+                    <option value="1080">1080p</option>
+                    <option value="720">720p</option>
+                    <option value="480">480p</option>
+                </select>
+
+                <button type="submit" onclick="startProgress()">Download</button>
+            </form>
+            
+            </div>
+
+            <div class="download-path">
+                    Will be save on <span id="savePath"></span> 
+                    <button id="changePath">Edit</button>
+            </div>
+
+            <div id="downloadProgressWrapper">
+                <div id="downloadProgress"></div>   
+            </div>
+
+            <div style="display: flex; gap: 20px;">
+                <div id="downloadProgressText"></div> 
+                <div id="downloadSpeedText"></div>
+            </div>
+
+            <div id="downloadStatus"></div>
+
+            <div class="infos-container">
+
+                <div id="loaderBox" class="loader-box" style="display:none;">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <span>Fetching info...</span>
+                </div>
+
+                <div id="videoInfo" style="margin-top: 20px;"></div>
+            </div>
+
+            <span id="version-badge" class="version-badge"></span>
+
         </div>
-
-        <label class="checkbox-inline">
-
-            <label class="checkbox-mp3">
-                <input type="checkbox" name="audioOnly" value="1">
-                <div class="checkmark"></div>
-            </label>
-            Audio Only (MP3)
-        </label>
-        <select name="quality">
-            <option value="best">Best Quality</option>
-            <option value="medium">Medium Quality</option>
-            <option value="worst">Lowest Quality</option>
-            <option value="1080">1080p</option>
-            <option value="720">720p</option>
-            <option value="480">480p</option>
-        </select>
-
-        <button type="submit" onclick="startProgress()">Download</button>
-    </form>
-    </div>
-
-    <div class="download-path">
-            Will be save on <span id="savePath"></span> 
-            <button id="changePath">Edit</button>
-    </div>
-
-    <div id="downloadProgressWrapper">
-        <div id="downloadProgress"></div>   
-    </div>
-
-    <div style="display: flex; gap: 20px;">
-        <div id="downloadProgressText"></div> 
-        <div id="downloadSpeedText"></div>
-    </div>
-
-    <div id="downloadStatus"></div>
-
-    <div class="infos-container">
-
-        <div id="loaderBox" class="loader-box" style="display:none;">
-            <div></div>
-            <div></div>
-            <div></div>
-            <span>Fetching info...</span>
-        </div>
-
-        <div id="videoInfo" style="margin-top: 20px;"></div>
-    </div>
-
-    <span id="version-badge" class="version-badge"></span>
+    </main>
 
     <h2 id="reference"> Because Why Not ? </h2>
 

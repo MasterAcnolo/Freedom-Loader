@@ -3,7 +3,7 @@ body.spicy {
     --background-color: #121212;             /* fond noir profond */
     --default-text-color: #ffffff;           /* texte clair */
     --subtitle-color: #f87918;               /* accent rouge piment */
-    --mp3-text-color: #ffffff;               /* texte checkbox inline */
+    --audio-only-label-color: #ffffff;               /* texte checkbox inline */
 
     /* Formulaire */
     --form-bg-color: #1a1a1a;                /* fond formulaire gris très foncé */
@@ -15,18 +15,23 @@ body.spicy {
     --form-button-bg-color: #ff1a1a;         /* bouton rouge vif */
     --form-button-text-color: #ffffff;       /* texte bouton blanc */
     --form-button-bg-hover-color: #cc0000;   /* hover rouge foncé */
+    --paste-button-icon-color: #ffffff;
 
     /* Checkbox */
-    --checkbox-bg-default: #555555;            /* gris moyen */
-    --checkbox-bg-checked: #ff1a1a;            /* rouge piment */
+    --checkbox-unchecked-bg-color: #555555;            /* gris moyen */
+    --checkbox-checked-bg-color: #ff1a1a;            /* rouge piment */
     --checkbox-checkmark-border-color: #f5f5f5; /* blanc cassé */
     --checkbox-pulse-color: rgba(255, 26, 26, 0.5); /* pulse rouge translucide */
 
     /* Download status */
     --download-status-color: #ffffff;          /* rouge vif */
 
+    /* Progress bar */
+    --progress-bar-bg-color: #444444;
+    --progress-bar-fill-color: #ff1a1a;
+
     /* Video Info Box */
-    --infos-box-color: #1a1a1a;                /* fond infos gris foncé */
+    --video-info-bg-color: #1a1a1a;                /* fond infos gris foncé */
     --video-info-text-color: #f5f5f5;          /* texte clair */
     --video-info-heading-color: #ff1a1a;       /* titres rouges */
     --video-info-list-color: #cccccc;          /* texte liste gris clair */
@@ -41,8 +46,8 @@ body.spicy {
     --settings-button-bg-color: #1a1a1a;
     --settings-button-text-color: #dcdcdc;  
 
-    --settings-bg-primary-color: #1a1a1a;
-    --settings-bg-secondary-color: #292929;
+    --settings-modal-bg-color: #1a1a1a;
+    --settings-section-bg-color: #292929;
 
     --settings-text-color: #cecece; 
     --settings-subtitle-color: #adadad;

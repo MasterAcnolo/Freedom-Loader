@@ -9,7 +9,7 @@ body.chirac {
   --background-color: rgba(255, 255, 255, 0.85); 
   --default-text-color: #002395;
   --subtitle-color: #EF4135;
-  --mp3-text-color: #002395;
+  --audio-only-label-color: #002395;
   
   /* Formulaire */
   --form-bg-color: rgba(255, 255, 255, 0.9);
@@ -21,18 +21,23 @@ body.chirac {
   --form-button-bg-color: #002395; 
   --form-button-text-color: #ffffff;
   --form-button-bg-hover-color: #EF4135;
+  --paste-button-icon-color: #ffffff;
   
   /* Checkbox */
-  --checkbox-bg-default: #cccccc;
-  --checkbox-bg-checked: #002395;
+  --checkbox-unchecked-bg-color: #cccccc;
+  --checkbox-checked-bg-color: #002395;
   --checkbox-checkmark-border-color: #ffffff;
   --checkbox-pulse-color: rgba(0, 35, 149, 0.5);
   
   /* Download status */
   --download-status-color: #002395;
   
+  /* Progress bar */
+  --progress-bar-bg-color: #d0d0d0;
+  --progress-bar-fill-color: #EF4135;
+  
   /* Video Info Box */
-  --infos-box-color: rgba(255, 255, 255, 0.9);
+  --video-info-bg-color: rgba(255, 255, 255, 0.9);
   --video-info-text-color: #000000;
   --video-info-heading-color: #EF4135;
   --video-info-list-color: #444444;
@@ -47,8 +52,8 @@ body.chirac {
   --settings-button-bg-color: #00196a;
   --settings-button-text-color: #dcdcdc;  
 
-  --settings-bg-primary-color: #0b0528;
-  --settings-bg-secondary-color: #1c1055;
+  --settings-modal-bg-color: #0b0528;
+  --settings-section-bg-color: #1c1055;
 
   --settings-text-color: #cecece; 
   --settings-subtitle-color: #adadad;

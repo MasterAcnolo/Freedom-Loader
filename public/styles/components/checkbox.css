@@ -15,13 +15,13 @@
 }
 
 .checkmark {
-  --clr: var(--checkbox-bg-checked);
+  --clr: var(--checkbox-checked-bg-color);
   position: relative;
   top: 0;
   left: 0;
   height: 1.3em;
   width: 1.3em;
-  background-color: var(--checkbox-bg-default);
+  background-color: var(--checkbox-unchecked-bg-color);
   border-radius: .5rem;
   transition: background-color 300ms, border-radius 300ms;
 }

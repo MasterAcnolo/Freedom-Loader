@@ -40,7 +40,7 @@
     width: 40vw;
     max-width: 320px;
     max-height: 80vh;
-    background-color: var(--settings-bg-primary-color);
+    background-color: var(--settings-modal-bg-color);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.4);
@@ -89,7 +89,7 @@
     flex-direction: column;
     margin-bottom: 20px;
     padding: 10px 15px;
-    background: var(--settings-bg-secondary-color);
+    background: var(--settings-section-bg-color);
     border-radius: 12px;
     gap: 6px;
 }

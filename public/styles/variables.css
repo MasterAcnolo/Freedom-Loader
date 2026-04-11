@@ -3,7 +3,7 @@
   --background-color: #001224;
   --default-text-color: #eee;
   --subtitle-color: #007bff;
-  --mp3-text-color: #000000;
+  --audio-only-label-color: #000000;
 
   /* Formulaire */
   --form-bg-color: #ffffff;
@@ -15,18 +15,23 @@
   --form-button-bg-color: #007bff;
   --form-button-text-color: #ffffff;
   --form-button-bg-hover-color: #0056b3;
+  --paste-button-icon-color: #ffffff;
 
   /* Checkbox */
-  --checkbox-bg-default: #cccccc;
-  --checkbox-bg-checked: #3B82F6;
+  --checkbox-unchecked-bg-color: #cccccc;
+  --checkbox-checked-bg-color: #3B82F6;
   --checkbox-checkmark-border-color: #E0E0E2;
   --checkbox-pulse-color: rgba(59, 130, 246, 0.5);
 
   /* Download status */
   --download-status-color: #007bff;
 
+  /* Progress bar */
+  --progress-bar-bg-color: #cccccc;
+  --progress-bar-fill-color: #007bff;
+
   /* Video Info Box */
-  --infos-box-color: #f0f0f0;
+  --video-info-bg-color: #f0f0f0;
   --video-info-text-color: #222222;
   --video-info-heading-color: #007bff;
   --video-info-list-color: #444444;
@@ -38,8 +43,8 @@
   --settings-button-bg-color: var(--form-bg-color);
   --settings-button-text-color: var(--default-text-color);  
 
-  --settings-bg-primary-color: var(--form-bg-color);
-  --settings-bg-secondary-color: var(--form-bg-color);
+  --settings-modal-bg-color: var(--form-bg-color);
+  --settings-section-bg-color: var(--form-bg-color);
   --settings-text-color: var(--default-text-color);  
   --settings-subtitle-color: #aaa;
 

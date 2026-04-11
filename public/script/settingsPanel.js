@@ -27,6 +27,7 @@ async function loadSettings() {
     }
 
     el.addEventListener("change", () => {
+      if (key === "theme") return;
       let value = el.type === "checkbox" ? el.checked : el.value;
       window.electronAPI.setFeature(key, value);
     });

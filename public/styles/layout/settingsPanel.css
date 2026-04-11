@@ -194,6 +194,16 @@ details summary {
     color: #fff;
 }
 
+#open-theme {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: var(--form-button-bg-color);
+    color: #fff;
+}
+
 #experimental-args {
     width: 100%;
     min-height: 80px;

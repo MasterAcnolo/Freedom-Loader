@@ -22,6 +22,10 @@ const FEATURE_WHITELIST = new Set([
 
 const configFolderPath = featuresPath;
 
+const themeFolderPath = config.localMode
+  ? path.join(__dirname, "..", "theme")
+  : path.join(process.resourcesPath, "theme");
+
 function registerIpcHandlers(getMainWindow) {
     
   // Infos générales
@@ -74,6 +78,8 @@ function registerIpcHandlers(getMainWindow) {
     shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html")
   );
   ipcMain.on("open-config", () => shell.openPath(configFolderPath));
+
+  ipcMain.on("open-theme", () => shell.openPath(themeFolderPath));
 
   ipcMain.handle("get-themes", () => getThemes());
 

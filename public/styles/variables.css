@@ -39,6 +39,9 @@
   --video-info-link-color: #007bff;
   --video-info-link-hover-color: #0056b3;
 
+  /* Playlist */
+  --playlist-background-color: #4f4f4f;
+
   /* Settings */
   --settings-button-bg-color: var(--form-bg-color);
   --settings-button-text-color: var(--default-text-color);  

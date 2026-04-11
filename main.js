@@ -9,6 +9,7 @@ process.on("unhandledRejection", (reason) => {
 });
 
 const { app } = require("electron");
+const path = require("path");
 
 const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
 const { AutoUpdater } = require("./app/autoUpdater");
@@ -16,6 +17,7 @@ const { startRPC, stopRPC } = require("./app/discordRPC");
 
 const { configFeatures } = require("./config");
 const config = require("./config");
+const { initThemes } = require("./app/themeManager");
 
 const { checkNativeDependencies } = require("./app/dependencyCheck");
 const { updateYtDlp } = require("./app/ytDlpUpdater");
@@ -47,6 +49,12 @@ app.whenReady().then(async () => {
     await require("./server/server").startServer();
 
     registerIpcHandlers(getMainWindow);
+
+    const themeFolderPath = config.localMode
+      ? path.join(__dirname, "theme")
+      : path.join(process.resourcesPath, "theme");
+
+    await initThemes(themeFolderPath); 
 
     await createMainWindow();
 

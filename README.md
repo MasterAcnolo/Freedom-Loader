@@ -7,7 +7,7 @@
 
 ### **A clean, open-source multimedia downloader for Windows**
 
-[![Release](https://img.shields.io/badge/Release-1.4.7-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+[![Release](https://img.shields.io/badge/Release-1.5.0-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 [![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/FreedomLoader/)
   <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
@@ -213,10 +213,18 @@ Freedom-Loader/
 ├── config/                  # Configuration files
 ├── public/                  # Frontend assets (HTML, CSS, JavaScript)
 ├── ressources/             # Internal resources (icons, binaries)
+├── app/                    # Electron main process modules
+│   ├── windowManager.js
+│   ├── ipcHandlers.js
+│   ├── pathValidator.js
+│   ├── ytDlpUpdater.js
+│   ├── autoUpdater.js
+│   ├── discordRPC.js
+│   └── dependencyCheck.js
 ├── server/                 # Express server code
 │   ├── routes/            # API route handlers
 │   ├── services/          # Business logic
-│   └── utils/             # Server utilities
+│   └── helpers/             # Server helpers
 ├── .github/                # GitHub configuration and workflows
 ├── main.js                 # Electron main process
 ├── preload.js             # Electron preload script
@@ -230,6 +238,7 @@ Freedom Loader uses a client-server architecture within a single Electron applic
 
 - **Frontend**: HTML/CSS/JavaScript served via Electron's renderer process
 - **Backend**: Express.js server running locally for download management
+- **App modules**: Electron-specific logic (window, IPC, updates, RPC) isolated in `app/`
 - **IPC Bridge**: Secure communication via Electron's preload script
 - **Logging**: Winston-based structured logging with file rotation
 - **Updates**: Automatic checking and installation via electron-updater

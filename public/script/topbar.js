@@ -10,6 +10,7 @@ function setupTopbarListeners() {
     const logsBtn = document.getElementById('logs-btn');
     const websiteBtn = document.getElementById('website-btn');
     const wikiBtn = document.getElementById('wiki-btn');
+    const themeBtn = document.getElementById('theme-btn');
     const configBtn = document.getElementById('config-btn');
 
     if (minBtn) minBtn.onclick = () => topbarAPI.minimize();
@@ -19,6 +20,7 @@ function setupTopbarListeners() {
     if (logsBtn) logsBtn.onclick = () => topbarAPI.openLogs();
     if (websiteBtn) websiteBtn.onclick = () => topbarAPI.openWebsite();
     if (wikiBtn) wikiBtn.onclick = () => topbarAPI.openWiki();
+    if (themeBtn) themeBtn.onclick = () => topbarAPI.openTheme();
     if (configBtn) configBtn.onclick = () => topbarAPI.openConfig();
   });
 }

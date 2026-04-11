@@ -19,7 +19,7 @@
       "text": {
         "default": "",
         "subtitle": "",
-        "mp3": ""
+        "audioOnly": ""
       }
     },
 
@@ -36,12 +36,13 @@
         "background": "",
         "text": "",
         "hover": ""
-      }
+      },
+      "pasteButtonIcon": ""
     },
 
     "checkbox": {
       "background": {
-        "default": "",
+        "unchecked": "",
         "checked": ""
       },
       "checkmarkBorder": "",
@@ -50,6 +51,11 @@
 
     "download": {
       "status": ""
+    },
+
+    "progressBar": {
+      "background": "",
+      "fill": ""
     },
 
     "videoInfo": {
@@ -72,8 +78,8 @@
         "text": ""
       },
       "background": {
-        "primary": "",
-        "secondary": ""
+        "modal": "",
+        "section": ""
       },
       "text": "",
       "subtitle": ""

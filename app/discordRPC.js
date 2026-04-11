@@ -1,6 +1,6 @@
 const config = require('../config');
 const RPC = require("discord-rpc");
-const { logger } = require("./logger");
+const { logger } = require("../server/logger");
 
 const clientId = `${config.DiscordRPCID}`;
 const rpc = new RPC.Client({ transport: "ipc" });

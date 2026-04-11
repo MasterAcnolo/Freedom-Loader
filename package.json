@@ -37,7 +37,8 @@
     ],
     "files": [
       "**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "!config/config.dev.json"
     ],
     "directories": {
       "buildResources": "build"
@@ -77,8 +78,8 @@
         "to": "binaries/deno.exe"
       },
       {
-        "from": "config/config.json",
-        "to": "config/config.json"
+        "from": "config/config.default.json",
+        "to": "config/config.default.json"
       }
     ],
     "win": {

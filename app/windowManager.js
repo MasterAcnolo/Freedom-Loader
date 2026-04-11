@@ -20,6 +20,7 @@ async function createMainWindow() {
     minHeight: 800,
     frame: !configFeatures.customTopBar,
     devTools: !app.isPackaged,
+    show: false, 
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

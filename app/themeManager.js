@@ -7,7 +7,7 @@ const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
 const ALLOWED_IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"];
 const ALLOWED_IMAGE_NAMES = ["cover", "background"];
 
-const THEME_ORDER = ["dark", "light", "neon", "fnatic", "chirac", "drift", "nf", "songbird", "spicyfire"];
+const THEME_ORDER = ["dark", "light"];
 
 const REQUIRED_KEYS = [
   ["meta", "name"],

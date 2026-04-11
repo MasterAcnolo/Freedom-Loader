@@ -9,6 +9,7 @@ process.on("unhandledRejection", (reason) => {
 });
 
 const { app } = require("electron");
+const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
 const path = require("path");
 
 const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
@@ -40,24 +41,35 @@ if (!config.localMode) {
 app.whenReady().then(async () => {
   logSessionStart();
 
+  createSplashWindow();
+
   if (!config.localMode && !checkNativeDependencies()) return;
 
   const { userYtDlp } = require("./server/helpers/path.helpers");
   updateYtDlp(userYtDlp);
 
   try {
+    setSplashProgress(0); // Checking dependencies
     await require("./server/server").startServer();
 
+    setSplashProgress(1); // Starting server
     registerIpcHandlers(getMainWindow);
 
     const themeFolderPath = config.localMode
       ? path.join(__dirname, "theme")
       : path.join(process.resourcesPath, "theme");
 
+    setSplashProgress(2); // Loading themes
     await initThemes(themeFolderPath); 
 
+
+    setSplashProgress(3); // Almost ready
     await createMainWindow();
 
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    closeSplashWindow();
+    getMainWindow().show();
     if (configFeatures.discordRPC) startRPC();
 
     if (configFeatures.autoUpdate) AutoUpdater(getMainWindow());

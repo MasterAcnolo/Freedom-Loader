@@ -11,5 +11,6 @@
   "logSystem": true,
   "outputTitleCheck": true,
   "downloadSystem": true,
-  "notifySystem": true
+  "notifySystem": true,
+  "theme": "dark" 
 }

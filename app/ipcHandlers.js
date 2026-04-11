@@ -1,7 +1,9 @@
 const { ipcMain, dialog, shell } = require("electron");
 const fs = require("fs");
+const path = require("path");
 const { logger, logDir } = require("../server/logger");
-const { configFeatures, featuresPath } = require("../config"); 
+const { configFeatures, featuresPath } = require("../config");
+const { getThemes } = require("./themeManager");
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 
@@ -15,6 +17,7 @@ const FEATURE_WHITELIST = new Set([
   "verboseLogs",
   "autoDownloadPlaylist",
   "customCodec",
+  "theme"
 ]);
 
 const configFolderPath = featuresPath;
@@ -71,6 +74,8 @@ function registerIpcHandlers(getMainWindow) {
     shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html")
   );
   ipcMain.on("open-config", () => shell.openPath(configFolderPath));
+
+  ipcMain.handle("get-themes", () => getThemes());
 
   // Modification des features
   ipcMain.handle("set-feature", (event, { key, value }) => {

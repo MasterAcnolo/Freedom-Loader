@@ -1,4 +1,4 @@
-const { fetchDownload } = require("../services/download.services");
+const { fetchDownload, cancelDownload } = require("../services/download.services");
 const { logger } = require("../logger");
 const { isValidUrl, isSafePath } = require("../helpers/validation.helpers");
 const { notifyDownloadFinished } = require("../helpers/notify.helpers");
@@ -64,5 +64,15 @@ function speedController(req, res) {
   });
 }
 
+function cancelDownloadController(req, res) {
+  const cancelled = cancelDownload();
+  if (cancelled) {
+    logger.info("Download and queue cancelled by user");
+    res.send("✅ Download stopped! Queue cleared.");
+  } else {
+    logger.warn("No download to cancel");
+    res.status(400).send("❌ No download in progress !");
+  }
+}
 
-module.exports = { downloadController, progressController, speedController};
+module.exports = { downloadController, progressController, speedController, cancelDownloadController};

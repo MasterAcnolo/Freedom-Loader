@@ -51,3 +51,39 @@
     font-size: 0.7rem;
   }
 }
+
+/* Stop Button */
+.stop-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--form-button-bg-color);
+  color: var(--form-button-text-color);
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.stop-btn:hover:not(:disabled) {
+  background-color: var(--form-button-bg-hover-color);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  transform: scale(1.15);
+}
+
+.stop-btn:active:not(:disabled) {
+  transform: scale(0.96);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.stop-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

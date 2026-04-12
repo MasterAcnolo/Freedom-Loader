@@ -253,13 +253,14 @@
                 <div id="downloadProgressWrapper">
                     <div id="downloadProgress"></div>   
                 </div>
-                <div style="display: flex; gap: 20px;">
+                <div style="display: flex; gap: 20px; align-items: center;">
                     <div id="downloadProgressText"></div> 
                     <div id="downloadSpeedText"></div>
+                    <button type="button" id="stopBtn" onclick="stopDownload()" class="stop-btn" style="display:none;" title="Stop download">■</button>
                 </div>
             </div>
 
-            <div id="downloadStatus"></div>
+            <div id="downloadStatus" style="display: none;"></div>
 
             <div class="infos-container">
 

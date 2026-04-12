@@ -13,6 +13,10 @@ function startProgress() {
 
   speedElement.style.display = "block";
   speedElement.innerHTML = "0 Mib/s";
+
+  // Show stop button
+  const stopBtn = document.getElementById("stopBtn");
+  if (stopBtn) stopBtn.style.display = "inline-block";
 }
 
 function updateProgress(percent) {
@@ -28,6 +32,10 @@ function resetProgress() {
 
   speedElement.textContent = "0 Mib/s";
   speedElement.style.display = "none";
+
+  // Hide stop button
+  const stopBtn = document.getElementById("stopBtn");
+  if (stopBtn) stopBtn.style.display = "none";
 }
 
 // SSE Connexion

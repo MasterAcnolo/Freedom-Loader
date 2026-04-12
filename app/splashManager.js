@@ -1,10 +1,11 @@
-const { BrowserWindow } = require("electron");
+const { BrowserWindow, app } = require("electron");
 const path = require("path");
 
 let splashWindow = null;
 
 function createSplashWindow() {
-  splashWindow = new BrowserWindow({
+
+const splashOptions = {
     width: 400,
     height: 300,
     frame: false,
@@ -16,9 +17,29 @@ function createSplashWindow() {
       nodeIntegration: false,
       contextIsolation: true,
     },
-  });
+  };
 
-  splashWindow.loadFile(path.join(__dirname, "../public/splash.html"));
+  splashWindow = new BrowserWindow(splashOptions);
+
+  const splashPath = path.join(__dirname, "../public/splash.html");
+  splashWindow.loadFile(splashPath);
+
+  // Inject banner path for both dev and packaged app
+  splashWindow.webContents.on('did-finish-load', () => {
+    let bannerPath;
+    
+    // Check if app is packaged
+    if (app.isPackaged) {
+      bannerPath = path.join(process.resourcesPath, 'banner.png');
+    } else {
+      // In dev, use build folder
+      bannerPath = path.join(__dirname, '../build/banner.png');
+    }
+    
+    splashWindow.webContents.executeJavaScript(`
+      document.querySelector('img[alt="Freedom Loader"]').src = 'file:///${bannerPath.replace(/\\/g, '/')}';
+    `);
+  });
 }
 
 function closeSplashWindow() {

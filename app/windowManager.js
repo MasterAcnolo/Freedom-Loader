@@ -12,7 +12,7 @@ async function createMainWindow() {
     return mainWindow;
   }
 
-  mainWindow = new BrowserWindow({
+  const windowOptions = {
     title: `Freedom Loader ${config.version}`,
     width: 750,
     height: 800,
@@ -26,7 +26,9 @@ async function createMainWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, "../preload.js"),
     },
-  });
+  };
+
+  mainWindow = new BrowserWindow(windowOptions);
 
   try {
     await mainWindow.loadURL(`http://localhost:${config.applicationPort}`);

@@ -63,6 +63,10 @@
         "to": "banner.bmp"
       },
       {
+        "from": "build/banner.png",
+        "to": "banner.png"
+      },
+      {
         "from": "build/error.png",
         "to": "error.png"
       },

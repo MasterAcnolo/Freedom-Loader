@@ -13,7 +13,7 @@ const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./
 const path = require("path");
 
 const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
-const { AutoUpdater } = require("./app/autoUpdater");
+const { initAutoUpdater } = require("./app/autoUpdater");
 const { startRPC, stopRPC } = require("./app/discordRPC");
 
 const { configFeatures } = require("./config");
@@ -25,6 +25,7 @@ const { updateYtDlp } = require("./app/ytDlpUpdater");
 const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
 
+app.setName("Freedom Loader");
 app.setAppUserModelId("com.masteracnolo.freedomloader");
 app.disableHardwareAcceleration();
 
@@ -72,7 +73,7 @@ app.whenReady().then(async () => {
     getMainWindow().show();
     if (configFeatures.discordRPC) startRPC();
 
-    if (configFeatures.autoUpdate) AutoUpdater(getMainWindow());
+    if (configFeatures.autoUpdate) initAutoUpdater(getMainWindow());
 
   } catch (err) {
     logger.error("Boot error:", err);

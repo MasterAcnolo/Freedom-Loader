@@ -24,6 +24,7 @@
   left: 10px;
   font-size: 1em;
   color: #b0b0b02f;
+  z-index: 9999;
 }
 
 

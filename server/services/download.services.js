@@ -9,7 +9,7 @@ const { isSafePath } = require("../helpers/validation.helpers");
 
 let currentDownloadProcess = null;
 
-function fetchDownload(options, listeners, speedListeners) {
+function fetchDownload(options, listeners, speedListeners, stageListeners) {
 
   return new Promise((resolve, reject) => {
     const outputFolder = options.outputFolder || defaultDownloadFolder;
@@ -54,7 +54,10 @@ function fetchDownload(options, listeners, speedListeners) {
         logger.info(`[yt-dlp] ${line}`);
 
         // Progress Bar 
-        if (line.startsWith("[download] Destination:")) listeners.forEach(fn => fn("reset"));
+        if (line.startsWith("[download] Destination:")) {
+          listeners.forEach(fn => fn("reset"));
+          stageListeners.forEach(fn => fn("Downloading..."));
+        }
         const match = line.match(/\[download\]\s+(\d+\.\d+)%/);
         if (match) listeners.forEach(fn => fn(parseFloat(match[1])));
 
@@ -64,6 +67,23 @@ function fetchDownload(options, listeners, speedListeners) {
                 const speed = match[0];
                 speedListeners.forEach(fn => fn(speed));
             }
+        }
+
+        // Stage messages
+        if (line.includes("[Merger]")) {
+          stageListeners.forEach(fn => fn("Merging formats..."));
+        }
+        if (line.includes("[ExtractAudio]")) {
+          stageListeners.forEach(fn => fn("Extracting audio..."));
+        }
+        if (line.includes("[Metadata]")) {
+          stageListeners.forEach(fn => fn("Adding metadata..."));
+        }
+        if (line.includes("[ThumbnailsConvertor]")) {
+          stageListeners.forEach(fn => fn("Converting thumbnail..."));
+        }
+        if (line.includes("[EmbedThumbnail]")) {
+          stageListeners.forEach(fn => fn("Embedding thumbnail..."));
         }
 
         if (line.match(/ERROR: Could not copy .* cookie database/i)) {

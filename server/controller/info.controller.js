@@ -10,7 +10,7 @@ async function infoController(req, res){
 
     // If no url, non-string url or invalid url
 
-    if (!url || typeof url !== "string" || !isValidUrl(url)) return res.status(400).send("❌ Invalid URL Or Missing");
+    if (!url || typeof url !== "string" || !isValidUrl(url)) return res.status(400).send("Invalid URL Or Missing");
 
     logger.info(`/Info Request receive by the Info Controller. URL: ${url}`);
 

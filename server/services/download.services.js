@@ -74,7 +74,7 @@ function createPlaylistFolder(basePath, playlistTitle) {
   }
 }
 
-function fetchDownload(options, listeners, speedListeners, stageListeners) {
+function fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners) {
 
   return new Promise((resolve, reject) => {
     logger.info(`CONFIG createPlaylistFolders: ${configFeatures.createPlaylistFolders}`);
@@ -150,6 +150,13 @@ function fetchDownload(options, listeners, speedListeners, stageListeners) {
                 const speed = match[0];
                 speedListeners.forEach(fn => fn(speed));
             }
+        }
+
+        // Playlist item tracking
+        const itemMatch = line.match(/Downloading\s+(?:item|video)?\s*(\d+)\s+of\s+(\d+)/i);
+        if (itemMatch) {
+          const itemInfo = `Item ${itemMatch[1]} of ${itemMatch[2]}`;
+          playlistInfoListeners.forEach(fn => fn(itemInfo));
         }
 
         // Stage messages

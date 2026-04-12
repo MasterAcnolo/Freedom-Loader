@@ -118,4 +118,7 @@ function resetProgressBar() {
 
   const speedElement = document.getElementById("downloadSpeedText");
   if (speedElement) speedElement.style.display = "none";
+
+  const playlistInfoElement = document.getElementById("playlistInfoText");
+  if (playlistInfoElement) playlistInfoElement.style.display = "none";
 }

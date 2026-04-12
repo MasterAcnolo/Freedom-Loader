@@ -6,6 +6,7 @@ const { notifyDownloadFinished } = require("../helpers/notify.helpers");
 const listeners = [];
 const speedListeners = [];
 const stageListeners = [];
+const playlistInfoListeners = [];
 
 async function downloadController(req, res) {
   try {
@@ -24,7 +25,7 @@ async function downloadController(req, res) {
     }
 
     // Get output folder when the download is finished
-    const outputFolder = await fetchDownload(options, listeners, speedListeners, stageListeners);
+    const outputFolder = await fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners);
     notifyDownloadFinished(outputFolder);
     res.send("Download Done !");
     
@@ -93,4 +94,20 @@ function cancelDownloadController(req, res) {
   }
 }
 
-module.exports = { downloadController, progressController, speedController, stageController, cancelDownloadController};
+function playlistInfoController(req, res) {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+
+  const sendPlaylistInfo = info => res.write(`data: ${info}\n\n`);
+  playlistInfoListeners.push(sendPlaylistInfo);
+
+  req.on('close', () => {
+    playlistInfoListeners.splice(playlistInfoListeners.indexOf(sendPlaylistInfo), 1);
+    res.end();
+  });
+}
+
+module.exports = { downloadController, progressController, speedController, stageController, cancelDownloadController, playlistInfoController};

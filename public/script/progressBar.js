@@ -4,8 +4,10 @@ const progressBarText = document.getElementById("downloadProgressText")
 
 const speedElement = document.getElementById("downloadSpeedText");
 const stageElement = document.getElementById("downloadStage");
+const playlistInfoElement = document.getElementById("playlistInfoText");
 const speedEvt = new EventSource("/download/speed");
 const stageEvt = new EventSource("/download/stage");
+const playlistInfoEvt = new EventSource("/download/playlist-info");
 
 function startProgress() {
   progressBar.style.width = "0%";
@@ -44,6 +46,9 @@ function resetProgress() {
 
   stageElement.textContent = "";
   stageElement.style.display = "none";
+
+  playlistInfoElement.textContent = "";
+  playlistInfoElement.style.display = "none";
 
   // Hide stop button
   const stopBtn = document.getElementById("stopBtn");
@@ -85,4 +90,9 @@ speedEvt.onmessage = e => {
 stageEvt.onmessage = e => {
   stageElement.style.display = "block";
   stageElement.textContent = e.data; // ex: "📥 Downloading..."
+};
+
+playlistInfoEvt.onmessage = e => {
+  playlistInfoElement.style.display = "block";
+  playlistInfoElement.textContent = e.data; // ex: "Item 1 of 15"
 };

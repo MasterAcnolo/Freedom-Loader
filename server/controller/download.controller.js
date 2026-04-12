@@ -14,6 +14,7 @@ async function downloadController(req, res) {
       audioOnly: req.body.audioOnly === "1",
       quality: req.body.quality || "best",
       outputFolder: req.body.savePath || undefined,
+      playlistTitle: req.body.playlistTitle || undefined,
     };
 
     if (!options.url || !isValidUrl(options.url)) return res.status(400).send("Invalid URL !");

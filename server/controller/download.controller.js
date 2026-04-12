@@ -5,6 +5,7 @@ const { notifyDownloadFinished } = require("../helpers/notify.helpers");
 
 const listeners = [];
 const speedListeners = [];
+const stageListeners = [];
 
 async function downloadController(req, res) {
   try {
@@ -15,16 +16,16 @@ async function downloadController(req, res) {
       outputFolder: req.body.savePath || undefined,
     };
 
-    if (!options.url || !isValidUrl(options.url)) return res.status(400).send("❌ Invalid URL !");
+    if (!options.url || !isValidUrl(options.url)) return res.status(400).send("Invalid URL !");
     if (options.outputFolder && !isSafePath(options.outputFolder)) {
       logger.warn(`Unsafe download path rejected: ${options.outputFolder}`);
       return res.status(400).send("❌ Save Path Not Allowed.");
     }
 
     // Get output folder when the download is finished
-    const outputFolder = await fetchDownload(options, listeners, speedListeners);
+    const outputFolder = await fetchDownload(options, listeners, speedListeners, stageListeners);
     notifyDownloadFinished(outputFolder);
-    res.send("✅ Download Done !");
+    res.send("Download Done !");
     
   } catch (err) {
     logger.error(`Server Error in /download : ${err.message}`);
@@ -64,6 +65,22 @@ function speedController(req, res) {
   });
 }
 
+function stageController(req, res) {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+
+  const sendStage = stage => res.write(`data: ${stage}\n\n`);
+  stageListeners.push(sendStage);
+
+  req.on('close', () => {
+    stageListeners.splice(stageListeners.indexOf(sendStage), 1);
+    res.end();
+  });
+}
+
 function cancelDownloadController(req, res) {
   const cancelled = cancelDownload();
   if (cancelled) {
@@ -75,4 +92,4 @@ function cancelDownloadController(req, res) {
   }
 }
 
-module.exports = { downloadController, progressController, speedController, cancelDownloadController};
+module.exports = { downloadController, progressController, speedController, stageController, cancelDownloadController};

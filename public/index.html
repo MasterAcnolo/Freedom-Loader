@@ -250,6 +250,7 @@
             </div>
 
             <div class="progress-container">
+                <div id="downloadStage" style="display: none; font-size: 0.85rem; color: var(--default-text-color); margin-top: 8px;"></div>
                 <div id="downloadProgressWrapper">
                     <div id="downloadProgress"></div>   
                 </div>
@@ -279,10 +280,14 @@
         </div>
     </main>
 
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
     <h2 id="reference"> Because Why Not ? </h2>
 
     
     <!-- Scripts -->
+    <script src="script/toast.js"></script>
     <script src="script/clipboardPaste.js"></script>
     <script src="script/custompath.js"></script>
     <script src="script/settingsPanel.js"></script>

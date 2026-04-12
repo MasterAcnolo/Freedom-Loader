@@ -39,6 +39,16 @@ document.getElementById("open-json-btn").addEventListener("click", () => {
   window.topbarAPI.openConfig(); // ton IPC existant
 });
 
+// Refresh Themes
+document.getElementById("refresh-themes-btn").addEventListener("click", function() {
+  this.classList.add("spinning");
+  window.refreshThemes();
+  
+  setTimeout(() => {
+    this.classList.remove("spinning");
+  }, 600);
+});
+
 
 /* clic sur l'overlay = fermer */
 settingsPanel.addEventListener("click", closePanel);

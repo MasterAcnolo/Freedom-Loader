@@ -44,7 +44,7 @@ function initAutoUpdater(mainWindow) {
       title: "Update Ready",
       message: `Version ${info.version} has been downloaded.`,
       detail: "The application will restart to apply the update.",
-      buttons: ["Restart & Install", "Later"],
+      buttons: ["Install Now", "Later"],
       defaultId: 0,
       cancelId: 1,
     });

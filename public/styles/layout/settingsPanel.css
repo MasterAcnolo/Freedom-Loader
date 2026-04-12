@@ -190,8 +190,8 @@ details summary {
     border: none;
     cursor: pointer;
     font-weight: 600;
-    background-color: var(--form-button-bg-color);
-    color: #fff;
+    background-color: var(--open-json-button-bg-color);
+    color: var(--open-json-button-text-color);
 }
 
 #open-theme {
@@ -200,8 +200,8 @@ details summary {
     border: none;
     cursor: pointer;
     font-weight: 600;
-    background-color: var(--form-button-bg-color);
-    color: #fff;
+    background-color: var(--open-theme-button-bg-color);
+    color: var(--open-theme-button-text-color);
 }
 
 #experimental-args {

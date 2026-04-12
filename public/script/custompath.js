@@ -14,6 +14,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   async function applyPathFromBack(path) {
     savePathElem.textContent = path;
+    savePathElem.title = path; 
     hidden.value = path;
     localStorage.setItem("customDownloadPath", path); // UX only
   }

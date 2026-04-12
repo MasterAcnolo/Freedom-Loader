@@ -17,9 +17,11 @@
   border-radius: 6px;
   font-family: monospace;
   border: 1px dashed var(--form-input-border-color);
-  word-break: break-all;
-  display: inline-block;
-  max-width: 80%;
+  display: inline-flex;
+  max-width: clamp(200px, 60vw, 600px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 

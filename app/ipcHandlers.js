@@ -17,7 +17,8 @@ const FEATURE_WHITELIST = new Set([
   "verboseLogs",
   "autoDownloadPlaylist",
   "customCodec",
-  "theme"
+  "theme",
+  "createPlaylistFolders"
 ]);
 
 const configFolderPath = featuresPath;

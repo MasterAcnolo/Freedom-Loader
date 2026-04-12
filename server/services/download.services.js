@@ -7,6 +7,8 @@ const notify = require("../helpers/notify.helpers");
 const path = require("path");
 const { isSafePath } = require("../helpers/validation.helpers");
 
+let currentDownloadProcess = null;
+
 function fetchDownload(options, listeners, speedListeners) {
 
   return new Promise((resolve, reject) => {
@@ -33,12 +35,15 @@ function fetchDownload(options, listeners, speedListeners) {
     logger.info(`[yt-dlp args] ${args.join(" ")}`);
 
     const child = execFile(userYtDlp, args);
+    currentDownloadProcess = child;
 
     child.on("error", err => reject(new Error(`YT-DLP Error : ${err.message}`)));
 
     child.on("close", code => {
+      currentDownloadProcess = null;
       listeners.forEach(fn => fn("done"));
       if (code === 0) resolve(safeOutputFolder);
+      else if (code === null) reject(new Error(`Download cancelled by user`));
       else reject(new Error(`YT-DLP failed with code : ${code}`));
     });
 
@@ -76,4 +81,31 @@ function fetchDownload(options, listeners, speedListeners) {
   });
 }
 
-module.exports = { fetchDownload };
+function cancelDownload() {
+  if (currentDownloadProcess) {
+    logger.info("Cancelling download and killing all child processes...");
+    
+    // Force kill the process and all its children with SIGKILL
+    try {
+      // Try to kill with SIGKILL on Windows (process group) or Unix
+      if (process.platform === 'win32') {
+        // On Windows, kill the process tree
+        require('child_process').execSync(`taskkill /PID ${currentDownloadProcess.pid} /T /F`, { stdio: 'ignore' });
+      } else {
+        // On Unix, send SIGKILL to process group
+        process.kill(-currentDownloadProcess.pid, 'SIGKILL');
+      }
+    } catch (err) {
+      logger.warn(`Error killing process: ${err.message}`);
+      // Fallback to regular kill
+      currentDownloadProcess.kill('SIGKILL');
+    }
+    
+    currentDownloadProcess = null;
+    logger.info("Download cancelled successfully");
+    return true;
+  }
+  return false;
+}
+
+module.exports = { fetchDownload, cancelDownload };

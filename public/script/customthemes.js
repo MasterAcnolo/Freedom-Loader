@@ -108,4 +108,18 @@ themeSelect.addEventListener("change", (e) => {
   }
 });
 
+async function refreshThemes() {
+  loadedThemes = await window.electronAPI.reloadThemes();
+  populateThemeSelect(loadedThemes);
+
+  const features = await window.electronAPI.getFeatures();
+  const savedId = features.theme;
+  const theme = loadedThemes.find(t => t.id === savedId) || loadedThemes[0];
+
+  themeSelect.value = theme.id;
+  applyTheme(theme);
+}
+
+window.refreshThemes = refreshThemes;
+
 initThemes();

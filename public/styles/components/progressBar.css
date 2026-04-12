@@ -37,7 +37,7 @@
   font-size: 0.8rem;
   color: #fff;
   content: "";
-
+  display: none;
 }
 
 /* Responsive pour mobile */

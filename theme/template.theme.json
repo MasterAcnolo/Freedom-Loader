@@ -77,6 +77,14 @@
         "background": "",
         "text": ""
       },
+      "openThemeButton": {
+        "background": "",
+        "text": ""
+      },
+      "openJsonButton": {
+        "background": "",
+        "text": ""
+      },
       "background": {
         "modal": "",
         "section": ""

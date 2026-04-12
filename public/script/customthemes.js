@@ -59,12 +59,16 @@ function applyTheme(theme) {
   root.style.setProperty("--playlist-background-color", style.playlist?.background || "");
 
   // Settings
-  root.style.setProperty("--settings-button-bg-color",    style.settings?.button?.background || "");
-  root.style.setProperty("--settings-button-text-color",  style.settings?.button?.text || "");
-  root.style.setProperty("--settings-modal-bg-color",     style.settings?.background?.modal || "");
-  root.style.setProperty("--settings-section-bg-color",   style.settings?.background?.section || "");
-  root.style.setProperty("--settings-text-color",         style.settings?.text || "");
-  root.style.setProperty("--settings-subtitle-color",     style.settings?.subtitle || "");
+  root.style.setProperty("--settings-button-bg-color",      style.settings?.button?.background || "");
+  root.style.setProperty("--settings-button-text-color",    style.settings?.button?.text || "");
+  root.style.setProperty("--open-theme-button-bg-color",    style.settings?.openThemeButton?.background || "");
+  root.style.setProperty("--open-theme-button-text-color",  style.settings?.openThemeButton?.text || "");
+  root.style.setProperty("--open-json-button-bg-color",     style.settings?.openJsonButton?.background || style.settings?.button?.background || "");
+  root.style.setProperty("--open-json-button-text-color",   style.settings?.openJsonButton?.text || style.settings?.button?.text || "");
+  root.style.setProperty("--settings-modal-bg-color",       style.settings?.background?.modal || "");
+  root.style.setProperty("--settings-section-bg-color",     style.settings?.background?.section || "");
+  root.style.setProperty("--settings-text-color",           style.settings?.text || "");
+  root.style.setProperty("--settings-subtitle-color",       style.settings?.subtitle || "");
 
   // Subtitle
   const subtitleEl = document.getElementById("subtitle");

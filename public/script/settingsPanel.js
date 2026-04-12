@@ -36,7 +36,12 @@ async function loadSettings() {
 
 // Open The JSON
 document.getElementById("open-json-btn").addEventListener("click", () => {
-  window.topbarAPI.openConfig(); // ton IPC existant
+  window.topbarAPI.openConfig();
+});
+
+// Open Theme Folder
+document.getElementById("open-theme").addEventListener("click", () => {
+  window.topbarAPI.openTheme();
 });
 
 // Refresh Themes

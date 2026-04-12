@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const { logger, logDir } = require("../server/logger");
 const { configFeatures, featuresPath } = require("../config");
-const { getThemes } = require("./themeManager");
+const { getThemes, reloadThemes } = require("./themeManager");
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 
@@ -57,7 +57,7 @@ function registerIpcHandlers(getMainWindow) {
     getMainWindow()?.setProgressBar(percent / 100);
   });
 
-  // Contrôles fenêtre (custom top bar)
+  // TOPBAR ACTION
   ipcMain.on("window-minimize", () => getMainWindow()?.minimize());
   ipcMain.on("window-maximize", () => {
     const win = getMainWindow();
@@ -66,7 +66,7 @@ function registerIpcHandlers(getMainWindow) {
   });
   ipcMain.on("window-close", () => getMainWindow()?.close());
 
-  // Actions custom
+
   ipcMain.on("open-devtools", () =>
     getMainWindow()?.webContents.openDevTools({ mode: "detach" })
   );
@@ -79,9 +79,16 @@ function registerIpcHandlers(getMainWindow) {
   );
   ipcMain.on("open-config", () => shell.openPath(configFolderPath));
 
+  
+  
+  // THEME
+  ipcMain.handle("get-themes", () => getThemes());
+
   ipcMain.on("open-theme", () => shell.openPath(themeFolderPath));
 
-  ipcMain.handle("get-themes", () => getThemes());
+  ipcMain.handle("reload-themes", async () => {
+    return await reloadThemes();
+  });
 
   // Modification des features
   ipcMain.handle("set-feature", (event, { key, value }) => {

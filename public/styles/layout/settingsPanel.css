@@ -232,6 +232,33 @@ details summary {
     opacity: 1;
 }
 
+/* REFRESH THEMES BUTTON */
+.refresh-themes-btn {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--form-input-border-color);
+    background-color: var(--form-input-bg-color);
+    color: var(--form-input-text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.refresh-themes-btn:hover {
+    background-color: var(--form-button-bg-hover-color);
+}
+
+.refresh-themes-btn.spinning svg {
+    animation: spin 0.6s ease-in-out;
+}
+
+.refresh-themes-btn svg {
+    color: currentColor;
+    transition: transform 0.6s ease-in-out;
+}
+
 /* ANIMATION */
 @keyframes popIn {
     from { transform: scale(0.95); opacity: 0; }
@@ -241,4 +268,9 @@ details summary {
 @keyframes slideIn {
     from { transform: translateX(20px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }

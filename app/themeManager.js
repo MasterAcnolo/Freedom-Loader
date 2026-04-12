@@ -178,4 +178,11 @@ function getThemes() {
   return cachedThemes ?? [];
 }
 
-module.exports = { initThemes, getThemes };
+async function reloadThemes() {
+  const themes = await loadThemesFromFolder();
+  cachedThemes = themes.sort((a, b) => getThemeOrder(a.id) - getThemeOrder(b.id));
+  logger.info(`Themes reloaded: ${cachedThemes.length} theme(s)`);
+  return cachedThemes;
+}
+
+module.exports = { initThemes, getThemes , reloadThemes };

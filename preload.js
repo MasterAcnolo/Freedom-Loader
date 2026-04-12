@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getVersion: () => ipcRenderer.invoke("version"),
   getValidatedDownloadPath: (path) => ipcRenderer.invoke("validate-download-path", path),
   getThemes: () => ipcRenderer.invoke("get-themes"),
+  reloadThemes: () => ipcRenderer.invoke("reload-themes")
 });
 
 // Contrôles de fenêtre et outils custom pour la topbar

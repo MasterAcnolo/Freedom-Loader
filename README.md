@@ -23,6 +23,11 @@ Freedom Loader is a desktop application built with Electron that provides a stra
 
 The primary goal is to make media downloading accessible to users who want offline access to their favorite content, particularly in situations where internet connectivity is unreliable or unavailable.
 
+### See related repo:
+
+- **[Website](https://masteracnolo.github.io/FreedomLoader/)** - Official project website and documentation
+- **[Workshop](https://masteracnolo.github.io/Freedom-Loader-Workshop/)** - Theme creation tool and theme browser
+
 ## Table of Contents
 
 - [Features](#features)

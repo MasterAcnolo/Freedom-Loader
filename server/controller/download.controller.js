@@ -2,6 +2,7 @@ const { fetchDownload, cancelDownload } = require("../services/download.services
 const { logger } = require("../logger");
 const { isValidUrl, isSafePath } = require("../helpers/validation.helpers");
 const { notifyDownloadFinished } = require("../helpers/notify.helpers");
+const { configFeatures } = require("../../config");
 
 const listeners = [];
 const speedListeners = [];
@@ -26,7 +27,7 @@ async function downloadController(req, res) {
 
     // Get output folder when the download is finished
     const outputFolder = await fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners);
-    notifyDownloadFinished(outputFolder);
+    notifyDownloadFinished(outputFolder, configFeatures.notifySystem);
     res.send("Download Done !");
     
   } catch (err) {

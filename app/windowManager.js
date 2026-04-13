@@ -12,8 +12,13 @@ async function createMainWindow() {
     return mainWindow;
   }
 
+  const iconPath = config.localMode
+    ? path.join(__dirname, "../build/app-icon.ico")
+    : path.join(process.resourcesPath, "build/app-icon.ico");
+
   const windowOptions = {
     title: `Freedom Loader ${config.version}`,
+    icon: iconPath,
     width: 750,
     height: 800,
     minWidth: 750,

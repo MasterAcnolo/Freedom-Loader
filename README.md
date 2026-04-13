@@ -10,7 +10,8 @@
 [![Release](https://img.shields.io/badge/Release-1.5.0-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 [![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/FreedomLoader/)
-  <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
+[![Workshop](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
+<a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 
 </div>
 
@@ -30,6 +31,7 @@ The primary goal is to make media downloading accessible to users who want offli
 - [Preview](#preview)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
+- [Theme Workshop](#Theme-Workshop)
 - [Technology Stack](#technology-stack)
 - [Development](#development)
 - [Roadmap](#roadmap)
@@ -53,7 +55,9 @@ The primary goal is to make media downloading accessible to users who want offli
 ### User Interface
 
 - **Custom window controls** - Frameless window with custom top bar (optional)
-- **Theme system** - Multiple pre-built themes with dynamic switching
+- **Custom themes** — ZIP-based theme system with live preview
+- **Theme Workshop** — web-based theme creator and browser
+- **Toast notifications** — in-app feedback system
 - **Real-time progress tracking** - Live download progress bar with network speed indicator
 - **Server-Sent Events (SSE)** - Non-blocking progress updates via event streaming
 - **Settings panel** - In-app configuration interface with live updates
@@ -70,6 +74,9 @@ The primary goal is to make media downloading accessible to users who want offli
 - **Rate limiting** - Express-based request throttling to prevent server overload
 - **Graceful shutdown** - Proper cleanup of servers, logs, and RPC connections
 - **System notifications** - Windows notifications on download completion (clickable to open folder)
+- **Splash screen** — animated loading screen on startup
+- **Stop download** — ability to cancel in-progress downloads
+- **Playlist folders** — dedicated folder creation per playlist
 
 ## Installation
 
@@ -243,6 +250,20 @@ Freedom Loader uses a client-server architecture within a single Electron applic
 - **Logging**: Winston-based structured logging with file rotation
 - **Updates**: Automatic checking and installation via electron-updater
 
+## Theme Workshop
+
+Freedom Loader includes a web-based theme creator available at [Freedom Loader Workshop](LIEN_ICI).
+
+- Create custom themes with a live preview of the actual UI
+- Browse and download community themes
+- Export themes as `.zip` files ready to drop into the `theme/` folder
+- Supports background images, custom colors for every UI element
+
+### Installing a custom theme
+1. Download a `.zip` theme file
+2. Drop it in the `theme/` folder of your Freedom Loader installation
+3. Restart the app — your theme appears in the settings panel
+
 ## Technology Stack
 
 ### Core Technologies
@@ -343,11 +364,15 @@ ressources/
 - [x] ~~Custom output path selection~~
 - [x] ~~Custom codec selection~~
 - [x] ~~Settings Panel with toggle switch for features.~~
+- [x] ~~ Custom theme system (ZIP format) ~~
+- [x] ~~ Theme Workshop (web tool) ~~
+- [x] ~~ Splash screen ~~
+- [x] ~~ Download stop button ~~
+- [x] ~~ Config saved in AppData (preserved on update) ~~
 
 ### In Progress
 
 - [ ] Additional format support (WebM, OGG, etc.)
-- [ ] Refactoring and cleaning the code base.
 - [ ] Chrome/Edge cookie support
 - [ ] Improved multi-site support
 
@@ -417,6 +442,7 @@ You are free to use, modify, and redistribute this software under the terms of t
 - [Electron](https://www.electronjs.org/) for the desktop application framework
 - The open-source community for continuous support and contributions
 - [@SpicyFire21](https://github.com/SpicyFire21) to be the spiciest one
+- Zakaria for the website icon 
 - Jacques Chirac to love Apples
 - All users who test, report issues, and help improve the application
 
@@ -426,6 +452,6 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 **Freedom Loader** - Put freedom in your downloads
 
-[Website](https://masteracnolo.github.io/FreedomLoader/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/FreedomLoader/pages/wiki.html) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
+[Website](https://masteracnolo.github.io/FreedomLoader/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/FreedomLoader/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
 
 </div>

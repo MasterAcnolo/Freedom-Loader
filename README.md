@@ -1,6 +1,6 @@
 <div align="center">
 
-  <a href="https://masteracnolo.github.io/FreedomLoader/"><img
+  <a href="https://masteracnolo.github.io/Freedom-Loader-Site/"><img
     src="./build/banner.png"
     alt="Banner"
     style="width: 50%;"/></a>
@@ -9,7 +9,7 @@
 
 [![Release](https://img.shields.io/badge/Release-1.5.0-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
-[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/FreedomLoader/)
+[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Site/)
 [![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
 <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 
@@ -25,7 +25,7 @@ The primary goal is to make media downloading accessible to users who want offli
 
 ### See related repo:
 
-- **[Website](https://masteracnolo.github.io/FreedomLoader/)** - Official project website and documentation
+- **[Website](https://masteracnolo.github.io/Freedom-Loader-Site/)** - Official project website and documentation
 - **[Workshop](https://masteracnolo.github.io/Freedom-Loader-Workshop/)** - Theme creation tool and theme browser
 
 ## Table of Contents
@@ -457,6 +457,6 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 **Freedom Loader** - Put freedom in your downloads
 
-[Website](https://masteracnolo.github.io/FreedomLoader/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/FreedomLoader/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
+[Website](https://masteracnolo.github.io/Freedom-Loader-Site/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/Freedom-Loader-Site/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
 
 </div>

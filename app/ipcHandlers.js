@@ -6,6 +6,7 @@ const { configFeatures, featuresPath } = require("../config");
 const { getThemes, reloadThemes } = require("./themeManager");
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
+const { userThemesPath } = require("../server/helpers/path.helpers");
 
 const FEATURE_WHITELIST = new Set([
   "autoUpdate",
@@ -24,9 +25,7 @@ const FEATURE_WHITELIST = new Set([
 
 const configFolderPath = featuresPath;
 
-const themeFolderPath = config.localMode
-  ? path.join(__dirname, "..", "theme")
-  : path.join(process.resourcesPath, "theme");
+const themeFolderPath = userThemesPath;
 
 function registerIpcHandlers(getMainWindow) {
     

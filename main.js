@@ -24,6 +24,7 @@ const { checkNativeDependencies } = require("./app/dependencyCheck");
 const { updateYtDlp } = require("./app/ytDlpUpdater");
 const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
+const { userThemesPath, initUserThemes } = require("./server/helpers/path.helpers");
 
 app.setName("Freedom Loader");
 app.setAppUserModelId("com.masteracnolo.freedomloader");
@@ -56,13 +57,9 @@ app.whenReady().then(async () => {
     setSplashProgress(1); // Starting server
     registerIpcHandlers(getMainWindow);
 
-    const themeFolderPath = config.localMode
-      ? path.join(__dirname, "theme")
-      : path.join(process.resourcesPath, "theme");
-
     setSplashProgress(2); // Loading themes
-    await initThemes(themeFolderPath); 
-
+    initUserThemes();
+    await initThemes(userThemesPath); 
 
     setSplashProgress(3); // Almost ready
     await createMainWindow();

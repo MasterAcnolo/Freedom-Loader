@@ -10,7 +10,7 @@
 [![Release](https://img.shields.io/badge/Release-1.5.0-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 [![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/FreedomLoader/)
-[![Workshop](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
+[![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
 <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 
 </div>

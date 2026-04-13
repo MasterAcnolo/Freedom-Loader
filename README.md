@@ -252,7 +252,7 @@ Freedom Loader uses a client-server architecture within a single Electron applic
 
 ## Theme Workshop
 
-Freedom Loader includes a web-based theme creator available at [Freedom Loader Workshop](LIEN_ICI).
+Freedom Loader includes a web-based theme creator available at [Freedom Loader Workshop](https://masteracnolo.github.io/Freedom-Loader-Workshop/).
 
 - Create custom themes with a live preview of the actual UI
 - Browse and download community themes

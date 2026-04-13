@@ -39,7 +39,8 @@
     "files": [
       "**/*",
       "node_modules/**/*",
-      "!config/config.dev.json"
+      "!config/config.dev.json",
+      "!theme/**/*"
     ],
     "directories": {
       "buildResources": "build"

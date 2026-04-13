@@ -44,8 +44,11 @@ form.addEventListener("submit", async (e) => {
       return;
     }
 
-    // Download successful
-    window.showSuccess("Download completed!");
+    // Download successful - check if notifications are enabled
+    const features = await window.electronAPI.getFeatures();
+    if (features.notifySystem) {
+      window.showSuccess("Download completed!");
+    }
 
   } catch (err) {
     if (!isDownloading && !userStoppedDownload) {

@@ -73,10 +73,10 @@ function registerIpcHandlers(getMainWindow) {
   );
   ipcMain.on("open-logs",    () => logDir && shell.openPath(logDir));
   ipcMain.on("open-website", () =>
-    shell.openExternal("https://masteracnolo.github.io/FreedomLoader/")
+    shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Site/")
   );
   ipcMain.on("open-wiki", () =>
-    shell.openExternal("https://masteracnolo.github.io/FreedomLoader/wiki")
+    shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Site/wiki")
   );
   ipcMain.on("open-workshop", () =>
     shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Workshop")

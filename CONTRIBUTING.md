@@ -148,8 +148,8 @@ See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
 
 ## Questions?
 
-- Check the [FAQ](https://masteracnolo.github.io/FreedomLoader/pages/faq.html)
-- Review the [Wiki](https://masteracnolo.github.io/FreedomLoader/pages/wiki.html)
+- Check the [FAQ](https://masteracnolo.github.io/Freedom-Loader-Site/faq)
+- Review the [Wiki](https://masteracnolo.github.io/Freedom-Loader-Site/wiki)
 - Open a [Question issue](https://github.com/MasterAcnolo/Freedom-Loader/issues/new/choose)
 
 ---

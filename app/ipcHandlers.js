@@ -18,7 +18,8 @@ const FEATURE_WHITELIST = new Set([
   "autoDownloadPlaylist",
   "customCodec",
   "theme",
-  "createPlaylistFolders"
+  "createPlaylistFolders",
+  "notifySystem"
 ]);
 
 const configFolderPath = featuresPath;

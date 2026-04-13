@@ -1,7 +1,9 @@
 const { Notification, shell } = require("electron");
 const { iconPaths } = require("./path.helpers");
 
-function notifyDownloadFinished(folder) {
+function notifyDownloadFinished(folder, notifyEnabled = true) {
+  if (!notifyEnabled) return;
+  
   const notif = new Notification({
     title: "Freedom Loader",
     body: "Your download is complete, click here to open it.",

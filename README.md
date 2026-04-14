@@ -360,6 +360,8 @@ ressources/
 
 ## Roadmap
 
+See the most recent Roadmap [Here](https://masteracnolo.github.io/Freedom-Loader-Site/Roadmap).
+
 ### Completed
 
 - [x] ~~Website and documentation~~
@@ -370,11 +372,11 @@ ressources/
 - [x] ~~Custom output path selection~~
 - [x] ~~Custom codec selection~~
 - [x] ~~Settings Panel with toggle switch for features.~~
-- [x] ~~ Custom theme system (ZIP format) ~~
-- [x] ~~ Theme Workshop (web tool) ~~
-- [x] ~~ Splash screen ~~
-- [x] ~~ Download stop button ~~
-- [x] ~~ Config saved in AppData (preserved on update) ~~
+- [x] ~~Custom theme system (ZIP format) ~~
+- [x] ~~Theme Workshop (web tool)~~
+- [x] ~~Splash screen~~
+- [x] ~~Download stop button~~
+- [x] ~~Config saved in AppData (preserved on update)~~
 
 ### In Progress
 

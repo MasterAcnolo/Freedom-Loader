@@ -64,7 +64,7 @@ async function infoController(req, res){
 
     } catch (err) {
         logger.error(`Info controller error: ${err && err.message ? err.message : err}`);
-        return res.status(500).send(`❌ Unable to fetch info`);
+        return res.status(500).send(`Unable to fetch info`);
     }
     
 }

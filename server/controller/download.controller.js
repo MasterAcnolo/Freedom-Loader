@@ -22,7 +22,7 @@ async function downloadController(req, res) {
     if (!options.url || !isValidUrl(options.url)) return res.status(400).send("Invalid URL !");
     if (options.outputFolder && !isSafePath(options.outputFolder)) {
       logger.warn(`Unsafe download path rejected: ${options.outputFolder}`);
-      return res.status(400).send("❌ Save Path Not Allowed.");
+      return res.status(400).send("Save Path Not Allowed.");
     }
 
     // Get output folder when the download is finished
@@ -32,7 +32,7 @@ async function downloadController(req, res) {
     
   } catch (err) {
     logger.error(`Server Error in /download : ${err.message}`);
-    res.status(500).send(`❌ Server Error`);
+    res.status(500).send(`Server Error`);
   }
 }
 
@@ -88,10 +88,10 @@ function cancelDownloadController(req, res) {
   const cancelled = cancelDownload();
   if (cancelled) {
     logger.info("Download and queue cancelled by user");
-    res.send("✅ Download stopped! Queue cleared.");
+    res.send("Download stopped! Queue cleared.");
   } else {
     logger.warn("No download to cancel");
-    res.status(400).send("❌ No download in progress !");
+    res.status(400).send("No download in progress !");
   }
 }
 

@@ -7,7 +7,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getFeatures: () => ipcRenderer.invoke("features"),
   setFeature: (key, value) => ipcRenderer.invoke("set-feature", { key, value }),
   getVersion: () => ipcRenderer.invoke("version"),
-  getValidatedDownloadPath: (path) => ipcRenderer.invoke("validate-download-path", path)
+  getValidatedDownloadPath: (path) => ipcRenderer.invoke("validate-download-path", path),
+  getThemes: () => ipcRenderer.invoke("get-themes"),
+  reloadThemes: () => ipcRenderer.invoke("reload-themes")
 });
 
 // Contrôles de fenêtre et outils custom pour la topbar
@@ -18,6 +20,8 @@ contextBridge.exposeInMainWorld("topbarAPI", {
   openDevTools: () => ipcRenderer.send("open-devtools"),
   openLogs: () => ipcRenderer.send("open-logs"),
   openWebsite: () => ipcRenderer.send("open-website"),
+  openTheme: () => ipcRenderer.send("open-theme"),
   openWiki: () => ipcRenderer.send("open-wiki"),
+  openWorkshop: () => ipcRenderer.send("open-workshop"),
   openConfig: () => ipcRenderer.send("open-config")
 });

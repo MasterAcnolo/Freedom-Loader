@@ -1,16 +1,17 @@
 <div align="center">
 
-  <a href="https://masteracnolo.github.io/FreedomLoader/"><img
+  <a href="https://masteracnolo.github.io/Freedom-Loader-Site/"><img
     src="./build/banner.png"
     alt="Banner"
     style="width: 50%;"/></a>
 
 ### **A clean, open-source multimedia downloader for Windows**
 
-[![Release](https://img.shields.io/badge/Release-1.4.7-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+[![Release](https://img.shields.io/badge/Release-1.5.0-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
-[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/FreedomLoader/)
-  <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
+[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Site/)
+[![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
+<a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 
 </div>
 
@@ -22,6 +23,11 @@ Freedom Loader is a desktop application built with Electron that provides a stra
 
 The primary goal is to make media downloading accessible to users who want offline access to their favorite content, particularly in situations where internet connectivity is unreliable or unavailable.
 
+### See related repo:
+
+- **[Website](https://masteracnolo.github.io/Freedom-Loader-Site/)** - Official project website and documentation
+- **[Workshop](https://masteracnolo.github.io/Freedom-Loader-Workshop/)** - Theme creation tool and theme browser
+
 ## Table of Contents
 
 - [Features](#features)
@@ -30,10 +36,12 @@ The primary goal is to make media downloading accessible to users who want offli
 - [Preview](#preview)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
+- [Theme Workshop](#Theme-Workshop)
 - [Technology Stack](#technology-stack)
 - [Development](#development)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
+- [Submitting a community theme](#Submitting-a-community-theme)
 - [Support](#support)
 - [License](#license)
 
@@ -53,7 +61,9 @@ The primary goal is to make media downloading accessible to users who want offli
 ### User Interface
 
 - **Custom window controls** - Frameless window with custom top bar (optional)
-- **Theme system** - Multiple pre-built themes with dynamic switching
+- **Custom themes** — ZIP-based theme system with live preview
+- **Theme Workshop** — web-based theme creator and browser
+- **Toast notifications** — in-app feedback system
 - **Real-time progress tracking** - Live download progress bar with network speed indicator
 - **Server-Sent Events (SSE)** - Non-blocking progress updates via event streaming
 - **Settings panel** - In-app configuration interface with live updates
@@ -70,6 +80,9 @@ The primary goal is to make media downloading accessible to users who want offli
 - **Rate limiting** - Express-based request throttling to prevent server overload
 - **Graceful shutdown** - Proper cleanup of servers, logs, and RPC connections
 - **System notifications** - Windows notifications on download completion (clickable to open folder)
+- **Splash screen** — animated loading screen on startup
+- **Stop download** — ability to cancel in-progress downloads
+- **Playlist folders** — dedicated folder creation per playlist
 
 ## Installation
 
@@ -209,19 +222,88 @@ C:\Users\[USERNAME]\AppData\Roaming\FreedomLoader\config.json
 
 ```
 Freedom-Loader/
+├── app/                     # Electron main process modules
+│   ├── autoUpdater.js
+│   ├── dependencyCheck.js
+│   ├── discordRPC.js
+│   ├── ipcHandlers.js
+│   ├── pathValidator.js
+│   ├── splashManager.js
+│   ├── themeManager.js
+│   ├── windowManager.js
+│   └── ytDlpUpdater.js
 ├── build/                   # Build resources and assets
 ├── config/                  # Configuration files
-├── public/                  # Frontend assets (HTML, CSS, JavaScript)
-├── ressources/             # Internal resources (icons, binaries)
-├── server/                 # Express server code
-│   ├── routes/            # API route handlers
-│   ├── services/          # Business logic
-│   └── utils/             # Server utilities
-├── .github/                # GitHub configuration and workflows
-├── main.js                 # Electron main process
-├── preload.js             # Electron preload script
-├── config.js              # Global application configuration
-└── package.json           # Dependencies and npm scripts
+│   ├── config.default.json
+│   └── config.dev.json
+├── public/                  # Frontend assets and UI
+│   ├── index.html
+│   ├── splash.html
+│   ├── assets/
+│   │   ├── icon/            # Application icons
+│   │   └── logo/            # Logo assets
+│   ├── script/              # Frontend JavaScript modules
+│   │   ├── appVersion.js
+│   │   ├── clipboardPaste.js
+│   │   ├── custompath.js
+│   │   ├── customthemes.js
+│   │   ├── downloadstatus.js
+│   │   ├── fetchinfo.js
+│   │   ├── progressBar.js
+│   │   ├── settingsPanel.js
+│   │   ├── toast.js
+│   │   └── topbar.js
+│   └── styles/              # CSS stylesheets
+│       ├── styles.css
+│       ├── variables.css
+│       ├── components/      # Component-specific styles
+│       │   ├── checkbox.css
+│       │   ├── editpathbutton.css
+│       │   ├── loader.css
+│       │   ├── progressBar.css
+│       │   └── toast.css
+│       └── layout/          # Layout styles
+│           ├── container.css
+│           ├── form.css
+│           ├── header.css
+│           ├── settingsPanel.css
+│           ├── topbar.css
+│           └── videoinfo.css
+├── ressources/              # Internal resources (binaries)
+├── server/                  # Express backend server
+│   ├── logger.js
+│   ├── server.js
+│   ├── controller/          # Request handlers
+│   │   ├── download.controller.js
+│   │   └── info.controller.js
+│   ├── helpers/             # Utility functions
+│   │   ├── buildArgs.helpers.js
+│   │   ├── getBrowser.helpers.js
+│   │   ├── notify.helpers.js
+│   │   ├── parseInfo.helpers.js
+│   │   ├── path.helpers.js
+│   │   ├── rateLimit.helpers.js
+│   │   └── validation.helpers.js
+│   ├── routes/              # API route definitions
+│   │   ├── download.route.js
+│   │   └── info.route.js
+│   └── services/            # Business logic layer
+│       ├── download.services.js
+│       └── info.services.js
+├── theme/                   # Theme system
+│   ├── template.theme.json  # Theme template
+│   ├── Dark/                # Default dark theme
+│   │   └── dark.theme.json
+│   └── Light/               # Default light theme
+│       └── light.theme.json
+├── main.js                  # Electron main process entry point
+├── preload.js               # Electron preload script (IPC bridge)
+├── config.js                # Global configuration loader
+├── package.json             # Project metadata and dependencies
+├── CODE_OF_CONDUCT.md       # Community guidelines
+├── CONTRIBUTING.md          # Contribution guidelines
+├── LICENSE                  # GPLv3 license
+└── README.md                # This file
 ```
 
 ### Architecture Overview
@@ -230,9 +312,24 @@ Freedom Loader uses a client-server architecture within a single Electron applic
 
 - **Frontend**: HTML/CSS/JavaScript served via Electron's renderer process
 - **Backend**: Express.js server running locally for download management
+- **App modules**: Electron-specific logic (window, IPC, updates, RPC) isolated in `app/`
 - **IPC Bridge**: Secure communication via Electron's preload script
 - **Logging**: Winston-based structured logging with file rotation
 - **Updates**: Automatic checking and installation via electron-updater
+
+## Theme Workshop
+
+Freedom Loader includes a web-based theme creator available at [Freedom Loader Workshop](https://masteracnolo.github.io/Freedom-Loader-Workshop/).
+
+- Create custom themes with a live preview of the actual UI
+- Browse and download community themes
+- Export themes as `.zip` files ready to drop into the `theme/` folder
+- Supports background images, custom colors for every UI element
+
+### Installing a custom theme
+1. Download a `.zip` theme file
+2. Drop it in the `theme/` folder of your Freedom Loader installation
+3. Restart the app — your theme appears in the settings panel
 
 ## Technology Stack
 
@@ -324,6 +421,8 @@ ressources/
 
 ## Roadmap
 
+See the most recent Roadmap [Here](https://masteracnolo.github.io/Freedom-Loader-Site/Roadmap).
+
 ### Completed
 
 - [x] ~~Website and documentation~~
@@ -334,11 +433,15 @@ ressources/
 - [x] ~~Custom output path selection~~
 - [x] ~~Custom codec selection~~
 - [x] ~~Settings Panel with toggle switch for features.~~
+- [x] ~~Custom theme system (ZIP format) ~~
+- [x] ~~Theme Workshop (web tool)~~
+- [x] ~~Splash screen~~
+- [x] ~~Download stop button~~
+- [x] ~~Config saved in AppData (preserved on update)~~
 
 ### In Progress
 
 - [ ] Additional format support (WebM, OGG, etc.)
-- [ ] Refactoring and cleaning the code base.
 - [ ] Chrome/Edge cookie support
 - [ ] Improved multi-site support
 
@@ -356,6 +459,11 @@ ressources/
 ## Contributing
 
 Contributions are welcome and appreciated. This project benefits from community involvement.
+
+## Submitting a community theme
+
+Want your theme featured in the Workshop? Please **do not open an issue on this repository** for theme submissions.  
+Head over to the [Freedom Loader Workshop repository](https://github.com/MasterAcnolo/Freedom-Loader-Workshop) and open an issue there with your theme files, preview screenshots, and description.
 
 ### Bug Reports
 
@@ -408,6 +516,7 @@ You are free to use, modify, and redistribute this software under the terms of t
 - [Electron](https://www.electronjs.org/) for the desktop application framework
 - The open-source community for continuous support and contributions
 - [@SpicyFire21](https://github.com/SpicyFire21) to be the spiciest one
+- Zakaria for the website icon 
 - Jacques Chirac to love Apples
 - All users who test, report issues, and help improve the application
 
@@ -417,6 +526,6 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 **Freedom Loader** - Put freedom in your downloads
 
-[Website](https://masteracnolo.github.io/FreedomLoader/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/FreedomLoader/pages/wiki.html) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
+[Website](https://masteracnolo.github.io/Freedom-Loader-Site/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/Freedom-Loader-Site/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
 
 </div>

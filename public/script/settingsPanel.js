@@ -27,6 +27,7 @@ async function loadSettings() {
     }
 
     el.addEventListener("change", () => {
+      if (key === "theme") return;
       let value = el.type === "checkbox" ? el.checked : el.value;
       window.electronAPI.setFeature(key, value);
     });
@@ -35,7 +36,22 @@ async function loadSettings() {
 
 // Open The JSON
 document.getElementById("open-json-btn").addEventListener("click", () => {
-  window.topbarAPI.openConfig(); // ton IPC existant
+  window.topbarAPI.openConfig();
+});
+
+// Open Theme Folder
+document.getElementById("open-theme").addEventListener("click", () => {
+  window.topbarAPI.openTheme();
+});
+
+// Refresh Themes
+document.getElementById("refresh-themes-btn").addEventListener("click", function() {
+  this.classList.add("spinning");
+  window.refreshThemes();
+  
+  setTimeout(() => {
+    this.classList.remove("spinning");
+  }, 600);
 });
 
 

@@ -7,6 +7,7 @@
     top: 60px;
     right: 20px;
     opacity: 0.8;
+    z-index: 15;
     background-color: var(--settings-button-bg-color);
     border-radius: 14px;
     padding: 8px;
@@ -40,7 +41,7 @@
     width: 40vw;
     max-width: 320px;
     max-height: 80vh;
-    background-color: var(--settings-bg-primary-color);
+    background-color: var(--settings-modal-bg-color);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.4);
@@ -89,7 +90,7 @@
     flex-direction: column;
     margin-bottom: 20px;
     padding: 10px 15px;
-    background: var(--settings-bg-secondary-color);
+    background: var(--settings-section-bg-color);
     border-radius: 12px;
     gap: 6px;
 }
@@ -190,8 +191,18 @@ details summary {
     border: none;
     cursor: pointer;
     font-weight: 600;
-    background-color: var(--form-button-bg-color);
-    color: #fff;
+    background-color: var(--open-json-button-bg-color);
+    color: var(--open-json-button-text-color);
+}
+
+#open-theme {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: var(--open-theme-button-bg-color);
+    color: var(--open-theme-button-text-color);
 }
 
 #experimental-args {
@@ -222,6 +233,33 @@ details summary {
     opacity: 1;
 }
 
+/* REFRESH THEMES BUTTON */
+.refresh-themes-btn {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--form-input-border-color);
+    background-color: var(--form-input-bg-color);
+    color: var(--form-input-text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.refresh-themes-btn:hover {
+    background-color: var(--form-button-bg-hover-color);
+}
+
+.refresh-themes-btn.spinning svg {
+    animation: spin 0.6s ease-in-out;
+}
+
+.refresh-themes-btn svg {
+    color: currentColor;
+    transition: transform 0.6s ease-in-out;
+}
+
 /* ANIMATION */
 @keyframes popIn {
     from { transform: scale(0.95); opacity: 0; }
@@ -231,4 +269,9 @@ details summary {
 @keyframes slideIn {
     from { transform: translateX(20px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }

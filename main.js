@@ -1,301 +1,90 @@
-const config = require("./config.js");
-const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err);
+  app.quit();
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection:", reason);
+  app.quit();
+});
+
+const { app } = require("electron");
+const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
 const path = require("path");
-const fs = require("fs");
 
-const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
-const { AutoUpdater } = require("./server/update.js");
-const { configFeatures } = require("./config.js");
-const { startRPC, stopRPC} = require("./server/discordRPC");
+const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
+const { initAutoUpdater } = require("./app/autoUpdater");
+const { startRPC, stopRPC } = require("./app/discordRPC");
 
-let mainWindow;
-const logsFolderPath = logDir;
+const { configFeatures } = require("./config");
+const config = require("./config");
+const { initThemes } = require("./app/themeManager");
 
-const basePath = config.localMode
-  ? path.join(__dirname )
-  : path.join(path.dirname(process.execPath), "resources");
+const { checkNativeDependencies } = require("./app/dependencyCheck");
+const { updateYtDlp } = require("./app/ytDlpUpdater");
+const { createMainWindow, getMainWindow } = require("./app/windowManager");
+const { registerIpcHandlers } = require("./app/ipcHandlers");
+const { userThemesPath, initUserThemes } = require("./server/helpers/path.helpers");
 
-const configFolderPath = path.join(basePath, "config" ,"config.json");
-
-// Default download path (centralized, lazy loaded)
-let defaultDownloadPath;
-
-app.setAppUserModelId("com.masteracnolo.freedomloader"); // pour notifications Windows
+app.setName("Freedom Loader");
+app.setAppUserModelId("com.masteracnolo.freedomloader");
 app.disableHardwareAcceleration();
 
-ipcMain.handle("version", () => config.version);
-
-// Gestion single instance
-const gotLock = app.requestSingleInstanceLock();
-
-// Native dependencies check (yt-dlp.exe, ffmpeg.exe, ffprobe.exe, Deno)
-function checkNativeDependencies() {
-  // Import centralized paths after app initialization
-  const { binaryPaths } = require("./server/helpers/path.helpers.js");
-  
-  const deps = [
-    { name: "yt-dlp.exe", path: binaryPaths.ytDlp },
-    { name: "ffmpeg.exe", path: binaryPaths.ffmpeg },
-    { name: "ffprobe.exe", path: binaryPaths.ffprobe },
-    { name: "deno.exe", path: binaryPaths.deno },
-  ];
-  const missing = deps.filter(dep => !fs.existsSync(dep.path));
-  let errorMsg = "";
-  if (missing.length > 0) {
-    const missingList = missing.map(dep => dep.name).join(", ");
-    logger.error(`Missing dependencies: ${missingList}`);
-    errorMsg += `The following files are missing in the 'ressources' folder:\n${missingList}`;
-  }
-  if (errorMsg) {
-    app.whenReady().then(() => {
-      dialog.showErrorBox(
-        "Missing dependencies",
-        `${errorMsg}\n\nThe application will now exit. Try to reinstall`
-      );
-      app.quit();
+if (!config.localMode) {
+  const gotLock = app.requestSingleInstanceLock();
+  if (gotLock) {
+    app.on("second-instance", () => {
+      logger.info("New instance detected, closing older...");
+      getMainWindow()?.destroy();
     });
-    return false;
-  }
-  return true;
-}
-
-if(!config.localMode){
-  if (!gotLock) {
-    // Une instance existe déjà -> fermer l'ancienne et continuer la nouvelle
-    // Ici la nouvelle instance continue normalement
-  } else {
-    if (!checkNativeDependencies()) {
-      // Arrêt déjà géré dans la fonction
-    } else {
-      app.on("second-instance", () => {
-        // La vieille instance se ferme
-        if (mainWindow) {
-          logger.info("New Instance Detected, closing the older...");
-          mainWindow.destroy();
-          mainWindow = null;
-        }
-      });
-    }
-  }
-}
-// Création fenêtre principale
-async function createMainWindow() {
-  if (mainWindow) {
-    logger.warn("Window already exists, no new creation!");
-    return;
-  }
-
-  mainWindow = new BrowserWindow({
-    title: `Freedom Loader ${config.version}`,
-    width: 750,
-    height: 800,
-    minWidth: 750,
-    minHeight: 800,
-    frame: !configFeatures.customTopBar,
-    devTools: `${app.isPackaged ? false : true}`,
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, "preload.js"),
-    },
-  });
-
-  try {
-    await mainWindow.loadURL(`http://localhost:${config.applicationPort}`);
-    logger.info("Window Loaded");
-  } catch (err) {
-    logger.error("Window Loading Error:", err);
-  }
-
-  mainWindow.on("closed", () => {
-    logger.info("Main Window Closed");
-    mainWindow = null;
-  });
-}
-
-function validateDownloadPath(userPath) {
-  const { isSafePath } = require("./server/helpers/validation.helpers.js");
-  
-  // Lazy load default path
-  if (!defaultDownloadPath) {
-    const { defaultDownloadFolder } = require("./server/helpers/path.helpers.js");
-    defaultDownloadPath = defaultDownloadFolder;
-  }
-
-  if (!userPath) return defaultDownloadPath;
-
-  try {
-    // Canonical resolution and symlink following
-    const resolved = fs.realpathSync(path.resolve(userPath));
-    
-    // Use the same validation as backend (allows all drives except system folders)
-    if (!isSafePath(resolved)) {
-      throw new Error("Path not allowed: system folders are blocked!");
-    }
-
-    return resolved;
-  } catch (err) {
-    logger.error(`Invalid download path: ${userPath} - ${err.message}`);
-    throw new Error(`Invalid or inaccessible path: ${err.message}`);
   }
 }
 
-
-// IPC
-ipcMain.handle("select-download-folder", async () => {
-  const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
-  if (result.canceled) {
-    logger.info("Folder selection cancelled by user");
-    return null;
-  }
-  if (result.filePaths.length > 0) {
-    const selectedPath = result.filePaths[0];
-    try {
-      const validatedPath = validateDownloadPath(selectedPath);
-      logger.info(`Folder selected and validated: ${validatedPath}`);
-      return validatedPath;
-    } catch (err) {
-      logger.warn(`Unsafe or invalid folder rejected: ${err.message}`);
-      throw err; // Propagate error to UI
-    }
-  }
-  return null;
-});
-
-ipcMain.handle("validate-download-path", (event, userPath) => {
-  return validateDownloadPath(userPath);
-});
-
-
-ipcMain.handle("get-default-download-path", () => {
-  if (!defaultDownloadPath) {
-    const { defaultDownloadFolder } = require("./server/helpers/path");
-    defaultDownloadPath = defaultDownloadFolder;
-  }
-  return defaultDownloadPath;
-});
-
-ipcMain.on("set-progress", (event, percent) => {
-  if (mainWindow) mainWindow.setProgressBar(percent / 100); // Electron attend 0 → 1
-});
-
-// Topbar window controls
-ipcMain.on("window-minimize", () => {
-  if (mainWindow) mainWindow.minimize();
-});
-
-// Toggle Maximize -> UnMaximize
-ipcMain.on("window-maximize", () => {
-  if (mainWindow) {
-    if (mainWindow.isMaximized()) {
-      mainWindow.unmaximize();
-    } else {
-      mainWindow.maximize();
-    }
-  }
-});
-
-ipcMain.on("window-close", () => {
-  if (mainWindow) mainWindow.close();
-});
-
-// Topbar custom actions
-ipcMain.on("open-devtools", () => {
-  if (mainWindow) mainWindow.webContents.openDevTools({ mode: 'detach' });
-});
-ipcMain.on("open-logs", () => {
-  if (logsFolderPath) shell.openPath(logsFolderPath);
-});
-ipcMain.on("open-website", () => {
-  shell.openExternal("https://masteracnolo.github.io/FreedomLoader/index.html");
-});
-ipcMain.on("open-wiki", () => {
-  shell.openExternal("https://masteracnolo.github.io/FreedomLoader/pages/wiki.html");
-});
-ipcMain.on("open-config", () => {
-  if (configFolderPath) shell.openPath(configFolderPath);
-});
-
-
-// App ready
 app.whenReady().then(async () => {
   logSessionStart();
-  logger.info("App Ready, Server Express starting...");
 
-  const serverPath = path.join(__dirname, "server", "server.js")
+  createSplashWindow();
 
-  const expressServer = require(serverPath);
+  if (!config.localMode && !checkNativeDependencies()) return;
+
+  const { userYtDlp } = require("./server/helpers/path.helpers");
+  updateYtDlp(userYtDlp);
 
   try {
-    await expressServer.startServer();
-    logger.info("Express Server Started");
+    setSplashProgress(0); // Checking dependencies
+    await require("./server/server").startServer();
 
-    ipcMain.handle("features", () => {
-        return configFeatures;
-    });
+    setSplashProgress(1); // Starting server
+    registerIpcHandlers(getMainWindow);
 
-    const featureWhitelist = new Set([
-        "autoUpdate",
-        "discordRPC",
-        "customTopBar",
-        "autoCheckInfo",
-        "addThumbnail",
-        "addMetadata",
-        "verboseLogs",
-        "autoDownloadPlaylist",
-        "customCodec"
-      ]);
+    setSplashProgress(2); // Loading themes
+    initUserThemes();
+    await initThemes(userThemesPath); 
 
-    
-    ipcMain.handle("set-feature", (event, { key, value }) => {
-        try {
-          if (!featureWhitelist.has(key)) {
-            logger.warn(`Rejected feature (not whitelisted): ${key}`);
-            return false;
-          }
-
-          // optionnel mais propre
-          if (configFeatures[key] === value) {
-            return true;
-          }
-
-          configFeatures[key] = value;
-
-          fs.writeFileSync(
-            configFolderPath,
-            JSON.stringify(configFeatures, null, 2),
-            "utf-8"
-          );
-
-          logger.info(`Feature updated: ${key} = ${value}`);
-          return true;
-
-        } catch (err) {
-          logger.error(`set-feature failed (${key}): ${err.message}`);
-          return false;
-        }
-      });
-
-
-    if (configFeatures.discordRPC) startRPC(); // Discord RPC
-
+    setSplashProgress(3); // Almost ready
     await createMainWindow();
 
-    if (configFeatures.autoUpdate) AutoUpdater(mainWindow); // Auto Update
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    closeSplashWindow();
+    getMainWindow().show();
+    if (configFeatures.discordRPC) startRPC();
+
+    if (configFeatures.autoUpdate) initAutoUpdater(getMainWindow());
 
   } catch (err) {
-    logger.error("Window or Server error :", err);
+    logger.error("Boot error:", err);
     app.quit();
   }
 });
 
 app.on("window-all-closed", () => {
-  logger.info("Shuting Down App...");
+  logger.info("Shutting down...");
   app.quit();
 });
 
 app.on("before-quit", async () => {
   await stopRPC();
-  logger.info("All Services Stopped. Have a nice day!")
-  logSessionEnd(); 
+  logger.info("All services stopped. Have a nice day!");
+  logSessionEnd();
 });

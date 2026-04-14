@@ -33,6 +33,17 @@ async function init() {
     const urlInput = document.getElementById("UrlInput");
     const infoDiv = document.getElementById("videoInfo");
     const loaderBox = document.getElementById("loaderBox");
+    const form = document.getElementById("downloadForm");
+
+    // Input caché pour stocker le titre de la playlist
+    let playlistTitleInput = document.getElementById("playlistTitle");
+    if (!playlistTitleInput) {
+      playlistTitleInput = document.createElement("input");
+      playlistTitleInput.type = "hidden";
+      playlistTitleInput.name = "playlistTitle";
+      playlistTitleInput.id = "playlistTitle";
+      form.appendChild(playlistTitleInput);
+    }
 
     let lastFetchedUrl = "";
 
@@ -47,6 +58,7 @@ async function init() {
       if (!url || url.length < 2) {
         infoDiv.innerHTML = "";
         infoDiv.classList.remove("visible", "playlist-mode");
+        playlistTitleInput.value = "";
         lastFetchedUrl = "";
         return;
       }
@@ -70,12 +82,14 @@ async function init() {
         `;
         infoDiv.classList.add("visible");
         infoDiv.classList.remove("playlist-mode");
+        playlistTitleInput.value = "";
         loaderBox.style.display = "none";
         return;
       }
 
       // ---------- PLAYLIST ----------
       if (data.type === "playlist") {
+        playlistTitleInput.value = data.title;
         infoDiv.classList.add("playlist-mode");
         infoDiv.innerHTML = `
           <div class="playlist-header">
@@ -194,6 +208,7 @@ async function init() {
       }
 
       infoDiv.classList.remove("playlist-mode");
+      playlistTitleInput.value = "";
 
       // ---------- VIDEO NORMALE ----------
       const durationStr = data.duration

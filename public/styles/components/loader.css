@@ -4,9 +4,9 @@
   gap: 10px;
   padding: 10px 20px;
   background: var(--form-bg-color);
-  border: 2px solid var(--mp3-text-color);
+  border: 2px solid var(--audio-only-label-color);
   border-radius: 8px;
-  color: var(--mp3-text-color);
+  color: var(--audio-only-label-color);
   font-weight: bold;
   animation: pulse 1.2s infinite;
 }

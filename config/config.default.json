@@ -1,0 +1,17 @@
+{
+  "autoUpdate": true,
+  "discordRPC": true,
+  "customTopBar": true,
+  "autoCheckInfo": true,
+  "addThumbnail": true,
+  "addMetadata": true,
+  "verboseLogs": false,
+  "autoDownloadPlaylist": true,
+  "createPlaylistFolders": true,
+  "customCodec": "h264",
+  "logSystem": true,
+  "outputTitleCheck": true,
+  "downloadSystem": true,
+  "notifySystem": true,
+  "theme": "dark" 
+}

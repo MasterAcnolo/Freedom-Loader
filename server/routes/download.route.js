@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { downloadController, progressController, speedController } = require("../controller/download.controller");
+const { downloadController, progressController, speedController, stageController, cancelDownloadController, playlistInfoController } = require("../controller/download.controller");
 
 router.post("/", downloadController);
+router.post("/cancel", cancelDownloadController);
 
 // SSE for download progress
 router.get("/progress", progressController);
 router.get("/speed", speedController);
+router.get("/stage", stageController);
+router.get("/playlist-info", playlistInfoController);
 
 module.exports = router;

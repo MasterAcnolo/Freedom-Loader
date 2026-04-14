@@ -1,28 +1,32 @@
 /* Layout */
-@import url("layout/form.css");
-@import url("layout/settingsPanel.css");
-@import url("layout/container.css");
+@import url("layout/topbar.css");
 @import url("layout/header.css");
+@import url("layout/form.css");
+@import url("layout/container.css");
+@import url("layout/settingsPanel.css");
 @import url("layout/videoinfo.css");
 
 /* Components */
 @import url("components/checkbox.css");
 @import url("components/loader.css");
-
-@import url("theme/themeimport.css");
 @import url("components/editpathbutton.css");
 @import url("components/progressBar.css");
+@import url("components/toast.css");
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-#app {
-  display: block; 
-  opacity: 0;
-  transition: opacity 0.6s ease;
+
+/* Because why not */
+#reference{
+  position: fixed;
+  pointer-events: none;
+  bottom:0vh;
+  left: 10px;
+  font-size: 1em;
+  color: #b0b0b02f;
+  z-index: 9999;
 }
-#app.visible {
-  opacity: 1;
-}
+
 
 html,body{
     margin: 0;
@@ -34,43 +38,45 @@ html,body{
     font-style: normal;
 }
 
-body {
-    margin: 0;
-    background-color: var(--background-color);
+body{
+  background-color: var(--background-color);
+  color: var(--default-text-color);
+}
+
+header {
+    position: fixed;
+    top: 0;
     width: 100%;
-    height: 100%;
-    color: var(--default-text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;   
+    z-index: 1100;
+    height: 48px;
+}
+
+main {
+    width: 100%;
+    height: calc(100vh - 48px);
+    margin-top: 48px;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-
+    padding: 0;
+    gap: 0;
 }
 
-/* Because why not */
-#reference{
-  position: fixed;
-  pointer-events: none;
-  bottom:0vh;
-  left: 10px;
-  font-size: 1em;
-  color: #b0b0b02f;
-}
-
-/* Scrollbar globale pour Chromium/Electron */
-body::-webkit-scrollbar {
+/* Scrollbar pour main */
+main::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
-body::-webkit-scrollbar-track {
+main::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 5px;
 }
 
-body::-webkit-scrollbar-thumb {
+main::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
   border: 2px solid transparent;
@@ -78,34 +84,30 @@ body::-webkit-scrollbar-thumb {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-body::-webkit-scrollbar-thumb:hover {
+main::-webkit-scrollbar-thumb:hover {
   background-color: rgba(255, 255, 255, 0.35);
   transform: scaleX(1.05);
 }
 
 /* Thème clair */
-body.light::-webkit-scrollbar-track {
+body.light main::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.05);
 }
 
-body.light::-webkit-scrollbar-thumb {
+body.light main::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-body.light::-webkit-scrollbar-thumb:hover {
+body.light main::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.45);
 }
 
 .container{
-  margin-top: 50px;
+  margin-top: 0px;
 }
 
-header p{
+#subtitle{
   color: var(--subtitle-color);
-}
-
-.checkbox-inline{
-  color: var(--mp3-text-color);
 }
 
 body, 

@@ -7,5 +7,9 @@
 /ressources/ffprobe.exe
 /ressources/deno.exe
 
+/theme/**
+
+config/config.dev.json
+
 logs/*.json
 logs/*.log

@@ -1,10 +1,13 @@
-const { fetchDownload } = require("../services/download.services");
+const { fetchDownload, cancelDownload } = require("../services/download.services");
 const { logger } = require("../logger");
 const { isValidUrl, isSafePath } = require("../helpers/validation.helpers");
 const { notifyDownloadFinished } = require("../helpers/notify.helpers");
+const { configFeatures } = require("../../config");
 
 const listeners = [];
 const speedListeners = [];
+const stageListeners = [];
+const playlistInfoListeners = [];
 
 async function downloadController(req, res) {
   try {
@@ -13,22 +16,23 @@ async function downloadController(req, res) {
       audioOnly: req.body.audioOnly === "1",
       quality: req.body.quality || "best",
       outputFolder: req.body.savePath || undefined,
+      playlistTitle: req.body.playlistTitle || undefined,
     };
 
-    if (!options.url || !isValidUrl(options.url)) return res.status(400).send("❌ Invalid URL !");
+    if (!options.url || !isValidUrl(options.url)) return res.status(400).send("Invalid URL !");
     if (options.outputFolder && !isSafePath(options.outputFolder)) {
       logger.warn(`Unsafe download path rejected: ${options.outputFolder}`);
-      return res.status(400).send("❌ Save Path Not Allowed.");
+      return res.status(400).send("Save Path Not Allowed.");
     }
 
     // Get output folder when the download is finished
-    const outputFolder = await fetchDownload(options, listeners, speedListeners);
-    notifyDownloadFinished(outputFolder);
-    res.send("✅ Download Done !");
+    const outputFolder = await fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners);
+    notifyDownloadFinished(outputFolder, configFeatures.notifySystem);
+    res.send("Download Done !");
     
   } catch (err) {
     logger.error(`Server Error in /download : ${err.message}`);
-    res.status(500).send(`❌ Server Error`);
+    res.status(500).send(`Server Error`);
   }
 }
 
@@ -64,5 +68,47 @@ function speedController(req, res) {
   });
 }
 
+function stageController(req, res) {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
 
-module.exports = { downloadController, progressController, speedController};
+  const sendStage = stage => res.write(`data: ${stage}\n\n`);
+  stageListeners.push(sendStage);
+
+  req.on('close', () => {
+    stageListeners.splice(stageListeners.indexOf(sendStage), 1);
+    res.end();
+  });
+}
+
+function cancelDownloadController(req, res) {
+  const cancelled = cancelDownload();
+  if (cancelled) {
+    logger.info("Download and queue cancelled by user");
+    res.send("Download stopped! Queue cleared.");
+  } else {
+    logger.warn("No download to cancel");
+    res.status(400).send("No download in progress !");
+  }
+}
+
+function playlistInfoController(req, res) {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+
+  const sendPlaylistInfo = info => res.write(`data: ${info}\n\n`);
+  playlistInfoListeners.push(sendPlaylistInfo);
+
+  req.on('close', () => {
+    playlistInfoListeners.splice(playlistInfoListeners.indexOf(sendPlaylistInfo), 1);
+    res.end();
+  });
+}
+
+module.exports = { downloadController, progressController, speedController, stageController, cancelDownloadController, playlistInfoController};

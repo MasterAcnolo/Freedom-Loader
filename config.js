@@ -5,23 +5,39 @@ const path = require("path");
 
 const localMode = !app.isPackaged;
 
-// Change path for JSON file
-const featuresPath =  path.join(path.join(`${localMode ? __dirname : process.resourcesPath}`,"config/" , "config.json"));
+function resolveConfigPath() {
+  if (localMode) {
+    const devConfigPath = path.join(__dirname, "config", "config.dev.json");
+    if (!fs.existsSync(devConfigPath)) {
+      const defaultConfigPath = path.join(__dirname, "config", "config.default.json");
+      fs.copyFileSync(defaultConfigPath, devConfigPath);
+    }
+    return devConfigPath;
+  }
 
-let features = {};
+  const userConfigPath = path.join(app.getPath("userData"), "config.json");
+  if (!fs.existsSync(userConfigPath)) {
+    const defaultConfigPath = path.join(process.resourcesPath, "config", "config.default.json");
+    fs.copyFileSync(defaultConfigPath, userConfigPath);
+  }
+
+  return userConfigPath;
+}
+
+const featuresPath = resolveConfigPath();
 
 function loadFeatures() {
-    const raw = fs.readFileSync(featuresPath, "utf-8");
-    features = JSON.parse(raw);
-    return features;
+  const raw = fs.readFileSync(featuresPath, "utf-8");
+  return JSON.parse(raw);
 }
 
 const configFeatures = loadFeatures();
 
 module.exports = {
-    version: packageJson.version,
-    applicationPort: "8787",
-    localMode,
-    DiscordRPCID: "1410934537051181146",
-    configFeatures
+  version: packageJson.version,
+  applicationPort: "8787",
+  localMode,
+  DiscordRPCID: "1410934537051181146",
+  configFeatures,
+  featuresPath
 }

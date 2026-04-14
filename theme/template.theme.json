@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "name": "",
+    "author": "",
+    "version": "1.0.0",
+    "formatVersion": "1.0"
+  },
+
+  "style": {
+    "background": {
+      "image": "",
+      "size": "cover",
+      "position": "center",
+      "attachment": "fixed"
+    },
+
+    "colors": {
+      "background": "",
+      "text": {
+        "default": "",
+        "subtitle": "",
+        "audioOnly": ""
+      }
+    },
+
+    "form": {
+      "background": "",
+      "input": {
+        "background": "",
+        "border": "",
+        "borderFocus": "",
+        "text": "",
+        "placeholder": ""
+      },
+      "button": {
+        "background": "",
+        "text": "",
+        "hover": ""
+      },
+      "pasteButtonIcon": ""
+    },
+
+    "checkbox": {
+      "background": {
+        "unchecked": "",
+        "checked": ""
+      },
+      "checkmarkBorder": "",
+      "pulse": ""
+    },
+
+    "download": {
+      "status": ""
+    },
+
+    "progressBar": {
+      "background": "",
+      "fill": ""
+    },
+
+    "videoInfo": {
+      "background": "",
+      "text": "",
+      "heading": "",
+      "list": "",
+      "strong": "",
+      "link": "",
+      "linkHover": ""
+    },
+
+    "playlist": {
+      "background": ""
+    },
+
+    "settings": {
+      "button": {
+        "background": "",
+        "text": ""
+      },
+      "openThemeButton": {
+        "background": "",
+        "text": ""
+      },
+      "openJsonButton": {
+        "background": "",
+        "text": ""
+      },
+      "background": {
+        "modal": "",
+        "section": ""
+      },
+      "text": "",
+      "subtitle": ""
+    }
+  }
+}

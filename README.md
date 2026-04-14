@@ -222,27 +222,88 @@ C:\Users\[USERNAME]\AppData\Roaming\FreedomLoader\config.json
 
 ```
 Freedom-Loader/
-├── build/                   # Build resources and assets
-├── config/                  # Configuration files
-├── public/                  # Frontend assets (HTML, CSS, JavaScript)
-├── ressources/             # Internal resources (icons, binaries)
-├── app/                    # Electron main process modules
-│   ├── windowManager.js
+├── app/                     # Electron main process modules
+│   ├── autoUpdater.js
+│   ├── dependencyCheck.js
+│   ├── discordRPC.js
 │   ├── ipcHandlers.js
 │   ├── pathValidator.js
-│   ├── ytDlpUpdater.js
-│   ├── autoUpdater.js
-│   ├── discordRPC.js
-│   └── dependencyCheck.js
-├── server/                 # Express server code
-│   ├── routes/            # API route handlers
-│   ├── services/          # Business logic
-│   └── helpers/             # Server helpers
-├── .github/                # GitHub configuration and workflows
-├── main.js                 # Electron main process
-├── preload.js             # Electron preload script
-├── config.js              # Global application configuration
-└── package.json           # Dependencies and npm scripts
+│   ├── splashManager.js
+│   ├── themeManager.js
+│   ├── windowManager.js
+│   └── ytDlpUpdater.js
+├── build/                   # Build resources and assets
+├── config/                  # Configuration files
+│   ├── config.default.json
+│   └── config.dev.json
+├── public/                  # Frontend assets and UI
+│   ├── index.html
+│   ├── splash.html
+│   ├── assets/
+│   │   ├── icon/            # Application icons
+│   │   └── logo/            # Logo assets
+│   ├── script/              # Frontend JavaScript modules
+│   │   ├── appVersion.js
+│   │   ├── clipboardPaste.js
+│   │   ├── custompath.js
+│   │   ├── customthemes.js
+│   │   ├── downloadstatus.js
+│   │   ├── fetchinfo.js
+│   │   ├── progressBar.js
+│   │   ├── settingsPanel.js
+│   │   ├── toast.js
+│   │   └── topbar.js
+│   └── styles/              # CSS stylesheets
+│       ├── styles.css
+│       ├── variables.css
+│       ├── components/      # Component-specific styles
+│       │   ├── checkbox.css
+│       │   ├── editpathbutton.css
+│       │   ├── loader.css
+│       │   ├── progressBar.css
+│       │   └── toast.css
+│       └── layout/          # Layout styles
+│           ├── container.css
+│           ├── form.css
+│           ├── header.css
+│           ├── settingsPanel.css
+│           ├── topbar.css
+│           └── videoinfo.css
+├── ressources/              # Internal resources (binaries)
+├── server/                  # Express backend server
+│   ├── logger.js
+│   ├── server.js
+│   ├── controller/          # Request handlers
+│   │   ├── download.controller.js
+│   │   └── info.controller.js
+│   ├── helpers/             # Utility functions
+│   │   ├── buildArgs.helpers.js
+│   │   ├── getBrowser.helpers.js
+│   │   ├── notify.helpers.js
+│   │   ├── parseInfo.helpers.js
+│   │   ├── path.helpers.js
+│   │   ├── rateLimit.helpers.js
+│   │   └── validation.helpers.js
+│   ├── routes/              # API route definitions
+│   │   ├── download.route.js
+│   │   └── info.route.js
+│   └── services/            # Business logic layer
+│       ├── download.services.js
+│       └── info.services.js
+├── theme/                   # Theme system
+│   ├── template.theme.json  # Theme template
+│   ├── Dark/                # Default dark theme
+│   │   └── dark.theme.json
+│   └── Light/               # Default light theme
+│       └── light.theme.json
+├── main.js                  # Electron main process entry point
+├── preload.js               # Electron preload script (IPC bridge)
+├── config.js                # Global configuration loader
+├── package.json             # Project metadata and dependencies
+├── CODE_OF_CONDUCT.md       # Community guidelines
+├── CONTRIBUTING.md          # Contribution guidelines
+├── LICENSE                  # GPLv3 license
+└── README.md                # This file
 ```
 
 ### Architecture Overview

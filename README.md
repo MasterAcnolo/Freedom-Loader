@@ -41,6 +41,7 @@ The primary goal is to make media downloading accessible to users who want offli
 - [Development](#development)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
+- [Submitting a community theme](#Submitting-a-community-theme)
 - [Support](#support)
 - [License](#license)
 
@@ -395,6 +396,11 @@ ressources/
 ## Contributing
 
 Contributions are welcome and appreciated. This project benefits from community involvement.
+
+## Submitting a community theme
+
+Want your theme featured in the Workshop? Please **do not open an issue on this repository** for theme submissions.  
+Head over to the [Freedom Loader Workshop repository](https://github.com/MasterAcnolo/Freedom-Loader-Workshop) and open an issue there with your theme files, preview screenshots, and description.
 
 ### Bug Reports
 

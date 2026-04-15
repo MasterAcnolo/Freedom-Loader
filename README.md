@@ -165,7 +165,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 
 ### Configuration File Location
 ```
-C:\Users\[USERNAME]\AppData\Roaming\FreedomLoader\config.json
+%APPDATA%\Freedom Loader\config.json
 ```
 
 ### Available Options

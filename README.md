@@ -179,11 +179,13 @@ C:\Users\[USERNAME]\AppData\Roaming\FreedomLoader\config.json
   "addMetadata": true,
   "verboseLogs": false,
   "autoDownloadPlaylist": true,
+  "createPlaylistFolders": true,
   "customCodec": "h264",
   "logSystem": true,
   "outputTitleCheck": true,
   "downloadSystem": true,
-  "notifySystem": true
+  "notifySystem": true,
+  "theme": "dark" 
 }
 ```
 
@@ -199,11 +201,13 @@ C:\Users\[USERNAME]\AppData\Roaming\FreedomLoader\config.json
 | `addMetadata` | boolean | `true` | Add metadata tags to downloaded files |
 | `verboseLogs` | boolean | `false` | Enable detailed logging for debugging |
 | `autoDownloadPlaylist` | boolean | `true` | Automatically download entire playlists |
+| `createPlaylistFolders` | boolean | `true` | Automatically create a folder for a playlist |
 | `customCodec` | string | `"h264"` | Video codec for encoding (supported: h264, h265, vp9, av1) |
 | `logSystem` | boolean | `true` | Enable application logging |
 | `outputTitleCheck` | boolean | `true` | Verify output file titles |
 | `downloadSystem` | boolean | `true` | Enable download system |
 | `notifySystem` | boolean | `true` | Enable system notifications |
+| `theme` | string | `dark` | Current Theme Name |
 
 ### Supported Codecs
 

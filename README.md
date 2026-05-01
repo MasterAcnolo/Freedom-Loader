@@ -427,39 +427,6 @@ ressources/
 
 See the most recent Roadmap [Here](https://masteracnolo.github.io/Freedom-Loader-Site/Roadmap).
 
-### Completed
-
-- [x] ~~Website and documentation~~
-- [x] ~~Automatic YT-DLP updates~~
-- [x] ~~Automatic application updates~~
-- [x] ~~Enhanced download status display~~
-- [x] ~~Video chapter extraction~~
-- [x] ~~Custom output path selection~~
-- [x] ~~Custom codec selection~~
-- [x] ~~Settings Panel with toggle switch for features.~~
-- [x] ~~Custom theme system (ZIP format) ~~
-- [x] ~~Theme Workshop (web tool)~~
-- [x] ~~Splash screen~~
-- [x] ~~Download stop button~~
-- [x] ~~Config saved in AppData (preserved on update)~~
-
-### In Progress
-
-- [ ] Additional format support (WebM, OGG, etc.)
-- [ ] Chrome/Edge cookie support
-- [ ] Improved multi-site support
-
-### Planned
-
-- [ ] Subtitle download and embedding
-- [ ] Multiple language support
-- [ ] Partial video downloads
-- [ ] Custom file naming patterns
-- [ ] Parallel downloads
-- [ ] Automatic sponsor detection (SponsorBlock integration)
-- [ ] Download history
-- [ ] Linux version
-
 ## Contributing
 
 Contributions are welcome and appreciated. This project benefits from community involvement.

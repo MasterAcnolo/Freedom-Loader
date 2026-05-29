@@ -3,10 +3,12 @@ const { app } = require("electron");
 const fs = require("fs");
 const path = require("path");
 
-const localMode = !app.isPackaged;
+
+const devMode = !app.isPackaged;
+
 
 function resolveConfigPath() {
-  if (localMode) {
+  if (devMode) {
     const devConfigPath = path.join(__dirname, "config", "config.dev.json");
     if (!fs.existsSync(devConfigPath)) {
       const defaultConfigPath = path.join(__dirname, "config", "config.default.json");
@@ -36,7 +38,7 @@ const configFeatures = loadFeatures();
 module.exports = {
   version: packageJson.version,
   applicationPort: "8787",
-  localMode,
+  devMode,
   DiscordRPCID: "1410934537051181146",
   configFeatures,
   featuresPath

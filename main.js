@@ -30,7 +30,7 @@ app.setName("Freedom Loader");
 app.setAppUserModelId("com.masteracnolo.freedomloader");
 app.disableHardwareAcceleration();
 
-if (!config.localMode) {
+if (!config.devMode) {
   const gotLock = app.requestSingleInstanceLock();
   if (gotLock) {
     app.on("second-instance", () => {
@@ -45,7 +45,7 @@ app.whenReady().then(async () => {
 
   createSplashWindow();
 
-  if (!config.localMode && !checkNativeDependencies()) return;
+  if (!config.devMode && !checkNativeDependencies()) return;
 
   const { userYtDlp } = require("./server/helpers/path.helpers");
   updateYtDlp(userYtDlp);

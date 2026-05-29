@@ -12,7 +12,7 @@ async function createMainWindow() {
     return mainWindow;
   }
 
-  const iconPath = config.localMode
+  const iconPath = config.devMode
     ? path.join(__dirname, "../build/app-icon.ico")
     : path.join(process.resourcesPath, "build/app-icon.ico");
 

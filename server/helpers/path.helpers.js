@@ -7,7 +7,7 @@ const config = require("../../config.js");
 const { logger } = require("../logger.js");
 
 // Centralized resource paths
-const resourcesPath = config.localMode 
+const resourcesPath = config.devMode 
   ? path.join(__dirname, "../../ressources")
   : process.resourcesPath;
 
@@ -21,7 +21,7 @@ let denoPath;
 
 const sourceYtDlp = path.join(resourcesPath, "binaries","yt-dlp.exe");
 
-if (config.localMode) {
+if (config.devMode) {
   userYtDlp = path.join(__dirname, "../../ressources/yt-dlp.exe");
   ffmpegPath = path.join(__dirname, "../../ressources/"); // <- has ffmpeg.exe and ffprobe.exe
   denoPath = path.join(__dirname, "../../ressources/deno.exe"); 

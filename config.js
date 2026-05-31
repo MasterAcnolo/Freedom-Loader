@@ -80,7 +80,7 @@ module.exports = {
   /**
    * Application version from package.json
    */
-  version: packageJson.version,
+  version: devMode ? `dev-${packageJson.version}` : `v${packageJson.version}` ,
 
   /**
    * Backend Express / internal server port

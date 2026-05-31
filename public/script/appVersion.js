@@ -15,7 +15,7 @@ async function versionLabel() {
 
     if (!versionBadge) return;
 
-    versionBadge.textContent = `v${appVersion}`;
+    versionBadge.textContent = `${appVersion}`;
 }
 
 versionLabel();

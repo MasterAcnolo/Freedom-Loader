@@ -9,6 +9,23 @@ process.on("unhandledRejection", (reason) => {
 });
 
 const { app } = require("electron");
+
+/**
+ * True if this is the primary instance (lock acquired successfully)
+ */
+const isPrimaryInstance = app.requestSingleInstanceLock();
+
+/**
+ * If we are on a second instance
+ */
+if (!isPrimaryInstance) {
+  app.quit();
+  process.exit(0);
+}
+
+/**
+ * Load the app
+ */
 const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
 const path = require("path");
 
@@ -30,15 +47,22 @@ app.setName("Freedom Loader");
 app.setAppUserModelId("com.masteracnolo.freedomloader");
 app.disableHardwareAcceleration();
 
-if (!config.devMode) {
-  const gotLock = app.requestSingleInstanceLock();
-  if (gotLock) {
-    app.on("second-instance", () => {
-      logger.info("New instance detected, closing older...");
-      getMainWindow()?.destroy();
-    });
-  }
-}
+
+/**
+ * If another instance want to run
+ */
+app.on("second-instance", () => {
+  logger.info("Second instance detected");
+
+  const mainWindow = require("./app/windowManager").getMainWindow();
+
+  if (!mainWindow) return;
+
+  if (mainWindow.isMinimized()) mainWindow.restore();
+
+  mainWindow.show();
+  mainWindow.focus();
+});
 
 app.whenReady().then(async () => {
   logSessionStart();

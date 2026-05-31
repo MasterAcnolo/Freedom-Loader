@@ -5,6 +5,26 @@ const { ffmpegPath, denoPath} = require("./path.helpers.js");
 const { configFeatures } = require("../../config.js");
 const { logger } = require("../logger.js");
 
+/**
+ * Validates whether the provided codec is supported by the application.
+ *
+ * If the codec is supported, it is returned unchanged.
+ * Otherwise, a warning is logged and the default codec ("h264")
+ * is returned as a fallback.
+ *
+ * Supported codecs:
+ * - av01
+ * - vp9.2
+ * - vp9
+ * - h265
+ * - h264
+ * - vp8
+ * - h263
+ * - theora
+ *
+ * @param {string} codec - Codec identifier to validate.
+ * @returns {string} A valid codec identifier.
+ */
 function validateCodec(codec){
 
   const validCodec = [
@@ -20,6 +40,28 @@ function validateCodec(codec){
   }
 }
 
+/**
+ * Builds the complete yt-dlp argument list based on the
+ * application configuration and download options.
+ *
+ * The generated arguments include:
+ * - Browser cookie extraction
+ * - FFmpeg integration
+ * - Deno runtime configuration
+ * - Metadata and thumbnail embedding
+ * - Playlist handling
+ * - Video/audio format selection
+ * - Quality filtering
+ * - Output file destination
+ *
+ * @param {Object} options - Download configuration.
+ * @param {string} options.url - Video or playlist URL.
+ * @param {boolean} options.audioOnly - Whether to extract audio only.
+ * @param {string} options.quality - Requested quality preset.
+ * @param {string} options.outputFolder - Download destination folder.
+ *
+ * @returns {string[]} Array of arguments ready to be passed to yt-dlp.
+ */
 function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
 
   logger.info("--- CONFIGURATION ---");

@@ -3,8 +3,30 @@ const { userYtDlp, denoPath } = require("../helpers/path.helpers");
 const getUserBrowser = require("../helpers/getBrowser.helpers");
 const { logger } = require("../logger");
 
+/**
+ * Retrieves metadata for a video or playlist using yt-dlp.
+ *
+ * The command executes yt-dlp in JSON mode and returns the
+ * parsed response object without downloading any media.
+ *
+ * Features:
+ * - Supports videos and playlists
+ * - Imports browser cookies when available
+ * - Uses Deno for JavaScript extraction
+ * - Applies a 30-second timeout
+ * - Limits response size to 10 MB
+ *
+ * @param {string} url - Video or playlist URL to inspect.
+ * @returns {Promise<Object>} Resolves with the metadata returned by yt-dlp.
+ *
+ */
 function fetchInfo(url) {
-    const args = [
+
+    /**
+     * Base yt-dlp arguments used to retrieve metadata
+     * without downloading media files.
+     */
+    const metadataArgs  = [
         "--js-runtimes", `deno:${denoPath}`,
         "--dump-single-json",
         "--ignore-errors",
@@ -16,9 +38,9 @@ function fetchInfo(url) {
 
     return new Promise((resolve, reject) => {
 
-        execFile(userYtDlp,[...args, url],
+        execFile(userYtDlp,[...metadataArgs , url],
             {   timeout: 30_000, // 30s, if more timeout
-                maxBuffer: 10 * 1024 * 1024 },  // 10MO max response (Default: 200ko)
+                maxBuffer: 10 * 1024 * 1024 },  // Maximum response size: 10 MB (Node.js default is much smaller)
                 
                 (error, stdout, stderr) => {
 

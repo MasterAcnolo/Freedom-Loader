@@ -14,13 +14,23 @@ const resourcesPath = config.devMode
 // Default download folder (centralized)
 const defaultDownloadFolder = path.join(os.homedir(), "Downloads", "Freedom Loader");
 
-// Binary paths
+/**
+ * Runtime-resolved binary paths.
+ * These values differ between development and production builds.
+ */
+
 let userYtDlp;
 let ffmpegPath;
 let denoPath;
 
+/** Source binary bundled inside application resources (used for first-time copy) */
 const sourceYtDlp = path.join(resourcesPath, "binaries","yt-dlp.exe");
 
+/**
+ * Resolve binary locations depending on environment:
+ * - dev: local resources folder
+ * - prod: extracted userData + packaged resources
+ */
 if (config.devMode) {
   userYtDlp = path.join(__dirname, "../../ressources/yt-dlp.exe");
   ffmpegPath = path.join(__dirname, "../../ressources/"); // <- has ffmpeg.exe and ffprobe.exe
@@ -35,14 +45,20 @@ if (config.devMode) {
   }
 }
 
-// Notification icon paths
+/**
+ * Centralized notification and UI icon paths.
+ * Used by Electron notifications and UI components.
+ */
 const iconPaths = {
   confirm: path.join(resourcesPath, "confirm-icon.png"),
   error: path.join(resourcesPath, "error.png"),
   app: path.join(resourcesPath, "app-icon.ico")
 };
 
-// Binary paths for verification
+/**
+ * Static reference paths to bundled binaries.
+ * Used mainly for verification and diagnostics.
+ */
 const binaryPaths = {
   ytDlp: path.join(resourcesPath, "binaries", "yt-dlp.exe"),
   ffmpeg: path.join(resourcesPath, "binaries", "ffmpeg.exe"),
@@ -50,10 +66,21 @@ const binaryPaths = {
   deno: path.join(resourcesPath, "binaries", "deno.exe")
 };
 
-// Theme paths - themes stored in AppData to survive updates
+/**
+ * Theme storage system:
+ * - default themes come from app resources
+ * - user themes are persisted in userData to survive updates
+ */
 const userThemesPath = path.join(app.getPath("userData"), "themes");
 const defaultThemesSourcePath = path.join(resourcesPath, "theme");
 
+/**
+ * Initializes user theme directory and ensures default themes exist.
+ *
+ * - Creates user themes folder if missing
+ * - Copies bundled themes from resources if not present
+ * - Applies permissive permissions for runtime modification
+ */
 function initUserThemes() {
   try {
     if (!fs.existsSync(userThemesPath)) {
@@ -94,6 +121,13 @@ function initUserThemes() {
   }
 }
 
+/**
+ * Recursively copies a directory and its contents.
+ *
+ * @param {string} src - Source directory
+ * @param {string} dest - Destination directory
+ * @throws Error If copy operation fails
+ */
 function copyDirectory(src, dest) {
   try {
     if (!fs.existsSync(dest)) {
@@ -116,8 +150,9 @@ function copyDirectory(src, dest) {
   }
 }
 
-if (!userYtDlp){ logger.error("Missing YT-DLP")}
-if (!ffmpegPath){ logger.error("Missing FFMPEG")}
-if (!denoPath){ logger.error("Missing DENO")}
+// Runtime validation of critical binaries
+if (!userYtDlp){ logger.error("Missing yt-dlp binary")}
+if (!ffmpegPath){ logger.error("Missing ffmpeg binary")}
+if (!denoPath){ logger.error("Missing deno binary")}
 
 module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath, defaultDownloadFolder, userThemesPath, initUserThemes };

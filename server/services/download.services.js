@@ -8,13 +8,45 @@ const path = require("path");
 const { isSafePath } = require("../helpers/validation.helpers");
 const { configFeatures } = require("../../config.js");
 
+/**
+ * Reference to the currently running yt-dlp process.
+ *
+ * Used to support download cancellation and lifecycle
+ * management.
+ *
+ * @type {import("child_process").ChildProcess|null}
+ */
 let currentDownloadProcess = null;
 
-// Détecte si une URL est une playlist
+/**
+ * Determines whether a URL targets a playlist.
+ *
+ * The detection is based on the presence of the YouTube
+ * playlist query parameter (`list`).
+ *
+ * @param {string} url - URL to inspect.
+ * @returns {boolean} True if the URL appears to be a playlist.
+ */
 function isPlaylistUrl(url) {
   return url.includes("?list=") || url.includes("&list=");
 }
 
+/**
+ * Creates a dedicated download folder for a playlist.
+ *
+ * The playlist title is sanitized to ensure it can be safely
+ * used as a filesystem path. If the target folder already
+ * exists, an incremented suffix is appended until a unique
+ * folder name is found.
+ *
+ * If folder creation fails, a fallback folder named
+ * "Untitled Playlist X" is generated.
+ *
+ * @param {string} basePath - Parent download directory.
+ * @param {string} playlistTitle - Playlist title returned by yt-dlp.
+ * @returns {string} Absolute path of the created playlist folder.
+ * @throws {Error} If no valid folder can be created.
+ */
 function createPlaylistFolder(basePath, playlistTitle) {
   const sanitizedTitle = playlistTitle
     .replace(/[<>:"|?*]/g, '') 
@@ -74,6 +106,32 @@ function createPlaylistFolder(basePath, playlistTitle) {
   }
 }
 
+/**
+ * Starts a yt-dlp download process and monitors its progress.
+ *
+ * Responsibilities:
+ * - Validates and prepares the output directory
+ * - Creates playlist folders when enabled
+ * - Builds yt-dlp command arguments
+ * - Spawns the yt-dlp process
+ * - Parses progress, speed and stage information
+ * - Notifies listeners about download events
+ * - Handles download completion and failures
+ *
+ * @param {Object} options - Download options.
+ * @param {string} options.url - Video or playlist URL.
+ * @param {string} [options.outputFolder] - Destination folder.
+ * @param {string} [options.playlistTitle] - Playlist title.
+ *
+ * @param {Function[]} listeners - Progress listeners.
+ * @param {Function[]} speedListeners - Download speed listeners.
+ * @param {Function[]} stageListeners - Processing stage listeners.
+ * @param {Function[]} playlistInfoListeners - Playlist progress listeners.
+ *
+ * @returns {Promise<string>}
+ * Resolves with the final output folder path once the
+ * download has completed successfully.
+ */
 function fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners) {
 
   return new Promise((resolve, reject) => {
@@ -191,6 +249,16 @@ function fetchDownload(options, listeners, speedListeners, stageListeners, playl
   });
 }
 
+/**
+ * Cancels the currently running yt-dlp process.
+ *
+ * Attempts to terminate the entire process tree to ensure
+ * that yt-dlp and any spawned FFmpeg processes are stopped.
+ *
+ * @returns {boolean}
+ * True if a download process was cancelled,
+ * otherwise false.
+ */
 function cancelDownload() {
   if (currentDownloadProcess) {
     logger.info("Cancelling download and killing all child processes...");

@@ -4,11 +4,47 @@ const { isValidUrl, isSafePath } = require("../helpers/validation.helpers");
 const { notifyDownloadFinished } = require("../helpers/notify.helpers");
 const { configFeatures } = require("../../config");
 
-const listeners = [];
-const speedListeners = [];
-const stageListeners = [];
-const playlistInfoListeners = [];
+/**
+ * Active Server-Sent Event subscribers receiving
+ * download progress updates.
+ *
+ * Each listener receives a percentage value between
+ * 0 and 100 during the download lifecycle.
+ */
+const progressListeners = [];
 
+/**
+ * Active Server-Sent Event subscribers receiving
+ * download speed updates.
+ */
+const speedListeners = [];
+
+/**
+ * Active Server-Sent Event subscribers receiving
+ * download stage updates.
+ */
+const stageListeners = [];
+
+/**
+ * Active Server-Sent Event subscribers receiving
+ * playlist progress information.
+ */
+const playlistListeners = [];
+
+/**
+ * Handles download requests and starts a yt-dlp download.
+ *
+ * Validates user input, prepares download options and
+ * delegates the download process to the download service.
+ *
+ * Once the download completes successfully, a desktop
+ * notification may be displayed depending on the
+ * application configuration.
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @returns {Promise<void>}
+ */
 async function downloadController(req, res) {
   try {
     const options = {
@@ -25,17 +61,30 @@ async function downloadController(req, res) {
       return res.status(400).send("Save Path Not Allowed.");
     }
 
-    // Get output folder when the download is finished
-    const outputFolder = await fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners);
+    const outputFolder = await fetchDownload(
+      options,
+      progressListeners,
+      speedListeners,
+      stageListeners,
+      playlistListeners
+    );
+    
     notifyDownloadFinished(outputFolder, configFeatures.notifySystem);
     res.send("Download Done !");
     
   } catch (err) {
-    logger.error(`Server Error in /download : ${err.message}`);
-    res.status(500).send(`Server Error`);
+    logger.error(`Server Error in /download: ${err?.message ?? err}`);
+    res.status(500).send("Server Error");
   }
 }
 
+/**
+ * Opens a Server-Sent Events (SSE) connection used to
+ * stream download progress updates to the client.
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 function progressController(req, res) {
   res.set({
     'Content-Type': 'text/event-stream',
@@ -44,14 +93,21 @@ function progressController(req, res) {
   });
 
   const sendProgress = percent => res.write(`data: ${percent}\n\n`);
-  listeners.push(sendProgress);
+  progressListeners.push(sendProgress);
 
   req.on('close', () => {
-    listeners.splice(listeners.indexOf(sendProgress), 1);
+    progressListeners.splice(progressListeners.indexOf(sendProgress), 1);
     res.end();
   });
 }
 
+/**
+ * Opens a Server-Sent Events (SSE) connection used to
+ * stream download speed updates to the client.
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 function speedController(req, res) {
   res.set({
     'Content-Type': 'text/event-stream',
@@ -68,6 +124,14 @@ function speedController(req, res) {
   });
 }
 
+/**
+ * Opens a Server-Sent Events (SSE) connection used to
+ * stream download stage updates such as downloading,
+ * merging, extracting audio or embedding metadata.
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 function stageController(req, res) {
   res.set({
     'Content-Type': 'text/event-stream',
@@ -84,6 +148,14 @@ function stageController(req, res) {
   });
 }
 
+/**
+ * Cancels the currently running download process.
+ *
+ * Returns an error response if no download is active.
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 function cancelDownloadController(req, res) {
   const cancelled = cancelDownload();
   if (cancelled) {
@@ -95,6 +167,18 @@ function cancelDownloadController(req, res) {
   }
 }
 
+/**
+ * Opens a Server-Sent Events (SSE) connection used to
+ * stream playlist progress information to the client.
+ *
+ * Example:
+ * - Item 1 of 20
+ * - Item 12 of 20
+ * - Item 20 of 20
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 function playlistInfoController(req, res) {
   res.set({
     'Content-Type': 'text/event-stream',
@@ -103,10 +187,10 @@ function playlistInfoController(req, res) {
   });
 
   const sendPlaylistInfo = info => res.write(`data: ${info}\n\n`);
-  playlistInfoListeners.push(sendPlaylistInfo);
+  playlistListeners.push(sendPlaylistInfo);
 
   req.on('close', () => {
-    playlistInfoListeners.splice(playlistInfoListeners.indexOf(sendPlaylistInfo), 1);
+    playlistListeners.splice(playlistListeners.indexOf(sendPlaylistInfo), 1);
     res.end();
   });
 }

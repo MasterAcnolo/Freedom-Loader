@@ -1,17 +1,26 @@
-window.showToast = function(message, type = 'info', duration = 4000) {
-  const container = document.getElementById('toast-container');
-  if (!container) return;
+/**
+ * Displays a toast notification in the global UI container.
+ *
+ * Toasts are automatically appended to `#toast-container`,
+ * support multiple visual types, and can auto-dismiss after a delay.
+ *
+ * @param {string} message - Message displayed inside the toast
+ * @param {"success"|"error"|"warning"|"info"} [type="info"] - Visual style of the toast
+ * @param {number} [duration=4000] - Auto-dismiss delay in milliseconds (0 disables auto removal)
+ * @returns {HTMLElement|null} The created toast element or null if container is missing
+ */
+window.showToast = function (message, type = "info", duration = 4000) {
+  const container = document.getElementById("toast-container");
+  if (!container) return null;
 
-  // Create toast element
-  const toast = document.createElement('div');
-  toast.classList.add('toast', type);
+  const toast = document.createElement("div");
+  toast.classList.add("toast", type);
 
-  // Icons for different types
   const icons = {
-    success: '✓',
-    error: '✕',
-    warning: '⚠',
-    info: 'ℹ'
+    success: "✓",
+    error: "✕",
+    warning: "⚠",
+    info: "ℹ"
   };
 
   const icon = icons[type] || icons.info;
@@ -22,14 +31,11 @@ window.showToast = function(message, type = 'info', duration = 4000) {
     <button class="toast-close" title="Close">×</button>
   `;
 
-  // Add close functionality
-  const closeBtn = toast.querySelector('.toast-close');
-  closeBtn.addEventListener('click', () => removeToast(toast));
+  const closeBtn = toast.querySelector(".toast-close");
+  closeBtn.addEventListener("click", () => removeToast(toast));
 
-  // Add to container
   container.appendChild(toast);
 
-  // Auto remove after duration
   if (duration > 0) {
     setTimeout(() => removeToast(toast), duration);
   }
@@ -37,18 +43,41 @@ window.showToast = function(message, type = 'info', duration = 4000) {
   return toast;
 };
 
+/**
+ * Removes a toast element with a small exit animation.
+ *
+ * @param {HTMLElement} toast
+ */
 function removeToast(toast) {
-  if (!toast.parentElement) return;
-  
-  toast.classList.add('removing');
+  if (!toast?.parentElement) return;
+
+  toast.classList.add("removing");
+
   setTimeout(() => {
-    if (toast.parentElement) {
-      toast.remove();
-    }
+    toast.remove();
   }, 300);
 }
 
-window.showSuccess = (message, duration = 4000) => window.showToast(message, 'success', duration);
-window.showError = (message, duration = 5000) => window.showToast(message, 'error', duration);
-window.showWarning = (message, duration = 4000) => window.showToast(message, 'warning', duration);
-window.showInfo = (message, duration = 4000) => window.showToast(message, 'info', duration);
+/**
+ * Shortcut: success toast
+ */
+window.showSuccess = (message, duration = 4000) =>
+  window.showToast(message, "success", duration);
+
+/**
+ * Shortcut: error toast
+ */
+window.showError = (message, duration = 5000) =>
+  window.showToast(message, "error", duration);
+
+/**
+ * Shortcut: warning toast
+ */
+window.showWarning = (message, duration = 4000) =>
+  window.showToast(message, "warning", duration);
+
+/**
+ * Shortcut: info toast
+ */
+window.showInfo = (message, duration = 4000) =>
+  window.showToast(message, "info", duration);

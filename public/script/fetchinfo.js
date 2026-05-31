@@ -1,12 +1,33 @@
+/**
+ * Converts a raw upload date string (format YYYYMMDD)
+ * into a human-readable format (DD/MM/YYYY).
+ *
+ * Returns "Inconnue" if the input is invalid or malformed.
+ */
 function formatDate(dateStr) {
   if (!dateStr || dateStr.length !== 8) return "Inconnue";
   return `${dateStr.slice(6,8)}/${dateStr.slice(4,6)}/${dateStr.slice(0,4)}`;
 }
 
+/**
+ * Converts a file size in bytes into megabytes (MB).
+ *
+ * Returns a formatted string with 2 decimals (e.g. "12.34 Mo").
+ * If input is falsy, returns "Inconnue".
+ */
 function formatSize(bytes) {
   return bytes ? (bytes / (1024*1024)).toFixed(2) + " Mo" : "Inconnue";
 }
 
+/**
+ * Fetches video or playlist metadata from the backend `/info` endpoint.
+ *
+ * Sends a POST request with URL-encoded body.
+ * Handles network errors, HTTP errors and JSON parsing safely.
+ *
+ * @param {string} url - Video or playlist URL
+ * @returns {Promise<Object>} Parsed metadata or error object
+ */
 async function fetchVideoInfo(url) {
   try {
     const res = await fetch("/info", {
@@ -26,9 +47,19 @@ async function fetchVideoInfo(url) {
   }
 }
 
-
+/**
+ * Initializes the video info system UI.
+ *
+ * - Listens to URL input changes
+ * - Automatically fetches video/playlist metadata if enabled
+ * - Renders either playlist UI or single video UI
+ * - Handles loading states and caching (lastFetchedUrl)
+ *
+ * Also manages dynamic playlist title injection into the form.
+ */
 async function init() {
 
+  // Main input listener: triggers auto-fetch when URL changes
   document.addEventListener("DOMContentLoaded", () => {
     const urlInput = document.getElementById("UrlInput");
     const infoDiv = document.getElementById("videoInfo");

@@ -1,3 +1,8 @@
+/**
+ * Handle crash application and avoid ghost instance
+ */
+const { app } = require("electron");
+
 process.on("uncaughtException", (err) => {
   console.error("Uncaught exception:", err);
   app.quit();
@@ -8,7 +13,6 @@ process.on("unhandledRejection", (reason) => {
   app.quit();
 });
 
-const { app } = require("electron");
 
 /**
  * True if this is the primary instance (lock acquired successfully)
@@ -24,28 +28,58 @@ if (!isPrimaryInstance) {
 }
 
 /**
- * Load the app
+ * Set App Name and AppID 
  */
-const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
-const path = require("path");
+app.setName("Freedom Loader");
+app.setAppUserModelId("com.masteracnolo.freedomloader");
 
+
+/**
+ * Load the app dependencies for hardware choice
+ */
 const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
-const { initAutoUpdater } = require("./app/autoUpdater");
-const { startRPC, stopRPC } = require("./app/discordRPC");
-
 const { configFeatures } = require("./config");
+
+/**
+ * On start, enable or disable hardWareAcceleration
+ */
+if (!configFeatures.enableHardwareAcceleration){
+  app.disableHardwareAcceleration();
+  logger.info("Disabled Hardware Acceleration")
+} else {
+  logger.info("Enable Hardware Acceleration")
+}
+
+/**
+ * In-memory snapshot of application feature flags.
+ *
+ * Note: Changes to the config file are not automatically reflected.
+ * A restart could be required.
+ */
 const config = require("./config");
+
+if(config.devMode){
+  /**
+   * Start devTron extensions - @see https://github.com/electron/devtron
+   */
+  const { devtron } = require('@electron/devtron');
+  devtron.install(); 
+  logger.info("Loaded DevTron Extension")
+}
+
+/**
+ * Load the app dependencies 
+ */
 const { initThemes } = require("./app/themeManager");
 
+const { initAutoUpdater } = require("./app/autoUpdater");
+const { startRPC, stopRPC } = require("./app/discordRPC");
 const { checkNativeDependencies } = require("./app/dependencyCheck");
 const { updateYtDlp } = require("./app/ytDlpUpdater");
 const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
+const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
 const { userThemesPath, initUserThemes } = require("./server/helpers/path.helpers");
-
-app.setName("Freedom Loader");
-app.setAppUserModelId("com.masteracnolo.freedomloader");
-app.disableHardwareAcceleration();
 
 
 /**
@@ -87,8 +121,6 @@ app.whenReady().then(async () => {
 
     setSplashProgress(3); // Almost ready
     await createMainWindow();
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
     
     closeSplashWindow();
     getMainWindow().show();

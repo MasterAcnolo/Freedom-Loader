@@ -38,7 +38,8 @@ const FEATURE_WHITELIST = new Set([
   "customCodec",
   "theme",
   "createPlaylistFolders",
-  "notifySystem"
+  "notifySystem",
+  "enableHardwareAcceleration"
 ]);
 
 /**

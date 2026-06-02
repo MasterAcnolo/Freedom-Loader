@@ -13,5 +13,6 @@
   "outputTitleCheck": true,
   "downloadSystem": true,
   "notifySystem": true,
+  "enableHardwareAcceleration": true,
   "theme": "dark" 
 }

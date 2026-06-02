@@ -20,7 +20,15 @@ const logFormat = format.combine(
   format.printf(({ timestamp, level, message }) => `${timestamp} | ${level.toUpperCase()} |  ${message}`)
 );
 
-// Logger configuration
+/**
+ * Logger Instance with differents types
+ *  - info
+ *  - error
+ *  - warn 
+ * 
+ * You need to specify the text that need to be displayed
+ * @param string
+ */
 const logger = createLogger({
   level: "info",
   format: logFormat,
@@ -40,11 +48,17 @@ const logger = createLogger({
   ],
 });
 
+/**
+ * Start Log Session 
+ */
 function logSessionStart() {
   logger.info(`--- Starting session: ${new Date().toISOString()} ---`);
   logger.info(`Application Version: ${config.version}`)
 }
 
+/**
+ * Stop Log Session
+ */
 function logSessionEnd() {
   logger.info(`--- Ending session: ${new Date().toISOString()} ---`);
 }

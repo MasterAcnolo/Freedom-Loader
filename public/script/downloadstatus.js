@@ -2,9 +2,35 @@ const form = document.getElementById("downloadForm");
 const statusDiv = document.getElementById("downloadStatus");
 const button = form.querySelector("button[type=\"submit\"]");
 const stopBtn = document.getElementById("stopBtn");
+
+/**
+ * Indicates whether a download process is currently active.
+ * Used to prevent duplicate submissions and to gate UI actions
+ * such as disabling the form or showing progress.
+ */
 let isDownloading = false;
+
+/**
+ * Indicates whether the current download was explicitly
+ * stopped by the user via the cancel action.
+ *
+ * Used to differentiate between:
+ * - user-initiated cancellation
+ * - failures or natural completion
+ */
 let userStoppedDownload = false;
 
+
+
+/**
+ * Handles download form submission.
+ *
+ * - Validates user input (URL)
+ * - Disables UI during download
+ * - Sends request to backend `/download`
+ * - Manages success / error states
+ * - Restores UI state after completion
+ */
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -61,6 +87,13 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
+/**
+ * Displays initial download progress UI immediately
+ * when a download starts.
+ *
+ * Initializes progress bar, speed indicator, stage text
+ * and shows the stop button.
+ */
 function showInitialProgress() {
   const progressWrapper = document.getElementById("downloadProgressWrapper");
   const progressBarText = document.getElementById("downloadProgressText");
@@ -84,6 +117,14 @@ function showInitialProgress() {
   if (stopBtn) stopBtn.style.display = "inline-flex";
 }
 
+/**
+ * Cancels the current download process.
+ *
+ * Sends a request to backend `/download/cancel`,
+ * updates UI state and resets progress indicators.
+ *
+ * Prevents duplicate calls if no download is active.
+ */
 async function stopDownload() {
   if (!isDownloading) return;
 
@@ -109,6 +150,12 @@ async function stopDownload() {
   }
 }
 
+/**
+ * Resets all download progress UI elements to their
+ * default hidden state.
+ *
+ * Used after completion or cancellation of a download.
+ */
 function resetProgressBar() {
   const progressWrapper = document.getElementById("downloadProgressWrapper");
   if (progressWrapper) progressWrapper.style.display = "none";

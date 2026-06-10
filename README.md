@@ -185,6 +185,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
   "outputTitleCheck": true,
   "downloadSystem": true,
   "notifySystem": true,
+  "enableHardwareAcceleration": true,
   "theme": "dark" 
 }
 ```
@@ -207,7 +208,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | `outputTitleCheck` | boolean | `true` | Verify output file titles |
 | `downloadSystem` | boolean | `true` | Enable download system |
 | `notifySystem` | boolean | `true` | Enable system notifications |
-| `enableHardwareAcceleration` | boolean | `true` | Enable HArdware Acceleration |
+| `enableHardwareAcceleration` | boolean | `true` | Enable Hardware Acceleration |
 | `theme` | string | `dark` | Current Theme Name |
 
 ### Supported Codecs

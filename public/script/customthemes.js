@@ -32,52 +32,52 @@ function applyTheme(theme) {
   }
 
   // CSS variables (design tokens)
-  root.style.setProperty("--background-color", style.colors?.background || "");
-  root.style.setProperty("--default-text-color", style.colors?.text?.default || "");
-  root.style.setProperty("--subtitle-color", style.colors?.text?.subtitle || "");
-  root.style.setProperty("--audio-only-label-color", style.colors?.text?.audioOnly || "");
+  root.style.setProperty("--background-color", style.colors?.background || "#121212");
+  root.style.setProperty("--default-text-color", style.colors?.text?.default || "#e0e0e0");
+  root.style.setProperty("--subtitle-color", style.colors?.text?.subtitle || "#2196f3");
+  root.style.setProperty("--audio-only-label-color", style.colors?.text?.audioOnly || "#f5f5f5");
 
-  root.style.setProperty("--form-bg-color", style.form?.background || "");
-  root.style.setProperty("--form-input-bg-color", style.form?.input?.background || "");
-  root.style.setProperty("--form-input-border-color", style.form?.input?.border || "");
-  root.style.setProperty("--form-input-border-focus-color", style.form?.input?.borderFocus || "");
-  root.style.setProperty("--form-input-text-color", style.form?.input?.text || "");
-  root.style.setProperty("--form-input-placeholder-color", style.form?.input?.placeholder || "");
-  root.style.setProperty("--form-button-bg-color", style.form?.button?.background || "");
-  root.style.setProperty("--form-button-text-color", style.form?.button?.text || "");
-  root.style.setProperty("--form-button-bg-hover-color", style.form?.button?.hover || "");
-  root.style.setProperty("--paste-button-icon-color", style.form?.pasteButtonIcon || "");
+  root.style.setProperty("--form-bg-color", style.form?.background || "#1e1e1e");
+  root.style.setProperty("--form-input-bg-color", style.form?.input?.background || "#2a2a2a");
+  root.style.setProperty("--form-input-border-color", style.form?.input?.border || "#444444");
+  root.style.setProperty("--form-input-border-focus-color", style.form?.input?.borderFocus || "#2196f3");
+  root.style.setProperty("--form-input-text-color", style.form?.input?.text || "#f5f5f5");
+  root.style.setProperty("--form-input-placeholder-color", style.form?.input?.placeholder || "#888888");
+  root.style.setProperty("--form-button-bg-color", style.form?.button?.background || "#2196f3");
+  root.style.setProperty("--form-button-text-color", style.form?.button?.text || "#ffffff");
+  root.style.setProperty("--form-button-bg-hover-color", style.form?.button?.hover || "#1976d2");
+  root.style.setProperty("--paste-button-icon-color", style.form?.pasteButtonIcon || "#ffffff");
 
-  root.style.setProperty("--checkbox-unchecked-bg-color", style.checkbox?.background?.unchecked || "");
-  root.style.setProperty("--checkbox-checked-bg-color", style.checkbox?.background?.checked || "");
-  root.style.setProperty("--checkbox-checkmark-border-color", style.checkbox?.checkmarkBorder || "");
-  root.style.setProperty("--checkbox-pulse-color", style.checkbox?.pulse || "");
+  root.style.setProperty("--checkbox-unchecked-bg-color", style.checkbox?.background?.unchecked || "#555555");
+  root.style.setProperty("--checkbox-checked-bg-color", style.checkbox?.background?.checked || "#2196f3");
+  root.style.setProperty("--checkbox-checkmark-border-color", style.checkbox?.checkmarkBorder || "#ffffff");
+  root.style.setProperty("--checkbox-pulse-color", style.checkbox?.pulse || "rgba(33, 150, 243, 0.5)");
 
-  root.style.setProperty("--download-status-color", style.download?.status || "");
+  root.style.setProperty("--download-status-color", style.download?.status || "#2196f3");
 
-  root.style.setProperty("--progress-bar-bg-color", style.progressBar?.background || "");
-  root.style.setProperty("--progress-bar-fill-color", style.progressBar?.fill || "");
+  root.style.setProperty("--progress-bar-bg-color", style.progressBar?.background || "#444444");
+  root.style.setProperty("--progress-bar-fill-color", style.progressBar?.fill || "#2196f3");
 
-  root.style.setProperty("--video-info-bg-color", style.videoInfo?.background || "");
-  root.style.setProperty("--video-info-text-color", style.videoInfo?.text || "");
-  root.style.setProperty("--video-info-heading-color", style.videoInfo?.heading || "");
-  root.style.setProperty("--video-info-list-color", style.videoInfo?.list || "");
-  root.style.setProperty("--video-info-list-strong-color", style.videoInfo?.strong || "");
-  root.style.setProperty("--video-info-link-color", style.videoInfo?.link || "");
-  root.style.setProperty("--video-info-link-hover-color", style.videoInfo?.linkHover || "");
+  root.style.setProperty("--video-info-bg-color", style.videoInfo?.background || "#1a1a1a");
+  root.style.setProperty("--video-info-text-color", style.videoInfo?.text || "#e0e0e0");
+  root.style.setProperty("--video-info-heading-color", style.videoInfo?.heading || "#2196f3");
+  root.style.setProperty("--video-info-list-color", style.videoInfo?.list || "#cccccc");
+  root.style.setProperty("--video-info-list-strong-color", style.videoInfo?.strong || "#ffffff");
+  root.style.setProperty("--video-info-link-color", style.videoInfo?.link || "#2196f3");
+  root.style.setProperty("--video-info-link-hover-color", style.videoInfo?.linkHover || "#1976d2");
 
-  root.style.setProperty("--playlist-background-color", style.playlist?.background || "");
+  root.style.setProperty("--playlist-background-color", style.playlist?.background || "#303030");
 
-  root.style.setProperty("--settings-button-bg-color", style.settings?.button?.background || "");
-  root.style.setProperty("--settings-button-text-color", style.settings?.button?.text || "");
-  root.style.setProperty("--open-theme-button-bg-color", style.settings?.openThemeButton?.background || "");
-  root.style.setProperty("--open-theme-button-text-color", style.settings?.openThemeButton?.text || "");
-  root.style.setProperty("--open-json-button-bg-color", style.settings?.openJsonButton?.background || style.settings?.button?.background || "");
-  root.style.setProperty("--open-json-button-text-color", style.settings?.openJsonButton?.text || style.settings?.button?.text || "");
-  root.style.setProperty("--settings-modal-bg-color", style.settings?.background?.modal || "");
-  root.style.setProperty("--settings-section-bg-color", style.settings?.background?.section || "");
-  root.style.setProperty("--settings-text-color", style.settings?.text || "");
-  root.style.setProperty("--settings-subtitle-color", style.settings?.subtitle || "");
+  root.style.setProperty("--settings-button-bg-color", style.settings?.button?.background || "#1e1e1e");
+  root.style.setProperty("--settings-button-text-color", style.settings?.button?.text || "#e0e0e0");
+  root.style.setProperty("--open-theme-button-bg-color", style.settings?.openThemeButton?.background || "#2196f3");
+  root.style.setProperty("--open-theme-button-text-color", style.settings?.openThemeButton?.text || "#ffffff");
+  root.style.setProperty("--open-json-button-bg-color", style.settings?.openJsonButton?.background || style.settings?.button?.background || "#1e1e1e");
+  root.style.setProperty("--open-json-button-text-color", style.settings?.openJsonButton?.text || style.settings?.button?.text || "#e0e0e0");
+  root.style.setProperty("--settings-modal-bg-color", style.settings?.background?.modal || "#1e1e1e");
+  root.style.setProperty("--settings-section-bg-color", style.settings?.background?.section || "#2a2a2a");
+  root.style.setProperty("--settings-text-color", style.settings?.text || "#e0e0e0");
+  root.style.setProperty("--settings-subtitle-color", style.settings?.subtitle || "#aaaaaa");
 
   const subtitleEl = document.getElementById("subtitle");
   if (subtitleEl) subtitleEl.textContent = theme.subtitle || theme.name;
@@ -116,7 +116,102 @@ function populateThemeSelect(themes) {
  */
 async function initThemes() {
   loadedThemes = await window.electronAPI.getThemes();
-  if (!loadedThemes.length) return;
+
+  if (!loadedThemes.length) {
+    const defaultTheme = {
+      id: "dark",
+      name: "Dark",
+      subtitle: "Darkness is my ally",
+      style: {
+        background: {
+          size: "cover",
+          position: "center",
+          attachment: "fixed"
+        },
+
+        colors: {
+          background: "#121212",
+          text: {
+            default: "#e0e0e0",
+            subtitle: "#2196f3",
+            audioOnly: "#f5f5f5"
+          }
+        },
+
+        form: {
+          background: "#1e1e1e",
+          input: {
+            background: "#2a2a2a",
+            border: "#444444",
+            borderFocus: "#2196f3",
+            text: "#f5f5f5",
+            placeholder: "#888888"
+          },
+          button: {
+            background: "#2196f3",
+            text: "#ffffff",
+            hover: "#1976d2"
+          },
+          pasteButtonIcon: "#ffffff"
+        },
+
+        checkbox: {
+          background: {
+            unchecked: "#555555",
+            checked: "#2196f3"
+          },
+          checkmarkBorder: "#ffffff",
+          pulse: "rgba(33, 150, 243, 0.5)"
+        },
+
+        download: {
+          status: "#2196f3"
+        },
+
+        progressBar: {
+          background: "#444444",
+          fill: "#2196f3"
+        },
+
+        videoInfo: {
+          background: "#1a1a1a",
+          text: "#e0e0e0",
+          heading: "#2196f3",
+          list: "#cccccc",
+          strong: "#ffffff",
+          link: "#2196f3",
+          linkHover: "#1976d2"
+        },
+
+        playlist: {
+          background: "#303030"
+        },
+
+        settings: {
+          button: {
+            background: "#1e1e1e",
+            text: "#e0e0e0"
+          },
+          openThemeButton: {
+            background: "#2196f3",
+            text: "#ffffff"
+          },
+          openJsonButton: {
+            background: "#2196f3",
+            text: "#ffffff"
+          },
+          background: {
+            modal: "#1e1e1e",
+            section: "#2a2a2a"
+          },
+          text: "#e0e0e0",
+          subtitle: "#aaaaaa"
+        }
+      }
+    };
+
+    loadedThemes = [defaultTheme];
+  }
 
   populateThemeSelect(loadedThemes);
 

@@ -25,15 +25,19 @@ function checkNativeDependencies() {
    */
   const { binaryPaths } = require("../server/helpers/path.helpers");
 
+  const isWindows = process.platform === "win32";
+
+  const addExe = isWindows ? ".exe" : "";
+
   /**
    * List of required external executables used by the application runtime.
    * Each entry defines a binary name and its resolved absolute path.
    */
   const deps = [
-    { name: "yt-dlp.exe",  path: binaryPaths.ytDlp },
-    { name: "ffmpeg.exe",  path: binaryPaths.ffmpeg },
-    { name: "ffprobe.exe", path: binaryPaths.ffprobe },
-    { name: "deno.exe",    path: binaryPaths.deno },
+    { name: `yt-dlp${addExe}`,  path: binaryPaths.ytDlp },
+    { name: `ffmpeg${addExe}`,  path: binaryPaths.ffmpeg },
+    { name: `ffprobe${addExe}`, path: binaryPaths.ffprobe },
+    { name: `deno${addExe}`,    path: binaryPaths.deno },
   ];
 
   const missing = deps.filter(d => !fs.existsSync(d.path));
@@ -52,7 +56,7 @@ function checkNativeDependencies() {
   app.whenReady().then(() => {
     dialog.showErrorBox(
       "Missing dependencies",
-      `The following files are missing in the 'ressources' folder:\n${list}\n\nThe application will now exit. Try to reinstall.`
+      `The following files are missing in the 'resources' folder:\n${list}\n\nThe application will now exit. Try to reinstall.`
     );
     app.quit();
   });

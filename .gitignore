@@ -1,15 +1,23 @@
+# Dependencies
 /node_modules
-/downloads
+
+# Build Output Folder
 /dist
 /out
 
-/ressources/ffmpeg.exe
-/ressources/ffprobe.exe
-/ressources/deno.exe
-
-/theme/**
-
+# Config JSON File. Create it and fill it if you want to have dev only settings
 config/config.dev.json
 
-logs/*.json
-logs/*.log
+# IDE
+/.idea
+/.vscode
+
+# Linux executable
+ffmpeg
+ffprobe
+deno
+
+# Windows Executable
+ffmpeg.exe
+ffprobe.exe
+deno.exe

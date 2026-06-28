@@ -79,7 +79,7 @@ const { updateYtDlp } = require("./app/ytDlpUpdater");
 const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
 const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
-const { userThemesPath, initUserThemes } = require("./server/helpers/path.helpers");
+const { userThemesPath, initUserThemes, isWindows } = require("./server/helpers/path.helpers");
 
 
 /**
@@ -116,8 +116,15 @@ app.whenReady().then(async () => {
     registerIpcHandlers(getMainWindow);
 
     setSplashProgress(2); // Loading themes
-    initUserThemes();
-    await initThemes(userThemesPath); 
+
+    // TODO: Patch this, i disable this features for the moment
+    // Themes are currently disabled if we are not on Windows
+    if(isWindows){
+      initUserThemes();
+      await initThemes(userThemesPath); 
+    } else {
+      logger.info(`OS is ${process.platform}, Skipping themes loading`)
+    }
 
     setSplashProgress(3); // Almost ready
     await createMainWindow();

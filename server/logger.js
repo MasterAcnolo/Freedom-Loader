@@ -4,9 +4,10 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const config = require("../config");
+const {isWindows} = require("./helpers/path.helpers");
 
 // Logs folder in Windows
-const logDir = path.join(os.homedir(), "AppData", "Local", "FreedomLoader", "logs");
+const logDir = isWindows ? path.join(os.homedir(), "AppData", "Local", "FreedomLoader", "logs") : path.join(process.env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share"),  "FreedomLoader", "logs");
 
 // Create "Logs" folder if needed
 try {

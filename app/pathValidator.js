@@ -62,10 +62,19 @@ function validateDownloadPath(userPath) {
      * Required to prevent path traversal or alias bypass.
      */
     const resolved = fs.realpathSync(path.resolve(userPath));
+
+    if (!fs.existsSync(resolved)) {
+      fs.mkdirSync(resolved, { recursive: true });
+      logger.info(`Download folder created: ${resolved}`);
+    }
+
+    const real = fs.realpathSync(resolved);
+
     if (!isSafePath(resolved)) {
       throw new Error("Path not allowed: system folders are blocked!");
     }
-    return resolved;
+
+    return real;
   }
   catch (err) {
     

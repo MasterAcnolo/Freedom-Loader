@@ -10,6 +10,11 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("electronAPI", {
 
   /**
+   * Return process.platform to renderer
+   */
+  getProcessPlatform: () => process.platform,
+
+  /**
    * Returns the default system download directory.
    */
   getDefaultDownloadPath: () => ipcRenderer.invoke("get-default-download-path"),

@@ -15,7 +15,7 @@ const { logger } = require("../server/logger");
 /**
  * Configures autoUpdater behavior:
  * - disables automatic download
- * - disables automatic install on quit
+ * - disables automatic installation on quit
  * (manual user-controlled update flow)
  */
 autoUpdater.autoDownload = false;
@@ -51,7 +51,7 @@ function initAutoUpdater(mainWindow) {
     });
 
     if (response === 0) {
-      autoUpdater.downloadUpdate();
+      await autoUpdater.downloadUpdate();
     } else {
       mainWindow?.webContents.executeJavaScript(
         `window.showUpdateBadge && window.showUpdateBadge("${info.version}")`
@@ -108,6 +108,9 @@ function initAutoUpdater(mainWindow) {
  * Separated from init for reusability and testability.
  */
 async function checkForUpdates() {
+
+  if (!require("electron").app.isPackaged) return ;
+
   try {
     await autoUpdater.checkForUpdates();
   } catch (err) {

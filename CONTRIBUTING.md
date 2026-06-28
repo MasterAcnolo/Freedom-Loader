@@ -105,7 +105,7 @@ Freedom-Loader/
 │   ├── controller/   # Business logic
 │   └── helpers/      # Utility functions
 ├── public/           # Frontend (HTML, CSS, JS)
-└── ressources/       # Binaries (yt-dlp, ffmpeg, etc.)
+└── resources/       # Binaries (yt-dlp, ffmpeg, etc.)
 ```
 
 ---

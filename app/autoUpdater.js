@@ -96,8 +96,20 @@ function initAutoUpdater(mainWindow) {
    * Logs failure and displays an error dialog to user.
    */
   autoUpdater.on("error", (err) => {
-    logger.error("Auto update error:", err.message);
-    dialog.showErrorBox("Update Error", err.message);
+    const msg = err?.message || "";
+
+    /**
+     * If no update is available, I put this because there is no Linux version before 1.6.0
+     * @type {boolean}
+     */
+    const isNoUpdateAvailable = /404/.test(msg) || /Cannot find latest.*\.yml/i.test(msg);
+
+    if (isNoUpdateAvailable) {
+      logger.warn("Auto update: no update metadata found (probably no previous release), ignoring", msg);
+      return;
+    }
+
+    logger.error("Auto update error:", msg);
   });
 
   checkForUpdates();

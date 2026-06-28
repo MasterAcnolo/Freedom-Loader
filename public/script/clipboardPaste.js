@@ -17,9 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   pasteBtn.addEventListener("click", async () => {
     try {
-      const text = await navigator.clipboard.readText();
-
-      urlInput.value = text;
+      urlInput.value = await navigator.clipboard.readText();
 
       // Notify frameworks / listeners bound to input changes
       urlInput.dispatchEvent(new Event("input", { bubbles: true }));

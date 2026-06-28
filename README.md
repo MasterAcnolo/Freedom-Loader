@@ -275,7 +275,7 @@ Freedom-Loader/
 │           ├── settingsPanel.css
 │           ├── topbar.css
 │           └── videoinfo.css
-├── ressources/              # Internal resources (binaries)
+├── resources/              # Internal resources (binaries)
 ├── server/                  # Express backend server
 │   ├── logger.js
 │   ├── server.js
@@ -386,7 +386,7 @@ npm run build
 This project relies on several external binaries.  
 Some of them are **not included** in the public repository and must be added manually.
 
-You must download the required binaries and place them in the `ressources` folder, using the exact filenames listed below.
+You must download the required binaries and place them in the `resources` folder, using the exact filenames listed below.
 
 #### Required binaries
 
@@ -407,7 +407,7 @@ You must download the required binaries and place them in the `ressources` folde
 Final folder structure:
 
 ```
-ressources/
+resources/
 ├── deno.exe
 ├── ffmpeg.exe
 ├── ffprobe.exe

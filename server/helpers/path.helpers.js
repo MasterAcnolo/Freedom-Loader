@@ -1,18 +1,49 @@
 const path = require("path");
 const fs = require("fs");
-const os = require("os");
 const { app } = require("electron");
 const config = require("../../config.js");
 
 const { logger } = require("../logger.js");
 
-// Centralized resource paths
-const resourcesPath = config.devMode 
-  ? path.join(__dirname, "../../ressources")
+/**
+ * Is the OS windows
+ */
+const isWindows = process.platform === 'win32'
+
+/**
+ * On windows the binaries are name.exe on Linux/macOS no
+ */
+const ext = isWindows ? '.exe' : ''
+
+/**  Centralized resource paths */
+const resourcesPath = config.devMode
+  ? path.join(__dirname, "../../resources")
   : process.resourcesPath;
 
-// Default download folder (centralized)
-const defaultDownloadFolder = path.join(os.homedir(), "Downloads", "Freedom Loader");
+/**  Default download folder (centralized) */
+const defaultDownloadFolder = path.join(app.getPath("downloads"), "Freedom Loader");
+
+/**
+ * Current platform:
+ * win32 | linux | darwin
+ */
+const platform = process.platform;
+
+/**
+ * Dev source tree uses platform-named subfolders (matches resources/binaries/{win-32,linux,darwin}).
+ * Packaged builds flatten everything directly under binaries/, since each
+ * platform build only ships its own binaries — no subfolder needed.
+ */
+const devPlatformFolder = {
+  win32: "win-32",
+  linux: "linux",
+  darwin: "darwin"
+}[platform];
+
+const binariesPath = config.devMode
+    ? path.join(resourcesPath, "binaries", devPlatformFolder)
+    : path.join(resourcesPath, "binaries");
+
 
 /**
  * Runtime-resolved binary paths.
@@ -24,7 +55,10 @@ let ffmpegPath;
 let denoPath;
 
 /** Source binary bundled inside application resources (used for first-time copy) */
-const sourceYtDlp = path.join(resourcesPath, "binaries","yt-dlp.exe");
+const sourceYtDlp = path.join(
+  binariesPath,
+  `yt-dlp${ext}`
+);
 
 /**
  * Resolve binary locations depending on environment:
@@ -32,16 +66,47 @@ const sourceYtDlp = path.join(resourcesPath, "binaries","yt-dlp.exe");
  * - prod: extracted userData + packaged resources
  */
 if (config.devMode) {
-  userYtDlp = path.join(__dirname, "../../ressources/yt-dlp.exe");
-  ffmpegPath = path.join(__dirname, "../../ressources/"); // <- has ffmpeg.exe and ffprobe.exe
-  denoPath = path.join(__dirname, "../../ressources/deno.exe"); 
-} else {
-  userYtDlp = path.join(app.getPath("userData"),"yt-dlp.exe");
-  ffmpegPath = path.join(resourcesPath, "binaries","ffmpeg.exe"); 
-  denoPath = path.join(resourcesPath, "binaries","deno.exe");
+  userYtDlp = path.join(
+    binariesPath,
+    `yt-dlp${ext}`
+  );
 
-  if (!fs.existsSync(userYtDlp)) {
+  ffmpegPath = path.join(
+    binariesPath,
+    `ffmpeg${ext}`
+  );
+
+  denoPath = path.join(
+    binariesPath,
+    `deno${ext}`
+  );
+} else {
+  userYtDlp = path.join(
+    app.getPath("userData"),
+    `yt-dlp${ext}`
+  );
+
+  ffmpegPath = path.join(
+    binariesPath,
+    `ffmpeg${ext}`
+  );
+
+  denoPath = path.join(
+    binariesPath,
+    `deno${ext}`
+  );
+
+  if (!fs.existsSync(userYtDlp) && fs.existsSync(sourceYtDlp)) {
     fs.copyFileSync(sourceYtDlp, userYtDlp);
+
+    // Linux/macOS executable permission
+    if (!isWindows) {
+      try {
+        fs.chmodSync(userYtDlp, 0o755);
+      } catch (err) {
+        logger.warn(`Failed to chmod yt-dlp: ${err.message}`);
+      }
+    }
   }
 }
 
@@ -60,10 +125,25 @@ const iconPaths = {
  * Used mainly for verification and diagnostics.
  */
 const binaryPaths = {
-  ytDlp: path.join(resourcesPath, "binaries", "yt-dlp.exe"),
-  ffmpeg: path.join(resourcesPath, "binaries", "ffmpeg.exe"),
-  ffprobe: path.join(resourcesPath, "binaries", "ffprobe.exe"),
-  deno: path.join(resourcesPath, "binaries", "deno.exe")
+  ytDlp: path.join(
+    binariesPath,
+    `yt-dlp${ext}`
+  ),
+
+  ffmpeg: path.join(
+    binariesPath,
+    `ffmpeg${ext}`
+  ),
+
+  ffprobe: path.join(
+    binariesPath,
+    `ffprobe${ext}`
+  ),
+
+  deno: path.join(
+    binariesPath,
+    `deno${ext}`
+  )
 };
 
 /**
@@ -96,25 +176,31 @@ function initUserThemes() {
       for (const theme of defaultThemes) {
         const srcPath = path.join(defaultThemesSourcePath, theme);
         const destPath = path.join(userThemesPath, theme);
-        
         if (!fs.existsSync(destPath)) {
           try {
             copyDirectory(srcPath, destPath);
             fs.chmodSync(destPath, 0o777);
             logger.info(`Copied default theme: ${theme}`);
           } catch (copyErr) {
-            logger.warn(`Failed to copy theme ${theme}: ${copyErr.message}. Theme folder will be created, add theme files manually.`);
+            logger.warn(
+              `Failed to copy theme ${theme}: ${copyErr.message}. Theme folder will be created, add theme files manually.`
+            );
+
             try {
               fs.mkdirSync(destPath, { recursive: true });
               fs.chmodSync(destPath, 0o777);
             } catch (mkdirErr) {
-              logger.warn(`Could not create theme directory ${theme}: ${mkdirErr.message}`);
+              logger.warn(
+                `Could not create theme directory ${theme}: ${mkdirErr.message}`
+              );
             }
           }
         }
       }
     } else {
-      logger.warn(`Default themes source path not found: ${defaultThemesSourcePath}`);
+      logger.warn(
+        `Default themes source path not found: ${defaultThemesSourcePath}`
+      );
     }
   } catch (err) {
     logger.error(`Failed to initialize user themes: ${err.message}`);
@@ -131,14 +217,18 @@ function initUserThemes() {
 function copyDirectory(src, dest) {
   try {
     if (!fs.existsSync(dest)) {
-      fs.mkdirSync(dest, { recursive: true, mode: 0o777 });
+      fs.mkdirSync(dest, {
+        recursive: true,
+        mode: 0o777
+      });
     }
-    
+
     const files = fs.readdirSync(src);
+
     for (const file of files) {
       const srcFile = path.join(src, file);
       const destFile = path.join(dest, file);
-      
+
       if (fs.statSync(srcFile).isDirectory()) {
         copyDirectory(srcFile, destFile);
       } else {
@@ -151,8 +241,16 @@ function copyDirectory(src, dest) {
 }
 
 // Runtime validation of critical binaries
-if (!userYtDlp){ logger.error("Missing yt-dlp binary")}
-if (!ffmpegPath){ logger.error("Missing ffmpeg binary")}
-if (!denoPath){ logger.error("Missing deno binary")}
+if (!userYtDlp) {
+  logger.error("Missing yt-dlp binary");
+}
 
-module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath, defaultDownloadFolder, userThemesPath, initUserThemes };
+if (!ffmpegPath) {
+  logger.error("Missing ffmpeg binary");
+}
+
+if (!denoPath) {
+  logger.error("Missing deno binary");
+}
+
+module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath, defaultDownloadFolder, userThemesPath, initUserThemes, isWindows };

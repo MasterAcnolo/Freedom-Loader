@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="desktop-application">
+    <id>com.masteracnolo.freedomloader</id>
+
+    <name>Freedom Loader</name>
+
+    <summary>GUI for yt-dlp to download video and audio with metadata</summary>
+
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>GPL-3.0-only</project_license>
+
+    <developer id="com.masteracnolo">
+        <name>MasterAcnolo</name>
+    </developer>
+
+    <description>
+        <p>
+            Freedom Loader is a free and open-source graphical interface built
+            around yt-dlp, the powerful command-line media downloader. It lets
+            you download video and audio from hundreds of supported websites
+            without ever touching a terminal, with no ads, no tracking, and
+            no questionable third-party services.
+        </p>
+        <p>
+            Under the hood, Freedom Loader bundles yt-dlp and ffmpeg directly,
+            so there is nothing extra to install: paste a link, choose a
+            format and quality, and the app handles fetching, converting
+            and tagging the file for you.
+        </p>
+        <p>Features include:</p>
+        <ul>
+            <li>MP4 video or MP3 audio downloads with embedded metadata and thumbnails</li>
+            <li>Quality selection from best to specific resolutions (1080p, 720p, 480p)</li>
+            <li>Codec choice: H.264, H.265, AV1, VP9 and Theora</li>
+            <li>Playlist downloads with automatic per-playlist folders</li>
+            <li>Cookie-based access to age-restricted and member-only content</li>
+            <li>Custom theme system with a web-based theme creator</li>
+            <li>Real-time download progress with network speed indicator</li>
+            <li>Optional Discord Rich Presence integration</li>
+            <li>Automatic application and download-engine updates</li>
+        </ul>
+        <p>
+            DRM-protected content is not supported and cannot be downloaded.
+        </p>
+    </description>
+
+    <launchable type="desktop-id">freedom-loader.desktop</launchable>
+
+    <url type="homepage">https://github.com/MasterAcnolo/Freedom-Loader</url>
+    <url type="bugtracker">https://github.com/MasterAcnolo/Freedom-Loader/issues</url>
+    <url type="vcs-browser">https://github.com/MasterAcnolo/Freedom-Loader</url>
+
+    <categories>
+        <category>AudioVideo</category>
+        <category>Utility</category>
+        <category>Network</category>
+    </categories>
+
+    <releases>
+        <release version="1.6.0" date="2026-06-23">
+            <description>
+                <p>Latest stable release.</p>
+            </description>
+        </release>
+    </releases>
+
+    <content_rating type="oars-1.1"/>
+
+    <provides>
+        <binary>freedom-loader</binary>
+    </provides>
+</component>

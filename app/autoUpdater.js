@@ -121,6 +121,11 @@ function initAutoUpdater(mainWindow) {
  */
 async function checkForUpdates() {
 
+  if (process.env.SNAP) {
+    logger.info("Running as Snap, update managed by snapd, skipping electron-updater");
+    return;
+  }
+
   if (!require("electron").app.isPackaged) return ;
 
   try {

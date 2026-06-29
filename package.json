@@ -38,7 +38,8 @@
       {
         "provider": "github",
         "owner": "MasterAcnolo",
-        "repo": "Freedom-Loader"
+        "repo": "Freedom-Loader",
+        "releaseType": "draft"
       }
     ],
     "files": [
@@ -82,7 +83,7 @@
       "shortcutName": "Freedom Loader"
     },
     "linux": {
-      "target": ["AppImage", "deb","rpm"],
+      "target": ["AppImage", "deb","rpm", "snap"],
       "category": "Utility",
       "icon": "build/app-icon.png",
       "extraResources": [
@@ -90,12 +91,30 @@
         { "from": "resources/binaries/linux/ffmpeg", "to": "binaries/ffmpeg" },
         { "from": "resources/binaries/linux/ffprobe", "to": "binaries/ffprobe" },
         { "from": "resources/binaries/linux/deno", "to": "binaries/deno" }
-      ],
-      "extraFiles": [
-        {
-          "from": "package/com.masteracnolo.freedomloader.metainfo.xml",
-          "to": "usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml"
-        }
+      ]
+    },
+    "deb": {
+      "fpm": [
+        "./package/com.masteracnolo.freedomloader.metainfo.xml=/usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml"
+      ]
+    },
+    "rpm": {
+      "fpm": [
+        "./package/com.masteracnolo.freedomloader.metainfo.xml=/usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml"
+      ]
+    },
+    "snap": {
+      "confinement": "strict",
+      "plugs": [
+        "default",
+        "home",
+        "removable-media",
+        "network",
+        "audio-playback",
+        "desktop",
+        "desktop-legacy",
+        "x11",
+        "wayland"
       ]
     }
   }

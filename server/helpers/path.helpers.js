@@ -3,8 +3,6 @@ const fs = require("fs");
 const { app } = require("electron");
 const config = require("../../config.js");
 
-const { logger } = require("../logger.js");
-
 /**
  * Is the OS windows
  */
@@ -104,7 +102,7 @@ if (config.devMode) {
       try {
         fs.chmodSync(userYtDlp, 0o755);
       } catch (err) {
-        logger.warn(`Failed to chmod yt-dlp: ${err.message}`);
+          getLogger().warn(`Failed to chmod yt-dlp: ${err.message}`);
       }
     }
   }
@@ -165,48 +163,38 @@ function initUserThemes() {
   try {
     if (!fs.existsSync(userThemesPath)) {
       fs.mkdirSync(userThemesPath, { recursive: true });
-      // Ensure folder is writable
       fs.chmodSync(userThemesPath, 0o777);
-      logger.info("Created user themes directory");
+        getLogger().info("Created user themes directory");
     }
 
-    // Copy default themes from resources to user directory if they don't exist
     if (fs.existsSync(defaultThemesSourcePath)) {
       const defaultThemes = fs.readdirSync(defaultThemesSourcePath);
       for (const theme of defaultThemes) {
         const srcPath = path.join(defaultThemesSourcePath, theme);
         const destPath = path.join(userThemesPath, theme);
+
         if (!fs.existsSync(destPath)) {
           try {
-            copyDirectory(srcPath, destPath);
-            fs.chmodSync(destPath, 0o777);
-            logger.info(`Copied default theme: ${theme}`);
+              if (fs.statSync(srcPath).isDirectory()) {
+                  copyDirectory(srcPath, destPath);
+                  fs.chmodSync(destPath, 0o777);
+              } else {
+                  fs.copyFileSync(srcPath, destPath);
+                  fs.chmodSync(destPath, 0o666);
+              }
+              getLogger().info(`Copied default theme: ${theme}`);
           } catch (copyErr) {
-            logger.warn(
-              `Failed to copy theme ${theme}: ${copyErr.message}. Theme folder will be created, add theme files manually.`
-            );
-
-            try {
-              fs.mkdirSync(destPath, { recursive: true });
-              fs.chmodSync(destPath, 0o777);
-            } catch (mkdirErr) {
-              logger.warn(
-                `Could not create theme directory ${theme}: ${mkdirErr.message}`
-              );
-            }
+              getLogger().warn(`Failed to copy theme ${theme}: ${copyErr.message}`);
           }
         }
       }
     } else {
-      logger.warn(
-        `Default themes source path not found: ${defaultThemesSourcePath}`
-      );
+        getLogger().warn(`Default themes source path not found: ${defaultThemesSourcePath}`);
     }
   } catch (err) {
-    logger.error(`Failed to initialize user themes: ${err.message}`);
+      getLogger().error(`Failed to initialize user themes: ${err.message}`);
   }
 }
-
 /**
  * Recursively copies a directory and its contents.
  *
@@ -242,15 +230,23 @@ function copyDirectory(src, dest) {
 
 // Runtime validation of critical binaries
 if (!userYtDlp) {
-  logger.error("Missing yt-dlp binary");
+    getLogger().error("Missing yt-dlp binary");
 }
 
 if (!ffmpegPath) {
-  logger.error("Missing ffmpeg binary");
+    getLogger().error("Missing ffmpeg binary");
 }
 
 if (!denoPath) {
-  logger.error("Missing deno binary");
+    getLogger().error("Missing deno binary");
+}
+
+/**
+ * Helper to lazy load logger, avoid circular import
+ * @returns {winston.Logger}
+ */
+function getLogger() {
+    return require("../logger.js").logger;
 }
 
 module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath, defaultDownloadFolder, userThemesPath, initUserThemes, isWindows };

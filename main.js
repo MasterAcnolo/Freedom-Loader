@@ -117,14 +117,8 @@ app.whenReady().then(async () => {
 
     setSplashProgress(2); // Loading themes
 
-    // TODO: Patch this, i disable this features for the moment
-    // Themes are currently disabled if we are not on Windows
-    if(isWindows){
-      initUserThemes();
-      await initThemes(userThemesPath); 
-    } else {
-      logger.info(`OS is ${process.platform}, Skipping themes loading`)
-    }
+    initUserThemes();
+    await initThemes(userThemesPath);
 
     setSplashProgress(3); // Almost ready
     await createMainWindow();

@@ -25,6 +25,3 @@ async function initPlatformRestrictions() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-    initPlatformRestrictions();
-})

@@ -79,7 +79,7 @@ const { updateYtDlp } = require("./app/ytDlpUpdater");
 const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
 const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
-const { userThemesPath, initUserThemes, isWindows } = require("./server/helpers/path.helpers");
+const { userThemesPath, initUserThemes, isWindows, validateBinaries } = require("./server/helpers/path.helpers");
 
 
 /**
@@ -116,6 +116,8 @@ app.whenReady().then(async () => {
     registerIpcHandlers(getMainWindow);
 
     setSplashProgress(2); // Loading themes
+
+    validateBinaries();
 
     initUserThemes();
     await initThemes(userThemesPath);

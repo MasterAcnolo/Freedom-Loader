@@ -164,7 +164,7 @@ function initUserThemes() {
     if (!fs.existsSync(userThemesPath)) {
       fs.mkdirSync(userThemesPath, { recursive: true });
       fs.chmodSync(userThemesPath, 0o777);
-        getLogger().info("Created user themes directory");
+      getLogger().info("Created user themes directory");
     }
 
     if (fs.existsSync(defaultThemesSourcePath)) {
@@ -172,27 +172,37 @@ function initUserThemes() {
       for (const theme of defaultThemes) {
         const srcPath = path.join(defaultThemesSourcePath, theme);
         const destPath = path.join(userThemesPath, theme);
+        const srcIsFile = !fs.statSync(srcPath).isDirectory();
 
-        if (!fs.existsSync(destPath)) {
-          try {
-              if (fs.statSync(srcPath).isDirectory()) {
-                  copyDirectory(srcPath, destPath);
-                  fs.chmodSync(destPath, 0o777);
-              } else {
-                  fs.copyFileSync(srcPath, destPath);
-                  fs.chmodSync(destPath, 0o666);
-              }
-              getLogger().info(`Copied default theme: ${theme}`);
-          } catch (copyErr) {
-              getLogger().warn(`Failed to copy theme ${theme}: ${copyErr.message}`);
+        if (fs.existsSync(destPath)) {
+          const destIsDir = fs.statSync(destPath).isDirectory();
+          if (srcIsFile && destIsDir) {
+            getLogger().warn(`Corrupted theme entry: ${theme}, fixing...`);
+            fs.rmSync(destPath, { recursive: true, force: true });
+
+          } else {
+            continue;
           }
+        }
+
+        try {
+          if (srcIsFile) {
+            fs.copyFileSync(srcPath, destPath);
+            fs.chmodSync(destPath, 0o666);
+          } else {
+            copyDirectory(srcPath, destPath);
+            fs.chmodSync(destPath, 0o777);
+          }
+          getLogger().info(`Copied default theme: ${theme}`);
+        } catch (copyErr) {
+          getLogger().warn(`Failed to copy theme ${theme}: ${copyErr.message}`);
         }
       }
     } else {
-        getLogger().warn(`Default themes source path not found: ${defaultThemesSourcePath}`);
+      getLogger().warn(`Default themes source path not found: ${defaultThemesSourcePath}`);
     }
   } catch (err) {
-      getLogger().error(`Failed to initialize user themes: ${err.message}`);
+    getLogger().error(`Failed to initialize user themes: ${err.message}`);
   }
 }
 /**
@@ -229,16 +239,23 @@ function copyDirectory(src, dest) {
 }
 
 // Runtime validation of critical binaries
-if (!userYtDlp) {
-    getLogger().error("Missing yt-dlp binary");
-}
+// if (!userYtDlp) {
+//     getLogger().error("Missing yt-dlp binary");
+// }
 
-if (!ffmpegPath) {
-    getLogger().error("Missing ffmpeg binary");
-}
+// if (!ffmpegPath) {
+//     getLogger().error("Missing ffmpeg binary");
+// }
 
-if (!denoPath) {
-    getLogger().error("Missing deno binary");
+// if (!denoPath) {
+//     getLogger().error("Missing deno binary");
+// }
+
+
+function validateBinaries() {
+  if (!userYtDlp) getLogger().error("Missing yt-dlp binary");
+  if (!ffmpegPath) getLogger().error("Missing ffmpeg binary");
+  if (!denoPath) getLogger().error("Missing deno binary");
 }
 
 /**
@@ -249,4 +266,4 @@ function getLogger() {
     return require("../logger.js").logger;
 }
 
-module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath, defaultDownloadFolder, userThemesPath, initUserThemes, isWindows };
+module.exports = { userYtDlp, ffmpegPath, denoPath, iconPaths, binaryPaths, resourcesPath, defaultDownloadFolder, userThemesPath, initUserThemes, isWindows, validateBinaries };

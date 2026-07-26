@@ -37,7 +37,7 @@ app.setAppUserModelId("com.masteracnolo.freedomloader");
 /**
  * Load the app dependencies for hardware choice
  */
-const { logger, logSessionStart, logSessionEnd } = require("./server/logger");
+const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
 const { configFeatures } = require("./config");
 
 /**
@@ -79,7 +79,7 @@ const { updateYtDlp } = require("./app/ytDlpUpdater");
 const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
 const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
-const { userThemesPath, initUserThemes, isWindows } = require("./server/helpers/path.helpers");
+const { userThemesPath, initUserThemes, isWindows, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
 
 
 /**
@@ -99,7 +99,7 @@ app.on("second-instance", () => {
 });
 
 app.whenReady().then(async () => {
-  logSessionStart();
+  logSessionStart(logDir, defaultDownloadFolder);
 
   createSplashWindow();
 
@@ -116,6 +116,8 @@ app.whenReady().then(async () => {
     registerIpcHandlers(getMainWindow);
 
     setSplashProgress(2); // Loading themes
+
+    validateBinaries();
 
     initUserThemes();
     await initThemes(userThemesPath);

@@ -134,6 +134,7 @@ sudo apt install ./freedom-loader_1.x.x_amd64.deb
 #### RPM (Fedora/RHEL/openSUSE, without Copr)
 
 ```bash
+# Download the latest .rpm from the Releases page, then:
 sudo dnf install ./freedom-loader-1.x.y.x86_64.rpm
 ```
 
@@ -162,7 +163,8 @@ freedom-loader
 
 ## Usage
 
-> [!TIP] On Linux, you can start Freedom Loader using `freedom-loader` command
+> [!TIP] 
+> On Linux, you can start Freedom Loader using `freedom-loader` command
 
 ### Basic Download
 

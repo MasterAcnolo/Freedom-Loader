@@ -5,6 +5,7 @@ const path = require("path");
 const os = require("os");
 const config = require("../config");
 const {isWindows} = require("./helpers/path.helpers");
+const { logSystemInfo } = require("./sysinfo");
 
 // Logs folder in Windows
 const logDir = isWindows ? path.join(os.homedir(), "AppData", "Local", "FreedomLoader", "logs") : path.join(process.env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share"),  "FreedomLoader", "logs");
@@ -52,9 +53,10 @@ const logger = createLogger({
 /**
  * Start Log Session 
  */
-function logSessionStart() {
+function logSessionStart(logDir, downloadPath) {
   logger.info(`--- Starting session: ${new Date().toISOString()} ---`);
   logger.info(`Application Version: ${config.version}`)
+  logSystemInfo(logger, logDir, downloadPath)
 }
 
 /**

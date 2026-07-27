@@ -3,7 +3,16 @@
   "productName": "Freedom Loader",
   "version": "1.6.0",
   "author": "MasterAcnolo <MasterAcnolo@users.noreply.github.com>",
-  "description": "Freedom Loader",
+  "description": "Free and open-source GUI for yt-dlp — download video and audio from hundreds of platforms",
+  "homepage": "https://masteracnolo.github.io/Freedom-Loader-Site/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MasterAcnolo/Freedom-Loader.git"
+  },
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/MasterAcnolo/Freedom-Loader/issues"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron --trace-warnings .",
@@ -121,6 +130,7 @@
       ],
       "category": "Utility",
       "icon": "build/app-icon.png",
+      "executableName": "freedom-loader",
       "extraResources": [
         {
           "from": "resources/binaries/linux/yt-dlp",

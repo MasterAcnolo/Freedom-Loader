@@ -20,6 +20,7 @@
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
+    "build:rpm": "bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
     "update": "npm update"
   },
@@ -125,7 +126,6 @@
       "target": [
         "AppImage",
         "deb",
-        "rpm",
         "snap"
       ],
       "category": "Utility",

@@ -45,9 +45,9 @@ When using Freedom Loader, I recommend:
 
 - **Keep Updated**: Always use the latest version of Freedom Loader — older versions receive no security patches
 - **Official Sources**: Download only from official sources:
-  - [GitHub Releases](https://github.com/MasterAcnolo/Freedom-Loader/releases)
-  - [Fedora COPR](https://copr.fedorainfracloud.org/coprs/masteracnolo/freedom-loader/)
-  <!-- - [Snap Store](https://snapcraft.io/freedom-loader) -->
+    - [GitHub Releases](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+    - [Fedora COPR](https://copr.fedorainfracloud.org/coprs/masteracnolo/freedom-loader/)
+    - [Snap Store](https://snapcraft.io/freedom-loader)
 - **Verify Downloads**: Check that installers are from one of the above sources
 - **Antivirus**: Keep your antivirus software up to date
 

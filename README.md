@@ -7,7 +7,7 @@
 
 ### **A clean, open-source multimedia downloader for Windows and Linux**
 
-[![Release](https://img.shields.io/badge/Release-1.6.0-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+[![Release](https://img.shields.io/github/v/release/MasterAcnolo/Freedom-Loader?style=for-the-badge&color=blue)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 [![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Site/)
 [![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
@@ -88,8 +88,7 @@ The primary goal is to make media downloading accessible to users who want offli
 
 [![Fedora Copr](https://img.shields.io/badge/Fedora-Copr-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://copr.fedorainfracloud.org/coprs/masteracnolo/freedom-loader/)
 [![Debian/Ubuntu](https://img.shields.io/badge/.deb-Debian%2FUbuntu-A81D33?style=for-the-badge&logo=debian&logoColor=white)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
-
-[//]: # ([![Snap Store]&#40;https://img.shields.io/badge/Snap-Store-82BEA0?style=for-the-badge&logo=snapcraft&logoColor=white&#41;]&#40;https://snapcraft.io/freedom-loader&#41;)
+[![Snap Store](https://img.shields.io/badge/Snap-Store-82BEA0?style=for-the-badge&logo=snapcraft&logoColor=white)](https://snapcraft.io/freedom-loader)
 [![AppImage](https://img.shields.io/badge/AppImage-Universal-1E88E5?style=for-the-badge&logo=linux&logoColor=white)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 
 ### Requirements
@@ -122,14 +121,11 @@ sudo dnf install freedom-loader
 sudo apt install ./freedom-loader_1.x.x_amd64.deb
 ```
 
-[//]: # (#### Snap &#40;any distro with snapd&#41;)
+#### Snap (any distro with snapd)
 
-[//]: # ()
-[//]: # (```bash)
-
-[//]: # (sudo snap install freedom-loader)
-
-[//]: # (```)
+```bash
+sudo snap install freedom-loader
+```
 
 #### RPM (Fedora/RHEL/openSUSE, without Copr)
 
@@ -543,7 +539,7 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) for the robust download engine
 - [FFmpeg](https://ffmpeg.org/) for media processing capabilities
-- [Deno](https://deno.com/) for helping me bypassing challenges
+- [Deno](https://deno.com/) for helping me to bypass challenges
 - [Electron](https://www.electronjs.org/) for the desktop application framework
 - The open-source community for continuous support and contributions
 - [@SpicyFire21](https://github.com/SpicyFire21) to be the spiciest one

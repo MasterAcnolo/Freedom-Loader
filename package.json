@@ -164,14 +164,7 @@
       "confinement": "strict",
       "plugs": [
         "default",
-        "home",
-        "removable-media",
-        "network",
-        "audio-playback",
-        "desktop",
-        "desktop-legacy",
-        "x11",
-        "wayland"
+        "removable-media"
       ]
     }
   }

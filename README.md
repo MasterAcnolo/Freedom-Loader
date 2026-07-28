@@ -5,9 +5,9 @@
     alt="Banner"
     style="width: 50%;"/></a>
 
-### **A clean, open-source multimedia downloader for Windows**
+### **A clean, open-source multimedia downloader for Windows and Linux**
 
-[![Release](https://img.shields.io/badge/Release-1.5.1-blue?style=for-the-badge)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+[![Release](https://img.shields.io/github/v/release/MasterAcnolo/Freedom-Loader?style=for-the-badge&color=blue)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 [![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Site/)
 [![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
@@ -86,34 +86,81 @@ The primary goal is to make media downloading accessible to users who want offli
 
 ## Installation
 
+[![Fedora Copr](https://img.shields.io/badge/Fedora-Copr-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://copr.fedorainfracloud.org/coprs/masteracnolo/freedom-loader/)
+[![Debian/Ubuntu](https://img.shields.io/badge/.deb-Debian%2FUbuntu-A81D33?style=for-the-badge&logo=debian&logoColor=white)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+[![Snap Store](https://img.shields.io/badge/Snap-Store-82BEA0?style=for-the-badge&logo=snapcraft&logoColor=white)](https://snapcraft.io/freedom-loader)
+[![AppImage](https://img.shields.io/badge/AppImage-Universal-1E88E5?style=for-the-badge&logo=linux&logoColor=white)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+
 ### Requirements
 
-- **Operating System**: Windows 10 or later
-- **Browser**: Mozilla Firefox (required for cookie extraction)
-  - [Download Firefox](https://www.firefox.com)
+- **Windows**: Windows 10 or later
+- **Linux**: any modern x86_64 distribution
+- **Browser**: Mozilla Firefox ([download](https://www.firefox.com)) required for cookie extraction, on both platforms
 
-### Standard Installation
+### Windows
 
-1. Download the latest release from the [Releases page](https://github.com/MasterAcnolo/Freedom-Loader/releases)
-2. Run the downloaded `.exe` installer
-3. If Windows Defender shows a warning, click "More info" then "Run anyway"
-4. Follow the installation wizard
+1. Download the latest `.exe` from the [Releases page](https://github.com/MasterAcnolo/Freedom-Loader/releases)
+2. Run the installer (click "More info" → "Run anyway" if Windows Defender warns you)
+3. Follow the installation wizard
+
+### Linux
+
+#### Fedora (via Copr — recommended)
+
+Installing via Copr lets `dnf` handle future updates automatically:
+
+```bash
+sudo dnf copr enable masteracnolo/freedom-loader
+sudo dnf install freedom-loader
+```
+
+#### Debian / Ubuntu (.deb)
+
+```bash
+# Download the latest .deb from the Releases page, then:
+sudo apt install ./freedom-loader_1.x.x_amd64.deb
+```
+
+#### Snap (any distro with snapd)
+
+```bash
+sudo snap install freedom-loader
+```
+
+#### RPM (Fedora/RHEL/openSUSE, without Copr)
+
+```bash
+# Download the latest .rpm from the Releases page, then:
+sudo dnf install ./freedom-loader-1.x.y.x86_64.rpm
+```
+
+#### AppImage (any distro, no installation needed)
+
+```bash
+# Download the latest .AppImage from the Releases page, then:
+chmod +x Freedom-Loader-1.x.y.AppImage
+./Freedom-Loader-1.x.y.AppImage
+```
+
+Once installed via any method, launch Freedom Loader from your application menu, or from a terminal with:
+```bash
+freedom-loader
+```
 
 ### File Locations
 
-Downloaded files are stored in:
-```
-C:\Users\[USERNAME]\Downloads\Freedom Loader
-```
-> [!NOTE]
-> *You can change it whenever you want. Just click the "Edit" button in the UI.*
+|               | Windows                                                 | Linux                                |
+|---------------|---------------------------------------------------------|--------------------------------------|
+| **Downloads** | `C:\Users\[USERNAME]\Downloads\Freedom Loader`          | `~/Downloads/Freedom Loader`         |
+| **Logs**      | `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\` | `~/.local/share/FreedomLoader/logs/` |
 
-Application logs can be found at:
-```
-C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\
-```
+> [!NOTE]
+> The download folder can be changed anytime via the "Edit" button in the UI, on both platforms.
 
 ## Usage
+
+> [!TIP] 
+> On Linux, you can start Freedom Loader using `freedom-loader` command
 
 ### Basic Download
 
@@ -138,7 +185,7 @@ The application supports various configuration options:
 If you encounter issues:
 
 1. Restart the application
-2. Check the logs in `AppData\Local\FreedomLoader\logs\`
+2. Check the logs in `AppData\Local\FreedomLoader\logs\` or `~/.local/share/FreedomLoader/logs`
 3. Open the developer console: `CTRL + SHIFT + I` → "Toggle Developer Tools"
 4. Create an issue on GitHub with logs and reproduction steps
 
@@ -164,8 +211,15 @@ If you encounter issues:
 Freedom Loader can be configured either through the settings panel in the UI or by directly editing the `config.json` file located in the application data directory.
 
 ### Configuration File Location
+
+#### Windows
 ```
 %APPDATA%\Freedom Loader\config.json
+```
+
+#### Linux
+```
+~/.config/Freedom Loader/config.json
 ```
 
 ### Available Options
@@ -192,24 +246,24 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 
 ### Configuration Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `autoUpdate` | boolean | `true` | Enable automatic application updates |
-| `discordRPC` | boolean | `true` | Enable Discord Rich Presence integration |
-| `customTopBar` | boolean | `true` | Use custom application top bar |
-| `autoCheckInfo` | boolean | `true` | Automatically fetch video information on URL paste |
-| `addThumbnail` | boolean | `true` | Embed thumbnail in downloaded audio files |
-| `addMetadata` | boolean | `true` | Add metadata tags to downloaded files |
-| `verboseLogs` | boolean | `false` | Enable detailed logging for debugging |
-| `autoDownloadPlaylist` | boolean | `true` | Automatically download entire playlists |
-| `createPlaylistFolders` | boolean | `true` | Automatically create a folder for a playlist |
-| `customCodec` | string | `"h264"` | Video codec for encoding (supported: h264, h265, vp9, av1) |
-| `logSystem` | boolean | `true` | Enable application logging |
-| `outputTitleCheck` | boolean | `true` | Verify output file titles |
-| `downloadSystem` | boolean | `true` | Enable download system |
-| `notifySystem` | boolean | `true` | Enable system notifications |
-| `enableHardwareAcceleration` | boolean | `true` | Enable Hardware Acceleration |
-| `theme` | string | `dark` | Current Theme Name |
+| Option                       | Type    | Default  | Description                                                |
+|------------------------------|---------|----------|------------------------------------------------------------|
+| `autoUpdate`                 | boolean | `true`   | Enable automatic application updates                       |
+| `discordRPC`                 | boolean | `true`   | Enable Discord Rich Presence integration                   |
+| `customTopBar`               | boolean | `true`   | Use custom application top bar                             |
+| `autoCheckInfo`              | boolean | `true`   | Automatically fetch video information on URL paste         |
+| `addThumbnail`               | boolean | `true`   | Embed thumbnail in downloaded audio files                  |
+| `addMetadata`                | boolean | `true`   | Add metadata tags to downloaded files                      |
+| `verboseLogs`                | boolean | `false`  | Enable detailed logging for debugging                      |
+| `autoDownloadPlaylist`       | boolean | `true`   | Automatically download entire playlists                    |
+| `createPlaylistFolders`      | boolean | `true`   | Automatically create a folder for a playlist               |
+| `customCodec`                | string  | `"h264"` | Video codec for encoding (supported: h264, h265, vp9, av1) |
+| `logSystem`                  | boolean | `true`   | Enable application logging                                 |
+| `outputTitleCheck`           | boolean | `true`   | Verify output file titles                                  |
+| `downloadSystem`             | boolean | `true`   | Enable download system                                     |
+| `notifySystem`               | boolean | `true`   | Enable system notifications                                |
+| `enableHardwareAcceleration` | boolean | `true`   | Enable Hardware Acceleration                               |
+| `theme`                      | string  | `dark`   | Current Theme Name                                         |
 
 ### Supported Codecs
 
@@ -275,7 +329,7 @@ Freedom-Loader/
 │           ├── settingsPanel.css
 │           ├── topbar.css
 │           └── videoinfo.css
-├── ressources/              # Internal resources (binaries)
+├── resources/              # Internal resources (binaries)
 ├── server/                  # Express backend server
 │   ├── logger.js
 │   ├── server.js
@@ -386,7 +440,7 @@ npm run build
 This project relies on several external binaries.  
 Some of them are **not included** in the public repository and must be added manually.
 
-You must download the required binaries and place them in the `ressources` folder, using the exact filenames listed below.
+You must download the required binaries and place them in the `resources` folder, using the exact filenames listed below.
 
 #### Required binaries
 
@@ -407,7 +461,7 @@ You must download the required binaries and place them in the `ressources` folde
 Final folder structure:
 
 ```
-ressources/
+resources/
 ├── deno.exe
 ├── ffmpeg.exe
 ├── ffprobe.exe
@@ -423,7 +477,7 @@ ressources/
 - Write clear commit messages
 - Test thoroughly before submitting changes
 - Update documentation when adding features
-- Maintain compatibility with Windows 10+
+- Maintain compatibility with Windows 10+ and Linux
 
 ## Roadmap
 
@@ -445,7 +499,7 @@ Use the GitHub Issues system and include:
 - Clear description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
-- Relevant logs from `AppData\Local\FreedomLoader\logs\`
+- Relevant logs from `AppData\Local\FreedomLoader\logs\` or `~/.local/share/FreedomLoader/logs/`
 - Screenshots if applicable
 
 ### Feature Requests
@@ -485,7 +539,7 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) for the robust download engine
 - [FFmpeg](https://ffmpeg.org/) for media processing capabilities
-- [Deno](https://deno.com/) for helping me bypassing challenges
+- [Deno](https://deno.com/) for helping me to bypass challenges
 - [Electron](https://www.electronjs.org/) for the desktop application framework
 - The open-source community for continuous support and contributions
 - [@SpicyFire21](https://github.com/SpicyFire21) to be the spiciest one

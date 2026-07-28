@@ -15,7 +15,7 @@ const { logger } = require("../server/logger");
 /**
  * Configures autoUpdater behavior:
  * - disables automatic download
- * - disables automatic install on quit
+ * - disables automatic installation on quit
  * (manual user-controlled update flow)
  */
 autoUpdater.autoDownload = false;
@@ -51,7 +51,7 @@ function initAutoUpdater(mainWindow) {
     });
 
     if (response === 0) {
-      autoUpdater.downloadUpdate();
+      await autoUpdater.downloadUpdate();
     } else {
       mainWindow?.webContents.executeJavaScript(
         `window.showUpdateBadge && window.showUpdateBadge("${info.version}")`
@@ -96,8 +96,20 @@ function initAutoUpdater(mainWindow) {
    * Logs failure and displays an error dialog to user.
    */
   autoUpdater.on("error", (err) => {
-    logger.error("Auto update error:", err.message);
-    dialog.showErrorBox("Update Error", err.message);
+    const msg = err?.message || "";
+
+    /**
+     * If no update is available, I put this because there is no Linux version before 1.6.0
+     * @type {boolean}
+     */
+    const isNoUpdateAvailable = /404/.test(msg) || /Cannot find latest.*\.yml/i.test(msg);
+
+    if (isNoUpdateAvailable) {
+      logger.warn("Auto update: no update metadata found (probably no previous release), ignoring", msg);
+      return;
+    }
+
+    logger.error("Auto update error:", msg);
   });
 
   checkForUpdates();
@@ -108,6 +120,14 @@ function initAutoUpdater(mainWindow) {
  * Separated from init for reusability and testability.
  */
 async function checkForUpdates() {
+
+  if (process.env.SNAP) {
+    logger.info("Running as Snap, update managed by snapd, skipping electron-updater");
+    return;
+  }
+
+  if (!require("electron").app.isPackaged) return ;
+
   try {
     await autoUpdater.checkForUpdates();
   } catch (err) {

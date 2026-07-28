@@ -270,7 +270,6 @@ async function loadThemesFromFolder() {
     if (fs.statSync(filePath).isDirectory()) {
       const theme = await loadThemeFromFolder(filePath, themeId);
       if (theme) themes.push(theme);
-      continue;
     }
   }
 

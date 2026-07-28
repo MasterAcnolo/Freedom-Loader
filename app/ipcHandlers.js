@@ -12,7 +12,6 @@
 
 const { ipcMain, dialog, shell } = require("electron");
 const fs = require("fs");
-const path = require("path");
 const { logger, logDir } = require("../server/logger");
 const { configFeatures, featuresPath } = require("../config");
 const { getThemes, reloadThemes } = require("./themeManager");

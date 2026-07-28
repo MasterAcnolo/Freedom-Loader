@@ -271,6 +271,6 @@ async function init() {
 
   })
 
-};
+}
 
 init();

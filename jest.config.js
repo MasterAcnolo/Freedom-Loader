@@ -6,4 +6,16 @@ module.exports = {
         "app/**/*.js",
         "!app/autoUpdater.js",
     ],
+
+    modulePathIgnorePatterns: [
+        "<rootDir>/dist",
+        "<rootDir>/release",
+        "<rootDir>/build",
+    ],
+
+    watchPathIgnorePatterns: [
+        "<rootDir>/dist",
+        "<rootDir>/release",
+        "<rootDir>/build",
+    ],
 };

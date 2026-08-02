@@ -16,12 +16,16 @@
   "main": "main.js",
   "scripts": {
     "start": "electron --trace-warnings .",
-    "postinstall": "chmod +x resources/binaries/linux/* 2>/dev/null || true",
+
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
     "build:rpm": "bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
+
+    "test": "jest",
+    "test:unit": "jest tests/unit",
+
     "update": "npm update"
   },
   "dependencies": {
@@ -38,8 +42,12 @@
   },
   "devDependencies": {
     "@electron/devtron": "^2.1.1",
+    "@jest/globals": "^30.4.1",
+    "@playwright/test": "^1.62.1",
     "electron": "^41.2.0",
-    "electron-builder": "^25.1.8"
+    "electron-builder": "^26.15.3",
+    "jest": "^30.4.2",
+    "playwright": "^1.62.1"
   },
   "build": {
     "appId": "com.masteracnolo.freedomloader",

@@ -6,7 +6,7 @@ const { buildYtDlpArgs } = require("../helpers/buildArgs.helpers");
 const notify = require("../helpers/notify.helpers");
 const path = require("path");
 const { isSafePath } = require("../helpers/validation.helpers");
-const { configFeatures } = require("../../config.js");
+const {reloadFeatures} = require("../../config");
 
 /**
  * Reference to the currently running yt-dlp process.
@@ -135,7 +135,10 @@ function createPlaylistFolder(basePath, playlistTitle) {
 function fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners) {
 
   return new Promise((resolve, reject) => {
-    logger.info(`CONFIG createPlaylistFolders: ${configFeatures.createPlaylistFolders}`);
+
+    const userConfig = reloadFeatures();
+
+    logger.info(`CONFIG createPlaylistFolders: ${userConfig.createPlaylistFolders}`);
     
     let outputFolder = options.outputFolder || defaultDownloadFolder;
     
@@ -158,8 +161,8 @@ function fetchDownload(options, listeners, speedListeners, stageListeners, playl
 
     // Détecte si c'est une playlist et crée un dossier approprié
     const isPlaylist = options.playlistTitle || isPlaylistUrl(options.url);
-    
-    if (isPlaylist && configFeatures.createPlaylistFolders) {
+
+    if (isPlaylist && userConfig.createPlaylistFolders) {
       try {
         const playlistName = options.playlistTitle || "Untitled Playlist";
         safeOutputFolder = createPlaylistFolder(safeOutputFolder, playlistName);
@@ -168,7 +171,7 @@ function fetchDownload(options, listeners, speedListeners, stageListeners, playl
         logger.error(`Failed to create playlist folder: ${err.message}`);
         return reject(err);
       }
-    } else if (isPlaylist && !configFeatures.createPlaylistFolders) {
+    } else if (isPlaylist && !userConfig.createPlaylistFolders) {
       logger.info(`Playlist detected but createPlaylistFolders is disabled, using base folder`);
     }
 

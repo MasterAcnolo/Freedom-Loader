@@ -99,7 +99,7 @@
     "win": {
       "target": "nsis",
       "icon": "build/app-icon.ico",
-      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "artifactName": "Freedom-Loader-Setup-${version}.${ext}",
       "extraResources": [
         {
           "from": "resources/binaries/win-32/yt-dlp.exe",

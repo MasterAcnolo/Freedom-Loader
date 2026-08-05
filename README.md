@@ -219,7 +219,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 
 #### Linux
 ```
-~/.config/Freedom Loader/config.json
+~/.config/Freedom\ Loader/config.json
 ```
 
 ### Available Options
@@ -233,6 +233,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
   "addMetadata": true,
   "verboseLogs": false,
   "autoDownloadPlaylist": true,
+  "keepPlaylistOrder": false,
   "createPlaylistFolders": true,
   "customCodec": "h264",
   "logSystem": true,
@@ -256,6 +257,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | `addMetadata`                | boolean | `true`   | Add metadata tags to downloaded files                      |
 | `verboseLogs`                | boolean | `false`  | Enable detailed logging for debugging                      |
 | `autoDownloadPlaylist`       | boolean | `true`   | Automatically download entire playlists                    |
+| `keepPlaylistOrder`          | boolean | `false`  | Add index before title, usefull for album                  |
 | `createPlaylistFolders`      | boolean | `true`   | Automatically create a folder for a playlist               |
 | `customCodec`                | string  | `"h264"` | Video codec for encoding (supported: h264, h265, vp9, av1) |
 | `logSystem`                  | boolean | `true`   | Enable application logging                                 |
@@ -276,7 +278,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 - `theora` - Theora (legacy open codec)
 
 > [!NOTE]
-> Configuration changes may require an application restart to take effect.
+> Some configuration changes may require an application restart to take effect.
 
 ## Project Structure
 

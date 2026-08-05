@@ -20,7 +20,7 @@ const activeNotifications = new Set();
 function notifyDownloadFinished(folder, notifyEnabled = true) {
   if (!notifyEnabled) return;
   if (!folder) return;
-  
+
   const notif = new Notification({
     title: "Freedom Loader",
     body: "Your download is complete, click here to open it.",

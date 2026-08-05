@@ -62,7 +62,7 @@ function validateCodec(codec){
  *
  * @returns {string[]} Array of arguments ready to be passed to yt-dlp.
  */
-function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
+function buildYtDlpArgs({url, audioOnly, quality, outputFolder, isPlaylist}) {
 
   logger.info("--- CONFIGURATION ---");
 
@@ -70,6 +70,7 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
   logger.info(`CONFIG discordRPC: ${configFeatures.discordRPC}`);
   logger.info(`CONFIG customTopBar: ${configFeatures.customTopBar}`);
   logger.info(`CONFIG autoCheckInfo: ${configFeatures.autoCheckInfo}`);
+  logger.info(`CONFIG keepPlaylistOrder: ${configFeatures.keepPlaylistOrder}`);
   logger.info(`CONFIG addThumbnail: ${configFeatures.addThumbnail}`);
   logger.info(`CONFIG addMetadata: ${configFeatures.addMetadata}`);
   logger.info(`CONFIG verboseLogs: ${configFeatures.verboseLogs}`);
@@ -117,7 +118,19 @@ function buildYtDlpArgs({ url, audioOnly, quality, outputFolder }) {
   };
 
   args.push("-f", qualityMap[quality] || "best");
-  args.push("-o", path.join(outputFolder, "%(title)s.%(ext)s"));
+
+  /**
+   * Default title output template
+   * @type {string}
+   */
+  let outputTemplate = "%(title)s.%(ext)s";
+
+  // If it's a playlist, and we want to keep the playlist order. Add an index before the title.
+  if (isPlaylist && configFeatures.keepPlaylistOrder && configFeatures.autoDownloadPlaylist) {
+    outputTemplate = "%(playlist_index)02d - %(title)s.%(ext)s";
+  }
+
+  args.push("-o", path.join(outputFolder, outputTemplate));
   args.push(url);
 
   return args.filter(Boolean);

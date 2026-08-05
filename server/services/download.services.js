@@ -175,7 +175,12 @@ function fetchDownload(options, listeners, speedListeners, stageListeners, playl
       logger.info(`Playlist detected but createPlaylistFolders is disabled, using base folder`);
     }
 
-    const args = buildYtDlpArgs({ ...options, outputFolder: safeOutputFolder });
+    const args = buildYtDlpArgs({
+      ...options,
+      outputFolder: safeOutputFolder,
+      isPlaylist
+    });
+
     logger.info(`[yt-dlp args] ${args.join(" ")}`);
 
     const child = execFile(userYtDlp, args);

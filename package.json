@@ -22,6 +22,9 @@
     "build:linux": "electron-builder --linux",
     "build:rpm": "bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
+    "release": "bash scripts/release.sh",
+    "release:publish": "bash scripts/release.sh --publish",
+    "release:dry-run": "bash scripts/release.sh --dry-run",
 
     "test": "jest",
     "test:unit": "jest test/unit",

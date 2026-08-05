@@ -24,7 +24,7 @@
     "build:all": "electron-builder -wl",
 
     "test": "jest",
-    "test:unit": "jest tests/unit",
+    "test:unit": "jest test/unit",
 
     "update": "npm update"
   },

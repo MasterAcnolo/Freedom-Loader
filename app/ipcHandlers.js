@@ -34,6 +34,7 @@ const FEATURE_WHITELIST = new Set([
   "addMetadata",
   "verboseLogs",
   "autoDownloadPlaylist",
+  "keepPlaylistOrder",
   "customCodec",
   "theme",
   "createPlaylistFolders",

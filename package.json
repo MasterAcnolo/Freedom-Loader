@@ -1,7 +1,7 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "author": "MasterAcnolo <MasterAcnolo@users.noreply.github.com>",
   "description": "Free and open-source GUI for yt-dlp — download video and audio from hundreds of platforms",
   "homepage": "https://masteracnolo.github.io/Freedom-Loader-Site/",
@@ -44,7 +44,7 @@
     "@electron/devtron": "^2.1.1",
     "@jest/globals": "^30.4.1",
     "@playwright/test": "^1.62.1",
-    "electron": "^41.2.0",
+    "electron": "^43.3.0",
     "electron-builder": "^26.15.3",
     "jest": "^30.4.2",
     "playwright": "^1.62.1"

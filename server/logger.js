@@ -23,6 +23,31 @@ const logFormat = format.combine(
 );
 
 /**
+ * Format used by the saved file
+ * @type {Format}
+ */
+const fileFormat = format.combine(
+    format.timestamp({format: "YYYY-MM-DD HH:mm:ss"}),
+    format.errors({stack: true}), // Capture la stack trace complète des erreurs
+    format.printf(({timestamp, level, message, stack}) => {
+      return `${timestamp} | ${level.toUpperCase()} | ${stack || message}`;
+    })
+);
+
+/**
+ * Formated used by the IDE/Console
+ * @type {Format}
+ */
+const consoleFormat = format.combine(
+    format.colorize({all: true}),
+    format.timestamp({format: "HH:mm:ss"}),
+    format.errors({stack: true}),
+    format.printf(({timestamp, level, message, stack}) => {
+      return `[${timestamp}] ${level}: ${stack || message}`;
+    })
+);
+
+/**
  * Logger Instance with differents types
  *  - info
  *  - error
@@ -33,7 +58,6 @@ const logFormat = format.combine(
  */
 const logger = createLogger({
   level: "info",
-  format: logFormat,
   transports: [
     new DailyRotateFile({
       dirname: logDir,
@@ -41,11 +65,11 @@ const logger = createLogger({
       datePattern: "YYYY-MM-DD",
       zippedArchive: false,
       maxFiles: "7d",
-      format: logFormat,
+      format: fileFormat,
       options: { flags: "a" },
     }),
     new transports.Console({
-      format: logFormat,
+      format: consoleFormat,
     }),
   ],
 });
@@ -57,7 +81,7 @@ function logSessionStart(logDir, downloadPath) {
   logger.info(`--- Starting session: ${new Date().toISOString()} ---`);
   logger.info("============================================================")
   logger.info(`Application Version: ${config.version}`)
-  logSystemInfo(logger, logDir, downloadPath)
+  if (typeof logSystemInfo === 'function') logSystemInfo(logger, logDir, downloadPath);
 }
 
 /**

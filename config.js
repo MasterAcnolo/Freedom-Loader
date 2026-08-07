@@ -7,7 +7,7 @@ const path = require("path");
  * Indicates whether the application is running in development mode.
  * Determined by Electron's packaging state.
  */
-const devMode = !app.isPackaged;
+const devMode = process.env.NODE_ENV === "test" || !app?.isPackaged;
 
 /**
  * Resolves the configuration file path depending on runtime environment.
@@ -69,12 +69,29 @@ function loadFeatures() {
 }
 
 /**
+ * Reloads feature flags from disk.
+ * Use this instead of the cached configFeatures snapshot
+ * when you need the latest user settings at call time.
+ *
+ * @returns {Object} Fresh feature flags from config file
+ */
+function reloadFeatures() {
+  try {
+    const raw = fs.readFileSync(featuresPath, "utf-8");
+    return JSON.parse(raw);
+  } catch (err) {
+    // Fallback to cached snapshot if file read fails
+    return configFeatures;
+  }
+}
+
+/**
  * In-memory snapshot of application feature flags.
  *
  * Note: Changes to the config file are not automatically reflected.
  * A restart or reload is required.
  */
-const configFeatures = loadFeatures();
+let configFeatures = loadFeatures();
 
 module.exports = {
   /**
@@ -101,6 +118,11 @@ module.exports = {
    * Runtime feature flags loaded from configuration file
    */
   configFeatures,
+
+  /**
+   * Function to reload the config
+   */
+  reloadFeatures,
 
   /**
    * Path to the active configuration file

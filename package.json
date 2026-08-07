@@ -1,7 +1,7 @@
 {
   "name": "freedom-loader",
   "productName": "Freedom Loader",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "author": "MasterAcnolo <MasterAcnolo@users.noreply.github.com>",
   "description": "Free and open-source GUI for yt-dlp — download video and audio from hundreds of platforms",
   "homepage": "https://masteracnolo.github.io/Freedom-Loader-Site/",
@@ -16,12 +16,19 @@
   "main": "main.js",
   "scripts": {
     "start": "electron --trace-warnings .",
-    "postinstall": "chmod +x resources/binaries/linux/* 2>/dev/null || true",
+
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
     "build:rpm": "bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
+    "release": "bash scripts/release.sh",
+    "release:publish": "bash scripts/release.sh --publish",
+    "release:dry-run": "bash scripts/release.sh --dry-run",
+
+    "test": "jest",
+    "test:unit": "jest test/unit",
+
     "update": "npm update"
   },
   "dependencies": {
@@ -38,8 +45,12 @@
   },
   "devDependencies": {
     "@electron/devtron": "^2.1.1",
-    "electron": "^41.2.0",
-    "electron-builder": "^25.1.8"
+    "@jest/globals": "^30.4.1",
+    "@playwright/test": "^1.62.1",
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3",
+    "jest": "^30.4.2",
+    "playwright": "^1.62.1"
   },
   "build": {
     "appId": "com.masteracnolo.freedomloader",
@@ -91,7 +102,7 @@
     "win": {
       "target": "nsis",
       "icon": "build/app-icon.ico",
-      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "artifactName": "Freedom-Loader-Setup-${version}.${ext}",
       "extraResources": [
         {
           "from": "resources/binaries/win-32/yt-dlp.exe",

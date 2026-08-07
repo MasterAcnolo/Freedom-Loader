@@ -3,6 +3,12 @@ const { iconPaths } = require("./path.helpers");
 const { logger } = require("../logger");
 
 /**
+ * Set that is holding all notifications. Used to avoid Race Condition and notification crash
+ * @type {Set<any>}
+ */
+const activeNotifications = new Set();
+
+/**
  * Displays a system notification when a download completes successfully.
  *
  * If enabled, clicking the notification opens the download folder
@@ -14,14 +20,34 @@ const { logger } = require("../logger");
 function notifyDownloadFinished(folder, notifyEnabled = true) {
   if (!notifyEnabled) return;
   if (!folder) return;
-  
+
   const notif = new Notification({
     title: "Freedom Loader",
     body: "Your download is complete, click here to open it.",
     icon: iconPaths.confirm,
   });
 
-  notif.on("click", () => shell.openPath(folder));
+  // Protect notification to garbage collection and race condition, by adding a 150ms timeout before trying to open the folder
+  activeNotifications.add(notif);
+
+  notif.on("click", () => {
+    activeNotifications.delete(notif);
+
+    setTimeout(() => {
+      shell.openPath(folder).then((errorMessage) => {
+        if (errorMessage) {
+          logger.error(`Impossible d'ouvrir le dossier : ${errorMessage}`);
+        }
+      }).catch(err => {
+        logger.error(`Erreur inattendue de shell.openPath : ${err}`);
+      });
+    }, 150);
+  });
+
+  notif.on("close", () => {
+    activeNotifications.delete(notif);
+  });
+
   notif.show();
 }
 
@@ -41,11 +67,16 @@ function notifyCookiesBrowserError(){
     icon: iconPaths.error,
   });
 
-  notif.on("click", () =>
-    shell.openExternal(
-      "https://youtube.com/shorts/cN9f4s1Mf88?si=519QCVd_-fzJqRf1"
-    )
-  );
+  activeNotifications.add(notif);
+
+  notif.on("click", () => {
+    shell.openExternal("https://www.firefox.com/en-US/download/");
+    activeNotifications.delete(notif);
+  });
+
+  notif.on("close", () => {
+    activeNotifications.delete(notif);
+  });
 
   notif.show();
 }
@@ -65,11 +96,16 @@ function notifyFirefoxBrowserMissing() {
     icon: iconPaths.error,
   });
 
-  notif.on("click", () =>
-    shell.openExternal(
-      "https://youtube.com/shorts/cN9f4s1Mf88?si=519QCVd_-fzJqRf1"
-    )
-  );
+  activeNotifications.add(notif);
+
+  notif.on("click", () => {
+    shell.openExternal("https://www.firefox.com/en-US/download/");
+    activeNotifications.delete(notif);
+  });
+
+  notif.on("close", () => {
+    activeNotifications.delete(notif);
+  });
 
   notif.show();
 }

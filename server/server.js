@@ -13,7 +13,9 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 // Routes
 app.use("/download", require("./routes/download.route"));
-app.use("/info",     require("./routes/info.route"));
+app.use("/info", require("./routes/info.route"));
+
+// Interface
 app.get("/", rateLimit, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });

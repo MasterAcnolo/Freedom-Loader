@@ -30,15 +30,15 @@ function formatSize(bytes) {
  */
 async function fetchVideoInfo(url) {
   try {
-    const res = await fetch("/info", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ url }),
+    const res = await fetch(`/info?url=${encodeURIComponent(url)}`, {
+      method: "GET",
+      headers: {"Accept": "application/json"}
     });
 
-    if (!res.ok) return { error: `An Error occured when fetching info` };
-
     const data = await res.json();
+
+    if (!res.ok) return {error: `An Error occured when fetching info`};
+
     if (!data) return { error: "Data is Missing" };
 
     return data;

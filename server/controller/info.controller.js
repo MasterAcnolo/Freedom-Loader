@@ -18,7 +18,9 @@ const { isValidUrl } = require("../helpers/validation.helpers");
  */
 async function infoController(req, res) {
 
-    const url = req.body.url || req.query.url; // Supports POST and GET requests
+    // Previously, i support both POST and GET element, but it's kinda weird. So now it only support GET.
+    const url = req.query.url;
+    const encodedUrl = encodeURIComponent(url)
 
     /**
      * Basic validation:
@@ -30,9 +32,10 @@ async function infoController(req, res) {
         return res.status(400).send("Invalid URL Or Missing");
     }
 
-    logger.info(`Info request received. URL: ${url}`);
+    logger.info(`Info request received. RAW URL: ${url}`);
+    logger.info(`Info request received. ENCODED: ${encodedUrl}`);
 
-    // Lightweight heuristic to detect playlist URLs
+    // Lightweight heuristic to detect playlist URLs. It works for Youtube.
     const isPlaylistUrl = url.includes("&list") || url.includes("?list");
 
     logger.info(
@@ -85,6 +88,16 @@ async function infoController(req, res) {
          * Normalize response based on yt-dlp output type
          */
         if (data._type === "playlist") {
+
+            // If the playlist got only one video, show it as a video.
+            if (data.entries && data.entries.length === 1) {
+
+                const singleVideo = parseVideo(data.entries[0]);
+
+                logger.info(`Playlist with 1 item converted to video: ${singleVideo.title}`);
+
+                return res.json(singleVideo);
+            }
 
             const playlist = parsePlaylist(data);
 

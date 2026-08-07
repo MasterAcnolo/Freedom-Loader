@@ -55,6 +55,7 @@ const logger = createLogger({
  */
 function logSessionStart(logDir, downloadPath) {
   logger.info(`--- Starting session: ${new Date().toISOString()} ---`);
+  logger.info("============================================================")
   logger.info(`Application Version: ${config.version}`)
   logSystemInfo(logger, logDir, downloadPath)
 }

@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 VERSION=$(node -p "require('$ROOT_DIR/package.json').version")
-TAG="v$VERSION"
+TAG="$VERSION"
 
 # Parse arguments
 PUBLISH_SNAP=false

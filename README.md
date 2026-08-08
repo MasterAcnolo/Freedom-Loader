@@ -61,9 +61,9 @@ The primary goal is to make media downloading accessible to users who want offli
 ### User Interface
 
 - **Custom window controls** - Frameless window with custom top bar (optional)
-- **Custom themes** — ZIP-based theme system with live preview
-- **Theme Workshop** — web-based theme creator and browser
-- **Toast notifications** — in-app feedback system
+- **Custom themes** - ZIP-based theme system with live preview
+- **Theme Workshop** - web-based theme creator and browser
+- **Toast notifications** - in-app feedback system
 - **Real-time progress tracking** - Live download progress bar with network speed indicator
 - **Server-Sent Events (SSE)** - Non-blocking progress updates via event streaming
 - **Settings panel** - In-app configuration interface with live updates
@@ -80,9 +80,10 @@ The primary goal is to make media downloading accessible to users who want offli
 - **Rate limiting** - Express-based request throttling to prevent server overload
 - **Graceful shutdown** - Proper cleanup of servers, logs, and RPC connections
 - **System notifications** - Windows notifications on download completion (clickable to open folder)
-- **Splash screen** — animated loading screen on startup
-- **Stop download** — ability to cancel in-progress downloads
-- **Playlist folders** — dedicated folder creation per playlist
+- **Splash screen** - animated loading screen on startup
+- **Stop download** - ability to cancel in-progress downloads
+- **Playlist folders** - dedicated folder creation per playlist
+- **Keep Playlist Order** - Add an Index before the title, could be useful for an album for example.
 
 ## Installation
 
@@ -105,7 +106,7 @@ The primary goal is to make media downloading accessible to users who want offli
 
 ### Linux
 
-#### Fedora (via Copr — recommended)
+#### Fedora (via Copr - recommended)
 
 Installing via Copr lets `dnf` handle future updates automatically:
 
@@ -178,7 +179,8 @@ The application supports various configuration options:
 - Custom download directory selection
 - Discord Rich Presence activation
 - Theme customization
-- Log level configuration
+- Log level
+- And somes to see in the list [Configuration Options](#configuration-options) available
 
 ### Troubleshooting
 
@@ -295,12 +297,17 @@ Freedom-Loader/
 │   ├── windowManager.js
 │   └── ytDlpUpdater.js
 ├── build/                   # Build resources and assets
+│   ├── app-icon.ico
+│   ├── app-icon.png
+│   ├── banner.png
+│   └── ...
 ├── config/                  # Configuration files
 │   ├── config.default.json
-│   └── config.dev.json
+│   └── config.dev.json      # Configuration Used when i dev mode       
+├── dist/                    # Compiled executables (.exe, .AppImage, .deb, .rpm, .snap)
 ├── public/                  # Frontend assets and UI
 │   ├── index.html
-│   ├── splash.html
+│   ├── splash.html          # Splash Screen (Start of the application)
 │   ├── assets/
 │   │   ├── icon/            # Application icons
 │   │   └── logo/            # Logo assets
@@ -319,19 +326,8 @@ Freedom-Loader/
 │       ├── styles.css
 │       ├── variables.css
 │       ├── components/      # Component-specific styles
-│       │   ├── checkbox.css
-│       │   ├── editpathbutton.css
-│       │   ├── loader.css
-│       │   ├── progressBar.css
-│       │   └── toast.css
 │       └── layout/          # Layout styles
-│           ├── container.css
-│           ├── form.css
-│           ├── header.css
-│           ├── settingsPanel.css
-│           ├── topbar.css
-│           └── videoinfo.css
-├── resources/              # Internal resources (binaries)
+├── resources/               # Internal resources (binaries : yt-dlp, ffmpeg...)
 ├── server/                  # Express backend server
 │   ├── logger.js
 │   ├── server.js
@@ -355,16 +351,16 @@ Freedom-Loader/
 ├── theme/                   # Theme system
 │   ├── template.theme.json  # Theme template
 │   ├── Dark/                # Default dark theme
-│   │   └── dark.theme.json
 │   └── Light/               # Default light theme
-│       └── light.theme.json
-├── main.js                  # Electron main process entry point
-├── preload.js               # Electron preload script (IPC bridge)
-├── config.js                # Global configuration loader
-├── package.json             # Project metadata and dependencies
+├── BINARIES.md              # External dependencies & binaries documentation
 ├── CODE_OF_CONDUCT.md       # Community guidelines
+├── config.js                # Global configuration loader
 ├── CONTRIBUTING.md          # Contribution guidelines
+├── jest.config.js           # Unit testing configuration
 ├── LICENSE                  # GPLv3 license
+├── main.js                  # Electron main process entry point
+├── package.json             # Project metadata and dependencies
+├── preload.js               # Electron preload script (IPC bridge)
 └── README.md                # This file
 ```
 
@@ -391,7 +387,7 @@ Freedom Loader includes a web-based theme creator available at [Freedom Loader W
 ### Installing a custom theme
 1. Download a `.zip` theme file
 2. Drop it in the `theme/` folder of your Freedom Loader installation
-3. Restart the app — your theme appears in the settings panel
+3. Restart the app - your theme appears in the settings panel
 
 ## Technology Stack
 

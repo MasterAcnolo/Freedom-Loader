@@ -1,5 +1,6 @@
 {
   "autoUpdate": true,
+  "systemTray": true,
   "discordRPC": true,
   "customTopBar": true,
   "autoCheckInfo": true,

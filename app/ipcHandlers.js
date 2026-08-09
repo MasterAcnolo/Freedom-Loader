@@ -27,6 +27,7 @@ const { userThemesPath } = require("../server/helpers/path.helpers");
  */
 const FEATURE_WHITELIST = new Set([
   "autoUpdate",
+  "systemTray",
   "discordRPC",
   "customTopBar",
   "autoCheckInfo",

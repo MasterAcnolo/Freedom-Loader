@@ -80,7 +80,9 @@ const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
 const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
 const { userThemesPath, initUserThemes, isWindows, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
+const {createSystemTray, destroyTray} = require("./app/tray");
 
+app.isQuitting = false;
 
 /**
  * If another instance want to run
@@ -127,6 +129,11 @@ app.whenReady().then(async () => {
     
     closeSplashWindow();
     getMainWindow().show();
+
+    if (configFeatures.systemTray) {
+      createSystemTray(getMainWindow());
+    }
+
     if (configFeatures.discordRPC) startRPC();
 
     if (configFeatures.autoUpdate) initAutoUpdater(getMainWindow());
@@ -138,11 +145,17 @@ app.whenReady().then(async () => {
 });
 
 app.on("window-all-closed", () => {
-  logger.info("Shutting down...");
-  app.quit();
+  if (app.isQuitting) {
+    logger.info("Shutting down...");
+    app.quit();
+  } else if (process.platform !== "darwin") {
+    logger.info("Main window closed, app running in background (Tray).");
+  }
 });
 
 app.on("before-quit", async () => {
+  app.isQuitting = true;
+  destroyTray();
   await stopRPC();
   logger.info("All services stopped. Have a nice day!");
   logSessionEnd();

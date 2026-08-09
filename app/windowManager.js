@@ -82,6 +82,19 @@ async function createMainWindow() {
   }
 
   /**
+   * Intercepts the window close event.
+   * If the app is not explicitly quitting (via Tray menu),
+   * cancels the destruction and hides the window instead.
+   */
+  mainWindow.on('close', (event) => {
+    if (!app.isQuitting) {
+      event.preventDefault();
+      mainWindow.hide();
+      return false;
+    }
+  });
+
+  /**
    * Cleans up window reference when the main window is closed.
    * Prevents memory leaks and allows recreation if needed.
    */

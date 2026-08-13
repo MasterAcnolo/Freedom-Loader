@@ -131,7 +131,7 @@ app.whenReady().then(async () => {
     getMainWindow().show();
 
     if (configFeatures.systemTray) {
-      createSystemTray(getMainWindow());
+      createSystemTray(getMainWindow(), config.devMode);
     }
 
     if (configFeatures.discordRPC) startRPC();

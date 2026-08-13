@@ -18,9 +18,10 @@ let tray = null;
  * - Handle left-click behavior (toggle window visibility).
  *
  * @param {import('electron').BrowserWindow} mainWindow - The main application window.
+ * @param devMode - is application packaged
  * @returns {Tray} The created Tray instance.
  */
-function createSystemTray(mainWindow) {
+function createSystemTray(mainWindow, devMode) {
     // Prevent creating multiple instances
     if (tray) return tray;
 
@@ -29,7 +30,7 @@ function createSystemTray(mainWindow) {
      * Tip: Use a .png for Linux/macOS and a .ico for Windows for best results.
      * Here we use a generic PNG assuming it exists in your resources folder.
      */
-    const iconPath = config.devMode ?
+    const iconPath = devMode ?
         path.join(__dirname, "..", "build", "app-icon-64x64.png") :
         path.join(process.resourcesPath, "build", "app-icon-64x64.png");
 

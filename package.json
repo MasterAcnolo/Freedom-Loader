@@ -85,6 +85,14 @@
         "to": "theme"
       },
       {
+        "from": "build/app-icon.ico",
+        "to": "app-icon.ico"
+      },
+      {
+        "from": "build/app-icon-64x64.png",
+        "to": "app-icon-64x64.png"
+      },
+      {
         "from": "build/confirm-icon.png",
         "to": "confirm-icon.png"
       },

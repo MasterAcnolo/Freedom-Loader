@@ -13,39 +13,46 @@ let tray = null;
  * Creates and configures the cross-platform System Tray.
  *
  * Responsibilities:
- * - Load the appropriate icon for the OS.
- * - Build the right-click context menu.
- * - Handle left-click behavior (toggle window visibility).
+ * - Loads the appropriate icon format based on the operating system.
+ * - Builds the right-click context menu.
+ * - Handles left-click behavior to toggle main window visibility.
  *
  * @param {import('electron').BrowserWindow} mainWindow - The main application window.
- * @param devMode - is application packaged
+ * @param {boolean} devMode - Indicates whether the application is running in development mode.
  * @returns {Tray} The created Tray instance.
  */
 function createSystemTray(mainWindow, devMode) {
-    // Prevent creating multiple instances
+    // Prevent creating multiple tray instances
     if (tray) return tray;
 
-    /**
-     * Resolve the icon path.
-     * Tip: Use a .png for Linux/macOS and a .ico for Windows for best results.
-     * Here we use a generic PNG assuming it exists in your resources folder.
-     */
-    const iconPath = devMode ?
-        path.join(__dirname, "..", "build", "app-icon-64x64.png") :
-        path.join(process.resourcesPath, "build", "app-icon-64x64.png");
+    const isWin = process.platform === "win32";
+    const iconName = isWin ? "app-icon.ico" : "app-icon-64x64.png"; 
 
-    if (!fs.existsSync(iconPath)) {
-        logger.error(`❌ ERREUR : L'icône du Tray est introuvable à ce chemin : ${iconPath}`);
-    } else {
-        logger.info(`✅ Icône trouvée pour le Tray !`);
+    // Attempt to load the icon from the local build directory first
+    let iconPath = path.join(__dirname, "..", "build", iconName);
+
+    // Fallback to the extracted resources path if running in production
+    if (!devMode && !fs.existsSync(iconPath)) {
+        iconPath = path.join(process.resourcesPath, iconName);
     }
 
-    const icon = nativeImage.createFromPath(iconPath);
+    if (!fs.existsSync(iconPath)) {
+        logger.error(`System Tray icon not found at resolved path: ${iconPath}`);
+    } else {
+        logger.info("System Tray icon resolved successfully.");
+    }
+    
+    const icon = nativeImage.createFromPath(iconPath);    
+
+    if (icon.isEmpty()) {
+        logger.error("System Tray icon file was found but could not be decoded by Electron (image is empty).");
+    }
+
     tray = new Tray(icon);
     tray.setToolTip("Freedom Loader");
 
     /**
-     * The context menu (Right-click).
+     * System Tray Context Menu (Right-click action).
      */
     const contextMenu = Menu.buildFromTemplate([
         {
@@ -54,13 +61,13 @@ function createSystemTray(mainWindow, devMode) {
                 mainWindow.show();
             },
         },
-        {type: "separator"},
+        { type: "separator" },
         {
             label: "Quit",
             click: () => {
                 /**
-                 * Tell the app it's a deliberate exit,
-                 * bypassing the "minimize to tray" behavior.
+                 * Flags the application for a deliberate exit,
+                 * bypassing the default "minimize to tray" behavior.
                  */
                 app.isQuitting = true;
                 app.quit();
@@ -71,8 +78,8 @@ function createSystemTray(mainWindow, devMode) {
     tray.setContextMenu(contextMenu);
 
     /**
-     * Left-click behavior: Toggle window visibility.
-     * Note: macOS doesn't usually use left-click on tray, but Windows/Linux do.
+     * Left-click behavior: Toggles main window visibility.
+     * but it remains standard practice for Windows and Linux environments.
      */
     tray.on("click", () => {
         if (mainWindow.isVisible()) {

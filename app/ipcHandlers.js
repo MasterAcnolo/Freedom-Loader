@@ -18,6 +18,7 @@ const { getThemes, reloadThemes } = require("./themeManager");
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 const { userThemesPath } = require("../server/helpers/path.helpers");
+const { createSystemTray, destroyTray } = require("./tray");
 
 /**
  * Security whitelist for feature flags that can be modified at runtime.
@@ -212,6 +213,21 @@ function registerIpcHandlers(getMainWindow) {
 
           if (configFeatures[key] === value) {
             return true;
+          }
+
+          /**
+           * Dynamically intercepts and applies System Tray state changes at runtime.
+           * Instantiates or destroys the tray icon immediately to prevent window 
+           * lifecycle desynchronization (e.g., minimizing a window to a non-existent tray).
+           */
+          if (key === "systemTray") {
+            if (value === true) {
+              logger.info("System Tray enabled dynamically.");
+              createSystemTray(getMainWindow(), config.devMode);
+            } else {
+              logger.info("System Tray disabled dynamically.");
+              destroyTray();
+            }
           }
 
           configFeatures[key] = value;

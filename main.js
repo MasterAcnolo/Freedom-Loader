@@ -82,7 +82,19 @@ const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./
 const { userThemesPath, initUserThemes, isWindows, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
 const {createSystemTray, destroyTray} = require("./app/tray");
 
+/**
+ * Global flag indicating if the application is intentionally shutting down.
+ * Used across the app to bypass the "minimize to tray on close" behavior.
+ * @type {boolean}
+ */
 app.isQuitting = false;
+
+/**
+ * State flag to track the asynchronous cleanup process during shutdown.
+ * Prevents the application from exiting before services (RPC, Tray, Logs) are properly closed.
+ * @type {boolean}
+ */
+let isCleanedUp = false;
 
 /**
  * If another instance want to run
@@ -145,7 +157,7 @@ app.whenReady().then(async () => {
 });
 
 app.on("window-all-closed", () => {
-  if (app.isQuitting) {
+  if (app.isQuitting || !configFeatures.systemTray) {
     logger.info("Shutting down...");
     app.quit();
   } else if (process.platform !== "darwin") {
@@ -153,10 +165,25 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("before-quit", async () => {
+app.on("before-quit", (event) => {
   app.isQuitting = true;
-  destroyTray();
-  await stopRPC();
-  logger.info("All services stopped. Have a nice day!");
-  logSessionEnd();
+
+  if (!isCleanedUp) {
+    event.preventDefault(); 
+
+    (async () => {
+      try {
+        destroyTray();
+        await stopRPC();
+      } catch (err) {
+        logger.error("Error during cleanup:", err);
+      } finally {
+        logger.info("All services stopped. Have a nice day!");
+        logSessionEnd();
+        
+        isCleanedUp = true;
+        app.quit();
+      }
+    })();
+  }
 });

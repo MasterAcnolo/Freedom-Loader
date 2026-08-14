@@ -78,7 +78,7 @@ const logger = createLogger({
  * Start Log Session 
  */
 function logSessionStart(logDir, downloadPath) {
-  logger.info(`--- Starting session: ${new Date().toISOString()} ---`);
+  logger.info(`--- Starting session: ${new Date().toLocaleString('sv-SE')} ---`);
   logger.info("============================================================")
   logger.info(`Application Version: ${config.version}`)
   if (typeof logSystemInfo === 'function') logSystemInfo(logger, logDir, downloadPath);
@@ -88,7 +88,7 @@ function logSessionStart(logDir, downloadPath) {
  * Stop Log Session
  */
 function logSessionEnd() {
-  logger.info(`--- Ending session: ${new Date().toISOString()} ---`);
+  logger.info(`--- Ending session: ${new Date().toLocaleString('sv-SE')} ---`);
 }
 
 module.exports = {

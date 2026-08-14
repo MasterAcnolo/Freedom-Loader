@@ -4,6 +4,7 @@ const getUserBrowser = require("./getBrowser.helpers.js");
 const { ffmpegPath, denoPath} = require("./path.helpers.js");
 const { configFeatures } = require("../../config.js");
 const { logger } = require("../logger.js");
+const config  = require("../../config")
 
 /**
  * Validates whether the provided codec is supported by the application.
@@ -129,6 +130,14 @@ function buildYtDlpArgs({url, audioOnly, quality, outputFolder, isPlaylist}) {
   if (isPlaylist && configFeatures.keepPlaylistOrder && configFeatures.autoDownloadPlaylist) {
     outputTemplate = "%(playlist_index)02d - %(title)s.%(ext)s";
   }
+
+  // Add a custom signature in each file downloaded with the app. It's a small things but i found it cool :)
+  if (configFeatures.addMetadata) {
+    args.push(
+        "--postprocessor-args",
+        `ffmpeg:-metadata comment="Downloaded with Freedom Loader v${config.version}"`
+    );
+}
 
   args.push("-o", path.join(outputFolder, outputTemplate));
   args.push(url);

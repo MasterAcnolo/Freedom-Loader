@@ -56,35 +56,30 @@ function validateDownloadPath(userPath) {
   if (!userPath) return getDefaultDownloadPath();
 
   try {
+      const absolutePath = path.resolve(userPath);
 
-    /**
-     * Resolves filesystem symlinks to ensure canonical absolute path.
-     * Required to prevent path traversal or alias bypass.
-     */
-    const resolved = fs.realpathSync(path.resolve(userPath));
+      if (!fs.existsSync(absolutePath)) {
+        fs.mkdirSync(absolutePath, { recursive: true });
+        logger.info(`Download folder created: ${absolutePath}`);
+      }
 
-    if (!fs.existsSync(resolved)) {
-      fs.mkdirSync(resolved, { recursive: true });
-      logger.info(`Download folder created: ${resolved}`);
+      const real = fs.realpathSync(absolutePath);
+
+      if (!isSafePath(real)) {
+        throw new Error("Path not allowed: system folders are blocked!");
+      }
+
+      return real;
     }
 
-    const real = fs.realpathSync(resolved);
-
-    if (!isSafePath(resolved)) {
-      throw new Error("Path not allowed: system folders are blocked!");
+    catch (err) {
+      /**
+       * Handles invalid filesystem paths, permissions issues, or resolution failures.
+       * Logs diagnostic information before propagating a sanitized error.
+       */
+      logger.error(`Invalid download path: ${userPath} — ${err.message}`);
+      throw new Error(`Invalid or inaccessible path: ${err.message}`);
     }
-
-    return real;
-  }
-  catch (err) {
-    
-    /**
-     * Handles invalid filesystem paths, permissions issues, or resolution failures.
-     * Logs diagnostic information before propagating a sanitized error.
-     */
-    logger.error(`Invalid download path: ${userPath} — ${err.message}`);
-    throw new Error(`Invalid or inaccessible path: ${err.message}`);
-  }
 }
 
 module.exports = { validateDownloadPath, getDefaultDownloadPath };

@@ -123,7 +123,7 @@ function createPlaylistFolder(basePath, playlistTitle) {
  * @param {string} [options.outputFolder] - Destination folder.
  * @param {string} [options.playlistTitle] - Playlist title.
  *
- * @param {Function[]} listeners - Progress listeners.
+ * @param {Function[]} progressListeners - Progress listeners.
  * @param {Function[]} speedListeners - Download speed listeners.
  * @param {Function[]} stageListeners - Processing stage listeners.
  * @param {Function[]} playlistInfoListeners - Playlist progress listeners.
@@ -132,7 +132,7 @@ function createPlaylistFolder(basePath, playlistTitle) {
  * Resolves with the final output folder path once the
  * download has completed successfully.
  */
-function fetchDownload(options, listeners, speedListeners, stageListeners, playlistInfoListeners) {
+function fetchDownload(options, progressListeners, speedListeners, stageListeners, playlistInfoListeners) {
 
   return new Promise((resolve, reject) => {
 
@@ -190,7 +190,7 @@ function fetchDownload(options, listeners, speedListeners, stageListeners, playl
 
     child.on("close", code => {
       currentDownloadProcess = null;
-      listeners.forEach(fn => fn("done"));
+      progressListeners.forEach(fn => fn("done"));
       if (code === 0) resolve(safeOutputFolder);
       else if (code === null) reject(new Error(`Download cancelled by user`));
       else reject(new Error(`YT-DLP failed with code : ${code}`));
@@ -204,11 +204,11 @@ function fetchDownload(options, listeners, speedListeners, stageListeners, playl
 
         // Progress Bar 
         if (line.startsWith("[download] Destination:")) {
-          listeners.forEach(fn => fn("reset"));
+          progressListeners.forEach(fn => fn("reset"));
           stageListeners.forEach(fn => fn("Downloading..."));
         }
         const match = line.match(/\[download\]\s+(\d+\.\d+)%/);
-        if (match) listeners.forEach(fn => fn(parseFloat(match[1])));
+        if (match) progressListeners.forEach(fn => fn(parseFloat(match[1])));
 
         if (line.includes("MiB/s") || line.includes("KiB/s")) {
             const match = line.match(/\d+(\.\d+)?[KM]?iB\/s/);

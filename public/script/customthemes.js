@@ -121,7 +121,7 @@ async function initThemes() {
     const defaultTheme = {
       id: "dark",
       name: "Dark",
-      subtitle: "Darkness is my ally",
+      subtitle: "Because Why Not ?",
       style: {
         background: {
           size: "cover",

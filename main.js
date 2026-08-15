@@ -41,7 +41,10 @@ const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/log
 const { configFeatures } = require("./config");
 
 /**
- * On start, enable or disable hardWareAcceleration
+ * In-memory snapshot of application feature flags.
+ *
+ * Note: Changes to the config file are not automatically reflected.
+ * A restart could be required.
  */
 if (!configFeatures.enableHardwareAcceleration){
   app.disableHardwareAcceleration();
@@ -50,15 +53,7 @@ if (!configFeatures.enableHardwareAcceleration){
   logger.info("Enable Hardware Acceleration")
 }
 
-/**
- * In-memory snapshot of application feature flags.
- *
- * Note: Changes to the config file are not automatically reflected.
- * A restart could be required.
- */
-const config = require("./config");
-
-if(config.devMode){
+if(configFeatures.devMode){
   /**
    * Start devTron extensions - @see https://github.com/electron/devtron
    */
@@ -117,7 +112,7 @@ app.whenReady().then(async () => {
 
   createSplashWindow();
 
-  if (!config.devMode && !checkNativeDependencies()) return;
+  if (!configFeatures.devMode && !checkNativeDependencies()) return;
 
   const { userYtDlp } = require("./server/helpers/path.helpers");
   updateYtDlp(userYtDlp);
@@ -143,7 +138,7 @@ app.whenReady().then(async () => {
     getMainWindow().show();
 
     if (configFeatures.systemTray) {
-      createSystemTray(getMainWindow(), config.devMode);
+      createSystemTray(getMainWindow(), configFeatures.devMode);
     }
 
     if (configFeatures.discordRPC) startRPC();

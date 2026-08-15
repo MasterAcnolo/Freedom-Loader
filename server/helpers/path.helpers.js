@@ -150,7 +150,7 @@ const binaryPaths = {
  * - user themes are persisted in userData to survive updates
  */
 const userThemesPath = path.join(app.getPath("userData"), "themes");
-const defaultThemesSourcePath = path.join(resourcesPath, "theme");
+const defaultThemesSourcePath = path.join("theme");
 
 /**
  * Initializes user theme directory and ensures default themes exist.

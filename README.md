@@ -84,6 +84,7 @@ The primary goal is to make media downloading accessible to users who want offli
 - **Stop download** - ability to cancel in-progress downloads
 - **Playlist folders** - dedicated folder creation per playlist
 - **Keep Playlist Order** - Add an Index before the title, could be useful for an album for example.
+- **System Tray** - Could minimize the application in the system Tray, allow it to run in the background.
 
 ## Installation
 
@@ -253,7 +254,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | Option                       | Type    | Default  | Description                                                |
 |------------------------------|---------|----------|------------------------------------------------------------|
 | `autoUpdate`                 | boolean | `true`   | Enable automatic application updates                       |
-| `systemTray`                 | boolean | `true`   | Allow app to minimize on close                             |
+| `systemTray`                 | boolean | `true`   | Allow app to minimize on close [EXPERIMENTAL]              |
 | `discordRPC`                 | boolean | `true`   | Enable Discord Rich Presence integration                   |
 | `customTopBar`               | boolean | `true`   | Use custom application top bar                             |
 | `autoCheckInfo`              | boolean | `true`   | Automatically fetch video information on URL paste         |

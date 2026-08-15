@@ -121,8 +121,14 @@ function initAutoUpdater(mainWindow) {
  */
 async function checkForUpdates() {
 
-  if (process.env.SNAP) {
-    logger.info("Running as Snap, update managed by snapd, skipping electron-updater");
+  /**
+   * Prevents electron-updater from running inside sandboxed environments.
+   * Snap and Flatpak lock the file system in read-only mode, causing the updater to crash.
+   * In these environments, updates are safely handled by snapd or the Flatpak runtime.
+   * Standalone Linux packages (.deb, .rpm, AppImage) will bypass this and update normally.
+   */
+  if (process.env.SNAP || process.env.FLATPAK_ID) {
+    logger.info("Running as Snap or Flatpak. Updates are managed by the OS store. Skipping electron-updater.");
     return;
   }
 

@@ -7,7 +7,7 @@
  *
  * @returns {Promise<void>}
  */
-async function versionLabel() {
+async function displayVersionLabel() {
   /**
    * Raw version string from the backend (e.g., "dev-1.6.2-preview" or "v1.6.2")
    * @type {string}
@@ -51,4 +51,4 @@ async function versionLabel() {
   versionBadge.textContent = `${packageStateStr}${previewStr}v${baseVersion}`;
 }
 
-versionLabel();
+displayVersionLabel();

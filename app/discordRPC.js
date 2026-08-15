@@ -103,7 +103,9 @@ function startRPC() {
   });
 
   rpc.login({ clientId }).catch(err => {
-    logger.error("Unable to connect to the RPC:", err);
+    // Since 1.6.2, it no longer print the error. This is because if discord is not opened, it will send an error.
+    // logger.error("Unable to connect to the RPC:", err);
+    logger.info("Unable to connect to the Discord RPC. Discord is maybe not launched");
   });
 }
 
@@ -132,7 +134,8 @@ async function stopRPC() {
       await rpc.destroy();
 
     } catch (err) {
-      logger.error("Error while closing the RPC:", err);
+      // Since 1.6.2, it no longer print the error. This is because if discord is not opened, it will send an error.
+      // logger.error("Error while closing the RPC:", err);
     }
   }
 }

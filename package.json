@@ -148,8 +148,6 @@
       "shortcutName": "Freedom Loader"
     },
     "linux": {
-      "desktopName": "Freedom Loader",
-      "syncDesktopName": true,
       "target": [
         "AppImage",
         "deb",
@@ -187,7 +185,7 @@
         "./package/com.masteracnolo.freedomloader.metainfo.xml=/usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml"
       ]
     },
-    "snapcraft": {
+    "snap": {
       "confinement": "strict",
       "plugs": [
         "default",

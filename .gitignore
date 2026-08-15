@@ -17,8 +17,10 @@ config/config.dev.json
 ffmpeg
 ffprobe
 deno
+ytdlp
 
 # Windows Executable
 ffmpeg.exe
 ffprobe.exe
 deno.exe
+yt-dlp.exe

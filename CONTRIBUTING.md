@@ -46,7 +46,7 @@ Have an idea to improve Freedom Loader? Open a [**Feature Request**](https://git
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/your-feature-name`
 3. Make your changes
-4. Test thoroughly on Windows 10/11
+4. Test thoroughly on Windows 10/11 and Linux (If possible)
 5. Commit with clear messages: `git commit -m "Add feature X"`
 6. Push to your fork: `git push origin feature/your-feature-name`
 7. Open a Pull Request using the appropriate template
@@ -77,11 +77,12 @@ Small contributions matter—don't hesitate to submit documentation PRs.
 - npm or yarn
 - Git
 - Windows 10/11 (for testing)
+- Any Linux Distribution (for testing)
 
 ### Setup
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR-USERNAME/Freedom-Loader.git
+git clone https://github.com/MasterAcnolo/Freedom-Loader.git
 cd Freedom-Loader
 
 # Install dependencies
@@ -94,32 +95,15 @@ npm start
 npm run build
 ```
 
-### Project Structure
-```
-Freedom-Loader/
-├── main.js           # Electron main process
-├── preload.js        # Electron preload script
-├── config.js         # Global configuration
-├── server/           # Express backend
-│   ├── routes/       # API routes
-│   ├── controller/   # Business logic
-│   └── helpers/      # Utility functions
-├── public/           # Frontend (HTML, CSS, JS)
-└── resources/       # Binaries (yt-dlp, ffmpeg, etc.)
-```
-
 ---
 
 ## Testing
 
 Before submitting a PR, verify:
 - [ ] Download functionality works (video/audio)
-- [ ] Playlist downloads work
-- [ ] Settings panel functions correctly
-- [ ] Custom path selection works
 - [ ] No errors in application logs
-- [ ] UI changes work on all themes (if applicable)
-- [ ] Tested on Windows 10 and/or Windows 11
+- [ ] Any features wasn't break during the development
+- [ ] Tested on Windows 10 and/or Windows 11 and/or any Linux Distribution
 
 ---
 

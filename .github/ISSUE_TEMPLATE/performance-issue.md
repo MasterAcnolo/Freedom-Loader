@@ -29,6 +29,9 @@ Clear description of the performance issue.
 - **Storage**: [e.g. SSD/HDD]
 - **Other Applications Opened**: [e.g. Discord/Opera GX]
 
+> [!INFO]
+> At the start of the application, SystemInfo is printed in the logs, so you can just copy and paste it!
+
 ## Reproduction Details
 
 - **Download URL**: [if applicable]

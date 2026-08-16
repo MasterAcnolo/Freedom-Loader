@@ -2,7 +2,7 @@
 
 Brief description of what this PR does.
 
-## Related Issue
+## Related Issue (if applicable)
 
 Fixes #(issue number)
 Closes #(issue number)
@@ -30,7 +30,7 @@ Related to #(issue number)
 - [ ] I have tested with different download scenarios (video/audio, playlists)
 - [ ] I have checked the application logs for errors
 - [ ] I have verified the UI changes (if applicable)
-- [ ] I have tested on Windows 10 and/or Windows 11
+- [ ] I have tested on Windows 10 and/or Windows 11 or in any Linux Distribution
 
 ## Screenshots (if applicable)
 

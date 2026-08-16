@@ -4,6 +4,13 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 VERSION=$(node -p "require('$ROOT_DIR/package.json').version")
+
+f [[ "$VERSION" == *"-preview"* ]]; then
+    echo "Error: The current version ($VERSION) is a 'preview"
+    echo "Unable to launch release pipeline. Please update the package.json with a stable version.."
+    exit 1
+fi
+
 TAG="$VERSION"
 
 # Parse arguments
@@ -17,7 +24,7 @@ for arg in "$@"; do
         --copr)    PUBLISH_COPR=true ;;
         --publish) PUBLISH_SNAP=true; PUBLISH_COPR=true ;;
         --dry-run) DRY_RUN=true ;;
-        *) echo "⚠️ Argument inconnu : $arg" ; exit 1 ;;
+        *) echo "Unknown Argument : $arg" ; exit 1 ;;
     esac
 done
 

@@ -1,10 +1,16 @@
 const express = require("express");
 const path = require("path");
-const { logger, logSessionEnd } = require("./logger");
 const config = require("../config");
+
+const { logger, logSessionEnd } = require("./logger");
 const { rateLimit } = require("./helpers/rateLimit.helpers");
 
 const app = express();
+
+/**
+ * Store the state of the server
+ */
+let serverInstance = null;
 
 // Middlewares
 app.use(express.json());
@@ -30,33 +36,29 @@ app.get("/", rateLimit, (req, res) => {
  */
 async function startServer() {
   return new Promise((resolve, reject) => {
-    const server = app.listen(config.applicationPort, () => {
+    const serverInstance = app.listen(config.applicationPort, () => {
       logger.info(`Express server ready at http://localhost:${config.applicationPort}`);
-      resolve(server);
+      resolve(serverInstance);
     });
 
-    server.on("error", (err) => {
+    serverInstance.on("error", (err) => {
       logger.error("Express server error:", err);
       reject(err);
     });
-
-    /**
-     * Clean exit function
-     *  - Stop Log 
-     *  - Stop Express Server
-     *  - Stop Electron App 
-     */
-    const gracefulExit = () => {
-      logSessionEnd();
-      server.close(() => {
-        logger.info("Express server closed cleanly.");
-        process.exit();
-      });
-    };
-
-    process.on("SIGINT",  gracefulExit);
-    process.on("SIGTERM", gracefulExit);
   });
 }
 
-module.exports = { startServer };
+/**
+ * Clean exit function called by Electron
+ */
+function stopServer() {
+  if (serverInstance) {
+    serverInstance.close();
+    logger.info("Express server closed cleanly.");
+
+  } else {
+    logger.error("Express server was not closed cleanly")
+  }
+}
+
+module.exports = { startServer, stopServer };

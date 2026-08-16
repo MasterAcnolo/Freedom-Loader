@@ -76,6 +76,7 @@ const { registerIpcHandlers } = require("./app/ipcHandlers");
 const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
 const { userThemesPath, initUserThemes, isWindows, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
 const {createSystemTray, destroyTray} = require("./app/tray");
+const { stopServer } = require("./server/server");
 
 /**
  * Global flag indicating if the application is intentionally shutting down.
@@ -90,6 +91,28 @@ app.isQuitting = false;
  * @type {boolean}
  */
 let isCleanedUp = false;
+
+/**
+ * Performs a graceful shutdown of all application services asynchronously.
+ * Once finished, it re-triggers the app.quit() process.
+ */
+async function cleanShutdown() {
+  try {
+    destroyTray();
+    await stopRPC();
+    stopServer(); 
+
+  } catch (err) {
+    logger.error("Error during cleanup:", err);
+
+  } finally {
+    logger.info("All services stopped. Have a nice day!");
+    logSessionEnd();
+    
+    isCleanedUp = true;
+    app.quit();
+  }
+}
 
 /**
  * If another instance want to run
@@ -166,19 +189,6 @@ app.on("before-quit", (event) => {
   if (!isCleanedUp) {
     event.preventDefault(); 
 
-    (async () => {
-      try {
-        destroyTray();
-        await stopRPC();
-      } catch (err) {
-        logger.error("Error during cleanup:", err);
-      } finally {
-        logger.info("All services stopped. Have a nice day!");
-        logSessionEnd();
-        
-        isCleanedUp = true;
-        app.quit();
-      }
-    })();
+    cleanShutdown();
   }
 });

@@ -56,7 +56,7 @@ npm start
 - `npm run build:linux` — Build Linux packages (AppImage, deb, snap)
 - `npm run build:win` — Build Windows installer (.exe)
 - `npm run build:rpm` — Build RPM and SRPM for COPR (Fedora)
-- `npm run build:all` — Build both Windows and Linux (not recommended — see below)
+- `npm run build:all` — Build both Windows and Linux (not recommended because it adds both OS binaries into a single package. The output file is 2x bigger than expected).
 
 ### Testing
 

@@ -6,6 +6,7 @@ Welcome! Thanks for your interest in Freedom Loader. Your contributions—bug re
 
 ## Quick Links
 
+- [Development Guide](DEVELOPMENT.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Issue Templates](.github/ISSUE_TEMPLATE/)
 - [Pull Request Templates](.github/PULL_REQUEST_TEMPLATE/)

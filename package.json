@@ -85,32 +85,20 @@
         "to": "theme"
       },
       {
-        "from": "build/app-icon.ico",
-        "to": "app-icon.ico"
-      },
-      {
-        "from": "build/app-icon-64x64.png",
-        "to": "app-icon-64x64.png"
-      },
-      {
-        "from": "build/confirm-icon.png",
-        "to": "confirm-icon.png"
-      },
-      {
-        "from": "build/banner.bmp",
-        "to": "banner.bmp"
-      },
-      {
-        "from": "build/banner.png",
-        "to": "banner.png"
-      },
-      {
-        "from": "build/error.png",
-        "to": "error.png"
-      },
-      {
         "from": "config/config.default.json",
         "to": "config/config.default.json"
+      },
+      {
+        "from": "build",
+        "to": ".",
+        "filter": [
+          "app-icon.ico",
+          "app-icon-64x64.png",
+          "confirm-icon.png",
+          "banner.bmp",
+          "banner.png",
+          "error.png"
+        ]
       }
     ],
     "win": {
@@ -119,20 +107,14 @@
       "artifactName": "Freedom-Loader-Setup-${version}.${ext}",
       "extraResources": [
         {
-          "from": "resources/binaries/win-32/yt-dlp.exe",
-          "to": "binaries/yt-dlp.exe"
-        },
-        {
-          "from": "resources/binaries/win-32/ffmpeg.exe",
-          "to": "binaries/ffmpeg.exe"
-        },
-        {
-          "from": "resources/binaries/win-32/ffprobe.exe",
-          "to": "binaries/ffprobe.exe"
-        },
-        {
-          "from": "resources/binaries/win-32/deno.exe",
-          "to": "binaries/deno.exe"
+          "from": "resources/binaries/win-32",
+          "to": "binaries",
+          "filter": [
+            "yt-dlp.exe",
+            "ffmpeg.exe",
+            "ffprobe.exe",
+            "deno.exe"
+          ]
         }
       ]
     },
@@ -158,20 +140,14 @@
       "executableName": "freedom-loader",
       "extraResources": [
         {
-          "from": "resources/binaries/linux/yt-dlp",
-          "to": "binaries/yt-dlp"
-        },
-        {
-          "from": "resources/binaries/linux/ffmpeg",
-          "to": "binaries/ffmpeg"
-        },
-        {
-          "from": "resources/binaries/linux/ffprobe",
-          "to": "binaries/ffprobe"
-        },
-        {
-          "from": "resources/binaries/linux/deno",
-          "to": "binaries/deno"
+          "from": "resources/binaries/linux",
+          "to": "binaries",
+          "filter": [
+            "yt-dlp",
+            "ffmpeg",
+            "ffprobe",
+            "deno"
+          ]
         }
       ]
     },

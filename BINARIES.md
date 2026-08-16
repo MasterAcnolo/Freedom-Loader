@@ -94,3 +94,4 @@ chmod +x resources/binaries/linux/deno
 
 - These binaries are excluded from version control via `.gitignore`.
 - Always use the latest stable release of each tool.
+- **Yt-dlp** binaries don't need to be updated manually. At every startup of the application, the binary tries to update itself

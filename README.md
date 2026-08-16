@@ -35,7 +35,7 @@ The primary goal is to make media downloading accessible to users who want offli
 - [Usage](#usage)
 - [Preview](#preview)
 - [Configuration](#configuration)
-- [Project Structure](#project-structure)
+<!-- - [Project Structure](#project-structure) -->
 - [Theme Workshop](#Theme-Workshop)
 - [Technology Stack](#technology-stack)
 - [Development](#development)
@@ -285,7 +285,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 > [!NOTE]
 > Some configuration changes may require an application restart to take effect.
 
-## Project Structure
+<!-- ## Project Structure
 
 ```
 Freedom-Loader/
@@ -366,7 +366,7 @@ Freedom-Loader/
 ├── package.json             # Project metadata and dependencies
 ├── preload.js               # Electron preload script (IPC bridge)
 └── README.md                # This file
-```
+``` -->
 
 ### Architecture Overview
 
@@ -414,28 +414,7 @@ Freedom Loader includes a web-based theme creator available at [Freedom Loader W
 
 ## Development
 
-### Prerequisites
-
-- Node.js 16.x or higher
-- npm or yarn
-- Git
-
-### Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/MasterAcnolo/Freedom-Loader.git
-cd Freedom-Loader
-
-# Install dependencies
-npm install
-
-# Run in development mode
-npm start
-
-# Build for production
-npm run build
-```
+If you are interested by running a local non compiled version of Freedom Loader or just interested by contributing, see [DEVELOPMENT](./DEVELOPMENT.md)
 
 ### Additional Dependencies
 
@@ -446,40 +425,19 @@ You must download the required binaries and place them in the `resources` folder
 
 #### Required binaries
 
-- **Deno**
-  - Download from: https://sourceforge.net/projects/deno.mirror/files/latest/download
-  - Rename to: `deno.exe`
-
-- **FFmpeg**
-  - Download from: https://www.ffmpeg.org/download.html
-  - Required files:
-    - `ffmpeg.exe`
-    - `ffprobe.exe`
-
-- **yt-dlp**
-  - Already bundled with the project  
-  - No manual installation required
-
-Final folder structure:
-
-```
-resources/
-├── deno.exe
-├── ffmpeg.exe
-├── ffprobe.exe
-└── yt-dlp.exe
-```
-
-> These binaries are required for the application to start correctly.  
-> If any of them are missing, an error message will be displayed at application startup.
+See [BINARIES.md](./BINARIES.md) for how to setup the binaries.
 
 ### Development Guidelines
 
 - Follow existing code style and conventions
-- Write clear commit messages
-- Test thoroughly before submitting changes
-- Update documentation when adding features
-- Maintain compatibility with Windows 10+ and Linux
+- Write clear, imperative commit messages (e.g., "Add playlist indexing" not "Added")
+- Test thoroughly on both Windows and Linux before submitting changes
+- Update documentation (README, DEVELOPMENT.md) when adding features
+- Maintain compatibility with:
+  - Windows 10+
+  - Fedora 43+ / Debian 11+ / Ubuntu 20.04+
+  - GNOME and KDE desktop environments (when possible)
+- Consider Linux distribution differences early (see [DEVELOPMENT.md](./DEVELOPMENT.md#linux-development-considerations))
 
 ## Roadmap
 
@@ -521,7 +479,7 @@ Open a feature request issue with:
 5. Update documentation as needed
 6. Submit a pull request with a detailed description
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before contributing.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md), [DEVELOPMENT.md](./DEVELOPMENT.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before contributing.
 
 ## Support
 

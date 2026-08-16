@@ -23,7 +23,7 @@ Found a bug or unexpected behavior? Open an [**issue**](https://github.com/Maste
 - Clear description of the bug
 - Steps to reproduce
 - App version and environment (Windows version, Firefox version if relevant)
-- Logs from: `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\LOGS-YYYY-MM-DD.log`
+- Logs from: `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\LOGS-YYYY-MM-DD.log` (Windows) or `~/.local/share/FreedomLoader/logs/` (Linux)
 - Screenshots if applicable
 
 ### 2. Request a Feature
@@ -43,13 +43,11 @@ Have an idea to improve Freedom Loader? Open a [**Feature Request**](https://git
 - Follow the project's code style and conventions
 
 **Process:**
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Make your changes
-4. Test thoroughly on Windows 10/11 and Linux (If possible)
-5. Commit with clear messages: `git commit -m "Add feature X"`
-6. Push to your fork: `git push origin feature/your-feature-name`
-7. Open a Pull Request using the appropriate template
+1. Fork the repository.
+2. Check out our [**Developer Guide (DEVELOPMENT.md)**](./DEVELOPMENT.md) to set up your environment.
+3. Create a feature branch following our branching conventions.
+4. Make your changes and test thoroughly on Windows and/or Linux.
+5. Open a Pull Request using the appropriate template.
 
 **Code Guidelines:**
 - Use camelCase for variables and functions
@@ -72,28 +70,9 @@ Small contributions matter—don't hesitate to submit documentation PRs.
 
 ## Development Setup
 
-### Prerequisites
-- Node.js 16.x or higher
-- npm or yarn
-- Git
-- Windows 10/11 (for testing)
-- Any Linux Distribution (for testing)
+Want to write some code? Awesome! 
 
-### Setup
-```bash
-# Clone your fork
-git clone https://github.com/MasterAcnolo/Freedom-Loader.git
-cd Freedom-Loader
-
-# Install dependencies
-npm install
-
-# Run in development mode
-npm start
-
-# Build for production
-npm run build
-```
+Please read our [**Developer Guide (DEVELOPMENT.md)**](./DEVELOPMENT.md) for instructions on how to set up your local environment, our project architecture, and our Git branching rules.
 
 ---
 
@@ -103,7 +82,7 @@ Before submitting a PR, verify:
 - [ ] Download functionality works (video/audio)
 - [ ] No errors in application logs
 - [ ] Any features wasn't break during the development
-- [ ] Tested on Windows 10 and/or Windows 11 and/or any Linux Distribution
+- [ ] Tested on Windows 10/11 and/or any Linux Distribution
 
 ---
 

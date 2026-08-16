@@ -41,7 +41,6 @@ The primary goal is to make media downloading accessible to users who want offli
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Submitting a community theme](#Submitting-a-community-theme)
-- [Support](#support)
 - [License](#license)
 
 ## Features
@@ -396,14 +395,6 @@ Open a feature request issue with:
 6. Submit a pull request with a detailed description
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md), [DEVELOPMENT.md](./DEVELOPMENT.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before contributing.
-
-## Support
-
-If you find this project useful and want to support its development:
-
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/axelnicolas25)
-
-Your support helps maintain infrastructure, develop new features, and keep the project free and ad-free.
 
 ## License
 

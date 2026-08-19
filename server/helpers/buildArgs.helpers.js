@@ -135,7 +135,7 @@ function buildYtDlpArgs({url, audioOnly, quality, outputFolder, isPlaylist}) {
   if (configFeatures.addMetadata) {
     args.push(
         "--postprocessor-args",
-        `ffmpeg:-metadata comment="Downloaded with Freedom Loader v${config.version}"`
+        `ffmpeg:-metadata comment="Downloaded with Freedom Loader ${config.version}"`
     );
 }
 

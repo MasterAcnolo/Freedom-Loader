@@ -9,7 +9,7 @@
   "verboseLogs": false,
   "autoDownloadPlaylist": true,
   "keepPlaylistOrder": false,
-  "createPlaylistFolders": true,
+  "createPlaylistFolders": false,
   "customCodec": "h264",
   "logSystem": true,
   "outputTitleCheck": true,

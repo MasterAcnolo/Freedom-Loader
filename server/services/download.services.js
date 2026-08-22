@@ -7,6 +7,7 @@ const notify = require("../helpers/notify.helpers");
 const path = require("path");
 const { isSafePath } = require("../helpers/validation.helpers");
 const {reloadFeatures} = require("../../config");
+const {isUrlPlaylist} = require("../helpers/playlist.helpers");
 
 /**
  * Reference to the currently running yt-dlp process.
@@ -17,19 +18,6 @@ const {reloadFeatures} = require("../../config");
  * @type {import("child_process").ChildProcess|null}
  */
 let currentDownloadProcess = null;
-
-/**
- * Determines whether a URL targets a playlist.
- *
- * The detection is based on the presence of the YouTube
- * playlist query parameter (`list`).
- *
- * @param {string} url - URL to inspect.
- * @returns {boolean} True if the URL appears to be a playlist.
- */
-function isPlaylistUrl(url) {
-  return url.includes("?list=") || url.includes("&list=");
-}
 
 /**
  * Creates a dedicated download folder for a playlist.
@@ -49,23 +37,23 @@ function isPlaylistUrl(url) {
  */
 function createPlaylistFolder(basePath, playlistTitle) {
   const sanitizedTitle = playlistTitle
-    .replace(/[<>:"|?*]/g, '') 
-    .replace(/\s+/g, ' ') 
+      .replace(/[<>:"|?*]/g, '')
+      .replace(/\s+/g, ' ')
     .trim()
     .substring(0, 200);
 
   const playlistPath = path.join(basePath, sanitizedTitle);
-  
+
   try {
     if (!fs.existsSync(playlistPath)) {
       fs.mkdirSync(playlistPath, { recursive: true });
       logger.info(`Playlist folder created: ${playlistPath}`);
       return playlistPath;
     }
-    
+
     let counter = 1;
     let newPath;
-    
+
     while (counter <= 1000) {
       newPath = path.join(basePath, `${sanitizedTitle} ${counter}`);
       if (!fs.existsSync(newPath)) {
@@ -75,17 +63,17 @@ function createPlaylistFolder(basePath, playlistTitle) {
       }
       counter++;
     }
-    
+
     logger.error(`Could not find available playlist folder after 1000 attempts`);
     throw new Error("Unable to create playlist folder");
-    
+
   } catch (err) {
     logger.warn(`Failed to create playlist folder with title "${sanitizedTitle}": ${err.message}`);
-    
+
     // Fallback: create folder "Untitled Playlist X"
     let counter = 1;
     let fallbackPath;
-    
+
     while (counter <= 1000) {
       fallbackPath = path.join(basePath, `Untitled Playlist ${counter}`);
       if (!fs.existsSync(fallbackPath)) {
@@ -100,7 +88,7 @@ function createPlaylistFolder(basePath, playlistTitle) {
       }
       counter++;
     }
-    
+
     logger.error(`Could not create playlist folder after 1000 attempts`);
     throw new Error("Unable to create playlist folder");
   }
@@ -139,17 +127,17 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
     const userConfig = reloadFeatures();
 
     logger.info(`CONFIG createPlaylistFolders: ${userConfig.createPlaylistFolders}`);
-    
+
     let outputFolder = options.outputFolder || defaultDownloadFolder;
-    
+
     // Normalize path and validate it's safe (within Users folder)
     let safeOutputFolder = path.resolve(outputFolder);
-    
+
     if (!isSafePath(safeOutputFolder)) {
       logger.warn(`Path not allowed, using default instead: ${safeOutputFolder}`);
       safeOutputFolder = path.resolve(defaultDownloadFolder);
     }
-    
+
     // Create download folder if it doesn't exist
     try {
       fs.mkdirSync(safeOutputFolder, { recursive: true });
@@ -160,7 +148,7 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
     }
 
     // Détecte si c'est une playlist et crée un dossier approprié
-    const isPlaylist = options.playlistTitle || isPlaylistUrl(options.url);
+    const isPlaylist = options.playlistTitle || isUrlPlaylist(options.url);
 
     if (isPlaylist && userConfig.createPlaylistFolders) {
       try {
@@ -196,13 +184,13 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
       else reject(new Error(`YT-DLP failed with code : ${code}`));
     });
 
-    
+
     child.stdout.on("data", data => {
       data.toString().split("\n").forEach(line => {
         if (!line.trim()) return;
         logger.info(`[yt-dlp] ${line}`);
 
-        // Progress Bar 
+        // Progress Bar
         if (line.startsWith("[download] Destination:")) {
           progressListeners.forEach(fn => fn("reset"));
           stageListeners.forEach(fn => fn("Downloading..."));
@@ -253,7 +241,7 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
       data.toString().split("\n").forEach(line => line.trim() && logger.error(`[yt-dlp stderr] ${line}`));
     });
 
-    
+
   });
 }
 
@@ -270,7 +258,7 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
 function cancelDownload() {
   if (currentDownloadProcess) {
     logger.info("Cancelling download and killing all child processes...");
-    
+
     // Force kill the process and all its children with SIGKILL
     try {
       // Try to kill with SIGKILL on Windows (process group) or Unix
@@ -286,7 +274,7 @@ function cancelDownload() {
       // Fallback to regular kill
       currentDownloadProcess.kill('SIGKILL');
     }
-    
+
     currentDownloadProcess = null;
     logger.info("Download cancelled successfully");
     return true;

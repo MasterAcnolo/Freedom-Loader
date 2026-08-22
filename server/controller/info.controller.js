@@ -2,6 +2,7 @@ const { fetchInfo } = require("../services/info.services");
 const { parseVideo, parsePlaylist } = require("../helpers/parseInfo.helpers");
 const { logger } = require("../logger");
 const { isValidUrl } = require("../helpers/validation.helpers");
+const {isUrlPlaylist} = require("../helpers/playlist.helpers");
 
 /**
  * Handles metadata retrieval for a video or playlist.
@@ -36,7 +37,7 @@ async function infoController(req, res) {
     logger.info(`Info request received. ENCODED: ${encodedUrl}`);
 
     // Lightweight heuristic to detect playlist URLs. It works for Youtube.
-    const isPlaylistUrl = url.includes("&list") || url.includes("?list");
+    const isPlaylistUrl = isUrlPlaylist(url);
 
     logger.info(
         isPlaylistUrl

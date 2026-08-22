@@ -1,7 +1,6 @@
 const fs = require("fs");
 const os = require("os");
-const path = require("path");
-const notify = require("./notify.helpers")
+const notify = require("./notify.helpers");
 const { logger } = require("../logger");
 
 /**
@@ -22,41 +21,38 @@ const { logger } = require("../logger");
  * @returns {string} The detected browser identifier.
  */
 function getUserBrowser() {
-  //const userProfile = os.homedir();
-  const firefoxPath = getFirefoxProfilePath();
+  const platform = process.platform;
+  let isFirefoxHere = false;
 
-  /**
-   * Browsers supported by yt-dlp cookie extraction.
-   *
-   * Only Firefox is currently enabled and tested.
-   * Additional browsers can be enabled in the future
-   * once compatibility has been verified.
-   */
-  const browsers = [
-    { name: "firefox", path: firefoxPath },
-    // { name: "chrome", path: path.join(userProfile, "AppData", "Local", "Google", "Chrome", "User Data", "Default") },
-    // { name: "brave", path: path.join(userProfile, "AppData", "Local", "BraveSoftware", "Brave-Browser", "User Data", "Default") },
-    // { name: "edge", path: path.join(userProfile, "AppData", "Local", "Microsoft", "Edge", "User Data", "Default") },
-    // { name: "opera", path: path.join(userProfile, "AppData", "Roaming", "Opera Software", "Opera Stable") },
-    // { name: "vivaldi", path: path.join(userProfile, "AppData", "Local", "Vivaldi", "User Data", "Default") },
-    // { name: "safari", path: path.join(userProfile, "AppData", "Local", "Apple Computer", "Safari") },
-    // { name: "whale", path: path.join(userProfile, "AppData", "Local", "Naver", "Naver Whale", "User Data", "Default") }
-  ];
+  if (platform === "win32") {
+    const paths = [
+      "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+      "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe",
+      `${process.env.LOCALAPPDATA}\\Mozilla Firefox\\firefox.exe`,
+    ];
 
-  // Search for the first available browser profile.
-  for (const browser of browsers) {
-    if (browser.path && fs.existsSync(browser.path)) {
-      logger.info(`Browser found: ${browser.name}`);
-      return browser.name;
-    }
+    isFirefoxHere = paths.some(p => fs.existsSync(p));
   }
 
-  // No supported browser found => Notify User
-  logger.warn("No supported browser found on the system");
+  if (platform === "linux") {
+    const paths = [
+      "/usr/bin/firefox",
+      "/usr/bin/firefox-esr",
+      "/usr/local/bin/firefox",
+      "/snap/bin/firefox",
+      "/var/lib/flatpak/exports/bin/org.mozilla.firefox",
+      `${os.homedir()}/.local/share/flatpak/exports/bin/org.mozilla.firefox`,
+    ];
+    isFirefoxHere = paths.some(p => fs.existsSync(p));
+  }
 
-  // If you somehow managed to live without Firefox and need help installing it. - Don't applied to my Linux chad
-  if (process.platform === "win32") {
+  if (!isFirefoxHere) {
+    // If you somehow managed to live without Firefox and need help installing it. - Don't applied to my Linux chad
+    // No supported browser found => Notify User
+    logger.warn("No supported browser found on the system");
     notify.notifyFirefoxBrowserMissing();
+  } else {
+    logger.info("Browser found: firefox");
   }
 
   // Fallback to Firefox and let yt-dlp handle the error gracefully.
@@ -64,39 +60,4 @@ function getUserBrowser() {
   return "firefox";
 }
 
-function getFirefoxProfilePath() {
-  const home = os.homedir();
-
-  if (process.platform === "win32") {
-    return path.join(
-      home,
-      "AppData",
-      "Roaming",
-      "Mozilla",
-      "Firefox",
-      "Profiles"
-    );
-  }
-
-  if (process.platform === "linux") {
-    return path.join(
-      "usr",
-      "bin",
-      "firefox"
-    );
-  }
-
-  if (process.platform === "darwin") {
-    return path.join(
-      home,
-      "Library",
-      "Application Support",
-      "Firefox",
-      "Profiles"
-    );
-  }
-
-  return null;
-}
-
-module.exports = getUserBrowser
+module.exports = {getUserBrowser};

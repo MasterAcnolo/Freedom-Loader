@@ -1,6 +1,6 @@
 const path = require("path");
 
-const getUserBrowser = require("./getBrowser.helpers.js");
+const {getUserBrowser} = require("./getBrowser.helpers.js");
 const { ffmpegPath, denoPath} = require("./path.helpers.js");
 const { configFeatures } = require("../../config.js");
 const { logger } = require("../logger.js");

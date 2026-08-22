@@ -1,6 +1,6 @@
 const { execFile } = require("child_process");
 const { userYtDlp, denoPath } = require("../helpers/path.helpers");
-const getUserBrowser = require("../helpers/getBrowser.helpers");
+const {getUserBrowser} = require("../helpers/getBrowser.helpers");
 const { logger } = require("../logger");
 
 /**
@@ -61,6 +61,7 @@ function fetchInfo(url) {
 
             try {
                 const data = JSON.parse(stdout);
+
                 resolve(data);
             } catch (e) {
                 logger.error(`JSON Parsing Error: ${e.message}`);

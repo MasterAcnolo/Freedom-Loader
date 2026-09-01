@@ -53,11 +53,14 @@ async function startServer() {
  */
 function stopServer() {
   if (serverInstance) {
-    serverInstance.close();
-    logger.info("Express server closed cleanly.");
-
+    try{
+      serverInstance.close();
+      logger.info("Express server closed cleanly");
+    } catch (err){
+      logger.error("Express server was not closed cleanly:", err)
+    }
   } else {
-    logger.error("Express server was not closed cleanly")
+    logger.info("Express server was already closed");
   }
 }
 

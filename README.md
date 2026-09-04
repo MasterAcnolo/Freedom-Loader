@@ -25,7 +25,7 @@ The primary goal is to make media downloading accessible to users who want offli
 
 ### See related repo:
 
-- **[Website](https://masteracnolo.github.io/Freedom-Loader-Site/)** - Official project website and documentation
+- **[Website](https://github.com/MasterAcnolo/Freedom-Loader-Site/)** - Official project website and documentation
 - **[Workshop](https://github.com/MasterAcnolo/Freedom-Loader-Workshop)** - Theme creation tool and theme browser
 
 ## Table of Contents

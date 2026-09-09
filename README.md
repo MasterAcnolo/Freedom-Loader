@@ -412,7 +412,6 @@ You are free to use, modify, and redistribute this software under the terms of t
 - [@SpicyFire21](https://github.com/SpicyFire21) to be the spiciest one
 - [@AureCX](https://github.com/AureCX) for being the Official Windows Tester!
 - Zakaria for the website icon 
-- Jacques Chirac to love Apples
 - All users who test, report issues, and help improve the application
 
 ---

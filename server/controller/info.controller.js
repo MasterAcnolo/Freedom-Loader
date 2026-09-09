@@ -77,11 +77,11 @@ async function infoController(req, res) {
                     );
 
                     // Preserve original error context
-                    throw err;
+                    logger.error(err);
                 }
 
             } else {
-                throw err;
+                logger.error(err);
             }
         }
 

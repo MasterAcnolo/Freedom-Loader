@@ -17,11 +17,6 @@ try {
   console.error(`Failed to create log directory: ${error.message}`);
 }
 
-const logFormat = format.combine(
-  format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-  format.printf(({ timestamp, level, message }) => `${timestamp} | ${level.toUpperCase()} |  ${message}`)
-);
-
 /**
  * Format used by the saved file
  * @type {Format}

@@ -66,7 +66,7 @@ function validateDownloadPath(userPath) {
       const real = fs.realpathSync(absolutePath);
 
       if (!isSafePath(real)) {
-        throw new Error("Path not allowed: system folders are blocked!");
+          logger.error("Path not allowed: system folders are blocked!");
       }
 
       return real;

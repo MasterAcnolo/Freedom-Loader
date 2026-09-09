@@ -65,7 +65,7 @@ function createPlaylistFolder(basePath, playlistTitle) {
     }
 
     logger.error(`Could not find available playlist folder after 1000 attempts`);
-    throw new Error("Unable to create playlist folder");
+    logger.error("Unable to create playlist folder");
 
   } catch (err) {
     logger.warn(`Failed to create playlist folder with title "${sanitizedTitle}": ${err.message}`);

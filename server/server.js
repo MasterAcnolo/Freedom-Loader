@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const config = require("../config");
 
-const { logger, logSessionEnd } = require("./logger");
+const {logger} = require("./logger");
 const { rateLimit } = require("./helpers/rateLimit.helpers");
 
 const app = express();

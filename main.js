@@ -74,7 +74,7 @@ const { updateYtDlp } = require("./app/ytDlpUpdater");
 const { createMainWindow, getMainWindow } = require("./app/windowManager");
 const { registerIpcHandlers } = require("./app/ipcHandlers");
 const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./app/splashManager");
-const { userThemesPath, initUserThemes, isWindows, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
+const { userThemesPath, initUserThemes, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
 const {createSystemTray, destroyTray} = require("./app/tray");
 const { stopServer } = require("./server/server");
 

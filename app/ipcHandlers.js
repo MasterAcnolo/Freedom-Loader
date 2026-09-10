@@ -13,7 +13,7 @@
 const { ipcMain, dialog, shell } = require("electron");
 const fs = require("fs");
 const { logger, logDir } = require("../server/logger");
-const { configFeatures, featuresPath } = require("../config");
+const {configFeatures, featuresPath, devMode} = require("../config");
 const { getThemes, reloadThemes } = require("./themeManager");
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
@@ -114,7 +114,16 @@ function registerIpcHandlers(getMainWindow) {
   /**
    * Window minimize request from renderer.
    */
-  ipcMain.on("window-minimize", () => getMainWindow()?.minimize());
+  ipcMain.on("window-minimize", () => {
+        // Minimize to tray
+        if (configFeatures.systemTray) {
+          getMainWindow()?.hide()
+        } else {
+          // Native minimize
+          getMainWindow()?.minimize()
+        }
+      }
+  );
 
   /**
    * Toggles maximize/unmaximize state of main window.
@@ -223,7 +232,7 @@ function registerIpcHandlers(getMainWindow) {
           if (key === "systemTray") {
             if (value === true) {
               logger.info("System Tray enabled dynamically.");
-              createSystemTray(getMainWindow(), config.devMode);
+              createSystemTray(devMode);
             } else {
               logger.info("System Tray disabled dynamically.");
               destroyTray();

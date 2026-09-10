@@ -2,6 +2,7 @@ const {app, Menu, Tray, nativeImage} = require("electron");
 const path = require("path");
 const {logger} = require("../server/logger"); // Ajuste le chemin si besoin
 const fs = require("fs");
+const {getMainWindow} = require("./windowManager");
 
 /**
  * Global reference to the Tray instance to prevent garbage collection.
@@ -17,11 +18,10 @@ let tray = null;
  * - Builds the right-click context menu.
  * - Handles left-click behavior to toggle main window visibility.
  *
- * @param {import('electron').BrowserWindow} mainWindow - The main application window.
  * @param {boolean} devMode - Indicates whether the application is running in development mode.
  * @returns {Tray} The created Tray instance.
  */
-function createSystemTray(mainWindow, devMode) {
+function createSystemTray(devMode) {
     // Prevent creating multiple tray instances
     if (tray) return tray;
 
@@ -58,7 +58,11 @@ function createSystemTray(mainWindow, devMode) {
         {
             label: "Show Freedom Loader",
             click: () => {
-                mainWindow.show();
+                const window = getMainWindow();
+                if (window && !window.isDestroyed()) {
+                    window.show();
+                    window.focus();
+                }
             },
         },
         { type: "separator" },
@@ -82,11 +86,14 @@ function createSystemTray(mainWindow, devMode) {
      * but it remains standard practice for Windows and Linux environments.
      */
     tray.on("click", () => {
-        if (mainWindow.isVisible()) {
-            mainWindow.hide();
+        const window = getMainWindow();
+        if (!window || window.isDestroyed()) return;
+
+        if (window.isVisible()) {
+            window.hide();
         } else {
-            mainWindow.show();
-            mainWindow.focus();
+            window.show();
+            window.focus();
         }
     });
 

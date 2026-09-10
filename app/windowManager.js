@@ -87,7 +87,8 @@ async function createMainWindow() {
    * cancels the destruction and hides the window instead.
    */
   mainWindow.on('close', (event) => {
-    if (!app.isQuitting && config.systemTray ) {
+
+    if (!app.isQuitting && config.configFeatures.systemTray) {
       event.preventDefault();
       mainWindow.hide();
       return false;

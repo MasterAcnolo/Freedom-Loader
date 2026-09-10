@@ -260,7 +260,7 @@ function validateBinaries() {
 
 /**
  * Helper to lazy load logger, avoid circular import
- * @returns {winston.Logger}
+ * @returns {import("winston").Logger}
  */
 function getLogger() {
     return require("../logger.js").logger;

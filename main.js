@@ -38,7 +38,7 @@ app.setAppUserModelId("com.masteracnolo.freedomloader");
  * Load the app dependencies for hardware choice
  */
 const { logger, logSessionStart, logSessionEnd, logDir } = require("./server/logger");
-const { configFeatures } = require("./config");
+const { configFeatures, devMode} = require("./config");
 
 /**
  * In-memory snapshot of application feature flags.
@@ -53,7 +53,7 @@ if (!configFeatures.enableHardwareAcceleration){
   logger.info("Enable Hardware Acceleration")
 }
 
-if(configFeatures.devMode){
+if(devMode){
   /**
    * Start devTron extensions - @see https://github.com/electron/devtron
    */
@@ -135,7 +135,7 @@ app.whenReady().then(async () => {
 
   createSplashWindow();
 
-  if (!configFeatures.devMode && !checkNativeDependencies()) return;
+  if (!devMode && !checkNativeDependencies()) return;
 
   const { userYtDlp } = require("./server/helpers/path.helpers");
   updateYtDlp(userYtDlp);

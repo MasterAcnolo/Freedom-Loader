@@ -7,7 +7,7 @@ const path = require("path");
  * Indicates whether the application is running in development mode.
  * Determined by Electron's packaging state.
  */
-const devMode = process.env.NODE_ENV === "test" || !app?.isPackaged;
+const devMode = !app.isPackaged || process.env.NODE_ENV === "test";
 
 /**
  * Resolves the configuration file path depending on runtime environment.

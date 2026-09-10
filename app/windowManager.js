@@ -91,6 +91,7 @@ async function createMainWindow() {
     if (!app.isQuitting && config.configFeatures.systemTray) {
       event.preventDefault();
       mainWindow.hide();
+      logger.info("Window Minimized in SystemTray (Using Close Button)");
       return false;
     }
   });

@@ -118,9 +118,11 @@ function registerIpcHandlers(getMainWindow) {
         // Minimize to tray
         if (configFeatures.systemTray) {
           getMainWindow()?.hide()
+          logger.info("Window Minimized in SystemTray (Using Minimize Button)");
         } else {
           // Native minimize
           getMainWindow()?.minimize()
+          logger.info("Window minimized normally");
         }
       }
   );

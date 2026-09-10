@@ -15,8 +15,6 @@
 
 </div>
 
----
-
 ## Overview
 
 Freedom Loader is a desktop application built with Electron that provides a straightforward way to download video and audio content with full metadata support. The application focuses on reliability, transparency, and user privacy-no ads, no tracking, no questionable third-party services.

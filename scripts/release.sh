@@ -108,16 +108,6 @@ RELEASE_NOTES="# Freedom Loader - $VERSION
 ## Found a bug or issue?
 Please report it in the [GitHub Issues](https://github.com/MasterAcnolo/Freedom-Loader/issues) section.
 
-## Next Release (non-exhaustive roadmap)
-- More format options
-- Subtitle support
-- Improved UI / UX
-- Language selection
-- Download specific parts of videos
-- File renaming options
-- Parallel downloads
-- Skip sponsored parts automatically
-
 **Full Changelog**: https://github.com/MasterAcnolo/Freedom-Loader/compare/${PREV_TAG}...${TAG}"
 
 if [ "$DRY_RUN" = false ]; then

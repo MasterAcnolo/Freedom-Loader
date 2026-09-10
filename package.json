@@ -1,5 +1,6 @@
 {
   "name": "freedom-loader",
+  "desktopName": "com.masteracnolo.freedomloader",
   "productName": "Freedom Loader",
   "version": "1.6.3-preview",
   "author": "MasterAcnolo <MasterAcnolo@users.noreply.github.com>",
@@ -133,6 +134,8 @@
         "snap"
       ],
       "category": "Utility",
+      "synopsis": "GUI for yt-dlp to download video and audio with metadata",
+      "maintainer": "MasterAcnolo",
       "icon": "build/app-icon.png",
       "executableName": "freedom-loader",
       "extraResources": [

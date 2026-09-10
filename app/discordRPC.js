@@ -123,14 +123,6 @@ async function stopRPC() {
     try {
       if (intervalId) clearInterval(intervalId);
 
-      /**
-       * Ensures RPC connection AND the underlying socket exist
-       * before attempting to clear activity to prevent crash.
-       */
-      if (rpc.transport && rpc.transport.socket) {
-        await rpc.clearActivity();
-      }
-
       await rpc.destroy();
 
     } catch (err) {

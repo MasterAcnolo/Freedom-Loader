@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 VERSION=$(node -p "require('$ROOT_DIR/package.json').version")
 
-f [[ "$VERSION" == *"-preview"* ]]; then
+if [[ "$VERSION" == *"-preview"* ]]; then
     echo "Error: The current version ($VERSION) is a 'preview"
     echo "Unable to launch release pipeline. Please update the package.json with a stable version.."
     exit 1
@@ -65,6 +65,16 @@ rm -rf "$ROOT_DIR/dist" "$ROOT_DIR/srpm-out"
 echo "Workspace cleaned (dist/ and srpm-out/ removed)"
 
 # ------------------------------------------------------------
+# Step 0.3 - Retrieve Changelog
+# ------------------------------------------------------------
+if [ ! -f "$ROOT_DIR/CHANGELOG.md" ]; then
+    echo "Warning: CHANGELOG.md not found, release notes will be empty."
+    CHANGELOG=""
+else
+    CHANGELOG="$(cat "$ROOT_DIR/CHANGELOG.md")"
+    echo "Changelog retrieved successfully"
+fi
+# ------------------------------------------------------------
 # Step 1 - Build Linux packages (AppImage, deb, snap)
 # ------------------------------------------------------------
 echo "[1/5] Building Linux packages..."
@@ -104,6 +114,10 @@ echo "[4/5] Creating GitHub draft release $TAG..."
 PREV_TAG=$(git rev-list --tags --skip=1 --max-count=1 | xargs git describe --tags 2>/dev/null || echo "previous")
 
 RELEASE_NOTES="# Freedom Loader - $VERSION
+
+## Changelog
+
+$CHANGELOG
 
 ## Found a bug or issue?
 Please report it in the [GitHub Issues](https://github.com/MasterAcnolo/Freedom-Loader/issues) section.

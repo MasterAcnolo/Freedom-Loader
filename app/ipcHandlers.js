@@ -19,6 +19,7 @@ const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 const { userThemesPath } = require("../server/helpers/path.helpers");
 const { createSystemTray, destroyTray } = require("./tray");
+const {sendReport} = require("./sendReport");
 
 /**
  * Security whitelist for feature flags that can be modified at runtime.
@@ -180,8 +181,13 @@ function registerIpcHandlers(getMainWindow) {
    */
   ipcMain.on("open-config", () => shell.openPath(configFolderPath));
 
-  
-  
+  /**
+   * Front end logger
+   */
+  ipcMain.on("log-error", (_, message) => logger.error(`[Frontend] ${message}`));
+  ipcMain.on("log-info", (_, message) => logger.info(`[Frontend] ${message}`));
+  ipcMain.on("log-warn", (_, message) => logger.warn(`[Frontend] ${message}`));
+
   /**
    * Retrieves available themes from filesystem.
    */
@@ -198,6 +204,13 @@ function registerIpcHandlers(getMainWindow) {
   ipcMain.handle("reload-themes", async () => {
     return await reloadThemes();
   });
+
+  /**
+   * Send bug report
+   */
+  ipcMain.handle("send-report", async (_, params) => {
+    return await sendReport(params);
+  })
 
   /**
    * Updates a runtime feature flag and persists it to disk.

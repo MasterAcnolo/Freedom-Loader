@@ -48,9 +48,9 @@ const { configFeatures, devMode} = require("./config");
  */
 if (!configFeatures.enableHardwareAcceleration){
   app.disableHardwareAcceleration();
-  logger.info("Disabled Hardware Acceleration")
+  logger.info("Disabled Hardware Acceleration");
 } else {
-  logger.info("Enable Hardware Acceleration")
+  logger.info("Enable Hardware Acceleration");
 }
 
 if(devMode){
@@ -58,8 +58,8 @@ if(devMode){
    * Start devTron extensions - @see https://github.com/electron/devtron
    */
   const { devtron } = require('@electron/devtron');
-  devtron.install(); 
-  logger.info("Loaded DevTron Extension")
+  devtron.install();
+  logger.info("Loaded DevTron Extension");
 }
 
 /**

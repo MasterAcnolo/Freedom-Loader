@@ -97,7 +97,7 @@ function startRPC() {
       details: `Open Source Download Tools - ${config.version}`,
       state: "masteracnolo.github.io/FreedomLoader",
     };
-    rpc.clearActivity()
+    rpc.clearActivity();
     rpc.setActivity(presence);
 
   });

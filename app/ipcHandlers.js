@@ -118,11 +118,11 @@ function registerIpcHandlers(getMainWindow) {
   ipcMain.on("window-minimize", () => {
         // Minimize to tray
         if (configFeatures.systemTray) {
-          getMainWindow()?.hide()
+          getMainWindow()?.hide();
           logger.info("Window Minimized in SystemTray (Using Minimize Button)");
         } else {
           // Native minimize
-          getMainWindow()?.minimize()
+          getMainWindow()?.minimize();
           logger.info("Window minimized normally");
         }
       }
@@ -210,7 +210,7 @@ function registerIpcHandlers(getMainWindow) {
    */
   ipcMain.handle("send-report", async (_, params) => {
     return await sendReport(params);
-  })
+  });
 
   /**
    * Updates a runtime feature flag and persists it to disk.

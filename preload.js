@@ -10,6 +10,35 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("electronAPI", {
 
   /**
+   * Sends error log message.
+   *
+   * @param {...any} args - Values to log
+   */
+  logError: (...args) => ipcRenderer.send("log-error", args.map(arg => typeof arg === "object" ? JSON.stringify(arg) : arg).join(" ")),
+
+  /**
+   * Sends info log message.
+   *
+   * @param {...any} args - Values to log
+   */
+  logInfo: (...args) => ipcRenderer.send("log-info", args.map(arg => typeof arg === "object" ? JSON.stringify(arg) : arg).join(" ")),
+
+  /**
+   * Sends warning log message.
+   *
+   * @param {...any} args - Values to log
+   */
+  logWarn: (...args) => ipcRenderer.send("log-warn", args.map(arg => typeof arg === "object" ? JSON.stringify(arg) : arg).join(" ")),
+
+  /**
+   * Send Bug Report
+   *
+   * @param params
+   * @returns {Promise<any>}
+   */
+  sendReport: (params) => ipcRenderer.invoke('send-report', params),
+
+  /**
    * Return process.platform to renderer
    */
   getProcessPlatform: () => process.platform,

@@ -6,6 +6,9 @@
 /out
 /srpm-out
 
+# .env
+*.env
+
 # Config JSON File. Create it and fill it if you want to have dev only settings
 config/config.dev.json
 

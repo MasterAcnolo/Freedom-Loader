@@ -17,18 +17,20 @@ window.showToast = function (message, type = "info", duration = 4000) {
   toast.classList.add("toast", type);
 
   const icons = {
-    success: "✓",
-    error: "✕",
-    warning: "⚠",
-    info: "ℹ"
+    success: "check_circle",
+    error: "error",
+    warning: "warning",
+    info: "info"
   };
 
   const icon = icons[type] || icons.info;
 
+  toast.style.setProperty("--toast-duration", `${duration}ms`);
   toast.innerHTML = `
-    <span class="toast-icon">${icon}</span>
+    <span class="toast-icon material-icons-round">${icon}</span>
     <span class="toast-message">${message}</span>
     <button class="toast-close" title="Close">×</button>
+    <div class="toast-progress"></div>
   `;
 
   const closeBtn = toast.querySelector(".toast-close");

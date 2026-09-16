@@ -31,14 +31,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   logWarn: (...args) => ipcRenderer.send("log-warn", args.map(arg => typeof arg === "object" ? JSON.stringify(arg) : arg).join(" ")),
 
   /**
-   * Send Bug Report
-   *
-   * @param params
-   * @returns {Promise<any>}
-   */
-  sendReport: (params) => ipcRenderer.invoke('send-report', params),
-
-  /**
    * Return process.platform to renderer
    */
   getProcessPlatform: () => process.platform,
@@ -155,4 +147,12 @@ contextBridge.exposeInMainWorld("topbarAPI", {
    * Opens configuration/settings panel.
    */
   openConfig: () => ipcRenderer.send("open-config"),
+
+  /**
+   * Send Bug Report
+   *
+   * @param params
+   * @returns {Promise<any>}
+   */
+  sendReport: (params) => ipcRenderer.invoke('send-report', params),
 });

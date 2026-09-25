@@ -8,7 +8,6 @@ const { contextBridge, ipcRenderer } = require("electron");
  * All calls are explicitly whitelisted.
  */
 contextBridge.exposeInMainWorld("electronAPI", {
-
   /**
    * Sends error log message.
    *
@@ -63,12 +62,11 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * @param {string} key - Feature name
    * @param {any} value - Feature value
    */
-  setFeature: (key, value) =>
-    ipcRenderer.invoke("set-feature", { key, value }),
+  setFeature: (key, value) => ipcRenderer.invoke("set-feature", { key, value }),
 
   /**
    * Returns the current application version.
-  */
+   */
   getVersion: () => ipcRenderer.invoke("version"),
 
   /**
@@ -88,8 +86,61 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * Forces a reload of theme files (useful after modification/import).
    */
   reloadThemes: () => ipcRenderer.invoke("reload-themes"),
-});
 
+  /*
+   * ==========================================
+   * Auto Updater IPC
+   * ==========================================
+   */
+
+  /**
+   * Checks if an update has already been detected by the main process.
+   *
+   * @returns {Promise<boolean>} Resolves to true if an update is available.
+   */
+  isUpdateAvailable: () => ipcRenderer.invoke("is-update-available"),
+
+  /**
+   * Subscribes to the update available event pushed by the main process.
+   *
+   * @param {Function} callback - Function executed with update info when an update is found.
+   */
+  onUpdateAvailable: (callback) =>
+    ipcRenderer.on("update-available", (_, info) => callback(info)),
+
+  /**
+   * Instructs the main process to start downloading the available update.
+   *
+   * @returns {Promise<void>}
+   */
+  downloadUpdate: () => ipcRenderer.invoke("download-update"),
+
+  /**
+   * Instructs the main process to quit the application and install the downloaded update.
+   *
+   * @returns {Promise<void>}
+   */
+  installUpdate: () => ipcRenderer.invoke("install-update"),
+
+  /**
+   * Subscribes to the download progress event.
+   *
+   * @param {Function} callback - Function executed with progress metrics (percent, bytesPerSecond, transferred, total).
+   */
+  onDownloadProgress: (callback) =>
+    ipcRenderer.on("update-progress", (_, progress) => callback(progress)),
+
+  /**
+   * Subscribes to the update downloaded event.
+   * Triggered when the update file is fully downloaded and ready to install.
+   *
+   * @param {Function} callback - Function executed with update info.
+   */
+  onUpdateDownloaded: (callback) =>
+    ipcRenderer.on("update-downloaded", (_, info) => callback(info)),
+
+  openReleasePage: () => ipcRenderer.send("open-release-page"),
+});
 
 /**
  * Exposes window control and developer utilities for the custom topbar UI.
@@ -97,7 +148,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
  * These methods forward commands to the Electron main process via IPC.
  */
 contextBridge.exposeInMainWorld("topbarAPI", {
-
   /**
    * Minimizes the application window.
    */
@@ -154,5 +204,5 @@ contextBridge.exposeInMainWorld("topbarAPI", {
    * @param params
    * @returns {Promise<any>}
    */
-  sendReport: (params) => ipcRenderer.invoke('send-report', params),
+  sendReport: (params) => ipcRenderer.invoke("send-report", params),
 });

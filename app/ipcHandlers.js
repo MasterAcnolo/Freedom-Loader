@@ -13,13 +13,14 @@
 const { ipcMain, dialog, shell } = require("electron");
 const fs = require("fs");
 const { logger, logDir } = require("../server/logger");
-const {configFeatures, featuresPath, devMode} = require("../config");
+const { configFeatures, featuresPath, devMode } = require("../config");
 const { getThemes, reloadThemes } = require("./themeManager");
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 const { userThemesPath } = require("../server/helpers/path.helpers");
 const { createSystemTray, destroyTray } = require("./tray");
-const {sendReport} = require("./sendReport");
+const { sendReport } = require("./sendReport");
+const { isUpdateAvailable, downloadUpdate, installUpdate } = require("./autoUpdater");
 
 /**
  * Security whitelist for feature flags that can be modified at runtime.
@@ -65,7 +66,6 @@ const themeFolderPath = userThemesPath;
  * @param {Function} getMainWindow - Function returning current BrowserWindow instance
  */
 function registerIpcHandlers(getMainWindow) {
-    
   /**
    * Returns application version from config.
    */
@@ -116,17 +116,16 @@ function registerIpcHandlers(getMainWindow) {
    * Window minimize request from renderer.
    */
   ipcMain.on("window-minimize", () => {
-        // Minimize to tray
-        if (configFeatures.systemTray) {
-          getMainWindow()?.hide();
-          logger.info("Window Minimized in SystemTray (Using Minimize Button)");
-        } else {
-          // Native minimize
-          getMainWindow()?.minimize();
-          logger.info("Window minimized normally");
-        }
-      }
-  );
+    // Minimize to tray
+    if (configFeatures.systemTray) {
+      getMainWindow()?.hide();
+      logger.info("Window Minimized in SystemTray (Using Minimize Button)");
+    } else {
+      // Native minimize
+      getMainWindow()?.minimize();
+      logger.info("Window minimized normally");
+    }
+  });
 
   /**
    * Toggles maximize/unmaximize state of main window.
@@ -142,7 +141,6 @@ function registerIpcHandlers(getMainWindow) {
    */
   ipcMain.on("window-close", () => getMainWindow()?.close());
 
-
   /**
    * Opens Chromium DevTools in detached mode.
    */
@@ -153,7 +151,7 @@ function registerIpcHandlers(getMainWindow) {
   /**
    * Opens application logs directory in system file explorer.
    */
-  ipcMain.on("open-logs",    () => logDir && shell.openPath(logDir));
+  ipcMain.on("open-logs", () => logDir && shell.openPath(logDir));
 
   /**
    * Opens external website in default browser.
@@ -212,6 +210,24 @@ function registerIpcHandlers(getMainWindow) {
     return await sendReport(params);
   });
 
+  ipcMain.handle("is-update-available", () => {
+    return isUpdateAvailable();
+  });
+
+  ipcMain.handle("download-update", async () => {
+    return await downloadUpdate();
+  });
+
+  ipcMain.handle("install-update", async () => {
+    return installUpdate();
+  });
+
+  ipcMain.on("open-release-page", () => {
+    shell.openExternal(
+      "https://github.com/MasterAcnolo/Freedom-Loader/releases/latest",
+    );
+  });
+
   /**
    * Updates a runtime feature flag and persists it to disk.
    *
@@ -229,47 +245,46 @@ function registerIpcHandlers(getMainWindow) {
    * @returns {boolean} success state
    */
   ipcMain.handle("set-feature", (event, { key, value }) => {
-        try {
-          if (!FEATURE_WHITELIST.has(key)) {
-            logger.warn(`Rejected feature (not whitelisted): ${key}`);
-            return false;
-          }
+    try {
+      if (!FEATURE_WHITELIST.has(key)) {
+        logger.warn(`Rejected feature (not whitelisted): ${key}`);
+        return false;
+      }
 
-          if (configFeatures[key] === value) {
-            return true;
-          }
+      if (configFeatures[key] === value) {
+        return true;
+      }
 
-          /**
-           * Dynamically intercepts and applies System Tray state changes at runtime.
-           * Instantiates or destroys the tray icon immediately to prevent window 
-           * lifecycle desynchronization (e.g., minimizing a window to a non-existent tray).
-           */
-          if (key === "systemTray") {
-            if (value === true) {
-              logger.info("System Tray enabled dynamically.");
-              createSystemTray(devMode);
-            } else {
-              logger.info("System Tray disabled dynamically.");
-              destroyTray();
-            }
-          }
-
-          configFeatures[key] = value;
-
-          fs.writeFileSync(
-            configFolderPath,
-            JSON.stringify(configFeatures, null, 2),
-            "utf-8"
-          );
-
-          logger.info(`Feature updated: ${key} = ${value}`);
-          return true;
-
-        } catch (err) {
-          logger.error(`set-feature failed (${key}): ${err.message}`);
-          return false;
+      /**
+       * Dynamically intercepts and applies System Tray state changes at runtime.
+       * Instantiates or destroys the tray icon immediately to prevent window
+       * lifecycle desynchronization (e.g., minimizing a window to a non-existent tray).
+       */
+      if (key === "systemTray") {
+        if (value === true) {
+          logger.info("System Tray enabled dynamically.");
+          createSystemTray(devMode);
+        } else {
+          logger.info("System Tray disabled dynamically.");
+          destroyTray();
         }
-    });
+      }
+
+      configFeatures[key] = value;
+
+      fs.writeFileSync(
+        configFolderPath,
+        JSON.stringify(configFeatures, null, 2),
+        "utf-8",
+      );
+
+      logger.info(`Feature updated: ${key} = ${value}`);
+      return true;
+    } catch (err) {
+      logger.error(`set-feature failed (${key}): ${err.message}`);
+      return false;
+    }
+  });
 }
 
 module.exports = { registerIpcHandlers };

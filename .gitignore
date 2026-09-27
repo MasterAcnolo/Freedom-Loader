@@ -13,8 +13,14 @@
 config/config.dev.json
 
 # IDE
-/.idea
-/.vscode
+.idea/
+.vscode/
+.zed/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+Thumbs.db
 
 # Linux executable
 ffmpeg

@@ -122,6 +122,7 @@ function initAutoUpdater(mainWindow) {
  * Separated from init for reusability and testability.
  */
 async function checkForUpdates() {
+  if (process.env.SNAP || process.env.FLATPAK_ID) return;
   if (!require("electron").app.isPackaged) return;
 
   try {

@@ -76,7 +76,7 @@ class BugReportModal {
             window.electronAPI.logInfo("Submitting:", data);
 
             try {
-                const success = await window.electronAPI.sendReport(data);
+                const success = await window.topbarAPI.sendReport(data);
 
                 if (success) {
                     localStorage.removeItem("draft_bug_title");

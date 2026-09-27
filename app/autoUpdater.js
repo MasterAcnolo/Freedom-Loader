@@ -140,6 +140,7 @@ async function downloadUpdate() {
     await autoUpdater.downloadUpdate();
   } catch (err) {
     logger.error("Download failed:", err.message);
+    throw err;
   }
 }
 

@@ -36,17 +36,13 @@ async function sendReport(params) {
         }
 
         const reportUrl = process.env.BUG_REPORT_URL;
-        const reportApiKey = process.env.BUG_REPORT_API_KEY;
 
-        if (!reportUrl || !reportApiKey) {
-            throw new Error("Bug report service is not configured. Missing BUG_REPORT_URL or BUG_REPORT_API_KEY on backend.");
+        if (!reportUrl) {
+            throw new Error("Bug report service is not configured. Missing BUG_REPORT_URL on backend.");
         }
 
         const response = await fetch(reportUrl, {
             method: "POST",
-            headers: {
-                "X-Api-Key": reportApiKey
-            },
             body: formData
         });
 

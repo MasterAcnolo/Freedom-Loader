@@ -29,9 +29,13 @@ class BugReportModal {
               <option value="no" style="background:#2a2a2a !important; color:#ffffff !important;">No</option>
             </select>
           </div>
+          <div id="bugReportServiceStatus" role="status" aria-live="polite" style="display:none !important; align-items:center !important; gap:8px !important; color:#aaaaaa !important; font-size:0.8rem !important;">
+            <span id="bugReportServiceStatusDot" style="width:8px !important; height:8px !important; border-radius:50% !important; background:#f59e0b !important; flex-shrink:0 !important;"></span>
+            <span id="bugReportServiceStatusText">Checking bug report service...</span>
+          </div>
           <div style="display:flex !important; justify-content:flex-end !important; gap:8px !important; margin-top:8px !important;">
             <button type="button" id="bugCancelBtn" style="background:#333333 !important; border:none !important; color:#cccccc !important; padding:8px 14px !important; border-radius:6px !important; cursor:pointer !important;">Cancel</button>
-            <button type="submit" style="background:#4f46e5 !important; border:none !important; color:#ffffff !important; padding:8px 16px !important; border-radius:6px !important; cursor:pointer !important; font-weight:500 !important;">Send</button>
+            <button type="submit" id="bugSendBtn" disabled style="background:#4f46e5 !important; border:none !important; color:#ffffff !important; padding:8px 16px !important; border-radius:6px !important; cursor:not-allowed !important; opacity:0.5 !important; font-weight:500 !important;">Send</button>
           </div>
         </form>
       </div>
@@ -46,6 +50,7 @@ class BugReportModal {
     bindEvents() {
         const titleInput = this.modal.querySelector("#bugTitle");
         const descInput = this.modal.querySelector("#bugDescription");
+        const sendButton = this.modal.querySelector("#bugSendBtn");
 
         titleInput.addEventListener("input", () => {
             localStorage.setItem("draft_bug_title", titleInput.value);
@@ -67,6 +72,10 @@ class BugReportModal {
 
         this.form.addEventListener("submit", async (e) => {
             e.preventDefault();
+            if (sendButton.disabled) {
+                return;
+            }
+
             const data = {
                 title: titleInput.value,
                 description: descInput.value,
@@ -107,10 +116,45 @@ class BugReportModal {
     open() {
         this.loadState();
         this.modal.style.display = "flex";
+        this.updateServiceStatus();
     }
 
     close() {
         this.modal.style.display = "none";
+    }
+
+    async updateServiceStatus() {
+        const statusText = this.modal.querySelector("#bugReportServiceStatusText");
+        const statusDot = this.modal.querySelector("#bugReportServiceStatusDot");
+        const sendButton = this.modal.querySelector("#bugSendBtn");
+
+        sendButton.disabled = true;
+        sendButton.style.setProperty("cursor", "not-allowed", "important");
+        sendButton.style.setProperty("opacity", "0.5", "important");
+
+        try {
+            const serviceStatus = await window.topbarAPI.getReportServiceStatus();
+            const serviceAvailable = serviceStatus.status === "online";
+            const statusVisible = !serviceAvailable;
+            statusText.textContent = serviceStatus.message;
+            statusDot.style.background = "#ef4444";
+            statusText.style.color = "#fca5a5";
+            this.modal.querySelector("#bugReportServiceStatus").style.setProperty(
+                "display",
+                statusVisible ? "flex" : "none",
+                "important"
+            );
+            sendButton.disabled = !serviceAvailable;
+            sendButton.style.setProperty("cursor", serviceAvailable ? "pointer" : "not-allowed", "important");
+            sendButton.style.setProperty("opacity", serviceAvailable ? "1" : "0.5", "important");
+        } catch (err) {
+            statusText.textContent = "Unable to check bug report service.";
+            statusDot.style.background = "#ef4444";
+            statusText.style.color = "#fca5a5";
+            this.modal.querySelector("#bugReportServiceStatus").style.setProperty("display", "flex", "important");
+            sendButton.disabled = true;
+            window.electronAPI.logError("Failed to retrieve bug report service status:", err.message);
+        }
     }
 }
 

@@ -19,7 +19,7 @@ const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 const { userThemesPath } = require("../server/helpers/path.helpers");
 const { createSystemTray, destroyTray } = require("./tray");
-const { sendReport } = require("./sendReport");
+const {sendReport, checkReportService, getReportServiceStatus} = require("./sendReport");
 const { isUpdateAvailable, downloadUpdate, installUpdate } = require("./autoUpdater");
 
 /**
@@ -208,6 +208,11 @@ function registerIpcHandlers(getMainWindow) {
    */
   ipcMain.handle("send-report", async (_, params) => {
     return await sendReport(params);
+  });
+
+  ipcMain.handle("get-report-service-status", async () => {
+    await checkReportService();
+    return getReportServiceStatus();
   });
 
   ipcMain.handle("is-update-available", () => {

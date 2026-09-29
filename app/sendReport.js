@@ -2,6 +2,58 @@ const fs = require("fs");
 const path = require("path");
 const {logger, logDir} = require("../server/logger");
 
+const REPORT_URL = "https://freedom-loader-report.acnolo.fr";
+const REPORT_SERVICE_TIMEOUT_MS = 5000;
+let reportServiceStatus = {
+    status: "checking",
+    message: "Checking bug report service..."
+};
+let reportServiceCheck = null;
+
+async function checkReportService() {
+    if (reportServiceCheck) {
+        return reportServiceCheck;
+    }
+
+    reportServiceCheck = (async () => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), REPORT_SERVICE_TIMEOUT_MS);
+
+        try {
+            const response = await fetch(REPORT_URL, {
+                method: "GET",
+                signal: controller.signal
+            });
+
+            if (response.status >= 500) {
+                throw new Error(`Server responded with status ${response.status}`);
+            }
+
+            reportServiceStatus = {
+                status: "online",
+                message: "Bug report service is available."
+            };
+            logger.info(`Bug report service is reachable (status ${response.status}).`);
+        } catch (err) {
+            reportServiceStatus = {
+                status: "offline",
+                message: "Bug report service is unavailable. Reports may fail to send."
+            };
+            logger.warn(`Bug report service is unreachable: ${err.message}`);
+        } finally {
+            clearTimeout(timeout);
+        }
+
+        return reportServiceStatus;
+    })();
+
+    return reportServiceCheck;
+}
+
+function getReportServiceStatus() {
+    return reportServiceStatus;
+}
+
 async function sendReport(params) {
     try {
         const {title, description, includeLogs} = params;
@@ -35,13 +87,7 @@ async function sendReport(params) {
             }
         }
 
-        const reportUrl = process.env.BUG_REPORT_URL;
-
-        if (!reportUrl) {
-            throw new Error("Bug report service is not configured. Missing BUG_REPORT_URL on backend.");
-        }
-
-        const response = await fetch(reportUrl, {
+        const response = await fetch(REPORT_URL, {
             method: "POST",
             body: formData
         });
@@ -59,4 +105,4 @@ async function sendReport(params) {
     }
 }
 
-module.exports = {sendReport};
+module.exports = {sendReport, checkReportService, getReportServiceStatus};

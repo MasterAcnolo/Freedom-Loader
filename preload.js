@@ -214,4 +214,9 @@ contextBridge.exposeInMainWorld("topbarAPI", {
    * @returns {Promise<any>}
    */
   sendReport: (params) => ipcRenderer.invoke("send-report", params),
+
+  /**
+   * Returns the startup health status of the bug report service.
+   */
+  getReportServiceStatus: () => ipcRenderer.invoke("get-report-service-status"),
 });

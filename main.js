@@ -77,6 +77,7 @@ const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./
 const { userThemesPath, initUserThemes, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
 const {createSystemTray, destroyTray} = require("./app/tray");
 const { stopServer } = require("./server/server");
+const {checkReportService} = require("./app/sendReport");
 
 /**
  * Expose .env in process.env
@@ -137,6 +138,9 @@ app.on("second-instance", () => {
 
 app.whenReady().then(async () => {
   logSessionStart(logDir, defaultDownloadFolder);
+  checkReportService().catch((err) => {
+    logger.warn(`Bug report service startup check failed: ${err.message}`);
+  });
 
   createSplashWindow();
 

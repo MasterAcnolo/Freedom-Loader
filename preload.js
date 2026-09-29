@@ -123,9 +123,18 @@ contextBridge.exposeInMainWorld("electronAPI", {
   installUpdate: () => ipcRenderer.invoke("install-update"),
 
   /**
+   * Subscribes to the update error event.
+   *
+   * @param {Function} callback - Function executed with error information when an update error occurs.
+   * @returns {Electron.IpcRenderer}
+   */
+  onUpdateError: (callback) => ipcRenderer.on("update-error", (_, err) => callback(err)),
+
+  /**
    * Subscribes to the download progress event.
    *
    * @param {Function} callback - Function executed with progress metrics (percent, bytesPerSecond, transferred, total).
+   * @returns {Electron.IpcRenderer}
    */
   onDownloadProgress: (callback) =>
     ipcRenderer.on("update-progress", (_, progress) => callback(progress)),

@@ -112,6 +112,7 @@ function initAutoUpdater(mainWindow) {
     }
 
     logger.error("Auto update error:", err);
+    mainWindow?.webContents.send("update-error", msg);
   });
 
   checkForUpdates();
@@ -122,6 +123,8 @@ function initAutoUpdater(mainWindow) {
  * Separated from init for reusability and testability.
  */
 async function checkForUpdates() {
+
+  // If app is was installed from SNAP or Flatpak.
   if (process.env.SNAP || process.env.FLATPAK_ID) return;
   if (!require("electron").app.isPackaged) return;
 
@@ -141,6 +144,7 @@ async function downloadUpdate() {
     await autoUpdater.downloadUpdate();
   } catch (err) {
     logger.error("Download failed:", err.message);
+    throw err;
   }
 }
 

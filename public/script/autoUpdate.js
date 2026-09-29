@@ -50,6 +50,23 @@ async function initUpdateUI() {
     const initialTitleText = title.textContent;
     const initialSubText = sub.textContent;
 
+    const resetUI = () => {
+      btn.disabled = false;
+      btn.textContent = initialButtonText;
+      icon.textContent = initialIconText;
+      title.textContent = initialTitleText;
+      sub.textContent = initialSubText;
+      progressWrap.style.display = "none";
+      progressFill.style.width = "0%";
+      progressPct.textContent = "0%";
+      progressEta.textContent = "";
+    };
+
+    window.electronAPI.onUpdateError((err) => {
+      console.error("Update failed asynchronously:", err);
+      resetUI();
+    });
+
     btn.onclick = async () => {
 
       btn.disabled = true;
@@ -61,15 +78,7 @@ async function initUpdateUI() {
       try {
         await window.electronAPI.downloadUpdate();
       } catch {
-        btn.disabled = false;
-        btn.textContent = initialButtonText;
-        icon.textContent = initialIconText;
-        title.textContent = initialTitleText;
-        sub.textContent = initialSubText;
-        progressWrap.style.display = "none";
-        progressFill.style.width = "0%";
-        progressPct.textContent = "0%";
-        progressEta.textContent = "";
+        resetUI();
       }
     };
 

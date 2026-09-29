@@ -80,11 +80,6 @@ const { stopServer } = require("./server/server");
 const {checkReportService} = require("./app/sendReport");
 
 /**
- * Expose .env in process.env
- */
-require("dotenv").config();
-
-/**
  * Global flag indicating if the application is intentionally shutting down.
  * Used across the app to bypass the "minimize to tray on close" behavior.
  * @type {boolean}

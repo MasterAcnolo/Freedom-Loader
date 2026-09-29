@@ -75,10 +75,15 @@
       }
     ],
     "files": [
-      "**/*",
-      "node_modules/**/*",
-      "!config/config.dev.json",
-      "!theme/**/*"
+      "app/**/*",
+      "public/**/*",
+      "server/**/*",
+      "build/**/*",
+      "config/config.default.json",
+      "config.js",
+      "main.js",
+      "preload.js",
+      "package.json"
     ],
     "directories": {
       "buildResources": "build"

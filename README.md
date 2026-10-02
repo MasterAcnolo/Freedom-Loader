@@ -1,6 +1,6 @@
 <div align="center">
 
-  <a href="https://masteracnolo.github.io/Freedom-Loader-Site/"><img
+<a href="https://freedomloader.acnolo.fr/"><img
     src="./build/banner.png"
     alt="Banner"
     style="width: 50%;"/></a>
@@ -9,7 +9,7 @@
 
 [![Release](https://img.shields.io/github/v/release/MasterAcnolo/Freedom-Loader?style=for-the-badge&color=blue)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
-[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Site/)
+[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://freedomloader.acnolo.fr/)
 [![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
 <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 
@@ -250,7 +250,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | Option                       | Type    | Default  | Description                                                |
 |------------------------------|---------|----------|------------------------------------------------------------|
 | `autoUpdate`                 | boolean | `true`   | Enable automatic application updates                       |
-| `systemTray`                 | boolean | `false`   | Allow app to minimize on close [EXPERIMENTAL]              |
+| `systemTray`                 | boolean | `false`  | Allow app to minimize on close [EXPERIMENTAL]              |
 | `discordRPC`                 | boolean | `true`   | Enable Discord Rich Presence integration                   |
 | `customTopBar`               | boolean | `true`   | Use custom application top bar                             |
 | `autoCheckInfo`              | boolean | `true`   | Automatically fetch video information on URL paste         |
@@ -354,7 +354,7 @@ See [BINARIES.md](./BINARIES.md) for how to setup the binaries.
 
 ## Roadmap
 
-See the most recent Roadmap [Here](https://masteracnolo.github.io/Freedom-Loader-Site/Roadmap).
+See the most recent Roadmap [Here](https://freedomloader.acnolo.fr/Roadmap).
 
 ## Contributing
 
@@ -367,13 +367,29 @@ Head over to the [Freedom Loader Workshop repository](https://github.com/MasterA
 
 ### Bug Reports
 
-Use the GitHub Issues system and include:
+You can report bugs either using the built-in application system or via the GitHub Issues system.
+
+#### Using the Built-in Report Tool
+
+1. Open Freedom Loader.
+2. Trigger the bug report interface.
+3. Fill in the title and description of the issue.
+4. Choose whether to include today's logs automatically.
+5. Submit the report.
+
+> [!NOTE]
+> If you need to attach extra context like screenshots or screen recordings, it is recommended to use the GitHub Issues
+system instead.
+
+#### Using GitHub Issues
+
+Open a new issue on the GitHub repository and include:
 
 - Clear description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
 - Relevant logs from `AppData\Local\FreedomLoader\logs\` or `~/.local/share/FreedomLoader/logs/`
-- Screenshots if applicable
+- Screenshots or recordings if applicable
 
 ### Feature Requests
 
@@ -418,6 +434,6 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 **Freedom Loader** - Put freedom in your downloads
 
-[Website](https://masteracnolo.github.io/Freedom-Loader-Site/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/Freedom-Loader-Site/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
+[Website](https://freedomloader.acnolo.fr/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://freedomloader.acnolo.fr/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
 
 </div>

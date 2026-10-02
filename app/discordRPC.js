@@ -95,9 +95,9 @@ function startRPC() {
       smallImageText: "By MasterAcnolo",
       startTimestamp: new Date(),
       details: `Open Source Download Tools - ${config.version}`,
-      state: "masteracnolo.github.io/FreedomLoader",
+      state: "freedomloader.acnolo.fr",
     };
-    rpc.clearActivity()
+    rpc.clearActivity();
     rpc.setActivity(presence);
 
   });

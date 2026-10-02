@@ -13,6 +13,9 @@ process.on("unhandledRejection", (reason) => {
   app.quit();
 });
 
+if (process.platform === 'linux') {
+  app.setDesktopName('com.masteracnolo.freedomloader.desktop');
+}
 
 /**
  * True if this is the primary instance (lock acquired successfully)

@@ -57,7 +57,7 @@ chmod +x "$TMP_WRAPPER/freedom-loader"
 # Desktop entry file
 TMP_DESKTOP="$ROOT_DIR/.rpm-pkg-tmp-desktop"
 mkdir -p "$TMP_DESKTOP"
-cat > "$TMP_DESKTOP/freedom-loader.desktop" << 'EOF'
+cat > "$TMP_DESKTOP/com.masteracnolo.freedomloader.desktop" << 'EOF'
 [Desktop Entry]
 Name=Freedom Loader
 Exec=/opt/freedom-loader/freedom-loader %U
@@ -65,7 +65,7 @@ Icon=freedom-loader
 Type=Application
 Categories=AudioVideo;Utility;Network;
 Comment=Free and open-source GUI for yt-dlp
-StartupWMClass=Freedom Loader
+StartupWMClass=com.masteracnolo.freedomloader
 EOF
 
 # ------------------------------------------------------------
@@ -89,7 +89,7 @@ echo "Building RPM..."
     --package "$RPM_OUT" \
     "$ROOT_DIR/dist/linux-unpacked/=/opt/freedom-loader" \
     "$TMP_WRAPPER/freedom-loader=/usr/bin/freedom-loader" \
-    "$TMP_DESKTOP/freedom-loader.desktop=/usr/share/applications/freedom-loader.desktop" \
+    "$TMP_DESKTOP/com.masteracnolo.freedomloader.desktop=/usr/share/applications/freedom-loader.desktop" \
     "$ROOT_DIR/build/app-icon.png=/usr/share/icons/hicolor/512x512/apps/freedom-loader.png" \
     "$ROOT_DIR/package/com.masteracnolo.freedomloader.metainfo.xml=/usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml"
 

@@ -16,6 +16,7 @@
   },
   "main": "main.js",
   "scripts": {
+    "clean:dist": "rm -rf dist/",
     "start": "electron --no-warnings .",
     "start:warn": "electron --trace-warnings .",
     "start:debug": "WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .",
@@ -32,6 +33,8 @@
     "release:dry-run": "bash scripts/release.sh --dry-run",
     "test": "jest",
     "test:unit": "jest test/unit",
+    "test:metainfo": "appstreamcli validate package/com.masteracnolo.freedomloader.metainfo.xml",
+    "test:desktop": "desktop-file-validate package/com.masteracnolo.freedomloader.desktop",
     "lint": "eslint . --format pretty",
     "lint:fix": "eslint . --fix --format pretty",
     "update": "npm update"

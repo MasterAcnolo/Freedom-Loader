@@ -78,7 +78,7 @@ echo "Building RPM..."
     --version "$VERSION" \
     --architecture x86_64 \
     --description "Free and open-source GUI for yt-dlp" \
-    --url "https://masteracnolo.github.io/Freedom-Loader-Site/" \
+    --url "https://freedomloader.acnolo.fr/" \
     --maintainer "MasterAcnolo <MasterAcnolo@users.noreply.github.com>" \
     --license "GPL-3.0-only" \
     --depends gtk3 \

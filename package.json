@@ -5,7 +5,7 @@
   "version": "1.6.4",
   "author": "MasterAcnolo <MasterAcnolo@users.noreply.github.com>",
   "description": "Free and open-source GUI for yt-dlp — download video and audio from hundreds of platforms",
-  "homepage": "https://masteracnolo.github.io/Freedom-Loader-Site/",
+  "homepage": "https://freedomloader.acnolo.fr/",
   "repository": {
     "type": "git",
     "url": "https://github.com/MasterAcnolo/Freedom-Loader.git"

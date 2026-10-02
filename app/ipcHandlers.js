@@ -157,14 +157,14 @@ function registerIpcHandlers(getMainWindow) {
    * Opens external website in default browser.
    */
   ipcMain.on("open-website", () =>
-    shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Site/")
+      shell.openExternal("https://freedomloader.acnolo.fr/")
   );
 
   /**
    * Opens official wiki page in external browser.
    */
   ipcMain.on("open-wiki", () =>
-    shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Site/wiki")
+      shell.openExternal("https://freedomloader.acnolo.fr/wiki")
   );
 
   /**

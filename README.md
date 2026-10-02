@@ -1,6 +1,6 @@
 <div align="center">
 
-  <a href="https://masteracnolo.github.io/Freedom-Loader-Site/"><img
+<a href="https://freedomloader.acnolo.fr/"><img
     src="./build/banner.png"
     alt="Banner"
     style="width: 50%;"/></a>
@@ -9,7 +9,7 @@
 
 [![Release](https://img.shields.io/github/v/release/MasterAcnolo/Freedom-Loader?style=for-the-badge&color=blue)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
-[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Site/)
+[![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://freedomloader.acnolo.fr/)
 [![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
 <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 
@@ -354,7 +354,7 @@ See [BINARIES.md](./BINARIES.md) for how to setup the binaries.
 
 ## Roadmap
 
-See the most recent Roadmap [Here](https://masteracnolo.github.io/Freedom-Loader-Site/Roadmap).
+See the most recent Roadmap [Here](https://freedomloader.acnolo.fr/Roadmap).
 
 ## Contributing
 
@@ -434,6 +434,6 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 **Freedom Loader** - Put freedom in your downloads
 
-[Website](https://masteracnolo.github.io/Freedom-Loader-Site/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://masteracnolo.github.io/Freedom-Loader-Site/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
+[Website](https://freedomloader.acnolo.fr/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://freedomloader.acnolo.fr/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
 
 </div>

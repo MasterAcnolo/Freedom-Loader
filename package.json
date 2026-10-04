@@ -16,7 +16,7 @@
   },
   "main": "main.js",
   "scripts": {
-    "clean:dist": "rm -rf dist/",
+    "clean:dist": "rm -rf dist/ && rm -rf srpm-out/",
     "start": "electron --no-warnings .",
     "start:warn": "electron --trace-warnings .",
     "start:debug": "WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .",
@@ -26,7 +26,7 @@
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
-    "build:rpm": "bash scripts/create-copr-package.sh",
+    "build:rpm": "npm run clean:dist && npm run build:linux && bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
     "release": "bash scripts/release.sh",
     "release:publish": "bash scripts/release.sh --publish",
@@ -67,6 +67,7 @@
   },
   "build": {
     "appId": "com.masteracnolo.freedomloader",
+    "artifactName": "Freedom-Loader-${version}.${ext}",
     "productName": "Freedom Loader",
     "publish": [
       {

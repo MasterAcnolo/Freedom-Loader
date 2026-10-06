@@ -1,2 +1,0 @@
-[//]: # (This file is used for the release CHANGELOG. Please use Markdown to describe changes.)
-

@@ -70,6 +70,16 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getVersion: () => ipcRenderer.invoke("version"),
 
   /**
+   * Returns the changelog data 
+   */
+  getChangelog: () => ipcRenderer.invoke("get-changelog"),
+
+  /**
+   * Marks the current changelog version as seen by the user.
+   */
+  markChangelogSeen: () => ipcRenderer.invoke("mark-changelog-seen"),
+
+  /**
    * Validates a download path before using it for file operations.
    *
    * @param {string} path - Path to validate

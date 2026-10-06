@@ -27,6 +27,7 @@
                 <button id="website-btn" title="Website">Website</button>
                 <button id="wiki-btn" title="Wiki">Wiki</button>
                 <button id="workshop-btn" title="Workshop">Theme Workshop</button>
+                <button id="changelog-btn" title="Changelog">Changelog</button>
                 <!-- <button id="theme-btn" title="Theme">Theme</button> -->
             </div>
             <div class="window-controls">
@@ -303,6 +304,21 @@
     <!-- Toast Container -->
     <div id="toast-container"></div>
 
+    <div class="changelog-overlay" id="changelog-overlay" hidden>
+        <section class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="changelog-title">
+            <div class="changelog-header">
+                <div>
+                    <span class="changelog-eyebrow">Freedom Loader</span>
+                    <h2 id="changelog-title">What's new</h2>
+                </div>
+                <button class="changelog-close" id="changelog-close" type="button" title="Close changelog" aria-label="Close changelog">&times;</button>
+            </div>
+            <div class="changelog-list" id="changelog-list">
+                <p class="changelog-loading">Loading changelog...</p>
+            </div>
+        </section>
+    </div>
+
     <h2 id="reference"> Because Why Not ? </h2>
 
     <div id="updateAvailable" style="display:none">
@@ -343,6 +359,7 @@
     <script src="script/customthemes.js"></script>
     <script src="script/reportBug.js"></script>
     <script src="script/autoUpdate.js"></script>
+    <script type="module" src="script/changelog.js"></script>
     <script type="module" src="script/topbar.js"></script>
 
 </body>

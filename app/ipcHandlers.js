@@ -21,6 +21,7 @@ const { userThemesPath } = require("../server/helpers/path.helpers");
 const { createSystemTray, destroyTray } = require("./tray");
 const {sendReport, checkReportService, getReportServiceStatus} = require("./sendReport");
 const { isUpdateAvailable, downloadUpdate, installUpdate } = require("./autoUpdater");
+const { getChangelog, markChangelogSeen } = require("./changelogManager");
 
 /**
  * Security whitelist for feature flags that can be modified at runtime.
@@ -70,6 +71,16 @@ function registerIpcHandlers(getMainWindow) {
    * Returns application version from config.
    */
   ipcMain.handle("version", () => config.version);
+
+  /**
+   * Retrieves the changelog from cache or GitHub API.
+   */
+  ipcMain.handle("get-changelog", () => getChangelog());
+
+  /**
+   * Marks all changelog entries as seen and updates cache.
+   */
+  ipcMain.handle("mark-changelog-seen", () => markChangelogSeen());
 
   /**
    * Returns runtime feature configuration object.

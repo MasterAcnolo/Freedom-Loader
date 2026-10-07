@@ -11,7 +11,6 @@ jest.mock("../../server/helpers/path.helpers.js", () => ({
 
 jest.mock("../../config.js", () => ({
     configFeatures: {
-        autoUpdate: false,
         discordRPC: false,
         customTopBar: false,
         autoCheckInfo: false,

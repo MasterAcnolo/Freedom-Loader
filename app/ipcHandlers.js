@@ -30,7 +30,6 @@ const { getChangelog, markChangelogSeen } = require("./changelogManager");
  * Acts as a basic validation layer for IPC "set-feature".
  */
 const FEATURE_WHITELIST = new Set([
-  "autoUpdate",
   "systemTray",
   "discordRPC",
   "autoCheckInfo",

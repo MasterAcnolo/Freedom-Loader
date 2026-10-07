@@ -173,7 +173,7 @@ app.whenReady().then(async () => {
 
     if (configFeatures.discordRPC) startRPC();
 
-    if (configFeatures.autoUpdate) initAutoUpdater(getMainWindow());
+    initAutoUpdater(getMainWindow());
 
   } catch (err) {
     logger.error("Boot error:", err);

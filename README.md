@@ -56,7 +56,7 @@ The primary goal is to make media downloading accessible to users who want offli
 
 ### User Interface
 
-- **Custom window controls** - Frameless window with custom top bar (optional)
+- **Custom window controls** - Frameless window with custom top bar
 - **Custom themes** - ZIP-based theme system with live preview
 - **Theme Workshop** - web-based theme creator and browser
 - **Toast notifications** - in-app feedback system
@@ -151,6 +151,7 @@ freedom-loader
 |---------------|---------------------------------------------------------|--------------------------------------|
 | **Downloads** | `C:\Users\[USERNAME]\Downloads\Freedom Loader`          | `~/Downloads/Freedom Loader`         |
 | **Logs**      | `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\` | `~/.local/share/FreedomLoader/logs/` |
+| **Cache**     | ``
 
 > [!NOTE]
 > The download folder can be changed anytime via the "Edit" button in the UI, on both platforms.

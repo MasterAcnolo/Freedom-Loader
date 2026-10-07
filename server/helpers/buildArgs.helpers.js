@@ -69,7 +69,6 @@ function buildYtDlpArgs({url, audioOnly, quality, outputFolder, isPlaylist}) {
 
   logger.info(`CONFIG autoUpdate: ${configFeatures.autoUpdate}`);
   logger.info(`CONFIG discordRPC: ${configFeatures.discordRPC}`);
-  logger.info(`CONFIG customTopBar: ${configFeatures.customTopBar}`);
   logger.info(`CONFIG autoCheckInfo: ${configFeatures.autoCheckInfo}`);
   logger.info(`CONFIG keepPlaylistOrder: ${configFeatures.keepPlaylistOrder}`);
   logger.info(`CONFIG addThumbnail: ${configFeatures.addThumbnail}`);

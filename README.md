@@ -227,7 +227,6 @@ Freedom Loader can be configured either through the settings panel in the UI or 
   "autoUpdate": true,
   "systemTray": true,
   "discordRPC": true,
-  "customTopBar": true,
   "autoCheckInfo": true,
   "addThumbnail": true,
   "addMetadata": true,
@@ -252,7 +251,6 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | `autoUpdate`                 | boolean | `true`   | Enable automatic application updates                       |
 | `systemTray`                 | boolean | `false`  | Allow app to minimize on close [EXPERIMENTAL]              |
 | `discordRPC`                 | boolean | `true`   | Enable Discord Rich Presence integration                   |
-| `customTopBar`               | boolean | `true`   | Use custom application top bar                             |
 | `autoCheckInfo`              | boolean | `true`   | Automatically fetch video information on URL paste         |
 | `addThumbnail`               | boolean | `true`   | Embed thumbnail in downloaded audio files                  |
 | `addMetadata`                | boolean | `true`   | Add metadata tags to downloaded files                      |

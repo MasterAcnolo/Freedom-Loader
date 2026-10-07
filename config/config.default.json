@@ -2,7 +2,6 @@
   "autoUpdate": true,
   "systemTray": false,
   "discordRPC": true,
-  "customTopBar": true,
   "autoCheckInfo": true,
   "addThumbnail": true,
   "addMetadata": true,

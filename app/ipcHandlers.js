@@ -33,7 +33,6 @@ const FEATURE_WHITELIST = new Set([
   "autoUpdate",
   "systemTray",
   "discordRPC",
-  "customTopBar",
   "autoCheckInfo",
   "addThumbnail",
   "addMetadata",

@@ -241,6 +241,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
   "downloadSystem": true,
   "notifySystem": true,
   "enableHardwareAcceleration": true,
+  "showChanglogsAfterUpdate": true,
   "theme": "dark" 
 }
 ```
@@ -265,6 +266,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | `downloadSystem`             | boolean | `true`   | Enable download system                                     |
 | `notifySystem`               | boolean | `true`   | Enable system notifications                                |
 | `enableHardwareAcceleration` | boolean | `true`   | Enable Hardware Acceleration                               |
+| `showChanglogsAfterUpdate`   | boolean | `true`   | Auto-display changelog popup after and update              |
 | `theme`                      | string  | `dark`   | Current Theme Name                                         |
 
 ### Supported Codecs

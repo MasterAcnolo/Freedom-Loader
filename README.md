@@ -249,7 +249,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | Option                       | Type    | Default  | Description                                                |
 |------------------------------|---------|----------|------------------------------------------------------------|
 | `autoUpdate`                 | boolean | `true`   | Enable automatic application updates                       |
-| `systemTray`                 | boolean | `false`  | Allow app to minimize on close [EXPERIMENTAL]              |
+| `systemTray`                 | boolean | `false`  | Allow app to minimize on close                             |
 | `discordRPC`                 | boolean | `true`   | Enable Discord Rich Presence integration                   |
 | `autoCheckInfo`              | boolean | `true`   | Automatically fetch video information on URL paste         |
 | `addThumbnail`               | boolean | `true`   | Embed thumbnail in downloaded audio files                  |

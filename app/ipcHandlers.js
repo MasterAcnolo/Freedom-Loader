@@ -44,7 +44,8 @@ const FEATURE_WHITELIST = new Set([
   "theme",
   "createPlaylistFolders",
   "notifySystem",
-  "enableHardwareAcceleration"
+  "enableHardwareAcceleration",
+  "showChanglogsAfterUpdate"
 ]);
 
 /**

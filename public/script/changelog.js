@@ -226,10 +226,15 @@ async function closeChangelog() {
 
 /** Loads changelog data and opens the modal when unread releases exist. */
 async function loadChangelog() {
+
+  const features = await window.electronAPI.getFeatures();
+
   try {
     changelogData = await window.electronAPI.getChangelog();
-    if (!changelogData.error && changelogData.hasUnread) {
+
+    if (!changelogData.error && changelogData.hasUnread && features.showChanglogsAfterUpdate === true) {
       openChangelog(changelogData.unreadReleases);
+      window.electronAPI.logInfo("Showing Changelog");
     }
   } catch (error) {
     console.error("Unable to load changelog:", error);

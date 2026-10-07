@@ -16,5 +16,6 @@
   "downloadSystem": true,
   "notifySystem": true,
   "enableHardwareAcceleration": true,
+  "showChanglogsAfterUpdate": true,
   "theme": "dark" 
 }

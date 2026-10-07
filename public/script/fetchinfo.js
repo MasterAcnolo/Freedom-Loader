@@ -269,7 +269,7 @@ async function init() {
       infoDiv.classList.add("visible");
     });
 
-  })
+  });
 
 }
 

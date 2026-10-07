@@ -9,7 +9,6 @@
  */
 
 const { autoUpdater } = require("electron-updater");
-const { dialog } = require("electron");
 const { logger } = require("../server/logger");
 
 /**
@@ -20,6 +19,26 @@ const { logger } = require("../server/logger");
  */
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = false;
+
+let updateAvailable = false;
+
+/**
+ * Determines how the update should be handled based on the platform
+ * @returns {"auto" | "snap" | "flatpak" | "linux-native"}
+ */
+function getUpdateEnvironment() {
+  if (
+    process.env.APPIMAGE ||
+    process.platform === "win32" ||
+    process.platform === "darwin"
+  ) {
+    return "auto";
+  }
+  if (process.env.SNAP) return "snap";
+  if (process.env.FLATPAK_ID) return "flatpak";
+
+  return "linux-native";
+}
 
 /**
  * Initializes application auto-update lifecycle.
@@ -32,7 +51,6 @@ autoUpdater.autoInstallOnAppQuit = false;
  * @param {BrowserWindow} mainWindow - main Electron window instance
  */
 function initAutoUpdater(mainWindow) {
-
   /**
    * Triggered when a new version is detected.
    * Prompts user to install or defer update.
@@ -40,23 +58,12 @@ function initAutoUpdater(mainWindow) {
   autoUpdater.on("update-available", async (info) => {
     logger.info(`Update available: ${info.version}`);
 
-    const { response } = await dialog.showMessageBox(mainWindow, {
-      type: "info",
-      title: "Update Available",
-      message: `Version ${info.version} is available.`,
-      detail: "Would you like to download and install it now?",
-      buttons: ["Install Update", "Maybe Later"],
-      defaultId: 0,
-      cancelId: 1,
+    mainWindow?.webContents.send("update-available", {
+      version: info.version,
+      environment: getUpdateEnvironment(),
     });
+    updateAvailable = true;
 
-    if (response === 0) {
-      await autoUpdater.downloadUpdate();
-    } else {
-      mainWindow?.webContents.executeJavaScript(
-        `window.showUpdateBadge && window.showUpdateBadge("${info.version}")`
-      );
-    }
   });
 
   /**
@@ -66,8 +73,10 @@ function initAutoUpdater(mainWindow) {
   autoUpdater.on("download-progress", (progress) => {
     logger.info(`Download progress: ${Math.round(progress.percent)}%`);
     mainWindow?.webContents.send("update-progress", {
-      percent: Math.round(progress.percent),
-      speed: progress.bytesPerSecond,
+      percent: progress.percent,
+      bytesPerSecond: progress.bytesPerSecond,
+      transferred: progress.transferred,
+      total: progress.total,
     });
   });
 
@@ -78,17 +87,9 @@ function initAutoUpdater(mainWindow) {
   autoUpdater.on("update-downloaded", async (info) => {
     logger.info(`Update downloaded: ${info.version}`);
 
-    const { response } = await dialog.showMessageBox(mainWindow, {
-      type: "info",
-      title: "Update Ready",
-      message: `Version ${info.version} has been downloaded.`,
-      detail: "The application will restart to apply the update.",
-      buttons: ["Install Now", "Later"],
-      defaultId: 0,
-      cancelId: 1,
-    });
+    mainWindow?.webContents.send("update-downloaded", info);
 
-    if (response === 0) autoUpdater.quitAndInstall();
+
   });
 
   /**
@@ -102,14 +103,16 @@ function initAutoUpdater(mainWindow) {
      * If no update is available, I put this because there is no Linux version before 1.6.0
      * @type {boolean}
      */
-    const isNoUpdateAvailable = /404/.test(msg) || /Cannot find latest.*\.yml/i.test(msg);
+    const isNoUpdateAvailable =
+      /404/.test(msg) || /Cannot find latest.*\.yml/i.test(msg);
 
     if (isNoUpdateAvailable) {
       logger.warn("Auto update: no update metadata found (probably no previous release), ignoring", msg);
       return;
     }
 
-    logger.error("Auto update error:", msg);
+    logger.error("Auto update error:", err);
+    mainWindow?.webContents.send("update-error", msg);
   });
 
   checkForUpdates();
@@ -121,18 +124,9 @@ function initAutoUpdater(mainWindow) {
  */
 async function checkForUpdates() {
 
-  /**
-   * Prevents electron-updater from running inside sandboxed environments.
-   * Snap and Flatpak lock the file system in read-only mode, causing the updater to crash.
-   * In these environments, updates are safely handled by snapd or the Flatpak runtime.
-   * Standalone Linux packages (.deb, .rpm, AppImage) will bypass this and update normally.
-   */
-  if (process.env.SNAP || process.env.FLATPAK_ID) {
-    logger.info("Running as Snap or Flatpak. Updates are managed by the OS store. Skipping electron-updater.");
-    return;
-  }
-
-  if (!require("electron").app.isPackaged) return ;
+  // If app is was installed from SNAP or Flatpak.
+  if (process.env.SNAP || process.env.FLATPAK_ID) return;
+  if (!require("electron").app.isPackaged) return;
 
   try {
     await autoUpdater.checkForUpdates();
@@ -150,6 +144,7 @@ async function downloadUpdate() {
     await autoUpdater.downloadUpdate();
   } catch (err) {
     logger.error("Download failed:", err.message);
+    throw err;
   }
 }
 
@@ -160,4 +155,13 @@ function installUpdate() {
   autoUpdater.quitAndInstall();
 }
 
-module.exports = { initAutoUpdater, downloadUpdate, installUpdate };
+function isUpdateAvailable() {
+  return updateAvailable;
+}
+
+module.exports = {
+  initAutoUpdater,
+  downloadUpdate,
+  installUpdate,
+  isUpdateAvailable,
+};

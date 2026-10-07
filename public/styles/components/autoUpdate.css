@@ -1,0 +1,128 @@
+:root {
+    --border-accent: #0ea5e966;
+    --bg-accent: #0ea5e915;
+    --fill-accent: #0ea5e9;
+    --text-accent: #0369a1;
+    --text-secondary: #64748b;
+}
+
+#updateAvailable {
+    display: none;
+    width: fit-content;
+    max-width: 420px;
+    position: absolute;
+    right: 18px;
+    bottom: 5%;
+    z-index: 50;
+}
+
+.update-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 0.5px solid var(--border-accent);
+    background: var(--bg-accent);
+    backdrop-filter: blur(8px);
+}
+
+.banner-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.banner-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--fill-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.icon-wrap i {
+    font-size: 16px;
+    color: #fff;
+}
+
+.text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.update-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-accent);
+}
+
+.update-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.btn-update {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: var(--fill-accent);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+.btn-update:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.btn-update:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.progress-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.progress-track {
+    height: 4px;
+    border-radius: 99px;
+    background: var(--border-accent);
+    overflow: hidden;
+    width: 100%;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--fill-accent);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-meta {
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+}

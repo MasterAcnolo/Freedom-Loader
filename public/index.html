@@ -12,7 +12,9 @@
 
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/layout/topbar.css">
-    
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
 <body>
 
@@ -21,9 +23,11 @@
             <div class="custom-controls">
                 <button id="devtools-btn" title="Dev Tools">Tools</button>
                 <button id="logs-btn" title="Logs">Logs</button>
+                <button id="report-bug-btn" title="Report a bug">Report a Bug</button> <!-- TODO: Find a better place -->
                 <button id="website-btn" title="Website">Website</button>
                 <button id="wiki-btn" title="Wiki">Wiki</button>
                 <button id="workshop-btn" title="Workshop">Theme Workshop</button>
+                <button id="changelog-btn" title="Changelog">Changelog</button>
                 <!-- <button id="theme-btn" title="Theme">Theme</button> -->
             </div>
             <div class="window-controls">
@@ -120,38 +124,38 @@
                 <summary>Advanced Settings</summary>
 
                 <div class="setting-item">
-                    <input type="checkbox" data-key="autoUpdate" id="autoUpdate">
+                    <input type="checkbox" data-key="showChanglogsAfterUpdate" id="showChanglogsAfterUpdate">
                     <div class="setting-info">
-                    <span class="setting-title">Auto Update</span>
-                    <small>Enable automatic app updates.</small>
+                    <span class="setting-title">Show Changelogs After Update</span>
+                    <small>Display changelogs after each update.</small>
                     </div>
                 </div>
 
-                    <div class="setting-item">
-                        <input data-key="systemTray" id="systemTray" type="checkbox">
-                        <div class="setting-info">
-                            <span class="setting-title">System Tray</span>
-                            <small>Minimize app on close, in the System Tray. [EXPERIMENTAL]</small>
-                        </div>
+                <div class="setting-item">
+                    <input data-key="systemTray" id="systemTray" type="checkbox">
+                    <div class="setting-info">
+                        <span class="setting-title">System Tray</span>
+                        <small>Minimize app on close, in the System Tray.</small>
                     </div>
+                </div>
 
-                    <!-- <div class="setting-item">
-                        <input type="checkbox" data-key="outputTitleCheck" id="outputTitleCheck">
-                        <div class="setting-info">
-                        <span class="setting-title">Output title (special chars)</span>
-                        <small>Check for unusual characters in output titles.</small>
-                        </div>
-                    </div> -->
-
-                    <div class="setting-item">
-                        <input data-key="autoCheckInfo" id="autoCheckInfo" type="checkbox">
-                        <div class="setting-info">
-                            <span class="setting-title">Auto Fetch Info</span>
-                            <small>Automatically fetch information for new downloads.</small>
-                        </div>
+                <!-- <div class="setting-item">
+                    <input type="checkbox" data-key="outputTitleCheck" id="outputTitleCheck">
+                    <div class="setting-info">
+                    <span class="setting-title">Output title (special chars)</span>
+                    <small>Check for unusual characters in output titles.</small>
                     </div>
+                </div> -->
 
-                    <div class="setting-item">
+                <div class="setting-item">
+                    <input data-key="autoCheckInfo" id="autoCheckInfo" type="checkbox">
+                    <div class="setting-info">
+                        <span class="setting-title">Auto Fetch Info</span>
+                        <small>Automatically fetch information for new downloads.</small>
+                    </div>
+                </div>
+
+                <div class="setting-item">
                     <input type="checkbox" data-key="addMetadata" id="addMetadata">
                     <div class="setting-info">
                     <span class="setting-title">Add Metadata</span>
@@ -167,13 +171,13 @@
                     </div>
                 </div>
 
-                <div class="setting-item">
+                <!-- <div class="setting-item">
                     <input type="checkbox" data-key="customTopBar" id="customTopBar">
                     <div class="setting-info">
                     <span class="setting-title">Custom Top bar</span>
                     <small>Use this if the topbar is missing or you prefer a custom one.</small>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="setting-item" style="margin-left: 32px; margin-top: 20px;">
                     <div class="setting-info">
@@ -295,14 +299,53 @@
 
             <span id="version-badge" class="version-badge"></span>
 
-        </div>
     </main>
 
     <!-- Toast Container -->
     <div id="toast-container"></div>
 
+    <div class="changelog-overlay" id="changelog-overlay" hidden>
+        <section class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="changelog-title">
+            <div class="changelog-header">
+                <div>
+                    <span class="changelog-eyebrow">Freedom Loader</span>
+                    <h2 id="changelog-title">What's new</h2>
+                </div>
+                <button class="changelog-close" id="changelog-close" type="button" title="Close changelog" aria-label="Close changelog">&times;</button>
+            </div>
+            <div class="changelog-list" id="changelog-list">
+                <p class="changelog-loading">Loading changelog...</p>
+            </div>
+        </section>
+    </div>
+
     <h2 id="reference"> Because Why Not ? </h2>
 
+    <div id="updateAvailable" style="display:none">
+        <div class="update-banner">
+            <div class="banner-row">
+                <div class="banner-left">
+                    <div class="icon-wrap">
+                        <span class="material-symbols-outlined" id="update-icon">download</span>
+                    </div>
+                    <div class="text-block">
+                        <span class="update-title" id="update-title">Update available</span>
+                        <span class="update-sub" id="update-sub">A new version is ready</span>
+                    </div>
+                </div>
+                <button class="btn-update" id="btn-update">Download</button>
+            </div>
+            <div class="progress-wrap" id="progress-wrap" style="display:none">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-meta">
+                    <span id="progress-pct">0%</span>
+                    <span id="progress-eta"></span>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Scripts -->
     <script src="script/toast.js"></script>
@@ -314,6 +357,9 @@
     <script src="script/fetchinfo.js"></script>
     <script src="script/progressBar.js"></script>
     <script src="script/customthemes.js"></script>
+    <script src="script/reportBug.js"></script>
+    <script src="script/autoUpdate.js"></script>
+    <script type="module" src="script/changelog.js"></script>
     <script type="module" src="script/topbar.js"></script>
 
 </body>

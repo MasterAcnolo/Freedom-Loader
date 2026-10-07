@@ -1,8 +1,6 @@
 {
-  "autoUpdate": true,
   "systemTray": false,
   "discordRPC": true,
-  "customTopBar": true,
   "autoCheckInfo": true,
   "addThumbnail": true,
   "addMetadata": true,
@@ -16,5 +14,6 @@
   "downloadSystem": true,
   "notifySystem": true,
   "enableHardwareAcceleration": true,
+  "showChanglogsAfterUpdate": true,
   "theme": "dark" 
 }

@@ -9,8 +9,8 @@ assignees: 'MasterAcnolo'
 
 ## Pre-submission Checklist
 
-- [ ] I have checked the [FAQ](https://masteracnolo.github.io/Freedom-Loader-Site/#/faq)
-- [ ] I have reviewed the [Wiki](https://masteracnolo.github.io/Freedom-Loader-Site/#/wiki)
+- [ ] I have checked the [FAQ](https://freedomloader.acnolo.fr/#/faq)
+- [ ] I have reviewed the [Wiki](https://freedomloader.acnolo.fr/#/wiki)
 - [ ] I have searched existing issues
 
 ## Question

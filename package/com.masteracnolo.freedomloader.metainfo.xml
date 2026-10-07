@@ -45,7 +45,7 @@
         </p>
     </description>
 
-    <launchable type="desktop-id">freedom-loader.desktop</launchable>
+    <launchable type="desktop-id">com.masteracnolo.freedomloader.desktop</launchable>
 
     <url type="homepage">https://github.com/MasterAcnolo/Freedom-Loader</url>
     <url type="bugtracker">https://github.com/MasterAcnolo/Freedom-Loader/issues</url>

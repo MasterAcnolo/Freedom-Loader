@@ -57,7 +57,7 @@ async function createMainWindow() {
     height: 800,
     minWidth: 750,
     minHeight: 800,
-    frame: !configFeatures.customTopBar,
+    frame: false, // Force custom topbar for consistent UI across platforms, and less maintenance headaches with native titlebar actions
     devTools: !app.isPackaged,
     show: false, 
     webPreferences: {

@@ -132,7 +132,7 @@ if [ "$DRY_RUN" = false ]; then
         "$ROOT_DIR/dist/Freedom-Loader-Setup-${VERSION}.exe" \
         "$ROOT_DIR/dist/Freedom-Loader-Setup-${VERSION}.exe.blockmap" \
         "$ROOT_DIR/dist/freedom-loader-${VERSION}.x86_64.rpm" \
-        "$ROOT_DIR/dist/Freedom-Loader_${VERSION}_amd64.deb" \
+        "$ROOT_DIR/dist/freedom-loader_${VERSION}_amd64.deb" \
         "$ROOT_DIR/dist/Freedom-Loader-${VERSION}.AppImage" \
         "$ROOT_DIR/dist/freedom-loader_${VERSION}_amd64.snap" \
         "$ROOT_DIR/dist/latest.yml" \

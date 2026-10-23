@@ -67,7 +67,6 @@
   },
   "build": {
     "appId": "com.masteracnolo.freedomloader",
-    "artifactName": "Freedom-Loader-${version}.${ext}",
     "productName": "Freedom Loader",
     "publish": [
       {
@@ -175,6 +174,9 @@
       "fpm": [
         "./package/com.masteracnolo.freedomloader.metainfo.xml=/usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml"
       ]
+    },
+    "appImage": {
+      "artifactName": "Freedom-Loader-${version}.${ext}"
     },
     "snap": {
       "confinement": "strict",

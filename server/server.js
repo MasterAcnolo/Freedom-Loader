@@ -28,7 +28,7 @@ app.get("/", rateLimit, (req, res) => {
 
 /**
  * Initializes and starts the Express HTTP server.
- * 
+ *
  * - Binds the server to `config.applicationPort`
  * - Resolves with the HTTP server instance on successful startup
  * - Rejects on server binding or runtime errors
@@ -36,7 +36,7 @@ app.get("/", rateLimit, (req, res) => {
  */
 async function startServer() {
   return new Promise((resolve, reject) => {
-    const serverInstance = app.listen(config.applicationPort, () => {
+    serverInstance = app.listen(config.applicationPort, () => {
       logger.info(`Express server ready at http://localhost:${config.applicationPort}`);
       resolve(serverInstance);
     });
@@ -53,11 +53,13 @@ async function startServer() {
  */
 function stopServer() {
   if (serverInstance) {
-    try{
-      serverInstance.close();
-      logger.info("Express server closed cleanly");
-    } catch (err){
-      logger.error("Express server was not closed cleanly:", err)
+    try {
+      serverInstance.close(() => {
+        logger.info("Express server closed cleanly");
+      });
+      serverInstance = null;
+    } catch (err) {
+      logger.error("Express server was not closed cleanly:", err);
     }
   } else {
     logger.info("Express server was already closed");

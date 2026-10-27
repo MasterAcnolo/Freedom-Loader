@@ -159,6 +159,18 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.on("update-downloaded", (_, info) => callback(info)),
 
   openReleasePage: () => ipcRenderer.send("open-release-page"),
+
+  /**
+   * Subscribes to toast notifications emitted by the main process.
+   *
+   * @param {Function} callback - Function executed with toast data.
+   * @returns {Function} Removes the listener.
+   */
+  onToast: (callback) => {
+    const listener = (_, toast) => callback(toast);
+    ipcRenderer.on("show-toast", listener);
+    return () => ipcRenderer.removeListener("show-toast", listener);
+  },
 });
 
 /**

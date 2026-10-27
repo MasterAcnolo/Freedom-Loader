@@ -2,6 +2,7 @@ const fs = require("fs");
 const os = require("os");
 const notify = require("./notify.helpers");
 const { logger } = require("../logger");
+const {sendToast} = require("../../app/toastNotifier");
 
 /**
  * Detects the first supported browser installed on the system.
@@ -15,6 +16,7 @@ const { logger } = require("../logger");
  * If no supported browser is found:
  * - A warning is logged
  * - A notification is displayed to the user
+ * - An in-app toast is displayed to the user
  * - "firefox" is returned as a fallback to allow yt-dlp to
  *   handle the error gracefully without crashing the application
  *
@@ -51,6 +53,11 @@ function getUserBrowser() {
     // No supported browser found => Notify User
     logger.warn("No supported browser found on the system");
     notify.notifyFirefoxBrowserMissing();
+
+    sendToast(
+        "Firefox was not found on your system. Please install Firefox to import browser cookies.",
+        "error",
+    );
   } else {
     logger.info("Browser found: firefox");
   }

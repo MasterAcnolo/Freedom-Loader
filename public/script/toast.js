@@ -83,3 +83,12 @@ window.showWarning = (message, duration = 4000) =>
  */
 window.showInfo = (message, duration = 4000) =>
   window.showToast(message, "info", duration);
+
+/**
+ * Listens for toast notifications from the main process and displays them in the UI.
+ */
+window.electronAPI?.onToast(({message, type = "info", duration = 4000} = {}) => {
+  if (typeof message === "string") {
+    window.showToast(message, type, duration);
+  }
+});

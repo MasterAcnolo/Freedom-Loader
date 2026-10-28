@@ -210,6 +210,9 @@ If you encounter issues:
 
 Freedom Loader can be configured either through the settings panel in the UI or by directly editing the `config.json` file located in the application data directory.
 
+When the application starts, any settings missing from an existing `config.json` are automatically added using the
+defaults from `config/config.default.json`. Existing values and unknown custom keys are preserved.
+
 ### Configuration File Location
 
 #### Windows

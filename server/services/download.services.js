@@ -121,6 +121,9 @@ function createPlaylistFolder(basePath, playlistTitle) {
  * download has completed successfully.
  */
 function fetchDownload(options, progressListeners, speedListeners, stageListeners, playlistInfoListeners) {
+  if (currentDownloadProcess && !currentDownloadProcess.killed) {
+    return Promise.reject(new Error("Download already in progress"));
+  }
 
   return new Promise((resolve, reject) => {
 
@@ -171,7 +174,8 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
 
     logger.info(`[yt-dlp args] ${args.join(" ")}`);
 
-    const child = execFile(userYtDlp, args);
+    // If we are in a non-Windows environment, we can use detached mode to allow killing the entire process group.
+    const child = execFile(userYtDlp, args, { detached: process.platform !== "win32" });
     currentDownloadProcess = child;
 
     child.on("error", err => reject(new Error(`YT-DLP Error : ${err.message}`)));
@@ -258,21 +262,36 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
 function cancelDownload() {
   if (currentDownloadProcess) {
     logger.info("Cancelling download and killing all child processes...");
+    const pid = currentDownloadProcess.pid;
 
-    // Force kill the process and all its children with SIGKILL
     try {
-      // Try to kill with SIGKILL on Windows (process group) or Unix
-      if (process.platform === 'win32') {
-        // On Windows, kill the process tree
-        require('child_process').execSync(`taskkill /PID ${currentDownloadProcess.pid} /T /F`, { stdio: 'ignore' });
+      if (process.platform === "win32") {
+        if (pid) {
+          require("child_process").execSync(`taskkill /PID ${pid} /T /F`, {
+            stdio: "ignore",
+          });
+        }
       } else {
-        // On Unix, send SIGKILL to process group
-        process.kill(-currentDownloadProcess.pid, 'SIGKILL');
+        if (pid) {
+    try {
+            process.kill(-pid, "SIGKILL");
+          } catch (err) {
+            logger.warn(`Error killing process group: ${err.message}`);
+            currentDownloadProcess.kill("SIGKILL");
+          }
+      } else {
+          currentDownloadProcess.kill("SIGKILL");
+        }
       }
     } catch (err) {
       logger.warn(`Error killing process: ${err.message}`);
-      // Fallback to regular kill
-      currentDownloadProcess.kill('SIGKILL');
+      try {
+        if (currentDownloadProcess && !currentDownloadProcess.killed) {
+          currentDownloadProcess.kill("SIGKILL");
+        }
+      } catch (killErr) {
+        logger.warn(`Fallback kill failed: ${killErr.message}`);
+      }
     }
 
     currentDownloadProcess = null;

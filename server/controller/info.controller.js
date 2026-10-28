@@ -1,130 +1,42 @@
-const { fetchInfo } = require("../services/info.services");
-const { parseVideo, parsePlaylist } = require("../helpers/parseInfo.helpers");
+const {fetchNormalizedInfo} = require("../services/info.services");
 const { logger } = require("../logger");
 const { isValidUrl } = require("../helpers/validation.helpers");
-const {isUrlPlaylist} = require("../helpers/playlist.helpers");
 
 /**
  * Handles metadata retrieval for a video or playlist.
  *
- * This controller:
- * - Validates incoming URL (query or body)
- * - Calls yt-dlp metadata extraction service
- * - Detects playlist vs single video context
- * - Applies fallback strategy if playlist extraction fails
- * - Returns normalized parsed response (video or playlist)
+ * Returns normalized JSON responses. Accepts URL via query (?url=...)
+ * or request body for flexibility.
  *
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  */
 async function infoController(req, res) {
+  try {
+    const url = req.query.url || (req.body && req.body.url);
+    const encodedUrl = typeof url === "string" ? encodeURIComponent(url) : undefined;
 
-    // Previously, i support both POST and GET element, but it's kinda weird. So now it only support GET.
-    const url = req.query.url;
-    const encodedUrl = encodeURIComponent(url)
-
-    /**
-     * Basic validation:
-     * - URL must exist
-     * - Must be a string
-     * - Must pass custom URL validation
-     */
     if (!url || typeof url !== "string" || !isValidUrl(url)) {
-        return res.status(400).send("Invalid URL Or Missing");
+      return res.status(400).json({
+        error: {code: "INVALID_URL", message: "Invalid or missing URL"},
+      });
     }
 
     logger.info(`Info request received. RAW URL: ${url}`);
-    logger.info(`Info request received. ENCODED: ${encodedUrl}`);
-
-    // Lightweight heuristic to detect playlist URLs. It works for Youtube.
-    const isPlaylistUrl = isUrlPlaylist(url);
-
-    logger.info(
-        isPlaylistUrl
-            ? "Estimated Data Type: Playlist"
-            : "Estimated Data Type: Video"
-    );
-
-    try {
-        let data;
-
-        /**
-         * Primary metadata fetch attempt
-         */
-        try {
-            data = await fetchInfo(url);
-        } catch (err) {
-
-            /**
-             * Fallback strategy:
-             * If playlist extraction fails, retry as single video
-             */
-            if (isPlaylistUrl) {
-
-                logger.info(
-                    `Playlist fetch failed: ${err.message}. Retrying as single video...`
-                );
-
-                // Remove playlist query parameter (best-effort cleanup)
-                const singleVideoUrl = url.split("&list")[0].split("?list")[0];
-
-                try {
-                    data = await fetchInfo(singleVideoUrl);
-                    logger.info("Single video fetch succeeded after playlist failure");
-                } catch (retryErr) {
-                    logger.error(
-                        `Single video fetch also failed: ${retryErr.message}`
-                    );
-
-                    // Preserve original error context
-                    logger.error(err);
-                }
-
-            } else {
-                logger.error(err);
-            }
-        }
-
-        /**
-         * Normalize response based on yt-dlp output type
-         */
-        if (data._type === "playlist") {
-
-            // If the playlist got only one video, show it as a video.
-            if (data.entries && data.entries.length === 1) {
-
-                const singleVideo = parseVideo(data.entries[0]);
-
-                logger.info(`Playlist with 1 item converted to video: ${singleVideo.title}`);
-
-                return res.json(singleVideo);
-            }
-
-            const playlist = parsePlaylist(data);
-
-            logger.info(
-                `Playlist fetched: ${playlist.title} (${playlist.count} videos)`
-            );
-
-            return res.json(playlist);
-
-        } else {
-
-            const video = parseVideo(data);
-
-            logger.info(`Video fetched: ${video.title}`);
-
-            return res.json(video);
-        }
-
-    } catch (err) {
-
-        logger.error(
-            `Info controller error: ${err && err.message ? err.message : err}`
-        );
-
-        return res.status(500).send("Unable to fetch info");
+    if (encodedUrl) {
+      logger.info(`Info request received. ENCODED: ${encodedUrl}`);
     }
+
+    const result = await fetchNormalizedInfo(url);
+    return res.json(result);
+  } catch (err) {
+    logger.error(
+        `Info controller error: ${err && err.message ? err.message : err}`
+    );
+    return res.status(500).json({
+      error: {code: "FETCH_FAILED", message: "Unable to fetch info"},
+    });
+  }
 }
 
 module.exports = { infoController };

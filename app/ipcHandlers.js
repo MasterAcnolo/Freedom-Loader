@@ -36,6 +36,7 @@ const FEATURE_WHITELIST = new Set([
   "addThumbnail",
   "addMetadata",
   "verboseLogs",
+  "autoUpdateYtDlp",
   "autoDownloadPlaylist",
   "keepPlaylistOrder",
   "customCodec",

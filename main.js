@@ -145,7 +145,12 @@ app.whenReady().then(async () => {
   if (!devMode && !checkNativeDependencies()) return;
 
   const { userYtDlp } = require("./server/helpers/path.helpers");
+
+  if (configFeatures.autoUpdateYtDlp !== false) {
   updateYtDlp(userYtDlp);
+  } else {
+    logger.info("yt-dlp automatic updates skipped.");
+  }
 
   try {
     setSplashProgress(0); // Checking dependencies

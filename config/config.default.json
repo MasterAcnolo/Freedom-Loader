@@ -5,6 +5,7 @@
   "addThumbnail": true,
   "addMetadata": true,
   "verboseLogs": false,
+  "autoUpdateYtDlp": true,
   "autoDownloadPlaylist": true,
   "keepPlaylistOrder": false,
   "createPlaylistFolders": false,

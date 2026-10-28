@@ -231,6 +231,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
   "addThumbnail": true,
   "addMetadata": true,
   "verboseLogs": false,
+  "autoUpdateYtDlp": true,
   "autoDownloadPlaylist": true,
   "keepPlaylistOrder": false,
   "createPlaylistFolders": true,
@@ -255,6 +256,7 @@ Freedom Loader can be configured either through the settings panel in the UI or 
 | `addThumbnail`               | boolean | `true`   | Embed thumbnail in downloaded audio files                  |
 | `addMetadata`                | boolean | `true`   | Add metadata tags to downloaded files                      |
 | `verboseLogs`                | boolean | `false`  | Enable detailed logging for debugging                      |
+| `autoUpdateYtDlp`            | boolean | `true`   | Automatically update yt-dlp when the app starts            |
 | `autoDownloadPlaylist`       | boolean | `true`   | Automatically download entire playlists                    |
 | `keepPlaylistOrder`          | boolean | `false`  | Add index before title, usefull for album                  |
 | `createPlaylistFolders`      | boolean | `false`  | Automatically create a folder for a playlist               |

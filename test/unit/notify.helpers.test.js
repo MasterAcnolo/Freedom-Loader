@@ -1,6 +1,6 @@
 const mockShow = jest.fn();
 const mockOn = jest.fn();
-const mockOpenPath = jest.fn();
+const mockOpenPath = jest.fn().mockResolvedValue("");
 const mockOpenExternal = jest.fn();
 
 jest.mock("electron", () => ({
@@ -71,13 +71,16 @@ describe("notify.helpers", () => {
             expect(mockShow).toHaveBeenCalled();
         });
 
-        test("opens folder when notification is clicked", () => {
+        test("opens folder when notification is clicked", (done) => {
             notifyDownloadFinished("/downloads");
 
             const callback = mockOn.mock.calls[0][1];
             callback();
 
-            expect(shell.openPath).toHaveBeenCalledWith("/downloads");
+            setTimeout(() => {
+                expect(shell.openPath).toHaveBeenCalledWith("/downloads");
+                done();
+            }, 200);
         });
     });
 
@@ -101,7 +104,7 @@ describe("notify.helpers", () => {
             callback();
 
             expect(shell.openExternal).toHaveBeenCalledWith(
-                "https://youtube.com/shorts/cN9f4s1Mf88?si=519QCVd_-fzJqRf1"
+                "https://www.firefox.com/en-US/download/"
             );
         });
     });
@@ -126,7 +129,7 @@ describe("notify.helpers", () => {
             callback();
 
             expect(shell.openExternal).toHaveBeenCalledWith(
-                "https://youtube.com/shorts/cN9f4s1Mf88?si=519QCVd_-fzJqRf1"
+                "https://www.firefox.com/en-US/download/"
             );
         });
     });

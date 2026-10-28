@@ -1,8 +1,8 @@
 const path = require("path");
 
-jest.mock("../../server/helpers/getBrowser.helpers.js", () =>
-    jest.fn(() => "firefox")
-);
+jest.mock("../../server/helpers/getBrowser.helpers.js", () => ({
+    getUserBrowser: jest.fn(() => "firefox"),
+}));
 
 jest.mock("../../server/helpers/path.helpers.js", () => ({
     ffmpegPath: "/mock/ffmpeg",

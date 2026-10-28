@@ -1,5 +1,10 @@
 const packageJson = require("./package.json");
-const { app } = require("electron");
+let app;
+try {
+  app = require("electron").app;
+} catch (e) {
+  app = null;
+}
 const fs = require("fs");
 const path = require("path");
 
@@ -7,7 +12,7 @@ const path = require("path");
  * Indicates whether the application is running in development mode.
  * Determined by Electron's packaging state.
  */
-const devMode = !app.isPackaged || process.env.NODE_ENV === "test";
+const devMode = app && !app.isPackaged ? true : app ? !app.isPackaged || process.env.NODE_ENV === "test" : process.env.NODE_ENV !== "production";
 
 /**
  * Resolves the configuration file path depending on runtime environment.
@@ -64,8 +69,8 @@ const featuresPath = resolveConfigPath();
  */
 function getDefaultConfigPath() {
   return devMode
-    ? path.join(__dirname, "config", "config.default.json")
-    : path.join(process.resourcesPath, "config", "config.default.json");
+      ? path.join(__dirname, "config", "config.default.json")
+      : path.join(process.resourcesPath, "config", "config.default.json");
 }
 
 /**
@@ -85,10 +90,10 @@ function mergeMissingFeatures(defaults, current) {
     throw new Error("User configuration must be a JSON object");
   }
 
-  const features = { ...defaults, ...current };
+  const features = {...defaults, ...current};
   const changed = Object.keys(defaults).some((key) => !Object.prototype.hasOwnProperty.call(current, key));
 
-  return { features, changed };
+  return {features, changed};
 }
 
 /**
@@ -100,7 +105,7 @@ function mergeMissingFeatures(defaults, current) {
 function loadFeatures() {
   const defaults = JSON.parse(fs.readFileSync(getDefaultConfigPath(), "utf-8"));
   const current = JSON.parse(fs.readFileSync(featuresPath, "utf-8"));
-  const { features, changed } = mergeMissingFeatures(defaults, current);
+  const {features, changed} = mergeMissingFeatures(defaults, current);
 
   if (changed) {
     fs.writeFileSync(featuresPath, JSON.stringify(features, null, 2), "utf-8");

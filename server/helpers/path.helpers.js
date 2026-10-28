@@ -16,10 +16,12 @@ const ext = isWindows ? '.exe' : ''
 /**  Centralized resource paths */
 const resourcesPath = config.devMode
   ? path.join(__dirname, "../../resources")
-  : process.resourcesPath;
+  : (process.resourcesPath || path.join(__dirname, "../../resources"));
 
 /**  Default download folder (centralized) */
-const defaultDownloadFolder = path.join(app.getPath("downloads"), "Freedom Loader");
+const defaultDownloadFolder = app && typeof app.getPath === "function"
+  ? path.join(app.getPath("downloads"), "Freedom Loader")
+  : path.join(process.env.HOME || process.cwd(), "Downloads", "Freedom Loader");
 
 /**
  * Current platform:
@@ -149,7 +151,9 @@ const binaryPaths = {
  * - default themes come from app resources
  * - user themes are persisted in userData to survive updates
  */
-const userThemesPath = path.join(app.getPath("userData"), "themes");
+const userThemesPath = app && typeof app.getPath === "function"
+  ? path.join(app.getPath("userData"), "themes")
+  : path.join(process.env.HOME || process.cwd(), ".config", "Freedom Loader", "themes");
 const defaultThemesSourcePath = path.join("theme");
 
 /**

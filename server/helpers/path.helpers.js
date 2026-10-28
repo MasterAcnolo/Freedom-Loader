@@ -1,6 +1,11 @@
 const path = require("path");
 const fs = require("fs");
-const { app } = require("electron");
+let app;
+try {
+  app = require("electron").app;
+} catch (e) {
+  app = null;
+}
 const config = require("../../config.js");
 
 /**
@@ -18,7 +23,7 @@ const resourcesPath = config.devMode
   ? path.join(__dirname, "../../resources")
   : (process.resourcesPath || path.join(__dirname, "../../resources"));
 
-/**  Default download folder (centralized) */
+/**  Default download folder */
 const defaultDownloadFolder = app && typeof app.getPath === "function"
   ? path.join(app.getPath("downloads"), "Freedom Loader")
   : path.join(process.env.HOME || process.cwd(), "Downloads", "Freedom Loader");

@@ -58,14 +58,55 @@ function resolveConfigPath() {
 const featuresPath = resolveConfigPath();
 
 /**
+ * Resolves the bundled default configuration path.
+ *
+ * @returns {string} Absolute path to the default configuration file
+ */
+function getDefaultConfigPath() {
+  return devMode
+    ? path.join(__dirname, "config", "config.default.json")
+    : path.join(process.resourcesPath, "config", "config.default.json");
+}
+
+/**
+ * Adds missing default feature flags without overwriting user settings.
+ *
+ * Unknown user-defined keys are intentionally preserved.
+ *
+ * @param {Object} defaults - Default feature flags
+ * @param {Object} current - User feature flags
+ * @returns {{features: Object, changed: boolean}} Merged features and migration state
+ */
+function mergeMissingFeatures(defaults, current) {
+  if (!defaults || typeof defaults !== "object" || Array.isArray(defaults)) {
+    throw new Error("Default configuration must be a JSON object");
+  }
+  if (!current || typeof current !== "object" || Array.isArray(current)) {
+    throw new Error("User configuration must be a JSON object");
+  }
+
+  const features = { ...defaults, ...current };
+  const changed = Object.keys(defaults).some((key) => !Object.prototype.hasOwnProperty.call(current, key));
+
+  return { features, changed };
+}
+
+/**
  * Loads and parses the feature configuration file.
  *
  * @returns {Object} Parsed feature flags configuration
  * @throws {Error} If the configuration file is missing or invalid
  */
 function loadFeatures() {
-  const raw = fs.readFileSync(featuresPath, "utf-8");
-  return JSON.parse(raw);
+  const defaults = JSON.parse(fs.readFileSync(getDefaultConfigPath(), "utf-8"));
+  const current = JSON.parse(fs.readFileSync(featuresPath, "utf-8"));
+  const { features, changed } = mergeMissingFeatures(defaults, current);
+
+  if (changed) {
+    fs.writeFileSync(featuresPath, JSON.stringify(features, null, 2), "utf-8");
+  }
+
+  return features;
 }
 
 /**
@@ -77,8 +118,7 @@ function loadFeatures() {
  */
 function reloadFeatures() {
   try {
-    const raw = fs.readFileSync(featuresPath, "utf-8");
-    return JSON.parse(raw);
+    return loadFeatures();
   } catch (err) {
     // Fallback to cached snapshot if file read fails
     return configFeatures;
@@ -128,4 +168,9 @@ module.exports = {
    * Path to the active configuration file
    */
   featuresPath,
+
+  /**
+   * Merges missing default feature flags into user configuration without overwriting existing settings.
+   */
+  mergeMissingFeatures,
 };

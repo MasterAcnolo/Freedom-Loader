@@ -53,17 +53,32 @@ form.addEventListener("submit", async (e) => {
 
   const formData = new FormData(form);
   const params = new URLSearchParams(formData);
+  const body = Object.fromEntries(params.entries());
 
   try {
     const res = await fetch("/download", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: params,
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(body),
     });
 
     if (!res.ok) {
       if (!userStoppedDownload) {
-        const errorText = await res.text();
+        let errorText = "Server Error";
+        try {
+          const contentType = res.headers.get("content-type") || "";
+          if (contentType.includes("application/json")) {
+            const json = await res.json();
+            errorText =
+                (json && json.error && json.error.message) ||
+                (json && json.message) ||
+                errorText;
+          } else {
+            errorText = await res.text();
+          }
+        } catch (e) {
+          // ignore
+        }
         window.showError(errorText);
         resetProgressBar();
       }
@@ -71,8 +86,12 @@ form.addEventListener("submit", async (e) => {
     }
 
     // Download successful - check if notifications are enabled
-    const features = await window.electronAPI.getFeatures();
-    if (features.notifySystem) {
+    try {
+      const features = await window.electronAPI.getFeatures();
+      if (features.notifySystem) {
+        window.showSuccess("Download completed!");
+      }
+    } catch (e) {
       window.showSuccess("Download completed!");
     }
 
@@ -80,10 +99,14 @@ form.addEventListener("submit", async (e) => {
     if (!isDownloading && !userStoppedDownload) {
       statusDiv.style.display = "none";
     }
+    if (!userStoppedDownload) {
+      window.showError("Network error while starting download");
+      resetProgressBar();
+    }
   } finally {
     isDownloading = false;
     button.disabled = false;
-    stopBtn.style.display = "none";
+    if (stopBtn) stopBtn.style.display = "none";
   }
 });
 
@@ -135,9 +158,9 @@ async function stopDownload() {
   try {
     await fetch("/download/cancel", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: {"Content-Type": "application/json"},
     });
-    
+
     window.showWarning("Download stopped");
   } catch (err) {
     console.error("Error stopping download:", err);

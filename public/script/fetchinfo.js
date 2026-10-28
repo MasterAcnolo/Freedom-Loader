@@ -32,14 +32,27 @@ async function fetchVideoInfo(url) {
   try {
     const res = await fetch(`/info?url=${encodeURIComponent(url)}`, {
       method: "GET",
-      headers: {"Accept": "application/json"}
+      headers: {Accept: "application/json"},
     });
 
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (e) {
+      return {error: "Network or JSON Issue"};
+    }
 
-    if (!res.ok) return {error: `An Error occured when fetching info`};
+    if (!res.ok) {
+      if (data && data.error) {
+        return {error: data.error.message || "An Error occured when fetching info"};
+      }
+      return {error: "An Error occured when fetching info"};
+    }
 
     if (!data) return { error: "Data is Missing" };
+    if (data.error) {
+      return {error: data.error.message || data.error};
+    }
 
     return data;
   } catch (e) {

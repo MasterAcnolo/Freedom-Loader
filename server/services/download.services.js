@@ -126,7 +126,6 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
   }
 
   return new Promise((resolve, reject) => {
-
     const userConfig = reloadFeatures();
 
     logger.info(`CONFIG createPlaylistFolders: ${userConfig.createPlaylistFolders}`);
@@ -175,7 +174,7 @@ function fetchDownload(options, progressListeners, speedListeners, stageListener
     logger.info(`[yt-dlp args] ${args.join(" ")}`);
 
     // If we are in a non-Windows environment, we can use detached mode to allow killing the entire process group.
-    const child = execFile(userYtDlp, args, { detached: process.platform !== "win32" });
+    const child = execFile(userYtDlp, args, {detached: process.platform !== "win32"});
     currentDownloadProcess = child;
 
     child.on("error", err => reject(new Error(`YT-DLP Error : ${err.message}`)));
@@ -273,13 +272,13 @@ function cancelDownload() {
         }
       } else {
         if (pid) {
-    try {
+          try {
             process.kill(-pid, "SIGKILL");
           } catch (err) {
             logger.warn(`Error killing process group: ${err.message}`);
             currentDownloadProcess.kill("SIGKILL");
           }
-      } else {
+        } else {
           currentDownloadProcess.kill("SIGKILL");
         }
       }

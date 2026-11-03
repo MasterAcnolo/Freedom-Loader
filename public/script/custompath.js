@@ -42,7 +42,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     savePathElem.textContent = path;
     savePathElem.title = path; 
     hidden.value = path;
-    localStorage.setItem("customDownloadPath", path); // UX only
+    window.electronAPI.setFeature("downloadPath", path); // Persist in config.json
+    //localStorage.setItem("customDownloadPath", path); // UX only
   }
 
   /**
@@ -54,16 +55,18 @@ window.addEventListener("DOMContentLoaded", async () => {
    * 3. backend default fallback path if validation fails
    */
   async function loadInitialPath() {
-    // On affiche ce que le user a vu la dernière fois (UX)
-    const cached = localStorage.getItem("customDownloadPath");
-    if (cached) {
-      savePathElem.textContent = cached;
+  
+    const features = window.electronAPI.getFeatures();
+    const path = features.downloadPath
+
+    if (path) {
+      savePathElem.textContent = path;
     }
 
     // MAIS la source de vérité reste le back
     try {
       const validatedPath = await window.electronAPI.getValidatedDownloadPath(
-        cached
+        path
       );
       await applyPathFromBack(validatedPath);
     } catch {

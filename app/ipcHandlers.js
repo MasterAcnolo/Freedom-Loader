@@ -19,30 +19,8 @@ const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 const { userThemesPath } = require("../server/helpers/path.helpers");
 const { createSystemTray, destroyTray } = require("./tray");
+const {setFeature} = require("./utils/file.utils");
 
-/**
- * Security whitelist for feature flags that can be modified at runtime.
- *
- * Prevents unauthorized or unexpected configuration keys from being persisted.
- * Acts as a basic validation layer for IPC "set-feature".
- */
-const FEATURE_WHITELIST = new Set([
-  "autoUpdate",
-  "systemTray",
-  "discordRPC",
-  "customTopBar",
-  "autoCheckInfo",
-  "addThumbnail",
-  "addMetadata",
-  "verboseLogs",
-  "autoDownloadPlaylist",
-  "keepPlaylistOrder",
-  "customCodec",
-  "theme",
-  "createPlaylistFolders",
-  "notifySystem",
-  "enableHardwareAcceleration"
-]);
 
 /**
  * Absolute path to the configuration file storing feature flags.
@@ -216,47 +194,12 @@ function registerIpcHandlers(getMainWindow) {
    * @returns {boolean} success state
    */
   ipcMain.handle("set-feature", (event, { key, value }) => {
-        try {
-          if (!FEATURE_WHITELIST.has(key)) {
-            logger.warn(`Rejected feature (not whitelisted): ${key}`);
-            return false;
-          }
-
-          if (configFeatures[key] === value) {
-            return true;
-          }
-
-          /**
-           * Dynamically intercepts and applies System Tray state changes at runtime.
-           * Instantiates or destroys the tray icon immediately to prevent window 
-           * lifecycle desynchronization (e.g., minimizing a window to a non-existent tray).
-           */
-          if (key === "systemTray") {
-            if (value === true) {
-              logger.info("System Tray enabled dynamically.");
-              createSystemTray(devMode);
-            } else {
-              logger.info("System Tray disabled dynamically.");
-              destroyTray();
-            }
-          }
-
-          configFeatures[key] = value;
-
-          fs.writeFileSync(
-            configFolderPath,
-            JSON.stringify(configFeatures, null, 2),
-            "utf-8"
-          );
-
-          logger.info(`Feature updated: ${key} = ${value}`);
-          return true;
-
-        } catch (err) {
-          logger.error(`set-feature failed (${key}): ${err.message}`);
-          return false;
-        }
-    });
+    try {
+      return setFeature(key, value);
+    } catch (err) {
+      logger.error(`Failed to set feature ${key}: ${err.message}`);
+      throw err;
+    }});
 }
 
 module.exports = { registerIpcHandlers };

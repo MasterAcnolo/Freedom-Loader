@@ -16,5 +16,6 @@
   "downloadSystem": true,
   "notifySystem": true,
   "enableHardwareAcceleration": true,
-  "theme": "dark" 
+  "theme": "dark",
+  "downloadPath": "C:\\Users\\%USERNAME%\\Downloads"
 }

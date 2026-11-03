@@ -67,11 +67,11 @@ echo "Workspace cleaned (dist/ and srpm-out/ removed)"
 # ------------------------------------------------------------
 # Step 0.3 - Retrieve Changelog
 # ------------------------------------------------------------
-if [ ! -f "$ROOT_DIR/CHANGELOG.md" ]; then
-    echo "Warning: CHANGELOG.md not found, release notes will be empty."
+if [ ! -f "$ROOT_DIR/scripts/RELEASE-CHANGELOG.md" ]; then
+    echo "Warning: RELEASE-CHANGELOG.md not found, release notes will be empty."
     CHANGELOG=""
 else
-    CHANGELOG="$(cat "$ROOT_DIR/CHANGELOG.md")"
+    CHANGELOG="$(cat "$ROOT_DIR/scripts/RELEASE-CHANGELOG.md")"
     echo "Changelog retrieved successfully"
 fi
 # ------------------------------------------------------------
@@ -132,8 +132,8 @@ if [ "$DRY_RUN" = false ]; then
         "$ROOT_DIR/dist/Freedom-Loader-Setup-${VERSION}.exe" \
         "$ROOT_DIR/dist/Freedom-Loader-Setup-${VERSION}.exe.blockmap" \
         "$ROOT_DIR/dist/freedom-loader-${VERSION}.x86_64.rpm" \
-        "$ROOT_DIR/dist/freedom-loader_${VERSION}_amd64.deb" \
-        "$ROOT_DIR/dist/Freedom Loader-${VERSION}.AppImage" \
+        "$ROOT_DIR/dist/Freedom-Loader_${VERSION}_amd64.deb" \
+        "$ROOT_DIR/dist/Freedom-Loader-${VERSION}.AppImage" \
         "$ROOT_DIR/dist/freedom-loader_${VERSION}_amd64.snap" \
         "$ROOT_DIR/dist/latest.yml" \
         "$ROOT_DIR/dist/latest-linux.yml"

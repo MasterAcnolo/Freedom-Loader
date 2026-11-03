@@ -35,25 +35,26 @@ export function initTopBar() {
 
 }
 
-async function attachListeners(){
-  try{
-    const featuresList = await window.electronAPI.getFeatures();
+//* Disabled because i disabled native topbar for now, but keeping the code in case i want to re-enable it later
+// async function attachListeners(){
+//   try{
+//     const featuresList = await window.electronAPI.getFeatures();
   
-    if (!featuresList.customTopBar) {
-      const topbar = document.getElementById("topbar");
-      const container = document.getElementById("container");
-      const themeSwitcher = document.getElementById("theme-switcher");
+//     if (!featuresList.customTopBar) {
+//       const topbar = document.getElementById("topbar");
+//       const container = document.getElementById("container");
+//       const themeSwitcher = document.getElementById("theme-switcher");
   
-      if (topbar) topbar.style.display = "none";
-      if (container) container.style.marginTop = "0";
-      if (themeSwitcher) themeSwitcher.style.top = "30px";
-    }
+//       if (topbar) topbar.style.display = "none";
+//       if (container) container.style.marginTop = "0";
+//       if (themeSwitcher) themeSwitcher.style.top = "30px";
+//     }
     
-  } catch (error) {
-    console.error("Failed to load layout features for topbar:", error);
-  }
+//   } catch (error) {
+//     console.error("Failed to load layout features for topbar:", error);
+//   }
 
-}
+// }
 
 initTopBar()
-document.addEventListener("DOMContentLoaded", attachListeners)
+//document.addEventListener("DOMContentLoaded", attachListeners)

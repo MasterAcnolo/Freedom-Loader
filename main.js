@@ -13,6 +13,9 @@ process.on("unhandledRejection", (reason) => {
   app.quit();
 });
 
+if (process.platform === 'linux') {
+  app.setDesktopName('com.masteracnolo.freedomloader.desktop');
+}
 
 /**
  * True if this is the primary instance (lock acquired successfully)
@@ -48,9 +51,9 @@ const { configFeatures, devMode} = require("./config");
  */
 if (!configFeatures.enableHardwareAcceleration){
   app.disableHardwareAcceleration();
-  logger.info("Disabled Hardware Acceleration")
+  logger.info("Disabled Hardware Acceleration");
 } else {
-  logger.info("Enable Hardware Acceleration")
+  logger.info("Enable Hardware Acceleration");
 }
 
 if(devMode){
@@ -58,8 +61,8 @@ if(devMode){
    * Start devTron extensions - @see https://github.com/electron/devtron
    */
   const { devtron } = require('@electron/devtron');
-  devtron.install(); 
-  logger.info("Loaded DevTron Extension")
+  devtron.install();
+  logger.info("Loaded DevTron Extension");
 }
 
 /**
@@ -77,6 +80,7 @@ const { createSplashWindow, closeSplashWindow, setSplashProgress } = require("./
 const { userThemesPath, initUserThemes, validateBinaries, defaultDownloadFolder } = require("./server/helpers/path.helpers");
 const {createSystemTray, destroyTray} = require("./app/tray");
 const { stopServer } = require("./server/server");
+const {checkReportService} = require("./app/sendReport");
 
 /**
  * Global flag indicating if the application is intentionally shutting down.
@@ -132,6 +136,9 @@ app.on("second-instance", () => {
 
 app.whenReady().then(async () => {
   logSessionStart(logDir, defaultDownloadFolder);
+  checkReportService().catch((err) => {
+    logger.warn(`Bug report service startup check failed: ${err.message}`);
+  });
 
   createSplashWindow();
 
@@ -166,7 +173,7 @@ app.whenReady().then(async () => {
 
     if (configFeatures.discordRPC) startRPC();
 
-    if (configFeatures.autoUpdate) initAutoUpdater(getMainWindow());
+    initAutoUpdater(getMainWindow());
 
   } catch (err) {
     logger.error("Boot error:", err);

@@ -95,7 +95,7 @@ function createSystemTray(devMode) {
         } else {
             window.show();
             window.focus();
-            logger.info("Window Restored from SystemTray (Double Click on Tray Icon)")
+            logger.info("Window Restored from SystemTray (Double Click on Tray Icon)");
         }
     });
 

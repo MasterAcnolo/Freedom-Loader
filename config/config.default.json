@@ -1,8 +1,6 @@
 {
-  "autoUpdate": true,
   "systemTray": false,
   "discordRPC": true,
-  "customTopBar": true,
   "autoCheckInfo": true,
   "addThumbnail": true,
   "addMetadata": true,
@@ -16,6 +14,7 @@
   "downloadSystem": true,
   "notifySystem": true,
   "enableHardwareAcceleration": true,
-  "theme": "dark",
-  "downloadPath": "C:\\Users\\%USERNAME%\\Downloads"
+  "downloadPath": "C:\\Users\\%USERNAME%\\Downloads",
+  "showChanglogsAfterUpdate": true,
+  "theme": "dark"
 }

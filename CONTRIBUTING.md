@@ -112,8 +112,8 @@ See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
 
 ## Questions?
 
-- Check the [FAQ](https://masteracnolo.github.io/Freedom-Loader-Site/faq)
-- Review the [Wiki](https://masteracnolo.github.io/Freedom-Loader-Site/wiki)
+- Check the [FAQ](https://freedomloader.acnolo.fr/faq)
+- Review the [Wiki](https://freedomloader.acnolo.fr/wiki)
 - Open a [Question issue](https://github.com/MasterAcnolo/Freedom-Loader/issues/new/choose)
 
 ---

@@ -16,8 +16,7 @@ let isOpen = false;
  * Toggles visibility of the settings panel when clicking the settings button.
  */
 settingsButton.addEventListener("click", () => {
-  const currentlyOpen = settingsPanel.style.display === "block";
-  settingsPanel.style.display = currentlyOpen ? "none" : "block";
+    settingsPanel.classList.toggle("open");
 });
 
 /**
@@ -25,7 +24,7 @@ settingsButton.addEventListener("click", () => {
  */
 function closePanel() {
   isOpen = false;
-  settingsPanel.style.display = "none";
+    settingsPanel.classList.remove("open");
 }
 
 /**

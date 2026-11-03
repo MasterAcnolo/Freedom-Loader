@@ -2,10 +2,10 @@
   "name": "freedom-loader",
   "desktopName": "com.masteracnolo.freedomloader",
   "productName": "Freedom Loader",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "author": "MasterAcnolo <MasterAcnolo@users.noreply.github.com>",
   "description": "Free and open-source GUI for yt-dlp — download video and audio from hundreds of platforms",
-  "homepage": "https://masteracnolo.github.io/Freedom-Loader-Site/",
+  "homepage": "https://freedomloader.acnolo.fr/",
   "repository": {
     "type": "git",
     "url": "https://github.com/MasterAcnolo/Freedom-Loader.git"
@@ -16,6 +16,7 @@
   },
   "main": "main.js",
   "scripts": {
+    "clean:dist": "rm -rf dist/ && rm -rf srpm-out/",
     "start": "electron --no-warnings .",
     "start:warn": "electron --trace-warnings .",
     "start:debug": "WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .",
@@ -25,13 +26,17 @@
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
-    "build:rpm": "bash scripts/create-copr-package.sh",
+    "build:rpm": "npm run clean:dist && npm run build:linux && bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
     "release": "bash scripts/release.sh",
     "release:publish": "bash scripts/release.sh --publish",
     "release:dry-run": "bash scripts/release.sh --dry-run",
     "test": "jest",
     "test:unit": "jest test/unit",
+    "test:metainfo": "appstreamcli validate package/com.masteracnolo.freedomloader.metainfo.xml",
+    "test:desktop": "desktop-file-validate package/com.masteracnolo.freedomloader.desktop",
+    "lint": "eslint . --format pretty",
+    "lint:fix": "eslint . --fix --format pretty",
     "update": "npm update"
   },
   "dependencies": {
@@ -48,16 +53,21 @@
   },
   "devDependencies": {
     "@electron/devtron": "^2.1.1",
+    "@eslint/js": "^10.0.1",
     "@jest/globals": "^30.4.1",
     "@playwright/test": "^1.62.1",
     "electron": "^44.3.0",
     "electron-builder": "^26.15.3",
+    "eslint": "^10.10.0",
+    "eslint-formatter-pretty": "^7.1.0",
+    "globals": "^17.12.0",
     "jest": "^30.4.2",
     "nodemon": "^3.1.14",
     "playwright": "^1.62.1"
   },
   "build": {
     "appId": "com.masteracnolo.freedomloader",
+    "artifactName": "Freedom-Loader-${version}.${ext}",
     "productName": "Freedom Loader",
     "publish": [
       {
@@ -68,10 +78,15 @@
       }
     ],
     "files": [
-      "**/*",
-      "node_modules/**/*",
-      "!config/config.dev.json",
-      "!theme/**/*"
+      "app/**/*",
+      "public/**/*",
+      "server/**/*",
+      "build/**/*",
+      "config/config.default.json",
+      "config.js",
+      "main.js",
+      "preload.js",
+      "package.json"
     ],
     "directories": {
       "buildResources": "build"

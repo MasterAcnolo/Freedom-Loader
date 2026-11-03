@@ -45,11 +45,22 @@
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    display: none;
     overflow-y: auto;
     z-index: 9999;
-    animation: slideIn 0.2s ease-out;
+    /*animation: slideIn 0.2s ease-out; */
     color: var(--settings-text-color);
+
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(20px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.settings-panel.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
 }
 
 .settings-panel::-webkit-scrollbar {

@@ -14,8 +14,8 @@
 .custom-controls {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding-left: 12px;
+  gap: 4px;
+  padding-left: 10px;
 }
 
 /* RIGHT - window buttons */
@@ -43,11 +43,11 @@
 
 /* Custom buttons (Logs / Wiki / etc.) */
 .custom-controls button {
-  height: 32px;
-  padding: 0 14px;
+  height: 28px;
+  padding: 0 10px;
 
-  font-size: 15px;
-  border-radius: 8px;
+  font-size: 14px;
+  border-radius: 7px;
 }
 
 .custom-controls button:hover {

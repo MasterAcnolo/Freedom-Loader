@@ -54,20 +54,6 @@ exec /opt/freedom-loader/freedom-loader "$@"
 EOF
 chmod +x "$TMP_WRAPPER/freedom-loader"
 
-# Desktop entry file
-TMP_DESKTOP="$ROOT_DIR/.rpm-pkg-tmp-desktop"
-mkdir -p "$TMP_DESKTOP"
-cat > "$TMP_DESKTOP/freedom-loader.desktop" << 'EOF'
-[Desktop Entry]
-Name=Freedom Loader
-Exec=/opt/freedom-loader/freedom-loader %U
-Icon=freedom-loader
-Type=Application
-Categories=AudioVideo;Utility;Network;
-Comment=Free and open-source GUI for yt-dlp
-StartupWMClass=Freedom Loader
-EOF
-
 # ------------------------------------------------------------
 # Step 1 - Build .rpm from linux-unpacked via fpm
 # ------------------------------------------------------------
@@ -78,7 +64,7 @@ echo "Building RPM..."
     --version "$VERSION" \
     --architecture x86_64 \
     --description "Free and open-source GUI for yt-dlp" \
-    --url "https://masteracnolo.github.io/Freedom-Loader-Site/" \
+    --url "https://freedomloader.acnolo.fr/" \
     --maintainer "MasterAcnolo <MasterAcnolo@users.noreply.github.com>" \
     --license "GPL-3.0-only" \
     --depends gtk3 \
@@ -89,11 +75,10 @@ echo "Building RPM..."
     --package "$RPM_OUT" \
     "$ROOT_DIR/dist/linux-unpacked/=/opt/freedom-loader" \
     "$TMP_WRAPPER/freedom-loader=/usr/bin/freedom-loader" \
-    "$TMP_DESKTOP/freedom-loader.desktop=/usr/share/applications/freedom-loader.desktop" \
     "$ROOT_DIR/build/app-icon.png=/usr/share/icons/hicolor/512x512/apps/freedom-loader.png" \
-    "$ROOT_DIR/package/com.masteracnolo.freedomloader.metainfo.xml=/usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml"
-
-rm -rf "$TMP_WRAPPER" "$TMP_DESKTOP"
+    "$ROOT_DIR/package/com.masteracnolo.freedomloader.metainfo.xml=/usr/share/metainfo/com.masteracnolo.freedomloader.metainfo.xml" \
+    "$ROOT_DIR/package/com.masteracnolo.freedomloader.desktop=/usr/share/applications/com.masteracnolo.freedomloader.desktop" 
+rm -rf "$TMP_WRAPPER"
 echo "RPM built: $RPM_OUT"
 
 # ------------------------------------------------------------

@@ -13,14 +13,41 @@
 const { ipcMain, dialog, shell } = require("electron");
 const fs = require("fs");
 const { logger, logDir } = require("../server/logger");
-const {configFeatures, featuresPath, devMode} = require("../config");
+const { configFeatures, featuresPath, devMode } = require("../config");
 const { getThemes, reloadThemes } = require("./themeManager");
 const config = require("../config");
 const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
 const { userThemesPath } = require("../server/helpers/path.helpers");
 const { createSystemTray, destroyTray } = require("./tray");
+
 const {setFeature} = require("./utils/file.utils");
 
+const {sendReport, checkReportService, getReportServiceStatus} = require("./sendReport");
+const { isUpdateAvailable, downloadUpdate, installUpdate } = require("./autoUpdater");
+const { getChangelog, markChangelogSeen } = require("./changelogManager");
+
+/**
+ * Security whitelist for feature flags that can be modified at runtime.
+ *
+ * Prevents unauthorized or unexpected configuration keys from being persisted.
+ * Acts as a basic validation layer for IPC "set-feature".
+ */
+const FEATURE_WHITELIST = new Set([
+  "systemTray",
+  "discordRPC",
+  "autoCheckInfo",
+  "addThumbnail",
+  "addMetadata",
+  "verboseLogs",
+  "autoDownloadPlaylist",
+  "keepPlaylistOrder",
+  "customCodec",
+  "theme",
+  "createPlaylistFolders",
+  "notifySystem",
+  "enableHardwareAcceleration",
+  "showChanglogsAfterUpdate"
+]);
 
 /**
  * Absolute path to the configuration file storing feature flags.
@@ -42,11 +69,20 @@ const themeFolderPath = userThemesPath;
  * @param {Function} getMainWindow - Function returning current BrowserWindow instance
  */
 function registerIpcHandlers(getMainWindow) {
-    
   /**
    * Returns application version from config.
    */
   ipcMain.handle("version", () => config.version);
+
+  /**
+   * Retrieves the changelog from cache or GitHub API.
+   */
+  ipcMain.handle("get-changelog", () => getChangelog());
+
+  /**
+   * Marks all changelog entries as seen and updates cache.
+   */
+  ipcMain.handle("mark-changelog-seen", () => markChangelogSeen());
 
   /**
    * Returns runtime feature configuration object.
@@ -93,17 +129,16 @@ function registerIpcHandlers(getMainWindow) {
    * Window minimize request from renderer.
    */
   ipcMain.on("window-minimize", () => {
-        // Minimize to tray
-        if (configFeatures.systemTray) {
-          getMainWindow()?.hide()
-          logger.info("Window Minimized in SystemTray (Using Minimize Button)");
-        } else {
-          // Native minimize
-          getMainWindow()?.minimize()
-          logger.info("Window minimized normally");
-        }
-      }
-  );
+    // Minimize to tray
+    if (configFeatures.systemTray) {
+      getMainWindow()?.hide();
+      logger.info("Window Minimized in SystemTray (Using Minimize Button)");
+    } else {
+      // Native minimize
+      getMainWindow()?.minimize();
+      logger.info("Window minimized normally");
+    }
+  });
 
   /**
    * Toggles maximize/unmaximize state of main window.
@@ -119,7 +154,6 @@ function registerIpcHandlers(getMainWindow) {
    */
   ipcMain.on("window-close", () => getMainWindow()?.close());
 
-
   /**
    * Opens Chromium DevTools in detached mode.
    */
@@ -130,20 +164,20 @@ function registerIpcHandlers(getMainWindow) {
   /**
    * Opens application logs directory in system file explorer.
    */
-  ipcMain.on("open-logs",    () => logDir && shell.openPath(logDir));
+  ipcMain.on("open-logs", () => logDir && shell.openPath(logDir));
 
   /**
    * Opens external website in default browser.
    */
   ipcMain.on("open-website", () =>
-    shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Site/")
+      shell.openExternal("https://freedomloader.acnolo.fr/")
   );
 
   /**
    * Opens official wiki page in external browser.
    */
   ipcMain.on("open-wiki", () =>
-    shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Site/wiki")
+      shell.openExternal("https://freedomloader.acnolo.fr/wiki")
   );
 
   /**
@@ -158,8 +192,13 @@ function registerIpcHandlers(getMainWindow) {
    */
   ipcMain.on("open-config", () => shell.openPath(configFolderPath));
 
-  
-  
+  /**
+   * Front end logger
+   */
+  ipcMain.on("log-error", (_, message) => logger.error(`[Frontend] ${message}`));
+  ipcMain.on("log-info", (_, message) => logger.info(`[Frontend] ${message}`));
+  ipcMain.on("log-warn", (_, message) => logger.warn(`[Frontend] ${message}`));
+
   /**
    * Retrieves available themes from filesystem.
    */
@@ -175,6 +214,36 @@ function registerIpcHandlers(getMainWindow) {
    */
   ipcMain.handle("reload-themes", async () => {
     return await reloadThemes();
+  });
+
+  /**
+   * Send bug report
+   */
+  ipcMain.handle("send-report", async (_, params) => {
+    return await sendReport(params);
+  });
+
+  ipcMain.handle("get-report-service-status", async () => {
+    await checkReportService();
+    return getReportServiceStatus();
+  });
+
+  ipcMain.handle("is-update-available", () => {
+    return isUpdateAvailable();
+  });
+
+  ipcMain.handle("download-update", async () => {
+    return await downloadUpdate();
+  });
+
+  ipcMain.handle("install-update", async () => {
+    return installUpdate();
+  });
+
+  ipcMain.on("open-release-page", () => {
+    shell.openExternal(
+      "https://github.com/MasterAcnolo/Freedom-Loader/releases/latest",
+    );
   });
 
   /**

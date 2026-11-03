@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Freedom Loader
+Exec=/opt/freedom-loader/freedom-loader %U
+Icon=freedom-loader
+Type=Application
+Categories=AudioVideo;
+Comment=Free and open-source GUI for yt-dlp
+StartupWMClass=com.masteracnolo.freedomloader

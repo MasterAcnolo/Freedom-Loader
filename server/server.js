@@ -36,7 +36,7 @@ app.get("/", rateLimit, (req, res) => {
  */
 async function startServer() {
   return new Promise((resolve, reject) => {
-    serverInstance = app.listen(config.applicationPort, () => {
+    serverInstance = app.listen(config.applicationPort, "127.0.0.1" ,() => {
       logger.info(`Express server ready at http://localhost:${config.applicationPort}`);
       resolve(serverInstance);
     });

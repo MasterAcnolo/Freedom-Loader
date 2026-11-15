@@ -89,7 +89,7 @@ function applyTheme(theme) {
  * @param {string} themeId
  */
 function saveTheme(themeId) {
-  window.electronAPI.setFeature("theme", themeId);
+  window.featureAPI.setFeature("theme", themeId);
 }
 
 /**
@@ -115,7 +115,7 @@ function populateThemeSelect(themes) {
  * - applies selected theme
  */
 async function initThemes() {
-  loadedThemes = await window.electronAPI.getThemes();
+  loadedThemes = await window.themeAPI.getThemes();
 
   if (!loadedThemes.length) {
     const defaultTheme = {
@@ -215,7 +215,7 @@ async function initThemes() {
 
   populateThemeSelect(loadedThemes);
 
-  const features = await window.electronAPI.getFeatures();
+  const features = await window.featureAPI.getFeatures();
   const savedId = features.theme;
 
   const theme = loadedThemes.find(t => t.id === savedId) || loadedThemes[0];
@@ -239,10 +239,10 @@ themeSelect.addEventListener("change", (e) => {
  * Reloads themes from backend and reapplies current selection.
  */
 async function refreshThemes() {
-  loadedThemes = await window.electronAPI.reloadThemes();
+  loadedThemes = await window.themeAPI.reloadThemes();
   populateThemeSelect(loadedThemes);
 
-  const features = await window.electronAPI.getFeatures();
+  const features = await window.featureAPI.getFeatures();
   const savedId = features.theme;
 
   const theme = loadedThemes.find(t => t.id === savedId) || loadedThemes[0];

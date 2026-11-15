@@ -1,63 +1,12 @@
-/**
- * Electron IPC main process registry.
- *
- * Centralizes all IPC channels exposed to renderer process:
- * - Application info (version, features)
- * - Window controls (topbar actions)
- * - File system interactions (theme, config, download paths)
- * - UI state synchronization (progress bar)
- *
- * Acts as the bridge between renderer and privileged Node/Electron APIs.
- */
-
-const { ipcMain, dialog, shell } = require("electron");
-const fs = require("fs");
-const { logger, logDir } = require("../server/logger");
-const { configFeatures, featuresPath, devMode } = require("../config");
-const { getThemes, reloadThemes } = require("./themeManager");
-const config = require("../config");
-const { validateDownloadPath, getDefaultDownloadPath } = require("./pathValidator");
-const { userThemesPath } = require("../server/helpers/path.helpers");
-const { createSystemTray, destroyTray } = require("./tray");
-
-const {setFeature} = require("./utils/file.utils");
-
-const {sendReport, checkReportService, getReportServiceStatus} = require("./sendReport");
-const { isUpdateAvailable, downloadUpdate, installUpdate } = require("./autoUpdater");
-const { getChangelog, markChangelogSeen } = require("./changelogManager");
-
-/**
- * Security whitelist for feature flags that can be modified at runtime.
- *
- * Prevents unauthorized or unexpected configuration keys from being persisted.
- * Acts as a basic validation layer for IPC "set-feature".
- */
-const FEATURE_WHITELIST = new Set([
-  "systemTray",
-  "discordRPC",
-  "autoCheckInfo",
-  "addThumbnail",
-  "addMetadata",
-  "verboseLogs",
-  "autoDownloadPlaylist",
-  "keepPlaylistOrder",
-  "customCodec",
-  "theme",
-  "createPlaylistFolders",
-  "notifySystem",
-  "enableHardwareAcceleration",
-  "showChanglogsAfterUpdate"
-]);
-
-/**
- * Absolute path to the configuration file storing feature flags.
- */
-const configFolderPath = featuresPath;
-
-/**
- * Directory containing user-installed themes.
- */
-const themeFolderPath = userThemesPath;
+const {registerLoggerAPIHandlers} = require("./ipc/loggerAPI");
+const {registerFeatureAPIHandlers} = require("./ipc/featureAPI");
+const {registerInfoAPIHandlers} = require("./ipc/infoAPI");
+const {registerDownloadAPIHandlers} = require("./ipc/downloadAPI");
+const {registerThemeAPIHandlers} = require("./ipc/themeAPI");
+const {registerTopbarAPIHandlers} = require("./ipc/topbarAPI");
+const {registerUpdaterAPIHandlers} = require("./ipc/updaterAPI");
+const {registerReportBugAPIHandlers} = require("./ipc/reportBugAPI");
+const {registerUiAPIHandlers} = require("./ipc/uiAPI");
 
 /**
  * Registers all IPC handlers and event listeners for Electron main process.
@@ -69,206 +18,16 @@ const themeFolderPath = userThemesPath;
  * @param {Function} getMainWindow - Function returning current BrowserWindow instance
  */
 function registerIpcHandlers(getMainWindow) {
-  /**
-   * Returns application version from config.
-   */
-  ipcMain.handle("version", () => config.version);
 
-  /**
-   * Retrieves the changelog from cache or GitHub API.
-   */
-  ipcMain.handle("get-changelog", () => getChangelog());
-
-  /**
-   * Marks all changelog entries as seen and updates cache.
-   */
-  ipcMain.handle("mark-changelog-seen", () => markChangelogSeen());
-
-  /**
-   * Returns runtime feature configuration object.
-   */
-  ipcMain.handle("features", () => configFeatures);
-
-  /**
-   * Opens native folder selection dialog and validates selected path.
-   *
-   * Ensures:
-   * - user cancellation is handled safely
-   * - selected path is validated against security rules
-   * - unsafe directories are rejected
-   */
-  ipcMain.handle("select-download-folder", async () => {
-    const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
-    if (result.canceled) {
-      logger.info("Folder selection cancelled by user");
-      return null;
-    }
-    try {
-      const validated = validateDownloadPath(result.filePaths[0]);
-      logger.info(`Folder selected and validated: ${validated}`);
-      return validated;
-    } catch (err) {
-      logger.warn(`Unsafe or invalid folder rejected: ${err.message}`);
-      throw err;
-    }
-  });
-
-  ipcMain.handle("validate-download-path", (_, userPath) => validateDownloadPath(userPath));
-  ipcMain.handle("get-default-download-path", () => getDefaultDownloadPath());
-
-  /**
-   * Updates Windows/macOS taskbar progress indicator.
-   *
-   * @param {number} percent - Progress value (0–100)
-   */
-  ipcMain.on("set-progress", (_, percent) => {
-    getMainWindow()?.setProgressBar(percent / 100);
-  });
-
-  /**
-   * Window minimize request from renderer.
-   */
-  ipcMain.on("window-minimize", () => {
-    // Minimize to tray
-    if (configFeatures.systemTray) {
-      getMainWindow()?.hide();
-      logger.info("Window Minimized in SystemTray (Using Minimize Button)");
-    } else {
-      // Native minimize
-      getMainWindow()?.minimize();
-      logger.info("Window minimized normally");
-    }
-  });
-
-  /**
-   * Toggles maximize/unmaximize state of main window.
-   */
-  ipcMain.on("window-maximize", () => {
-    const win = getMainWindow();
-    if (!win) return;
-    win.isMaximized() ? win.unmaximize() : win.maximize();
-  });
-
-  /**
-   * Closes the main application window.
-   */
-  ipcMain.on("window-close", () => getMainWindow()?.close());
-
-  /**
-   * Opens Chromium DevTools in detached mode.
-   */
-  ipcMain.on("open-devtools", () =>
-    getMainWindow()?.webContents.openDevTools({ mode: "detach" })
-  );
-
-  /**
-   * Opens application logs directory in system file explorer.
-   */
-  ipcMain.on("open-logs", () => logDir && shell.openPath(logDir));
-
-  /**
-   * Opens external website in default browser.
-   */
-  ipcMain.on("open-website", () =>
-      shell.openExternal("https://freedomloader.acnolo.fr/")
-  );
-
-  /**
-   * Opens official wiki page in external browser.
-   */
-  ipcMain.on("open-wiki", () =>
-      shell.openExternal("https://freedomloader.acnolo.fr/wiki")
-  );
-
-  /**
-   * Opens workshop page in external browser.
-   */
-  ipcMain.on("open-workshop", () =>
-    shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Workshop")
-  );
-
-  /**
-   * Opens configuration folder in system file explorer.
-   */
-  ipcMain.on("open-config", () => shell.openPath(configFolderPath));
-
-  /**
-   * Front end logger
-   */
-  ipcMain.on("log-error", (_, message) => logger.error(`[Frontend] ${message}`));
-  ipcMain.on("log-info", (_, message) => logger.info(`[Frontend] ${message}`));
-  ipcMain.on("log-warn", (_, message) => logger.warn(`[Frontend] ${message}`));
-
-  /**
-   * Retrieves available themes from filesystem.
-   */
-  ipcMain.handle("get-themes", () => getThemes());
-
-  /**
-   * Opens theme directory in file explorer.
-   */
-  ipcMain.on("open-theme", () => shell.openPath(themeFolderPath));
-
-  /**
-   * Reloads themes from disk dynamically.
-   */
-  ipcMain.handle("reload-themes", async () => {
-    return await reloadThemes();
-  });
-
-  /**
-   * Send bug report
-   */
-  ipcMain.handle("send-report", async (_, params) => {
-    return await sendReport(params);
-  });
-
-  ipcMain.handle("get-report-service-status", async () => {
-    await checkReportService();
-    return getReportServiceStatus();
-  });
-
-  ipcMain.handle("is-update-available", () => {
-    return isUpdateAvailable();
-  });
-
-  ipcMain.handle("download-update", async () => {
-    return await downloadUpdate();
-  });
-
-  ipcMain.handle("install-update", async () => {
-    return installUpdate();
-  });
-
-  ipcMain.on("open-release-page", () => {
-    shell.openExternal(
-      "https://github.com/MasterAcnolo/Freedom-Loader/releases/latest",
-    );
-  });
-
-  /**
-   * Updates a runtime feature flag and persists it to disk.
-   *
-   * Flow:
-   * - Validates key against whitelist
-   * - Prevents unnecessary writes if value is unchanged
-   * - Updates in-memory config object
-   * - Persists to configuration file
-   *
-   * Security note:
-   * Only whitelisted keys can be modified via IPC to prevent config injection.
-   *
-   * @param {Electron.IpcMainEvent} event
-   * @param {{key: string, value: any}} payload
-   * @returns {boolean} success state
-   */
-  ipcMain.handle("set-feature", (event, { key, value }) => {
-    try {
-      return setFeature(key, value);
-    } catch (err) {
-      logger.error(`Failed to set feature ${key}: ${err.message}`);
-      throw err;
-    }});
+  registerLoggerAPIHandlers();
+  registerFeatureAPIHandlers();
+  registerInfoAPIHandlers();
+  registerDownloadAPIHandlers(getMainWindow);
+  registerThemeAPIHandlers();
+  registerTopbarAPIHandlers(getMainWindow);
+  registerUpdaterAPIHandlers();
+  registerReportBugAPIHandlers();
+  registerUiAPIHandlers();
 }
 
 module.exports = { registerIpcHandlers };

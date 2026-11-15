@@ -43,7 +43,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     savePathElem.title = path; 
     hidden.value = path;
     window.electronAPI.setFeature("downloadPath", path); // Persist in config.json
-    //localStorage.setItem("customDownloadPath", path); // UX only
   }
 
   /**

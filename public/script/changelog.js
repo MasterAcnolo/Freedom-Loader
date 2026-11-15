@@ -221,20 +221,20 @@ function openChangelog(releases) {
 /** Closes the modal and records the current version as seen. */
 async function closeChangelog() {
   UI.overlay.hidden = true;
-  await window.electronAPI.markChangelogSeen();
+  await window.uiAPI.markChangelogSeen();
 }
 
 /** Loads changelog data and opens the modal when unread releases exist. */
 async function loadChangelog() {
 
-  const features = await window.electronAPI.getFeatures();
+  const features = await window.featureAPI.getFeatures();
 
   try {
-    changelogData = await window.electronAPI.getChangelog();
+    changelogData = await window.uiAPI.getChangelog();
 
     if (!changelogData.error && changelogData.hasUnread && features.showChanglogsAfterUpdate === true) {
       openChangelog(changelogData.unreadReleases);
-      window.electronAPI.logInfo("Showing Changelog");
+      window.loggerAPI.logInfo("Showing Changelog");
     }
   } catch (error) {
     console.error("Unable to load changelog:", error);
@@ -244,7 +244,7 @@ async function loadChangelog() {
 /** Handles a click on the button that opens the changelog. */
 async function handleOpenClick() {
   if (!changelogData || changelogData.error) {
-    changelogData = await window.electronAPI.getChangelog();
+    changelogData = await window.uiAPI.getChangelog();
   }
 
   if (changelogData.error) {

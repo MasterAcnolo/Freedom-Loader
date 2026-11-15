@@ -17,9 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Routes
+// Only the download SSE routes remain HTTP-based. Requests for metadata,
+// downloads, and cancellation are handled through Electron IPC.
 app.use("/download", require("./routes/download.route"));
-app.use("/info", require("./routes/info.route"));
 
 // Interface
 app.get("/", rateLimit, (req, res) => {

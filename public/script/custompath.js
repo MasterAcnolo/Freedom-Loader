@@ -62,14 +62,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     // MAIS la source de vérité reste le back
     try {
-      const validatedPath = await window.electronAPI.getValidatedDownloadPath(
+      const validatedPath = await window.downloadAPI.getValidatedDownloadPath(
         cached
       );
       await applyPathFromBack(validatedPath);
     } catch {
       // fallback sûr
       const defaultPath =
-        await window.electronAPI.getDefaultDownloadPath();
+        await window.downloadAPI.getDefaultDownloadPath();
       await applyPathFromBack(defaultPath);
     }
   }
@@ -85,7 +85,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("changePath").addEventListener("click", async () => {
       try {
         // selectDownloadFolder already returns a validated path
-        const validatedPath = await window.electronAPI.selectDownloadFolder();
+        const validatedPath = await window.downloadAPI.selectDownloadFolder();
 
         if (!validatedPath) return; // cancelled
 

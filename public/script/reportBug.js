@@ -82,10 +82,10 @@ class BugReportModal {
                 includeLogs: this.modal.querySelector("#bugIncludeLogs").value
             };
 
-            window.electronAPI.logInfo("Submitting:", data);
+            window.loggerAPI.logInfo("Submitting:", data);
 
             try {
-                const success = await window.topbarAPI.sendReport(data);
+                const success = await window.reportBugAPI.sendReport(data);
 
                 if (success) {
                     localStorage.removeItem("draft_bug_title");
@@ -96,7 +96,7 @@ class BugReportModal {
                 }
             } catch (err) {
                 window.showError("Failed to send bug report.");
-                window.electronAPI.logError("Failed to send bug report:", err.message);
+                window.loggerAPI.logError("Failed to send bug report:", err.message);
             }
         });
     }
@@ -133,7 +133,7 @@ class BugReportModal {
         sendButton.style.setProperty("opacity", "0.5", "important");
 
         try {
-            const serviceStatus = await window.topbarAPI.getReportServiceStatus();
+            const serviceStatus = await window.reportBugAPI.getReportServiceStatus();
             const serviceAvailable = serviceStatus.status === "online";
             const statusVisible = !serviceAvailable;
             statusText.textContent = serviceStatus.message;
@@ -153,7 +153,7 @@ class BugReportModal {
             statusText.style.color = "#fca5a5";
             this.modal.querySelector("#bugReportServiceStatus").style.setProperty("display", "flex", "important");
             sendButton.disabled = true;
-            window.electronAPI.logError("Failed to retrieve bug report service status:", err.message);
+            window.loggerAPI.logError("Failed to retrieve bug report service status:", err.message);
         }
     }
 }

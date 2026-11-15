@@ -5,6 +5,7 @@ const { contextBridge, ipcRenderer } = require("electron");
  * - loggerAPI: Centralizes error, info, and warning logs.
  * - featureAPI: Manages runtime feature flags.
  * - downloadAPI: Handles download paths, path validation, and progress sync.
+ * - infoAPI: Retrieves video and playlist metadata.
  * - themeAPI: Manages application themes loading and reloading.
  * - updaterAPI: Handles the complete auto-updater lifecycle and release page.
  * - uiAPI: Manages application version, changelog, and toast notifications.
@@ -52,6 +53,16 @@ contextBridge.exposeInMainWorld("featureAPI", {
 
 contextBridge.exposeInMainWorld("downloadAPI", {
   /**
+   * Starts a video or playlist download.
+   */
+  startDownload: (options) => ipcRenderer.invoke("start-download", options),
+
+  /**
+   * Cancels the current download.
+   */
+  cancelDownload: () => ipcRenderer.invoke("cancel-download"),
+
+  /**
    * Returns the default system download directory.
    */
   getDefaultDownloadPath: () => ipcRenderer.invoke("get-default-download-path"),
@@ -75,6 +86,13 @@ contextBridge.exposeInMainWorld("downloadAPI", {
    * @param {number} percent - Download progress percentage (0–100)
    */
   setProgress: (percent) => ipcRenderer.send("set-progress", percent),
+});
+
+contextBridge.exposeInMainWorld("infoAPI", {
+  /**
+   * Retrieves normalized video or playlist metadata.
+   */
+  fetchInfo: (url) => ipcRenderer.invoke("fetch-info", url),
 });
 
 contextBridge.exposeInMainWorld("themeAPI", {
@@ -197,11 +215,6 @@ contextBridge.exposeInMainWorld("reportBugAPI", {
   getReportServiceStatus: () => ipcRenderer.invoke("get-report-service-status"),
 });
 
-/**
- * Exposes window control and developer utilities for the custom topbar UI.
- *
- * These methods forward commands to the Electron main process via IPC.
- */
 contextBridge.exposeInMainWorld("topbarAPI", {
   /**
    * Minimizes the application window.

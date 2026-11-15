@@ -27,7 +27,7 @@ let userStoppedDownload = false;
  *
  * - Validates user input (URL)
  * - Disables UI during download
- * - Sends request to backend `/download`
+ * - Starts the download through the Electron IPC bridge
  * - Manages success / error states
  * - Restores UI state after completion
  */
@@ -56,34 +56,7 @@ form.addEventListener("submit", async (e) => {
   const body = Object.fromEntries(params.entries());
 
   try {
-    const res = await fetch("/download", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(body),
-    });
-
-    if (!res.ok) {
-      if (!userStoppedDownload) {
-        let errorText = "Server Error";
-        try {
-          const contentType = res.headers.get("content-type") || "";
-          if (contentType.includes("application/json")) {
-            const json = await res.json();
-            errorText =
-                (json && json.error && json.error.message) ||
-                (json && json.message) ||
-                errorText;
-          } else {
-            errorText = await res.text();
-          }
-        } catch (e) {
-          // ignore
-        }
-        window.showError(errorText);
-        resetProgressBar();
-      }
-      return;
-    }
+    await window.downloadAPI.startDownload(body);
 
     // Download successful - check if notifications are enabled
     try {
@@ -100,7 +73,7 @@ form.addEventListener("submit", async (e) => {
       statusDiv.style.display = "none";
     }
     if (!userStoppedDownload) {
-      window.showError("Network error while starting download");
+      window.showError(err?.message || "Error while starting download");
       resetProgressBar();
     }
   } finally {
@@ -156,11 +129,7 @@ async function stopDownload() {
   stopBtn.disabled = true;
 
   try {
-    await fetch("/download/cancel", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-    });
-
+    await window.downloadAPI.cancelDownload();
     window.showWarning("Download stopped");
   } catch (err) {
     console.error("Error stopping download:", err);

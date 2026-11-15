@@ -56,13 +56,19 @@ window.addEventListener("DOMContentLoaded", async () => {
   async function loadInitialPath() {
   
     const features = window.featureAPI.getFeatures();
-    const cached = features.downloadPath
+
+    const defaultPath = window.downloadAPI.getDefaultDownloadPath();
+
+    if (!features.downloadPath) {
+      await applyPathFromBack(defaultPath);
+    }
+
+    const cached = features.downloadPath;
 
     if (cached) {
       savePathElem.textContent = cached;
     }
 
-    // MAIS la source de vérité reste le back
     try {
       const validatedPath = await window.downloadAPI.getValidatedDownloadPath(
         cached

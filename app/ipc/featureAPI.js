@@ -29,7 +29,8 @@ function registerFeatureAPIHandlers(){
         "createPlaylistFolders",
         "notifySystem",
         "enableHardwareAcceleration",
-        "showChanglogsAfterUpdate"
+        "showChanglogsAfterUpdate",
+        "downloadPath"
     ]);
 
   /**

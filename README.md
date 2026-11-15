@@ -245,7 +245,8 @@ defaults from `config/config.default.json`. Existing values and unknown custom k
   "notifySystem": true,
   "enableHardwareAcceleration": true,
   "showChanglogsAfterUpdate": true,
-  "theme": "dark" 
+  "theme": "dark", 
+  "downloadPath": "path/to/folder"
 }
 ```
 
@@ -271,6 +272,7 @@ defaults from `config/config.default.json`. Existing values and unknown custom k
 | `enableHardwareAcceleration` | boolean | `true`   | Enable Hardware Acceleration                               |
 | `showChanglogsAfterUpdate`   | boolean | `true`   | Auto-display changelog popup after and update              |
 | `theme`                      | string  | `dark`   | Current Theme Name                                         |
+| `downloadPath`               | string  | null     | Custom Output Folder Path Name                             |
 
 ### Supported Codecs
 

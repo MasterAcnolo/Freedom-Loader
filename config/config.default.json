@@ -15,7 +15,7 @@
   "downloadSystem": true,
   "notifySystem": true,
   "enableHardwareAcceleration": true,
-  "downloadPath": "C:\\Users\\%USERNAME%\\Downloads",
+  "downloadPath": null,
   "showChanglogsAfterUpdate": true,
   "theme": "dark"
 }

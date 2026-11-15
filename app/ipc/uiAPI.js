@@ -1,6 +1,6 @@
 const {ipcMain, shell} = require("electron");
 const { featuresPath } = require("../../config");
-const {config} = require("../../config");
+const config = require("../../config");
 const { getChangelog, markChangelogSeen} = require("../changelogManager");
 
 function registerUiAPIHandlers()  {

@@ -42,7 +42,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     savePathElem.textContent = path;
     savePathElem.title = path; 
     hidden.value = path;
-    localStorage.setItem("customDownloadPath", path); // UX only
+    window.featureAPI.setFeature("downloadPath", path); // Persist in config.json
   }
 
   /**
@@ -54,8 +54,10 @@ window.addEventListener("DOMContentLoaded", async () => {
    * 3. backend default fallback path if validation fails
    */
   async function loadInitialPath() {
-    // On affiche ce que le user a vu la dernière fois (UX)
-    const cached = localStorage.getItem("customDownloadPath");
+  
+    const features = window.featureAPI.getFeatures();
+    const cached = features.downloadPath
+
     if (cached) {
       savePathElem.textContent = cached;
     }

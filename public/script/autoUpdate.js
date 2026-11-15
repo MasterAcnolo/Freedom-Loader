@@ -1,12 +1,12 @@
 async function initUpdateUI() {
   const container = document.getElementById("updateAvailable");
 
-  const hasUpdate = await window.electronAPI.isUpdateAvailable();
+  const hasUpdate = await window.updaterAPI.isUpdateAvailable();
   if (hasUpdate) {
     setupAndShowUpdateUI();
   }
 
-  window.electronAPI.onUpdateAvailable((info) => {
+  window.updaterAPI.onUpdateAvailable((info) => {
     setupAndShowUpdateUI(info);
   });
 
@@ -38,7 +38,7 @@ async function initUpdateUI() {
       }
 
       btn.onclick = () => {
-        window.electronAPI.openReleasePage();
+        window.updaterAPI.openReleasePage();
         container.style.display = "none";
       };
 
@@ -62,7 +62,7 @@ async function initUpdateUI() {
       progressEta.textContent = "";
     };
 
-    window.electronAPI.onUpdateError((err) => {
+    window.updaterAPI.onUpdateError((err) => {
       console.error("Update failed asynchronously:", err);
       resetUI();
     });
@@ -76,13 +76,13 @@ async function initUpdateUI() {
       progressWrap.style.display = "flex";
 
       try {
-        await window.electronAPI.downloadUpdate();
+        await window.updaterAPI.downloadUpdate();
       } catch {
         resetUI();
       }
     };
 
-    window.electronAPI.onDownloadProgress((progress) => {
+    window.updaterAPI.onDownloadProgress((progress) => {
       const pct = Math.round(progress.percent);
       progressFill.style.width = pct + "%";
       progressPct.textContent = pct + "%";
@@ -92,7 +92,7 @@ async function initUpdateUI() {
         remaining > 0 ? `~${Math.ceil(remaining)}s left` : "almost done";
     });
 
-    window.electronAPI.onUpdateDownloaded(() => {
+    window.updaterAPI.onUpdateDownloaded(() => {
       progressFill.style.width = "100%";
       progressPct.textContent = "100%";
       progressEta.textContent = "Done";
@@ -101,7 +101,7 @@ async function initUpdateUI() {
       sub.textContent = "Restart to apply the update";
       btn.textContent = "Restart";
       btn.disabled = false;
-      btn.onclick = () => window.electronAPI.installUpdate();
+      btn.onclick = () => window.updaterAPI.installUpdate();
     });
   }
 }

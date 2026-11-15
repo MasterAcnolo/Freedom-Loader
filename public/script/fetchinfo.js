@@ -93,7 +93,7 @@ async function init() {
 
     urlInput.addEventListener("input", async () => {
 
-      const configFeatures = await window.electronAPI.getFeatures();
+      const configFeatures = await window.featureAPI.getFeatures();
       if (!configFeatures.autoCheckInfo) return;
 
       const url = urlInput.value.trim();

@@ -12,7 +12,7 @@ async function displayVersionLabel() {
    * Raw version string from the backend (e.g., "dev-1.6.2-preview" or "v1.6.2")
    * @type {string}
    */
-  const appVersion = await window.electronAPI.getVersion();
+  const appVersion = await window.uiAPI.getVersion();
 
   /**
    * UI element displaying the current application version.

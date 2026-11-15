@@ -87,7 +87,7 @@ form.addEventListener("submit", async (e) => {
 
     // Download successful - check if notifications are enabled
     try {
-      const features = await window.electronAPI.getFeatures();
+      const features = await window.featureAPI.getFeatures();
       if (features.notifySystem) {
         window.showSuccess("Download completed!");
       }

@@ -34,7 +34,7 @@ function closePanel() {
  * Also registers change listeners to persist updates in real time.
  */
 async function loadSettings() {
-  const features = await window.electronAPI.getFeatures();
+  const features = await window.featureAPI.getFeatures();
 
   document
     .querySelectorAll(".settings-section input, .settings-section select")
@@ -51,7 +51,7 @@ async function loadSettings() {
         if (key === "theme") return;
 
         const value = el.type === "checkbox" ? el.checked : el.value;
-        window.electronAPI.setFeature(key, value);
+        window.featureAPI.setFeature(key, value);
       });
     });
 }
@@ -61,7 +61,7 @@ async function loadSettings() {
  */
 document.getElementById("open-json-btn")
   ?.addEventListener("click", () => {
-    window.topbarAPI.openConfig();
+    window.uiAPI.openConfig();
   });
 
 /**

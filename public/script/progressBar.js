@@ -91,14 +91,14 @@ const evtSource = new EventSource("/download/progress");
 evtSource.onmessage = e => {
   if (e.data === "reset") {
     startProgress();
-    window.electronAPI.setProgress(0);
+    window.downloadAPI.setProgress(0);
     return;
   }
 
   if (e.data === "done") {
     setTimeout(() => {
       resetProgress();
-      window.electronAPI.setProgress(-1);
+      window.downloadAPI.setProgress(-1);
     }, 2000);
     return;
   }
@@ -107,7 +107,7 @@ evtSource.onmessage = e => {
 
   if (!isNaN(percent)) {
     updateProgress(percent);
-    window.electronAPI.setProgress(percent);
+    window.downloadAPI.setProgress(percent);
   }
 };
 

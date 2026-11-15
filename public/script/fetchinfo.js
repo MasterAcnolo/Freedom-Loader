@@ -20,43 +20,17 @@ function formatSize(bytes) {
 }
 
 /**
- * Fetches video or playlist metadata from the backend `/info` endpoint.
- *
- * Sends a POST request with URL-encoded body.
- * Handles network errors, HTTP errors and JSON parsing safely.
+ * Fetches video or playlist metadata through the Electron IPC bridge.
  *
  * @param {string} url - Video or playlist URL
  * @returns {Promise<Object>} Parsed metadata or error object
  */
 async function fetchVideoInfo(url) {
   try {
-    const res = await fetch(`/info?url=${encodeURIComponent(url)}`, {
-      method: "GET",
-      headers: {Accept: "application/json"},
-    });
-
-    let data;
-    try {
-      data = await res.json();
-    } catch (e) {
-      return {error: "Network or JSON Issue"};
-    }
-
-    if (!res.ok) {
-      if (data && data.error) {
-        return {error: data.error.message || "An Error occured when fetching info"};
-      }
-      return {error: "An Error occured when fetching info"};
-    }
-
-    if (!data) return { error: "Data is Missing" };
-    if (data.error) {
-      return {error: data.error.message || data.error};
-    }
-
-    return data;
+    return await window.infoAPI.fetchInfo(url);
   } catch (e) {
-    return { error: "Network or JSON Issue" };
+    // return {error: e?.message || "Unable to fetch info"};
+    return {error: "Unable to fetch info"};
   }
 }
 
@@ -93,7 +67,7 @@ async function init() {
 
     urlInput.addEventListener("input", async () => {
 
-      const configFeatures = await window.electronAPI.getFeatures();
+      const configFeatures = await window.featureAPI.getFeatures();
       if (!configFeatures.autoCheckInfo) return;
 
       const url = urlInput.value.trim();

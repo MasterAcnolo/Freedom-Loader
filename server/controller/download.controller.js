@@ -56,96 +56,107 @@ const ALLOWED_QUALITIES = new Set(["best", "medium", "worst", "1080", "720", "48
  * notification may be displayed depending on the
  * application configuration.
  *
- * @param {import("express").Request} req
- * @param {import("express").Response} res
- * @returns {Promise<void>}
+ * @param {Object} body
+ * @returns {Promise<{success: boolean, message: string, outputFolder: string}>}
  */
-async function downloadController(req, res) {
-  try {
-    const body = req.body || {};
-    const options = {
+async function startDownload(body = {}) {
+  const options = {
       url: body.url,
       audioOnly: body.audioOnly === "1" || body.audioOnly === true,
       quality: ALLOWED_QUALITIES.has(body.quality) ? body.quality : "best",
       outputFolder: body.savePath || body.outputFolder || undefined,
       playlistTitle: body.playlistTitle || undefined,
-    };
+  };
 
-    if (!options.url || typeof options.url !== "string" || !isValidUrl(options.url)) {
-      return res.status(400).json({
-        error: {code: "INVALID_URL", message: "Invalid URL"},
-      });
+  if (!options.url || typeof options.url !== "string" || !isValidUrl(options.url)) {
+    throw Object.assign(new Error("Invalid URL"), {code: "INVALID_URL"});
+  }
+  if (options.outputFolder && !isSafePath(options.outputFolder)) {
+    logger.warn(`Unsafe download path rejected: ${options.outputFolder}`);
+    throw Object.assign(new Error("Save path not allowed"), {code: "INVALID_PATH"});
+  }
+
+  const progressHandler = (percent) => {
+    progressEmitter.emit("progress", percent);
+    for (let i = progressListeners.length - 1; i >= 0; i -= 1) {
+      try {
+        progressListeners[i](percent);
+      } catch (err) {
+        logger.debug(`progress listener error: ${err.message}`);
+      }
     }
-    if (options.outputFolder && !isSafePath(options.outputFolder)) {
-      logger.warn(`Unsafe download path rejected: ${options.outputFolder}`);
-      return res.status(400).json({
-        error: {code: "INVALID_PATH", message: "Save path not allowed"},
-      });
+  };
+
+  const speedHandler = (speed) => {
+    speedEmitter.emit("speed", speed);
+    for (let i = speedListeners.length - 1; i >= 0; i -= 1) {
+      try {
+        speedListeners[i](speed);
+      } catch (err) {
+        logger.debug(`speed listener error: ${err.message}`);
+      }
     }
+  };
 
-    const progressHandler = (percent) => {
-      progressEmitter.emit("progress", percent);
-      for (let i = progressListeners.length - 1; i >= 0; i -= 1) {
-        try {
-          progressListeners[i](percent);
-        } catch (err) {
-          logger.debug(`progress listener error: ${err.message}`);
-        }
+  const stageHandler = (stage) => {
+    stageEmitter.emit("stage", stage);
+    for (let i = stageListeners.length - 1; i >= 0; i -= 1) {
+      try {
+        stageListeners[i](stage);
+      } catch (err) {
+        logger.debug(`stage listener error: ${err.message}`);
       }
-    };
+    }
+  };
 
-    const speedHandler = (speed) => {
-      speedEmitter.emit("speed", speed);
-      for (let i = speedListeners.length - 1; i >= 0; i -= 1) {
-        try {
-          speedListeners[i](speed);
-        } catch (err) {
-          logger.debug(`speed listener error: ${err.message}`);
-        }
+  const playlistHandler = (info) => {
+    playlistEmitter.emit("playlist", info);
+    for (let i = playlistListeners.length - 1; i >= 0; i -= 1) {
+      try {
+        playlistListeners[i](info);
+      } catch (err) {
+        logger.debug(`playlist listener error: ${err.message}`);
       }
-    };
+    }
+  };
 
-    const stageHandler = (stage) => {
-      stageEmitter.emit("stage", stage);
-      for (let i = stageListeners.length - 1; i >= 0; i -= 1) {
-        try {
-          stageListeners[i](stage);
-        } catch (err) {
-          logger.debug(`stage listener error: ${err.message}`);
-        }
-      }
-    };
+  const outputFolder = await fetchDownload(
+    options,
+    [progressHandler],
+    [speedHandler],
+    [stageHandler],
+    [playlistHandler]
+  );
 
-    const playlistHandler = (info) => {
-      playlistEmitter.emit("playlist", info);
-      for (let i = playlistListeners.length - 1; i >= 0; i -= 1) {
-        try {
-          playlistListeners[i](info);
-        } catch (err) {
-          logger.debug(`playlist listener error: ${err.message}`);
-        }
-      }
-    };
+  notifyDownloadFinished(outputFolder, configFeatures.notifySystem);
+  return {success: true, message: "Download Done !", outputFolder};
+}
 
-    const outputFolder = await fetchDownload(
-      options,
-        [progressHandler],
-        [speedHandler],
-        [stageHandler],
-        [playlistHandler]
-    );
-
-    notifyDownloadFinished(outputFolder, configFeatures.notifySystem);
-    return res.json({success: true, message: "Download Done !", outputFolder});
+/**
+ * HTTP compatibility controller retained for consumers outside the Electron IPC bridge.
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
+async function downloadController(req, res) {
+  try {
+    return res.json(await startDownload(req.body || {}));
   } catch (err) {
-    logger.error(`Server Error in /download: ${err?.message ?? err}`);
-    if (err && err.message === "Download already in progress") {
+    logger.error(`Download error: ${err?.message ?? err}`);
+    if (err?.message === "Download already in progress") {
       return res.status(409).json({
         error: {code: "DOWNLOAD_IN_PROGRESS", message: "A download is already in progress"},
       });
     }
-    return res.status(500).json({
-      error: {code: "DOWNLOAD_FAILED", message: "Server Error"},
+    return res.status(err?.code === "INVALID_URL" || err?.code === "INVALID_PATH" ? 400 : 500).json({
+      error: {
+        code: err?.code || "DOWNLOAD_FAILED",
+        message: err?.code === "INVALID_URL" || err?.code === "INVALID_PATH"
+          ? err.message
+          : err?.message === "Download already in progress"
+            ? "A download is already in progress"
+            : "Server Error",
+      },
     });
   }
 }
@@ -335,6 +346,7 @@ function playlistInfoController(req, res) {
 }
 
 module.exports = {
+  startDownload,
   downloadController,
   progressController,
   speedController,

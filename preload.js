@@ -1,13 +1,19 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 /**
- * Exposes the main application API to the renderer process.
- *
- * This API acts as a secure bridge between the renderer and the
- * Electron main process using IPC (Inter-Process Communication).
- * All calls are explicitly whitelisted.
+ * The IPC handlers are split into multiple dedicated objects:
+ * - loggerAPI: Centralizes error, info, and warning logs.
+ * - featureAPI: Manages runtime feature flags.
+ * - downloadAPI: Handles download paths, path validation, and progress sync.
+ * - infoAPI: Retrieves video and playlist metadata.
+ * - themeAPI: Manages application themes loading and reloading.
+ * - updaterAPI: Handles the complete auto-updater lifecycle and release page.
+ * - uiAPI: Manages application version, changelog, and toast notifications.
+ * - reportBugAPI: Manages cloudflare report bug form.
+ * - topbarAPI: Window controls, external links.
  */
-contextBridge.exposeInMainWorld("electronAPI", {
+
+contextBridge.exposeInMainWorld("loggerAPI", {
   /**
    * Sends error log message.
    *
@@ -28,29 +34,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * @param {...any} args - Values to log
    */
   logWarn: (...args) => ipcRenderer.send("log-warn", args.map(arg => typeof arg === "object" ? JSON.stringify(arg) : arg).join(" ")),
+});
 
-  /**
-   * Return process.platform to renderer
-   */
-  getProcessPlatform: () => process.platform,
-
-  /**
-   * Returns the default system download directory.
-   */
-  getDefaultDownloadPath: () => ipcRenderer.invoke("get-default-download-path"),
-
-  /**
-   * Opens a native dialog allowing the user to select a download folder.
-   */
-  selectDownloadFolder: () => ipcRenderer.invoke("select-download-folder"),
-
-  /**
-   * Sends download progress value to the main process (used for taskbar / UI sync).
-   *
-   * @param {number} percent - Download progress percentage (0–100)
-   */
-  setProgress: (percent) => ipcRenderer.send("set-progress", percent),
-
+contextBridge.exposeInMainWorld("featureAPI", {
   /**
    * Retrieves application feature flags (runtime configuration).
    */
@@ -63,21 +49,28 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * @param {any} value - Feature value
    */
   setFeature: (key, value) => ipcRenderer.invoke("set-feature", { key, value }),
+});
+
+contextBridge.exposeInMainWorld("downloadAPI", {
+  /**
+   * Starts a video or playlist download.
+   */
+  startDownload: (options) => ipcRenderer.invoke("start-download", options),
 
   /**
-   * Returns the current application version.
+   * Cancels the current download.
    */
-  getVersion: () => ipcRenderer.invoke("version"),
+  cancelDownload: () => ipcRenderer.invoke("cancel-download"),
 
   /**
-   * Returns the changelog data 
+   * Returns the default system download directory.
    */
-  getChangelog: () => ipcRenderer.invoke("get-changelog"),
+  getDefaultDownloadPath: () => ipcRenderer.invoke("get-default-download-path"),
 
   /**
-   * Marks the current changelog version as seen by the user.
+   * Opens a native dialog allowing the user to select a download folder.
    */
-  markChangelogSeen: () => ipcRenderer.invoke("mark-changelog-seen"),
+  selectDownloadFolder: () => ipcRenderer.invoke("select-download-folder"),
 
   /**
    * Validates a download path before using it for file operations.
@@ -85,8 +78,24 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * @param {string} path - Path to validate
    */
   getValidatedDownloadPath: (path) =>
-    ipcRenderer.invoke("validate-download-path", path),
+      ipcRenderer.invoke("validate-download-path", path),
 
+  /**
+   * Sends download progress value to the main process (used for taskbar / UI sync).
+   *
+   * @param {number} percent - Download progress percentage (0–100)
+   */
+  setProgress: (percent) => ipcRenderer.send("set-progress", percent),
+});
+
+contextBridge.exposeInMainWorld("infoAPI", {
+  /**
+   * Retrieves normalized video or playlist metadata.
+   */
+  fetchInfo: (url) => ipcRenderer.invoke("fetch-info", url),
+});
+
+contextBridge.exposeInMainWorld("themeAPI", {
   /**
    * Retrieves available themes from the filesystem or config layer.
    */
@@ -96,13 +105,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * Forces a reload of theme files (useful after modification/import).
    */
   reloadThemes: () => ipcRenderer.invoke("reload-themes"),
+});
 
-  /*
-   * ==========================================
-   * Auto Updater IPC
-   * ==========================================
-   */
-
+contextBridge.exposeInMainWorld("updaterAPI", {
   /**
    * Checks if an update has already been detected by the main process.
    *
@@ -116,7 +121,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * @param {Function} callback - Function executed with update info when an update is found.
    */
   onUpdateAvailable: (callback) =>
-    ipcRenderer.on("update-available", (_, info) => callback(info)),
+      ipcRenderer.on("update-available", (_, info) => callback(info)),
 
   /**
    * Instructs the main process to start downloading the available update.
@@ -147,7 +152,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * @returns {Electron.IpcRenderer}
    */
   onDownloadProgress: (callback) =>
-    ipcRenderer.on("update-progress", (_, progress) => callback(progress)),
+      ipcRenderer.on("update-progress", (_, progress) => callback(progress)),
 
   /**
    * Subscribes to the update downloaded event.
@@ -156,12 +161,19 @@ contextBridge.exposeInMainWorld("electronAPI", {
    * @param {Function} callback - Function executed with update info.
    */
   onUpdateDownloaded: (callback) =>
-    ipcRenderer.on("update-downloaded", (_, info) => callback(info)),
+      ipcRenderer.on("update-downloaded", (_, info) => callback(info)),
 
   openReleasePage: () => ipcRenderer.send("open-release-page"),
+});
+
+contextBridge.exposeInMainWorld("uiAPI", {
+  /**
+   * Returns the current application version.
+   */
+  getVersion: () => ipcRenderer.invoke("version"),
 
   /**
-   * Subscribes to toast notifications emitted by the main process.
+   * Give possibility to create toast from App to Front.
    *
    * @param {Function} callback - Function executed with toast data.
    * @returns {Function} Removes the listener.
@@ -171,13 +183,38 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.on("show-toast", listener);
     return () => ipcRenderer.removeListener("show-toast", listener);
   },
+
+  /**
+   * Opens configuration/settings panel.
+   */
+  openConfig: () => ipcRenderer.send("open-config"),
+
+  /**
+   * Returns the changelog data
+   */
+  getChangelog: () => ipcRenderer.invoke("get-changelog"),
+
+  /**
+   * Marks the current changelog version as seen by the user.
+   */
+  markChangelogSeen: () => ipcRenderer.invoke("mark-changelog-seen"),
 });
 
-/**
- * Exposes window control and developer utilities for the custom topbar UI.
- *
- * These methods forward commands to the Electron main process via IPC.
- */
+contextBridge.exposeInMainWorld("reportBugAPI", {
+  /**
+   * Send Bug Report
+   *
+   * @param params
+   * @returns {Promise<any>}
+   */
+  sendReport: (params) => ipcRenderer.invoke("send-report", params),
+
+  /**
+   * Returns the startup health status of the bug report service.
+   */
+  getReportServiceStatus: () => ipcRenderer.invoke("get-report-service-status"),
+});
+
 contextBridge.exposeInMainWorld("topbarAPI", {
   /**
    * Minimizes the application window.
@@ -223,22 +260,4 @@ contextBridge.exposeInMainWorld("topbarAPI", {
    * Opens the workshop or external content library.
    */
   openWorkshop: () => ipcRenderer.send("open-workshop"),
-
-  /**
-   * Opens configuration/settings panel.
-   */
-  openConfig: () => ipcRenderer.send("open-config"),
-
-  /**
-   * Send Bug Report
-   *
-   * @param params
-   * @returns {Promise<any>}
-   */
-  sendReport: (params) => ipcRenderer.invoke("send-report", params),
-
-  /**
-   * Returns the startup health status of the bug report service.
-   */
-  getReportServiceStatus: () => ipcRenderer.invoke("get-report-service-status"),
 });

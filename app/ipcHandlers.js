@@ -1,5 +1,6 @@
 const {registerLoggerAPIHandlers} = require("./ipc/loggerAPI");
 const {registerFeatureAPIHandlers} = require("./ipc/featureAPI");
+const {registerInfoAPIHandlers} = require("./ipc/infoAPI");
 const {registerDownloadAPIHandlers} = require("./ipc/downloadAPI");
 const {registerThemeAPIHandlers} = require("./ipc/themeAPI");
 const {registerTopbarAPIHandlers} = require("./ipc/topbarAPI");
@@ -20,6 +21,7 @@ function registerIpcHandlers(getMainWindow) {
 
   registerLoggerAPIHandlers();
   registerFeatureAPIHandlers();
+  registerInfoAPIHandlers();
   registerDownloadAPIHandlers(getMainWindow);
   registerThemeAPIHandlers();
   registerTopbarAPIHandlers(getMainWindow);

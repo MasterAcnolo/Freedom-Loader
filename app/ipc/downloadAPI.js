@@ -2,8 +2,34 @@ const {ipcMain, dialog} = require("electron");
 
 const {logger} = require("../../server/logger");
 const { validateDownloadPath, getDefaultDownloadPath } = require("../pathValidator");
+const { startDownload } = require("../../server/controller/download.controller");
+const { cancelDownload } = require("../../server/services/download.services");
 
 function registerDownloadAPIHandlers(getMainWindow)  {
+    ipcMain.handle("start-download", async (_, options) => {
+        try {
+            return await startDownload(options);
+        } catch (err) {
+            logger.error(`Download IPC error: ${err?.message ?? err}`);
+            throw Object.assign(
+                new Error(err?.message || "Server Error"),
+                {code: err?.message === "Download already in progress"
+                    ? "DOWNLOAD_IN_PROGRESS"
+                    : err?.code || "DOWNLOAD_FAILED"}
+            );
+        }
+    });
+
+    ipcMain.handle("cancel-download", () => {
+        if (cancelDownload()) {
+            return {success: true, message: "Download stopped! Queue cleared."};
+        }
+
+        throw Object.assign(new Error("No download in progress !"), {
+            code: "NO_DOWNLOAD_IN_PROGRESS",
+        });
+    });
+
     /**
      * Opens native folder selection dialog and validates selected path.
      *

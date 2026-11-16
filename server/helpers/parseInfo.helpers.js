@@ -7,8 +7,36 @@
 function parseVideo(data) {
   return {
     type: "video",
-    ...data
-  };
+
+    id: data.id,
+    title: data.title,
+    fulltitle: data.fulltitle,
+
+    webpage_url: data.webpage_url,
+    thumbnail: data.thumbnail || data.thumbnails?.at(-1)?.url || null,
+
+    duration: data.duration,
+
+    channel: data.channel,
+    channel_url: data.channel_url,
+
+    uploader: data.uploader,
+    uploader_id: data.uploader_id,
+    uploader_url: data.uploader_url,
+
+    extractor: data.extractor,
+    filesize_approx: data.filesize_approx,
+
+    is_live: data.is_live,
+    upload_date: data.upload_date,
+
+    view_count: data.view_count,
+    like_count: data.like_count,
+    categories: data.categories,
+    tags: data.tags,
+
+    // heatmap: data.heatmap,
+  }
 }
 
 /**

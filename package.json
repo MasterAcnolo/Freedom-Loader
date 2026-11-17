@@ -20,9 +20,7 @@
     "start": "electron --no-warnings .",
     "start:warn": "electron --trace-warnings .",
     "dev": "nodemon --watch server --watch app --watch main.js --watch config.js --ext js,json --exec \"electron --no-warnings .\"",
-    "start:dev": "npm run start -- --mode=dev",
-    "start:debug": "npm run start -- --mode=debug",
-    "start:prod": "npm run start -- --mode=prod",
+
     "electron:debug": "WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .",
 
     "build": "electron-builder",

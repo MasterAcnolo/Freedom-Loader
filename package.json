@@ -16,18 +16,22 @@
   },
   "main": "main.js",
   "scripts": {
-    "clean:dist": "rm -rf dist/ && rm -rf srpm-out/",
+
     "start": "electron --no-warnings .",
     "start:warn": "electron --trace-warnings .",
-    "start:debug": "WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .",
     "dev": "nodemon --watch server --watch app --watch main.js --watch config.js --ext js,json --exec \"electron --no-warnings .\"",
-    "dev:warn": "nodemon --watch server --watch app --watch main.js --watch config.js --ext js,json --exec \"electron --trace-warnings .\"",
-    "dev:debug": "nodemon --watch server --watch app --watch main.js --watch config.js --ext js,json --exec \"WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .\"",
+    "start:dev": "npm run start -- --mode=dev",
+    "start:debug": "npm run start -- --mode=debug",
+    "start:prod": "npm run start -- --mode=prod",
+    "electron:debug": "WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .",
+
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
     "build:rpm": "npm run clean:dist && npm run build:linux && bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
+    "clean:dist": "rm -rf dist/ && rm -rf srpm-out/",
+
     "release": "bash scripts/release.sh",
     "release:publish": "bash scripts/release.sh --publish",
     "release:dry-run": "bash scripts/release.sh --dry-run",

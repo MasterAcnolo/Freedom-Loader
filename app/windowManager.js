@@ -6,7 +6,6 @@
 const { BrowserWindow, app } = require("electron");
 const path = require("path");
 const { logger } = require("../server/logger");
-const { configFeatures } = require("../config");
 const config = require("../config");
 
 /**

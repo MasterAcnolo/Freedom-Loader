@@ -146,7 +146,12 @@ async function getChangelog() {
     }
   }
 
-  const lastSeenVersion = cache?.lastSeenVersion || null;
+  let lastSeenVersion = cache?.lastSeenVersion || null;
+
+  if (!lastSeenVersion && releases.length > 0) {
+    lastSeenVersion = config.version;
+    writeCache(releases);
+  }
 
   // Without a previous version, all available releases are considered unread.
   const unreadReleases = lastSeenVersion

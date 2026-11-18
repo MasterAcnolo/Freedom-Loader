@@ -47,40 +47,25 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   /**
    * Loads the initial download path on application startup.
-   *
-   * Priority order:
-   * 1. cached localStorage value (UX only, not trusted)
-   * 2. backend validated version of cached path
-   * 3. backend default fallback path if validation fails
    */
   async function loadInitialPath() {
-  
     const features = window.featureAPI.getFeatures();
-
-    const defaultPath = window.downloadAPI.getDefaultDownloadPath();
-
-    if (!features.downloadPath) {
-      await applyPathFromBack(defaultPath);
-    }
-
     const cached = features.downloadPath;
 
     if (cached) {
-      savePathElem.textContent = cached;
+      try {
+        const validatedPath = await window.downloadAPI.getValidatedDownloadPath(cached);
+        await applyPathFromBack(validatedPath);
+        return;
+      } catch (err) {
+        // If the cached path is invalid, fallback to default
+      }
     }
 
-    try {
-      const validatedPath = await window.downloadAPI.getValidatedDownloadPath(
-        cached
-      );
-      await applyPathFromBack(validatedPath);
-    } catch {
-      // fallback sûr
-      const defaultPath =
-        await window.downloadAPI.getDefaultDownloadPath();
-      await applyPathFromBack(defaultPath);
-    }
+    const defaultPath = await window.downloadAPI.getDefaultDownloadPath();
+    await applyPathFromBack(defaultPath);
   }
+
 
   await loadInitialPath();
 

@@ -12,22 +12,28 @@ function waitForKonamiCode(){
 
   if (isDebugModeEnabled) {
     showDebugElement();
+  }
 
-  } else {
-    
-    window.addEventListener('keydown', function(e){
-      if (e.key === konamiCode[konamiIndex]) {
-        konamiIndex++;
-        if (konamiIndex === konamiCode.length) {
+  window.addEventListener('keydown', function (e) {
+
+    if (e.key.toLowerCase() === konamiCode[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === konamiCode.length) {
+
+        const localIsDebugModeEnabled = localStorage.getItem("DEBUG_MODE");
+
+        if (localIsDebugModeEnabled) {
+          window.showToast("You are already in debug mode!", "success")
+        } else {
           localStorage.setItem('DEBUG_MODE', true);
           window.showToast("You are now in debug mode!", "success")
-          showDebugElement();
         }
-      } else {
-        konamiIndex = 0;
+        showDebugElement();
       }
-    });
-  }
+    } else {
+      konamiIndex = 0;
+    }
+  });
 }
 
 function showDebugElement(){

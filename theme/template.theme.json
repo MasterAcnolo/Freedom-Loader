@@ -3,7 +3,7 @@
     "name": "",
     "author": "",
     "version": "1.0.0",
-    "formatVersion": "1.0"
+    "formatVersion": "1.1"
   },
 
   "style": {
@@ -90,7 +90,8 @@
         "section": ""
       },
       "text": "",
-      "subtitle": ""
+      "subtitle": "",
+      "close": ""
     }
   }
 }

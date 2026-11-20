@@ -78,6 +78,7 @@ function applyTheme(theme) {
   root.style.setProperty("--settings-section-bg-color", style.settings?.background?.section || "#2a2a2a");
   root.style.setProperty("--settings-text-color", style.settings?.text || "#e0e0e0");
   root.style.setProperty("--settings-subtitle-color", style.settings?.subtitle || "#aaaaaa");
+  root.style.setProperty("--settings-close-btn-color", style.settings?.close || "#ffffff");
 
   const subtitleEl = document.getElementById("subtitle");
   if (subtitleEl) subtitleEl.textContent = theme.subtitle || theme.name;

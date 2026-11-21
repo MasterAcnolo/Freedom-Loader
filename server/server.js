@@ -55,7 +55,7 @@ function stopServer() {
   if (serverInstance) {
     try {
       serverInstance.close(() => {
-        logger.info("Express server closed cleanly");
+        // logger.info("Express server closed cleanly");
       });
       serverInstance = null;
     } catch (err) {

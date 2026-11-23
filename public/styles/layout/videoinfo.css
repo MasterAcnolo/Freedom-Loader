@@ -1,9 +1,9 @@
 #videoInfo {
-  margin-top: 20px;
+  margin-top: 15px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  padding: 1.5em 2em;
+  padding: 1.25em 1.75em;
   background-color: var(--video-info-bg-color);
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -16,6 +16,8 @@
   transition: opacity 0.5s ease, max-height 0.5s ease;
   user-select: text;
   word-wrap: break-word;
+  display: flex;
+  gap: 15px;
 }
 
 #videoInfo.visible {
@@ -23,17 +25,30 @@
   max-height: 1500px; 
 }
 
-#videoInfo h3 {
-  font-size: 1.8rem;
+#videoInfo #title {
+  font-size: 1.1rem;
   margin-bottom: 0.6em;
   color: var(--video-info-heading-color);
   font-weight: 700;
   word-break: break-word;
 }
 
+#videoInfo .title-uploader {
+  display: flex;
+  flex-direction: column;
+}
+
+#videoInfo .details {
+  margin-top: 10px;
+}
+
+#videoInfo .details p {
+  margin: 0;
+}
+
 #videoInfo img {
-  max-width: 100%;
-  height: auto;
+  max-width: 310px;
+  height: 174px;
   border-radius: 10px;
   margin-bottom: 1em;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -42,12 +57,12 @@
   margin-right: auto;
 }
 
-#videoInfo ul {
-  list-style: none;
-  padding-left: 0;
+#videoInfo .bottom-info {
+  display: flex;
+  justify-content: space-between;
 }
 
-#videoInfo ul li {
+#videoInfo .bottom-info p {
   margin-bottom: 0.5em;
   font-weight: 500;
   color: var(--video-info-list-color);

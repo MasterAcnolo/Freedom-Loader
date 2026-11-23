@@ -2,7 +2,8 @@
  * Converts a raw upload date string (format YYYYMMDD)
  * into a human-readable format (DD/MM/YYYY).
  *
- * Returns "Inconnue" if the input is invalid or malformed.
+ * @param {string} dateStr - The raw date string
+ * @returns {string} The formatted date or "Unknown" if invalid
  */
 function formatDate(dateStr) {
   if (!dateStr || dateStr.length !== 8) return "Inconnue";
@@ -16,7 +17,7 @@ function formatDate(dateStr) {
  * If input is falsy, returns "Inconnue".
  */
 function formatSize(bytes) {
-  return bytes ? (bytes / (1024*1024)).toFixed(2) + " Mo" : "Inconnue";
+  return bytes ? (bytes / (1024 * 1024)).toFixed(2) + " Mo" : "Unknown";
 }
 
 /**
@@ -93,7 +94,7 @@ async function init() {
         infoDiv.innerHTML = `
           <div style="
             padding:7px;
-            background:var(----infos-box-color);
+            background:var(--infos-box-color);
           ">
             <strong>${data.error}</strong> 
           </div>
@@ -138,7 +139,7 @@ async function init() {
 
         data.videos.forEach(v => {
           const durationStr = v.duration
-            ? `${Math.floor(v.duration / 60)}:${(v.duration % 60).toString().padStart(2,"0")}` : "--:--";
+              ? `${Math.floor(v.duration / 60)}:${(v.duration % 60).toString().padStart(2, "0")}` : "--:--";
 
           const videoUrl = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
 
@@ -180,44 +181,44 @@ async function init() {
             btn.disabled = true;
             const url = btn.dataset.url;
             navigator.clipboard.writeText(url)
-              .then(() => {
-                const original = btn.innerHTML;
+                .then(() => {
+                  const original = btn.innerHTML;
 
-                btn.style.opacity = 0;
-                btn.style.transform = "scale(0.7)";
-
-                setTimeout(() => {
-                  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>`;
-                  btn.style.opacity = 1;
-                  btn.style.transform = "scale(1)";
+                  btn.style.opacity = 0;
+                  btn.style.transform = "scale(0.7)";
 
                   setTimeout(() => {
-                    btn.style.opacity = 0;
-                    btn.style.transform = "scale(0.7)";
+                    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>`;
+                    btn.style.opacity = 1;
+                    btn.style.transform = "scale(1)";
 
                     setTimeout(() => {
-                      btn.innerHTML = original;
-                      btn.style.opacity = 1;
-                      btn.style.transform = "scale(1)";
-                      btn.disabled = false;
-                    }, 300);
+                      btn.style.opacity = 0;
+                      btn.style.transform = "scale(0.7)";
 
-                  }, 1000);
+                      setTimeout(() => {
+                        btn.innerHTML = original;
+                        btn.style.opacity = 1;
+                        btn.style.transform = "scale(1)";
+                        btn.disabled = false;
+                      }, 300);
 
-                }, 300);
-              })
-              .catch(() => {
-                const original = btn.innerHTML;
-                btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    }, 1000);
+
+                  }, 300);
+                })
+                .catch(() => {
+                  const original = btn.innerHTML;
+                  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                 </svg>`;
-                setTimeout(() => {
-                  btn.innerHTML = original;
-                  btn.disabled = false;
-                }, 1500);
-              });
+                  setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                  }, 1500);
+                });
           }
         });
 
@@ -228,29 +229,28 @@ async function init() {
       infoDiv.classList.remove("playlist-mode");
       playlistTitleInput.value = "";
 
-      // ---------- VIDEO NORMALE ----------
+      // ---------- SINGLE VIDEO  ----------
       const durationStr = data.duration
-        ? `${Math.floor(data.duration/60)}m ${(data.duration%60).toString().padStart(2,"0")}s`
-        : "Unknown";
+          ? `${Math.floor(data.duration / 60)}m ${(data.duration % 60).toString().padStart(2, "0")}s`
+          : "Unknown";
 
       const sizeStr = formatSize(data.filesize_approx);
       const readableDate = formatDate(data.upload_date);
-      const categories = data.categories?.join(", ") || "Non spécifiées";
 
       infoDiv.innerHTML = `
-        <h3>${data.title}</h3>
-        <img src="${data.thumbnail}" width="320" alt="Thumbnail">
-        <ul>
-          <li><strong>Duration :</strong> ${durationStr}</li>
-          <li><strong>Uploader :</strong> ${data.uploader || "Inconnu"}</li>
-          <li><strong>Upload Date :</strong> ${readableDate}</li>
-          <li><strong>Views :</strong> ${data.view_count?.toLocaleString() || "?"}</li>
-          <li><strong>Likes :</strong> ${data.like_count?.toLocaleString() || "?"}</li>
-          <li><strong>URL :</strong> <a href="${data.webpage_url}" target="_blank">${data.webpage_url}</a></li>
-          <li><strong>Channel :</strong> <a href="${data.channel_url}" target="_blank">${data.channel_url}</a></li>
-          <li><strong>Estimed Size :</strong> ${sizeStr}</li>
-          <li><strong>Category :</strong> ${categories}</li>
-        </ul>
+          <img src="${data.thumbnail}" alt="Thumbail of ${data.title} from ${data.extractor}">
+          <div class="title-uploader">
+          
+            <a class="custom-link" id="title" href="${data.webpage_url}" target="_blank">${data.title}</a>
+            <p style="display: flex; gap: 5px; margin: 0"> by <a class="custom-link" href="${data.channel_url}" target="_blank"> <strong>${data.uploader || "Unknown"}</strong></a> </p> 
+            
+            <div class="details">
+              <p><strong>Duration :</strong> ${durationStr}</p>
+              <p><strong>Upload Date :</strong> ${readableDate}</p>
+              <p><strong>Estimed Size :</strong> ${sizeStr}</p>
+            </div>
+            
+          </div>
       `;
 
       infoDiv.classList.add("visible");

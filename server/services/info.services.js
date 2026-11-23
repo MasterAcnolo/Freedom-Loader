@@ -46,7 +46,7 @@ function fetchInfo(url) {
         [...metadataArgs, url],
         {
           timeout: 30_000, // 30s, if more timeout
-          maxBuffer: 10 * 1024 * 1024, // Maximum response size: 10 MB (Node.js default is much smaller)
+          maxBuffer: 100 * 1024 * 1024, // Maximum response size: 100 MB (Node.js default is much smaller)
         },
         (error, stdout, stderr) => {
           if (stderr) {

@@ -1,6 +1,6 @@
 # External binaries
 
-This project depends on three external tools that are **not bundled in the repository**.  
+This project depends on four external tools that are **not bundled in the repository**.  
 You must download them manually and place each binary in the correct folder before building or running the app locally.
 
 ---

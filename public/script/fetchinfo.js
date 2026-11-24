@@ -237,11 +237,15 @@ async function init() {
       const sizeStr = formatSize(data.filesize_approx);
       const readableDate = formatDate(data.upload_date);
 
+      const isPlaylist = url.includes("list=");
+
       infoDiv.innerHTML = `
-          <img src="${data.thumbnail}" alt="Thumbail of ${data.title} from ${data.extractor}">
+          <div class="thumb-wrapper ${isPlaylist ? "is-playlist" : ""}">
+            <img src="${data.thumbnail}" alt="Thumbnail of ${data.title} from ${data.extractor}">
+          </div>
           <div class="title-uploader">
           
-            <a class="custom-link" id="title" href="${data.webpage_url}" target="_blank">${data.title}</a>
+            <a class="custom-link" id="title" href="${isPlaylist ? url : data.webpage_url}" target="_blank">${data.title}</a>
             <p style="display: flex; gap: 5px; margin: 0"> by <a class="custom-link" href="${data.channel_url}" target="_blank"> <strong>${data.uploader || "Unknown"}</strong></a> </p> 
             
             <div class="details">

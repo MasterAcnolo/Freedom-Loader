@@ -3,7 +3,7 @@
  * Handles BrowserWindow lifecycle and application UI shell.
  */
 
-const { BrowserWindow, app } = require("electron");
+const {BrowserWindow, app, shell} = require("electron");
 const path = require("path");
 const { logger } = require("../server/logger");
 const config = require("../config");
@@ -94,6 +94,25 @@ async function createMainWindow() {
       return false;
     }
   });
+
+  /**
+   * Intercepts attempts to open new windows (e.g., via window.open or target="_blank").
+   * Opens external links in the user's default browser instead of a new Electron window.
+   * Prevents potential security risks and maintains a single-window application flow.
+   */
+  mainWindow.webContents.setWindowOpenHandler(({url}) => {
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+        shell.openExternal(parsed.toString());
+      }
+    } catch {
+      // ignore invalid URLs
+    }
+
+    return {action: "deny"};
+  });
+
 
   /**
    * Cleans up window reference when the main window is closed.

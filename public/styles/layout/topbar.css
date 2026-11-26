@@ -44,7 +44,7 @@
 /* Custom buttons (Logs / Wiki / etc.) */
 .custom-controls button {
   height: 28px;
-  padding: 0 10px;
+  padding: 0 7px;
 
   font-size: 14px;
   border-radius: 7px;

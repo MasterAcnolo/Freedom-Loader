@@ -113,7 +113,7 @@ See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
 ## Questions?
 
 - Check the [FAQ](https://freedomloader.acnolo.fr/faq)
-- Review the [Wiki](https://freedomloader.acnolo.fr/wiki)
+- Review the [documentation](https://docs.freedomloader.acnolo.fr/)
 - Open a [Question issue](https://github.com/MasterAcnolo/Freedom-Loader/issues/new/choose)
 
 ---

@@ -10,7 +10,7 @@ assignees: 'MasterAcnolo'
 ## Pre-submission Checklist
 
 - [ ] I have checked the [FAQ](https://freedomloader.acnolo.fr/#/faq)
-- [ ] I have reviewed the [Wiki](https://freedomloader.acnolo.fr/#/wiki)
+- [ ] I have reviewed the [documentation](https://docs.freedomloader.acnolo.fr/)
 - [ ] I have searched existing issues
 
 ## Question

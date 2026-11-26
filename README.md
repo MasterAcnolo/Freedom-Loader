@@ -10,7 +10,9 @@
 [![Release](https://img.shields.io/github/v/release/MasterAcnolo/Freedom-Loader?style=for-the-badge&color=blue)](https://github.com/MasterAcnolo/Freedom-Loader/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-red.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 [![Website](https://img.shields.io/badge/Website-Visit-404040?style=for-the-badge)](https://freedomloader.acnolo.fr/)
-[![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://masteracnolo.github.io/Freedom-Loader-Workshop/)
+[![Docs](https://img.shields.io/badge/Docs-Visit-040504?style=for-the-badge)](https://freedomloader.acnolo.fr/)
+
+[![Workshop](https://img.shields.io/badge/Worshop-Visit-0E05A1?style=for-the-badge)](https://workshop.freedomloader.acnolo.fr//)
 <a href="https://www.firefox.com/fr/?utm_campaign=SET_DEFAULT_BROWSER"><img src="https://img.shields.io/badge/Require Firefox-E66000?style=for-the-badge&logo=Firefox-Browser&logoColor=white"></a>
 
 </div>
@@ -23,8 +25,9 @@ The primary goal is to make media downloading accessible to users who want offli
 
 ### See related repo:
 
-- **[Website](https://github.com/MasterAcnolo/Freedom-Loader-Site/)** - Official project website and documentation
+- **[Website](https://github.com/MasterAcnolo/Freedom-Loader-Site/)** - Official project website
 - **[Workshop](https://github.com/MasterAcnolo/Freedom-Loader-Workshop)** - Theme creation tool and theme browser
+- **[Docs](https://github.com/MasterAcnolo/Freedom-Loader-Docs)** - Documentation and user guides
 
 ## Table of Contents
 
@@ -36,7 +39,6 @@ The primary goal is to make media downloading accessible to users who want offli
 - [Theme Workshop](#Theme-Workshop)
 - [Technology Stack](#technology-stack)
 - [Development](#development)
-- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Submitting a community theme](#Submitting-a-community-theme)
 - [License](#license)
@@ -151,7 +153,7 @@ freedom-loader
 |---------------|---------------------------------------------------------|--------------------------------------|
 | **Downloads** | `C:\Users\[USERNAME]\Downloads\Freedom Loader`          | `~/Downloads/Freedom Loader`         |
 | **Logs**      | `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\` | `~/.local/share/FreedomLoader/logs/` |
-| **Cache**     | ``
+| **Cache**     | `%APPDATA%\Freedom Loader\changelog-cache.json` | `~/.config/Freedom Loader/changelog-cache.json` |
 
 > [!NOTE]
 > The download folder can be changed anytime via the "Edit" button in the UI, on both platforms.
@@ -300,7 +302,7 @@ Freedom Loader uses a client-server architecture within a single Electron applic
 
 ## Theme Workshop
 
-Freedom Loader includes a web-based theme creator available at [Freedom Loader Workshop](https://masteracnolo.github.io/Freedom-Loader-Workshop/).
+Freedom Loader includes a web-based theme creator available at [Freedom Loader Workshop](https://workshop.freedomloader.acnolo.fr/).
 
 - Create custom themes with a live preview of the actual UI
 - Browse and download community themes
@@ -357,10 +359,6 @@ See [BINARIES.md](./BINARIES.md) for how to setup the binaries.
   - Fedora 43+ / Debian 11+ / Ubuntu 20.04+
   - GNOME and KDE desktop environments (when possible)
 - Consider Linux distribution differences early (see [DEVELOPMENT.md](./DEVELOPMENT.md#linux-development-considerations))
-
-## Roadmap
-
-See the most recent Roadmap [Here](https://freedomloader.acnolo.fr/Roadmap).
 
 ## Contributing
 
@@ -440,6 +438,6 @@ You are free to use, modify, and redistribute this software under the terms of t
 
 **Freedom Loader** - Put freedom in your downloads
 
-[Website](https://freedomloader.acnolo.fr/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://freedomloader.acnolo.fr/wiki) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
+[Website](https://freedomloader.acnolo.fr/) • [Download](https://github.com/MasterAcnolo/Freedom-Loader/releases) • [Documentation](https://docs.freedomloader.acnolo.fr/) • [Report Bug](https://github.com/MasterAcnolo/Freedom-Loader/issues)
 
 </div>

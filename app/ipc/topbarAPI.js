@@ -55,17 +55,17 @@ function registerTopbarAPIHandlers(getMainWindow) {
     );
 
     /**
-     * Opens official wiki page in external browser.
+     * Opens official documentation in the external browser.
      */
     ipcMain.on("open-wiki", () =>
-        shell.openExternal("https://freedomloader.acnolo.fr/wiki")
+        shell.openExternal("https://docs.freedomloader.acnolo.fr/")
     );
 
     /**
      * Opens workshop page in external browser.
      */
     ipcMain.on("open-workshop", () =>
-        shell.openExternal("https://masteracnolo.github.io/Freedom-Loader-Workshop")
+        shell.openExternal("https://workshop.freedomloader.acnolo.fr/")
     );
 
     /**

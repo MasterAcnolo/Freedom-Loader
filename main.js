@@ -142,12 +142,13 @@ app.whenReady().then(async () => {
 
   createSplashWindow();
 
+  // Check for native dependencies (yt-dlp, ffmpeg, ffprobe, deno), only if not in dev mode.
   if (!devMode && !checkNativeDependencies()) return;
 
   const { userYtDlp } = require("./server/helpers/path.helpers");
 
   if (configFeatures.autoUpdateYtDlp !== false) {
-  updateYtDlp(userYtDlp);
+    updateYtDlp(userYtDlp);
   } else {
     logger.info("yt-dlp automatic updates skipped.");
   }

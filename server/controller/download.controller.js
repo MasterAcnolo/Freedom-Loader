@@ -60,13 +60,21 @@ const ALLOWED_QUALITIES = new Set(["best", "medium", "worst", "1080", "720", "48
  * @returns {Promise<{success: boolean, message: string, outputFolder: string}>}
  */
 async function startDownload(body = {}) {
+
+  if(!body.url || !body.source){
+    throw Object.assign(new Error("Missing required parameters"), {code: "MISSING_PARAMETERS"});
+  }
+
   const options = {
       url: body.url,
       audioOnly: body.audioOnly === "1" || body.audioOnly === true,
       quality: ALLOWED_QUALITIES.has(body.quality) ? body.quality : "best",
       outputFolder: body.savePath || body.outputFolder || undefined,
       playlistTitle: body.playlistTitle || undefined,
+      source: body.source || "unknown",
   };
+
+  logger.info(`Download request received from "${options.source}". URL: ${options.url}`);
 
   if (!options.url || typeof options.url !== "string" || !isValidUrl(options.url)) {
     throw Object.assign(new Error("Invalid URL"), {code: "INVALID_URL"});
@@ -188,7 +196,7 @@ function progressController(req, res) {
   const onProgress = (percent) => sendProgress(percent);
   progressEmitter.on("progress", onProgress);
 
-  req.on("close", () => {
+  res.on("close", () => {
     const index = progressListeners.indexOf(sendProgress);
     if (index >= 0) progressListeners.splice(index, 1);
     progressEmitter.removeListener("progress", onProgress);
@@ -227,7 +235,7 @@ function speedController(req, res) {
   const onSpeed = (speed) => sendSpeed(speed);
   speedEmitter.on("speed", onSpeed);
 
-  req.on("close", () => {
+  res.on("close", () => {
     const index = speedListeners.indexOf(sendSpeed);
     if (index >= 0) speedListeners.splice(index, 1);
     speedEmitter.removeListener("speed", onSpeed);
@@ -267,7 +275,7 @@ function stageController(req, res) {
   const onStage = (stage) => sendStage(stage);
   stageEmitter.on("stage", onStage);
 
-  req.on("close", () => {
+  res.on("close", () => {
     const index = stageListeners.indexOf(sendStage);
     if (index >= 0) stageListeners.splice(index, 1);
     stageEmitter.removeListener("stage", onStage);
@@ -333,7 +341,7 @@ function playlistInfoController(req, res) {
   playlistEmitter.on("playlist", onPlaylist);
 
   // Remove listener when client disconnects
-  req.on("close", () => {
+  res.on("close", () => {
     const index = playlistListeners.indexOf(sendPlaylistInfo);
     if (index >= 0) playlistListeners.splice(index, 1);
     playlistEmitter.removeListener("playlist", onPlaylist);

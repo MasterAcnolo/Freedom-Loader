@@ -189,15 +189,6 @@ contextBridge.exposeInMainWorld("uiAPI", {
    */
   openConfig: () => ipcRenderer.send("open-config"),
 
-  /**
-   * Returns the changelog data
-   */
-  getChangelog: () => ipcRenderer.invoke("get-changelog"),
-
-  /**
-   * Marks the current changelog version as seen by the user.
-   */
-  markChangelogSeen: () => ipcRenderer.invoke("mark-changelog-seen"),
 });
 
 contextBridge.exposeInMainWorld("reportBugAPI", {
@@ -260,4 +251,9 @@ contextBridge.exposeInMainWorld("topbarAPI", {
    * Opens the workshop or external content library.
    */
   openWorkshop: () => ipcRenderer.send("open-workshop"),
+
+  /**
+   * Opens the changelog documentation in the external browser.
+   */
+  openChangelog: () => ipcRenderer.send("open-changelog"),
 });

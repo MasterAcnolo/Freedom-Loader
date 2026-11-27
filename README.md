@@ -153,7 +153,6 @@ freedom-loader
 |---------------|---------------------------------------------------------|--------------------------------------|
 | **Downloads** | `C:\Users\[USERNAME]\Downloads\Freedom Loader`          | `~/Downloads/Freedom Loader`         |
 | **Logs**      | `C:\Users\[USERNAME]\AppData\Local\FreedomLoader\logs\` | `~/.local/share/FreedomLoader/logs/` |
-| **Cache**     | `%APPDATA%\Freedom Loader\changelog-cache.json` | `~/.config/Freedom Loader/changelog-cache.json` |
 
 > [!NOTE]
 > The download folder can be changed anytime via the "Edit" button in the UI, on both platforms.
@@ -311,7 +310,6 @@ defaults from `config/config.default.json`. Existing values and unknown custom k
   "downloadSystem": true,
   "notifySystem": true,
   "enableHardwareAcceleration": true,
-  "showChanglogsAfterUpdate": true,
   "theme": "dark", 
   "downloadPath": "path/to/folder"
 }
@@ -337,7 +335,6 @@ defaults from `config/config.default.json`. Existing values and unknown custom k
 | `downloadSystem`             | boolean | `true`   | Enable download system                                     |
 | `notifySystem`               | boolean | `true`   | Enable system notifications                                |
 | `enableHardwareAcceleration` | boolean | `true`   | Enable Hardware Acceleration                               |
-| `showChanglogsAfterUpdate`   | boolean | `true`   | Auto-display changelog popup after and update              |
 | `theme`                      | string  | `dark`   | Current Theme Name                                         |
 | `downloadPath`               | string  | null     | Custom Output Folder Path Name                             |
 

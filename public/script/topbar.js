@@ -33,6 +33,9 @@ export function initTopBar() {
   const workshopBtn = document.getElementById("workshop-btn");
   if (workshopBtn) workshopBtn.onclick = () => topbarAPI.openWorkshop();
 
+  const changelogBtn = document.getElementById("changelog-btn");
+  if (changelogBtn) changelogBtn.onclick = () => topbarAPI.openChangelog();
+
 }
 
 //* Disabled because i disabled native topbar for now, but keeping the code in case i want to re-enable it later

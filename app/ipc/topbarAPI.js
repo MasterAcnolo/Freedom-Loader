@@ -69,6 +69,13 @@ function registerTopbarAPIHandlers(getMainWindow) {
     );
 
     /**
+     * Opens the changelog documentation in the external browser.
+     */
+    ipcMain.on("open-changelog", () =>
+        shell.openExternal("https://docs.freedomloader.acnolo.fr/changelog")
+    );
+
+    /**
      * Opens the theme directory in the file explorer.
      */
     ipcMain.on("open-theme", () => shell.openPath(userThemesPath));

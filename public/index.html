@@ -124,14 +124,6 @@
                 <summary>Advanced Settings</summary>
 
                 <div class="setting-item">
-                    <input type="checkbox" data-key="showChanglogsAfterUpdate" id="showChanglogsAfterUpdate">
-                    <div class="setting-info">
-                    <span class="setting-title">Show Changelogs After Update</span>
-                    <small>Display changelogs after each update.</small>
-                    </div>
-                </div>
-
-                <div class="setting-item">
                     <input data-key="systemTray" id="systemTray" type="checkbox">
                     <div class="setting-info">
                         <span class="setting-title">System Tray</span>
@@ -314,21 +306,6 @@
     <!-- Toast Container -->
     <div id="toast-container"></div>
 
-    <div class="changelog-overlay" id="changelog-overlay" hidden>
-        <section class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="changelog-title">
-            <div class="changelog-header">
-                <div>
-                    <span class="changelog-eyebrow">Freedom Loader</span>
-                    <h2 id="changelog-title">What's new</h2>
-                </div>
-                <button class="changelog-close" id="changelog-close" type="button" title="Close changelog" aria-label="Close changelog">&times;</button>
-            </div>
-            <div class="changelog-list" id="changelog-list">
-                <p class="changelog-loading">Loading changelog...</p>
-            </div>
-        </section>
-    </div>
-
     <h2 id="reference"> Because Why Not ? </h2>
 
     <div id="updateAvailable" style="display:none">
@@ -369,7 +346,6 @@
     <script src="script/customthemes.js"></script>
     <script src="script/reportBug.js"></script>
     <script src="script/autoUpdate.js"></script>
-    <script type="module" src="script/changelog.js"></script>
     <script type="module" src="script/topbar.js"></script>
     <script src="script/debugMode.js"></script>
 

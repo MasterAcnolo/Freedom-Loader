@@ -63,7 +63,7 @@ function validateCodec(codec){
  *
  * @returns {string[]} Array of arguments ready to be passed to yt-dlp.
  */
-function buildYtDlpArgs({url, audioOnly, quality, outputFolder, isPlaylist}) {
+function buildYtDlpArgs({url, audioOnly, quality, codec, outputFolder, isPlaylist}) {
 
   logger.info("--- CONFIGURATION ---");
 
@@ -99,7 +99,7 @@ function buildYtDlpArgs({url, audioOnly, quality, outputFolder, isPlaylist}) {
     "--extractor-args","youtube:player_client=default",
     "--js-runtimes", `deno:${denoPath}`,
     "-S", 
-    `vcodec:${validateCodec(configFeatures.customCodec) || "h264"}`+
+    `vcodec:${validateCodec(codec || configFeatures.customCodec) || "h264"}`+
     `,acodec:aac`,
     configFeatures.autoDownloadPlaylist ? "--yes-playlist" : "--no-playlist"
   ];
@@ -144,4 +144,3 @@ function buildYtDlpArgs({url, audioOnly, quality, outputFolder, isPlaylist}) {
 }
 
 module.exports = { buildYtDlpArgs };
-

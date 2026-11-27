@@ -1,4 +1,5 @@
 const EventEmitter = require("events");
+const {randomUUID} = require("crypto");
 const { fetchDownload, cancelDownload } = require("../services/download.services");
 const { logger } = require("../logger");
 const { isValidUrl, isSafePath } = require("../helpers/validation.helpers");
@@ -38,6 +39,8 @@ const stageListeners = [];
  * playlist progress information.
  */
 const playlistListeners = [];
+const downloadJobs = new Map();
+const MAX_RETAINED_DOWNLOAD_JOBS = 20;
 
 /**
  * Set of allowed quality values for downloads.
@@ -59,8 +62,7 @@ const ALLOWED_QUALITIES = new Set(["best", "medium", "worst", "1080", "720", "48
  * @param {Object} body
  * @returns {Promise<{success: boolean, message: string, outputFolder: string}>}
  */
-async function startDownload(body = {}) {
-
+function prepareDownloadOptions(body = {}) {
   if(!body.url || !body.source){
     throw Object.assign(new Error("Missing required parameters"), {code: "MISSING_PARAMETERS"});
   }
@@ -69,6 +71,7 @@ async function startDownload(body = {}) {
       url: body.url,
       audioOnly: body.audioOnly === "1" || body.audioOnly === true,
       quality: ALLOWED_QUALITIES.has(body.quality) ? body.quality : "best",
+      codec: typeof body.codec === "string" ? body.codec : undefined,
       outputFolder: body.savePath || body.outputFolder || undefined,
       playlistTitle: body.playlistTitle || undefined,
       source: body.source || "unknown",
@@ -84,7 +87,23 @@ async function startDownload(body = {}) {
     throw Object.assign(new Error("Save path not allowed"), {code: "INVALID_PATH"});
   }
 
+  return options;
+}
+
+/**
+ * Runs a prepared download and emits updates to an optional job listener as
+ * well as to the legacy application SSE streams.
+ *
+ * @param {Object} options
+ * @param {(event: string, data: unknown) => void} [onEvent]
+ */
+async function performDownload(options, onEvent) {
+  const notifyEvent = (event, data) => {
+    if (onEvent) onEvent(event, data);
+  };
+
   const progressHandler = (percent) => {
+    notifyEvent("progress", percent);
     progressEmitter.emit("progress", percent);
     for (let i = progressListeners.length - 1; i >= 0; i -= 1) {
       try {
@@ -96,6 +115,7 @@ async function startDownload(body = {}) {
   };
 
   const speedHandler = (speed) => {
+    notifyEvent("speed", speed);
     speedEmitter.emit("speed", speed);
     for (let i = speedListeners.length - 1; i >= 0; i -= 1) {
       try {
@@ -107,6 +127,7 @@ async function startDownload(body = {}) {
   };
 
   const stageHandler = (stage) => {
+    notifyEvent("stage", stage);
     stageEmitter.emit("stage", stage);
     for (let i = stageListeners.length - 1; i >= 0; i -= 1) {
       try {
@@ -118,6 +139,7 @@ async function startDownload(body = {}) {
   };
 
   const playlistHandler = (info) => {
+    notifyEvent("playlist-info", info);
     playlistEmitter.emit("playlist", info);
     for (let i = playlistListeners.length - 1; i >= 0; i -= 1) {
       try {
@@ -140,6 +162,139 @@ async function startDownload(body = {}) {
   return {success: true, message: "Download Done !", outputFolder};
 }
 
+async function startDownload(body = {}) {
+  return performDownload(prepareDownloadOptions(body));
+}
+
+/**
+ * Starts a download for the HTTP API and retains its latest state so clients
+ * can subscribe to its SSE stream after receiving the accepted response.
+ *
+ * @param {Object} body
+ * @returns {{downloadId: string, eventsUrl: string}}
+ */
+function startHttpDownload(body = {}) {
+  const options = prepareDownloadOptions(body);
+  const downloadId = randomUUID();
+  const job = {
+    downloadId,
+    status: "started",
+    latest: {},
+    listeners: new Set(),
+  };
+  downloadJobs.set(downloadId, job);
+
+  const publish = (event, data) => {
+    job.latest[event] = data;
+    for (const listener of job.listeners) {
+      try {
+        listener(event, data);
+      } catch (err) {
+        job.listeners.delete(listener);
+        logger.warn(`Download event listener disconnected: ${err.message}`);
+      }
+    }
+  };
+
+  publish("status", {status: "started"});
+  pruneDownloadJobs();
+
+  Promise.resolve()
+    .then(() => {
+      job.status = "running";
+      publish("status", {status: "running"});
+      return performDownload(options, publish);
+    })
+    .then((result) => {
+      job.status = "completed";
+      publish("completed", result);
+    })
+    .catch((err) => {
+      job.status = "failed";
+      logger.error(`HTTP download ${downloadId} failed: ${err?.message ?? err}`);
+      const code = err?.code
+        || (err?.message === "Download already in progress" ? "DOWNLOAD_IN_PROGRESS" : null)
+        || (err?.message === "Download cancelled by user" ? "DOWNLOAD_CANCELLED" : "DOWNLOAD_FAILED");
+      publish("failed", {
+        error: {
+          code,
+          message: code === "DOWNLOAD_IN_PROGRESS"
+            ? "A download is already in progress"
+            : code === "DOWNLOAD_CANCELLED"
+              ? "Download cancelled by user"
+              : "Server Error",
+        },
+      });
+    });
+
+  return {downloadId, eventsUrl: `/download/${downloadId}/events`};
+}
+
+function pruneDownloadJobs() {
+  while (downloadJobs.size > MAX_RETAINED_DOWNLOAD_JOBS) {
+    const oldestTerminalJob = [...downloadJobs.keys()].find((id) => {
+      const job = downloadJobs.get(id);
+      return job.status === "completed" || job.status === "failed";
+    });
+    if (!oldestTerminalJob) return;
+    downloadJobs.delete(oldestTerminalJob);
+  }
+}
+
+/**
+ * Streams the latest state and subsequent events for one HTTP download.
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
+function downloadEventsController(req, res) {
+  const job = downloadJobs.get(req.params.downloadId);
+  if (!job) {
+    return res.status(404).json({
+      error: {code: "DOWNLOAD_NOT_FOUND", message: "Download not found or expired"},
+    });
+  }
+
+  res.set({
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+  res.flushHeaders?.();
+
+  const writeEvent = (event, data) => {
+    if (!res.destroyed && !res.writableEnded) {
+      res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+    }
+  };
+  const snapshot = {
+    downloadId: job.downloadId,
+    status: job.status,
+    latest: job.latest,
+  };
+  const listener = (event, data) => {
+    writeEvent(event, data);
+    if (event === "completed" || event === "failed") {
+      job.listeners.delete(listener);
+      if (!res.destroyed && !res.writableEnded) res.end();
+    }
+  };
+
+  if (job.status !== "completed" && job.status !== "failed") {
+    job.listeners.add(listener);
+  }
+  writeEvent("snapshot", snapshot);
+
+  if (job.status === "completed" || job.status === "failed") {
+    return res.end();
+  }
+
+  res.on("close", () => {
+    job.listeners.delete(listener);
+  });
+}
+
 /**
  * HTTP compatibility controller retained for consumers outside the Electron IPC bridge.
  *
@@ -148,7 +303,13 @@ async function startDownload(body = {}) {
  */
 async function downloadController(req, res) {
   try {
-    return res.json(await startDownload(req.body || {}));
+    const {downloadId, eventsUrl} = startHttpDownload(req.body || {});
+    return res.status(202).json({
+      success: true,
+      message: "Download Started",
+      downloadId,
+      eventsUrl,
+    });
   } catch (err) {
     logger.error(`Download error: ${err?.message ?? err}`);
     if (err?.message === "Download already in progress") {
@@ -156,10 +317,15 @@ async function downloadController(req, res) {
         error: {code: "DOWNLOAD_IN_PROGRESS", message: "A download is already in progress"},
       });
     }
-    return res.status(err?.code === "INVALID_URL" || err?.code === "INVALID_PATH" ? 400 : 500).json({
+    const isInvalidRequest = [
+      "MISSING_PARAMETERS",
+      "INVALID_URL",
+      "INVALID_PATH",
+    ].includes(err?.code);
+    return res.status(isInvalidRequest ? 400 : 500).json({
       error: {
         code: err?.code || "DOWNLOAD_FAILED",
-        message: err?.code === "INVALID_URL" || err?.code === "INVALID_PATH"
+        message: isInvalidRequest
           ? err.message
           : err?.message === "Download already in progress"
             ? "A download is already in progress"
@@ -355,7 +521,9 @@ function playlistInfoController(req, res) {
 
 module.exports = {
   startDownload,
+  startHttpDownload,
   downloadController,
+  downloadEventsController,
   progressController,
   speedController,
   stageController,

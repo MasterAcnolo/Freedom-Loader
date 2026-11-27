@@ -1,0 +1,552 @@
+openapi: 3.1.0
+info:
+  title: Freedom Loader Local API
+  version: 1.0.0
+  description: |
+    Local HTTP API provided while Freedom Loader is running. The server binds
+    to 127.0.0.1 only and is intended for integrations running on the same
+    machine. The root path serves the Electron UI and is not an API endpoint.
+servers:
+  - url: http://127.0.0.1:8787
+    description: Local Freedom Loader server
+tags:
+  - name: System
+  - name: Information
+  - name: Downloads
+paths:
+  /health:
+    get:
+      tags: [System]
+      summary: Check whether the local server is responding
+      operationId: getHealth
+      responses:
+        "200":
+          description: Server is available
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    const: ok
+              example:
+                status: ok
+  /info:
+    get:
+      tags: [Information]
+      summary: Fetch video or playlist information
+      operationId: getInfo
+      parameters:
+        - $ref: "#/components/parameters/SourceQuery"
+        - $ref: "#/components/parameters/UrlQuery"
+      responses:
+        "200":
+          $ref: "#/components/responses/InfoResult"
+        "400":
+          $ref: "#/components/responses/InfoBadRequest"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/InfoFailure"
+    post:
+      tags: [Information]
+      summary: Fetch video or playlist information
+      description: Provide source and URL in the JSON body or as query parameters.
+      operationId: postInfo
+      parameters:
+        - $ref: "#/components/parameters/SourceQueryOptional"
+        - $ref: "#/components/parameters/UrlQueryOptional"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InfoRequest"
+            example:
+              source: AfterEffectsPlugin
+              url: https://www.youtube.com/watch?v=VIDEO_ID
+      responses:
+        "200":
+          $ref: "#/components/responses/InfoResult"
+        "400":
+          $ref: "#/components/responses/InfoBadRequest"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/InfoFailure"
+  /download:
+    post:
+      tags: [Downloads]
+      summary: Start a download and receive its event stream URL
+      description: |
+        Returns immediately with HTTP 202 and a downloadId. Subscribe to the
+        returned eventsUrl to receive a replayable snapshot and live events.
+      operationId: startDownload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DownloadRequest"
+            example:
+              source: AfterEffectsPlugin
+              url: https://www.youtube.com/watch?v=VIDEO_ID
+              audioOnly: false
+              quality: "1080"
+              codec: h264
+              outputFolder: /home/user/Downloads
+      responses:
+        "202":
+          description: Download accepted and started asynchronously
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DownloadAccepted"
+              example:
+                success: true
+                message: Download Started
+                downloadId: 2f42a4ba-82f7-4eab-bc0c-d235c44d22b4
+                eventsUrl: /download/2f42a4ba-82f7-4eab-bc0c-d235c44d22b4/events
+        "400":
+          description: A required parameter is missing, the URL is invalid, or the output path is not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                missingParameters:
+                  value:
+                    error:
+                      code: MISSING_PARAMETERS
+                      message: Missing required parameters
+                invalidUrl:
+                  value:
+                    error:
+                      code: INVALID_URL
+                      message: Invalid URL
+                invalidPath:
+                  value:
+                    error:
+                      code: INVALID_PATH
+                      message: Save path not allowed
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          description: The request could not be accepted due to an unexpected server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error:
+                  code: DOWNLOAD_FAILED
+                  message: Server Error
+  /download/cancel:
+    post:
+      tags: [Downloads]
+      summary: Cancel the active download
+      operationId: cancelDownload
+      responses:
+        "200":
+          description: Download cancellation was requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CancelResult"
+              example:
+                success: true
+                message: Download stopped! Queue cleared.
+        "400":
+          description: There is no active download
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error:
+                  code: NO_DOWNLOAD_IN_PROGRESS
+                  message: No download in progress !
+  /download/{downloadId}/events:
+    get:
+      tags: [Downloads]
+      summary: Subscribe to one download's replayable event stream
+      description: |
+        Sends an initial snapshot containing the current status and latest
+        progress values, then emits live status, progress, speed, stage,
+        playlist-info, completed, or failed events. Terminal snapshots are
+        sent once and the stream closes. Completed and failed jobs remain
+        available until they are pruned from the bounded in-memory history.
+      operationId: streamDownloadEvents
+      parameters:
+        - name: downloadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          $ref: "#/components/responses/DownloadEventsStream"
+        "404":
+          description: Unknown or expired download identifier
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error:
+                  code: DOWNLOAD_NOT_FOUND
+                  message: Download not found or expired
+  /download/progress:
+    get:
+      tags: [Downloads]
+      summary: Subscribe to download progress events
+      operationId: streamDownloadProgress
+      responses:
+        "200":
+          $ref: "#/components/responses/ProgressStream"
+  /download/speed:
+    get:
+      tags: [Downloads]
+      summary: Subscribe to download speed events
+      operationId: streamDownloadSpeed
+      responses:
+        "200":
+          $ref: "#/components/responses/SpeedStream"
+  /download/stage:
+    get:
+      tags: [Downloads]
+      summary: Subscribe to download stage events
+      operationId: streamDownloadStage
+      responses:
+        "200":
+          $ref: "#/components/responses/StageStream"
+  /download/playlist-info:
+    get:
+      tags: [Downloads]
+      summary: Subscribe to playlist progress events
+      operationId: streamPlaylistProgress
+      responses:
+        "200":
+          $ref: "#/components/responses/PlaylistStream"
+components:
+  parameters:
+    SourceQuery:
+      name: source
+      in: query
+      required: true
+      description: Name of the local integration making the request.
+      schema:
+        type: string
+      example: AfterEffectsPlugin
+    SourceQueryOptional:
+      name: source
+      in: query
+      required: false
+      description: Name of the local integration making the request. Required if not supplied in the JSON body.
+      schema:
+        type: string
+      example: AfterEffectsPlugin
+    UrlQuery:
+      name: url
+      in: query
+      required: true
+      description: Video or playlist URL. Query encoding is handled by the client.
+      schema:
+        type: string
+        format: uri
+      example: https://www.youtube.com/watch?v=VIDEO_ID
+    UrlQueryOptional:
+      name: url
+      in: query
+      required: false
+      description: Video or playlist URL. Required if not supplied in the JSON body.
+      schema:
+        type: string
+        format: uri
+      example: https://www.youtube.com/watch?v=VIDEO_ID
+  schemas:
+    InfoRequest:
+      type: object
+      required: [source, url]
+      properties:
+        source:
+          type: string
+          description: Name of the local integration making the request.
+        url:
+          type: string
+          format: uri
+          description: Video or playlist URL.
+    DownloadRequest:
+      type: object
+      required: [source, url]
+      properties:
+        source:
+          type: string
+          description: Name of the local integration making the request.
+        url:
+          type: string
+          format: uri
+          description: Video or playlist URL.
+        audioOnly:
+          oneOf:
+            - type: boolean
+            - type: string
+              const: "1"
+          default: false
+          description: Extract audio as MP3 when true or "1".
+        quality:
+          type: string
+          enum: [best, medium, worst, "1080", "720", "480"]
+          default: best
+          description: Unknown values are treated as best.
+        codec:
+          type: string
+          enum: [av01, vp9.2, vp9, h265, h264, vp8, h263, theora]
+          description: Defaults to the codec configured in Freedom Loader; invalid values fall back to h264.
+        outputFolder:
+          type: string
+          description: Optional output folder, subject to application path validation.
+        savePath:
+          type: string
+          description: Alias for outputFolder.
+        playlistTitle:
+          type: string
+          description: Optional playlist title, used when creating a playlist folder.
+    DownloadAccepted:
+      type: object
+      required: [success, message, downloadId, eventsUrl]
+      properties:
+        success:
+          type: boolean
+          const: true
+        message:
+          type: string
+          const: Download Started
+        downloadId:
+          type: string
+          format: uuid
+        eventsUrl:
+          type: string
+          description: Relative path for this download's SSE event stream.
+    CancelResult:
+      type: object
+      required: [success, message]
+      properties:
+        success:
+          type: boolean
+          const: true
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+    InfoResult:
+      oneOf:
+        - $ref: "#/components/schemas/VideoInfo"
+        - $ref: "#/components/schemas/PlaylistInfo"
+      discriminator:
+        propertyName: type
+        mapping:
+          video: "#/components/schemas/VideoInfo"
+          playlist: "#/components/schemas/PlaylistInfo"
+    VideoInfo:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          const: video
+        id:
+          type: [string, "null"]
+        title:
+          type: [string, "null"]
+        fulltitle:
+          type: [string, "null"]
+        webpage_url:
+          type: [string, "null"]
+          format: uri
+        thumbnail:
+          type: [string, "null"]
+          format: uri
+        duration:
+          type: [number, "null"]
+        channel:
+          type: [string, "null"]
+        channel_url:
+          type: [string, "null"]
+          format: uri
+        uploader:
+          type: [string, "null"]
+        uploader_id:
+          type: [string, "null"]
+        uploader_url:
+          type: [string, "null"]
+          format: uri
+        extractor:
+          type: [string, "null"]
+        filesize_approx:
+          type: [integer, "null"]
+        is_live:
+          type: [boolean, "null"]
+        upload_date:
+          type: [string, "null"]
+        view_count:
+          type: [integer, "null"]
+        like_count:
+          type: [integer, "null"]
+        categories:
+          type: [array, "null"]
+          items:
+            type: string
+        tags:
+          type: [array, "null"]
+          items:
+            type: string
+    PlaylistInfo:
+      type: object
+      required: [type, title, count, videos]
+      properties:
+        type:
+          type: string
+          const: playlist
+        title:
+          type: string
+        channel:
+          type: [string, "null"]
+        count:
+          type: integer
+        videos:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: [string, "null"]
+              title:
+                type: [string, "null"]
+              url:
+                type: [string, "null"]
+                format: uri
+              duration:
+                type: [number, "null"]
+              thumbnail:
+                type: [string, "null"]
+                format: uri
+              uploader:
+                type: [string, "null"]
+  responses:
+    InfoResult:
+      description: Normalized information for one video or a playlist.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/InfoResult"
+    InfoBadRequest:
+      description: Source is missing or the URL is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          examples:
+            missingSource:
+              value:
+                error:
+                  code: MISSING_SOURCE
+                  message: Missing source parameter
+            invalidUrl:
+              value:
+                error:
+                  code: INVALID_URL
+                  message: Invalid or missing URL
+    InfoFailure:
+      description: Metadata could not be fetched.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error:
+              code: FETCH_FAILED
+              message: Unable to fetch info
+    RateLimited:
+      description: Request rate limit exceeded.
+      headers:
+        RateLimit-Limit:
+          schema:
+            type: integer
+        RateLimit-Remaining:
+          schema:
+            type: integer
+        RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    ProgressStream:
+      description: |
+        Server-Sent Events stream. Each event is a `data: <value>` line followed
+        by a blank line. Values can include progress percentages, `reset`, and
+        `done`. Disconnecting closes only this stream, not the download.
+      content:
+        text/event-stream:
+          schema:
+            type: string
+          example: |
+            data: 42.5
+
+            data: done
+    SpeedStream:
+      description: Server-Sent Events stream carrying transfer speeds (for example `1.2 MiB/s`).
+      content:
+        text/event-stream:
+          schema:
+            type: string
+          example: |
+            data: 1.2 MiB/s
+    StageStream:
+      description: Server-Sent Events stream carrying the current download or post-processing stage.
+      content:
+        text/event-stream:
+          schema:
+            type: string
+          example: |
+            data: Downloading...
+    PlaylistStream:
+      description: Server-Sent Events stream carrying playlist item progress.
+      content:
+        text/event-stream:
+          schema:
+            type: string
+          example: |
+            data: Item 2 of 12
+    DownloadEventsStream:
+      description: |
+        Server-Sent Events stream. The first event is `snapshot`, containing
+        downloadId, status, and a latest object. Subsequent events are named
+        status, progress, speed, stage, playlist-info, completed, or failed;
+        event data is JSON. The stream closes after a terminal snapshot or
+        when the client disconnects.
+      content:
+        text/event-stream:
+          schema:
+            type: string
+          example: |
+            event: snapshot
+            data: {"downloadId":"2f42a4ba-82f7-4eab-bc0c-d235c44d22b4","status":"running","latest":{"status":{"status":"running"},"progress":42}}
+
+            event: completed
+            data: {"success":true,"message":"Download Done !","outputFolder":"/home/user/Downloads"}

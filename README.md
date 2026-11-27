@@ -174,12 +174,68 @@ freedom-loader
 
 ### Local HTTP API
 
-When Freedom Loader is running, its HTTP API is available only on `127.0.0.1:8787`.
-It is intended for local integrations and is not exposed to other devices on the network.
+When Freedom Loader is running, its HTTP API listens only on `127.0.0.1:8787`. It is intended for local integrations; it is not exposed to other devices on the network. The `/` page is the Electron UI and is not part of the public API.
+
+Open the interactive Swagger UI at [http://localhost:8787/api](http://localhost:8787/api) while Freedom Loader is running. It loads the bundled OpenAPI spec from `/api/openapi.yaml` and works without an external Swagger service.
 
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | `GET` | `/health` | Returns `{"status":"ok"}` when the server is available |
+| `GET`, `POST` | `/info` | Fetches normalized video or playlist metadata |
+| `POST` | `/download` | Starts a download and immediately returns a `downloadId` |
+| `POST` | `/download/cancel` | Cancels the current download |
+| `GET` | `/download/{downloadId}/events` | Per-download SSE stream with an initial snapshot and live events |
+| `GET` | `/download/progress` | SSE stream of progress values |
+| `GET` | `/download/speed` | SSE stream of transfer speed |
+| `GET` | `/download/stage` | SSE stream of the current stage |
+| `GET` | `/download/playlist-info` | SSE stream of playlist item progress |
+
+#### Start and monitor a download
+
+```bash
+response=$(curl --silent --show-error --request POST 'http://127.0.0.1:8787/download' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "source": "MyIntegration",
+    "url": "https://www.youtube.com/watch?v=VIDEO_ID",
+    "audioOnly": false,
+    "quality": "best",
+    "codec": "h264",
+    "outputFolder": "/path/to/downloads"
+  }')
+
+echo "$response"
+events_url=$(printf '%s' "$response" | node -pe 'JSON.parse(require("fs").readFileSync(0, "utf8")).eventsUrl')
+curl --no-buffer "http://127.0.0.1:8787${events_url}"
+```
+
+The start request responds immediately with HTTP `202 Accepted` and JSON containing `downloadId` and `eventsUrl`. Subscribe to that URL to receive an initial `snapshot` with the latest known values, followed by live `status`, `progress`, `speed`, `stage`, `playlist-info`, and terminal `completed` or `failed` events. This allows clients to subscribe after starting without missing early progress. A completed job's snapshot is retained in memory for up to 20 recent jobs.
+
+`source` and `url` are required. `quality` accepts `best`, `medium`, `worst`, `1080`, `720`, or `480`; an unknown value uses `best`. `codec` accepts `av01`, `vp9.2`, `vp9`, `h265`, `h264`, `vp8`, `h263`, or `theora`; when omitted, the configured codec is used, and unsupported codecs fall back to `h264`. `audioOnly` accepts a boolean or the string `"1"`. The destination can be given as `outputFolder` or `savePath` and is subject to path validation. If another download is active, its event stream reports a `failed` event.
+
+#### Fetch video or playlist information
+
+```bash
+curl --get 'http://127.0.0.1:8787/info' \
+  --data-urlencode 'source=MyIntegration' \
+  --data-urlencode 'url=https://www.youtube.com/watch?v=VIDEO_ID&list=PLAYLIST_ID'
+```
+
+The `source` and `url` values are required. For `POST /info`, send the same fields as a JSON body. The response is a normalized video or playlist object.
+
+#### Follow download progress with SSE
+
+The global streams remain available for the application UI and legacy integrations:
+
+```bash
+curl --no-buffer 'http://127.0.0.1:8787/download/progress'
+```
+
+The other global streams are `/download/speed`, `/download/stage`, and `/download/playlist-info`. The per-download stream returned in `eventsUrl` is recommended for integrations; it sends named events with JSON data and replays the latest state on connection. Disconnecting from any SSE stream does not cancel the download.
+
+The canonical [OpenAPI/Swagger specification](./openapi.yaml) lives in this application repository. Browse it locally at `/api`, in [Swagger Editor](https://editor.swagger.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2FMasterAcnolo%2FFreedom-Loader%2Fmain%2Fopenapi.yaml), or read the [API reference](https://docs.freedomloader.acnolo.fr/api).
+
+For the full explanation of how downloads are validated, passed to yt-dlp, tracked over IPC or HTTP/SSE, and completed, see the [download lifecycle documentation](https://docs.freedomloader.acnolo.fr/features/download-lifecycle).
 
 ### Advanced Configuration
 

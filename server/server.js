@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const {randomBytes} = require("crypto");
+const swaggerUiPath = require("swagger-ui-dist").getAbsoluteFSPath();
 const config = require("../config");
 
 const {logger} = require("./logger");
@@ -17,6 +18,38 @@ let serverInstance = null;
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/assets", express.static(swaggerUiPath));
+app.get("/api/openapi.yaml", (req, res) => {
+  res.sendFile(path.join(__dirname, "../openapi.yaml"));
+});
+app.get("/api", (req, res) => {
+  res.type("html").send(`<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Freedom Loader API</title>
+    <link rel="stylesheet" href="/api/assets/swagger-ui.css">
+  </head>
+  <body>
+    <div id="swagger-ui"></div>
+    <script src="/api/assets/swagger-ui-bundle.js"></script>
+    <script src="/api/assets/swagger-ui-standalone-preset.js"></script>
+    <script>
+      window.onload = () => {
+        window.ui = SwaggerUIBundle({
+          url: "/api/openapi.yaml",
+          dom_id: "#swagger-ui",
+          deepLinking: true,
+          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+          layout: "StandaloneLayout"
+        });
+      };
+    </script>
+  </body>
+</html>`);
+});
 
 app.use((req, res, next) => {
   const isUiDocument = req.path === "/" || req.path.toLowerCase().endsWith(".html");

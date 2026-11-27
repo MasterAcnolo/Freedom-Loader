@@ -16,19 +16,16 @@
   },
   "main": "main.js",
   "scripts": {
-
     "start": "electron --no-warnings .",
     "start:warn": "electron --trace-warnings .",
     "dev": "nodemon --watch server --watch app --watch main.js --watch config.js --ext js,json --exec \"electron --no-warnings .\"",
     "electron:debug": "WAYLAND_DEBUG=1 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 electron --enable-logging --v=1 .",
-
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
     "build:rpm": "npm run clean:dist && npm run build:linux && bash scripts/create-copr-package.sh",
     "build:all": "electron-builder -wl",
     "clean:dist": "rm -rf dist/ && rm -rf srpm-out/",
-
     "release": "bash scripts/release.sh",
     "release:publish": "bash scripts/release.sh --publish",
     "release:dry-run": "bash scripts/release.sh --dry-run",
@@ -48,6 +45,7 @@
     "express": "^5.1.0",
     "express-rate-limit": "8.7.2",
     "jszip": "^3.10.1",
+    "swagger-ui-dist": "^5.36.0",
     "webidl-conversions": "^8.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
@@ -87,6 +85,7 @@
       "main.js",
       "preload.js",
       "package.json",
+      "openapi.yaml",
       "!node_modules/**/README",
       "!node_modules/**/*.md",
       "!node_modules/**/*.map",

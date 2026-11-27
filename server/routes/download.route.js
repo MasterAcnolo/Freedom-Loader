@@ -3,6 +3,7 @@ const router = express.Router();
 const { downloadRateLimit } = require("../helpers/rateLimit.helpers");
 const {
   downloadController,
+  downloadEventsController,
   cancelDownloadController,
   progressController,
   speedController,
@@ -12,6 +13,7 @@ const {
 
 router.post("/", downloadRateLimit, downloadController);
 router.post("/cancel", cancelDownloadController);
+router.get("/:downloadId/events", downloadEventsController);
 
 // SSE streams for download updates.
 router.get("/progress", progressController);

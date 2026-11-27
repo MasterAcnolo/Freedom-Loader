@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "../public"), {index: false}));
 
 app.use("/download", require("./routes/download.route"));
+app.use("/info", require("./routes/info.route"));
 app.use("/health", require("./routes/health.route"));
 
 // Interface

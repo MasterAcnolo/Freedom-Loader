@@ -13,6 +13,16 @@ const { isValidUrl } = require("../helpers/validation.helpers");
  */
 async function infoController(req, res) {
   try {
+
+    if (!req.query.source && !(req.body && req.body.source)) {
+      logger.warn("Info request received without source parameter");
+      return res.status(400).json({
+        error: {code: "MISSING_SOURCE", message: "Missing source parameter"},
+      });
+    }
+
+    const source = req.query.source || (req.body && req.body.source) || "unknown";
+
     const url = req.query.url || (req.body && req.body.url);
     const encodedUrl = typeof url === "string" ? encodeURIComponent(url) : undefined;
 
@@ -22,7 +32,7 @@ async function infoController(req, res) {
       });
     }
 
-    logger.info(`Info request received. RAW URL: ${url}`);
+    logger.info(`Info request received from "${source}". URL: ${url}`);
     if (encodedUrl) {
       logger.info(`Info request received. ENCODED: ${encodedUrl}`);
     }

@@ -104,7 +104,7 @@ async function cleanShutdown() {
   try {
     destroyTray();
     await stopRPC();
-    stopServer(); 
+    await stopServer();
 
   } catch (err) {
     logger.error("Error during cleanup:", err);

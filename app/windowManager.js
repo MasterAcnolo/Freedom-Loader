@@ -7,6 +7,7 @@ const {BrowserWindow, app, shell} = require("electron");
 const path = require("path");
 const { logger } = require("../server/logger");
 const config = require("../config");
+const {uiAccessToken} = require("../server/server");
 
 /**
  * Singleton reference to the main Electron BrowserWindow instance.
@@ -73,7 +74,7 @@ async function createMainWindow() {
    * In production, this could be replaced with a file:// build.
    */
   try {
-    await mainWindow.loadURL(`http://localhost:${config.applicationPort}`);
+    await mainWindow.loadURL(`http://localhost:${config.applicationPort}/?uiToken=${uiAccessToken}`);
     logger.info("Window loaded");
   } catch (err) {
     logger.error("Window loading error:", err);

@@ -1,11 +1,13 @@
 const express = require("express");
 const path = require("path");
+const {randomBytes} = require("crypto");
 const config = require("../config");
 
 const {logger} = require("./logger");
 const { rateLimit } = require("./helpers/rateLimit.helpers");
 
 const app = express();
+const uiAccessToken = randomBytes(32).toString("hex");
 
 /**
  * Store the state of the server
@@ -15,10 +17,19 @@ let serverInstance = null;
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../public")));
 
-// Only the download SSE routes remain HTTP-based. Requests for metadata,
-// downloads, and cancellation are handled through Electron IPC.
+app.use((req, res, next) => {
+  const isUiDocument = req.path === "/" || req.path.toLowerCase().endsWith(".html");
+  if (!isUiDocument) return next();
+
+  if (req.query.uiToken !== uiAccessToken) {
+    return res.sendStatus(404);
+  }
+  return next();
+});
+
+app.use(express.static(path.join(__dirname, "../public"), {index: false}));
+
 app.use("/download", require("./routes/download.route"));
 
 // Interface
@@ -66,4 +77,4 @@ function stopServer() {
   }
 }
 
-module.exports = { startServer, stopServer };
+module.exports = { app, startServer, stopServer, uiAccessToken };

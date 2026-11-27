@@ -172,6 +172,15 @@ freedom-loader
 5. Monitor progress in real-time
 6. Receive a notification when the download completes
 
+### Local HTTP API
+
+When Freedom Loader is running, its HTTP API is available only on `127.0.0.1:8787`.
+It is intended for local integrations and is not exposed to other devices on the network.
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| `GET` | `/health` | Returns `{"status":"ok"}` when the server is available |
+
 ### Advanced Configuration
 
 The application supports various configuration options:

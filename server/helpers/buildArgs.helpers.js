@@ -4,7 +4,7 @@ const {getUserBrowser} = require("./getBrowser.helpers.js");
 const { ffmpegPath, denoPath} = require("./path.helpers.js");
 const { configFeatures } = require("../../config.js");
 const { logger } = require("../logger.js");
-const config  = require("../../config")
+const config = require("../../config");
 
 /**
  * Validates whether the provided codec is supported by the application.
@@ -30,14 +30,14 @@ function validateCodec(codec){
 
   const validCodec = [
     "av01","vp9.2", "vp9" , "h265" , "h264" , "vp8" , "h263", "theora" 
-  ]
+  ];
 
   if(validCodec.includes(codec)){
-      logger.info(`Codec Valid: ${codec}`)
-      return codec
+      logger.info(`Codec Valid: ${codec}`);
+      return codec;
   } else{
-    logger.error(`Codec not valid: ${codec}. Using default codec`)
-    return "h264"
+    logger.error(`Codec not valid: ${codec}. Using default codec`);
+    return "h264";
   }
 }
 

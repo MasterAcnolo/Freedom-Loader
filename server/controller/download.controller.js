@@ -180,7 +180,7 @@ function progressController(req, res) {
   const sendProgress = (percent) => {
     try {
       res.write(`data: ${percent}\n\n`);
-    } catch (err) {
+    } catch {
       // ignore broken pipe
     }
   };
@@ -194,7 +194,7 @@ function progressController(req, res) {
     progressEmitter.removeListener("progress", onProgress);
     try {
       res.end();
-    } catch (err) {
+    } catch {
       // ignore
     }
   });
@@ -219,7 +219,7 @@ function speedController(req, res) {
   const sendSpeed = (speed) => {
     try {
       res.write(`data: ${speed}\n\n`);
-    } catch (err) {
+    } catch {
       // ignore broken pipe
     }
   };
@@ -233,7 +233,7 @@ function speedController(req, res) {
     speedEmitter.removeListener("speed", onSpeed);
     try {
       res.end();
-    } catch (err) {
+    } catch {
       // ignore
     }
   });
@@ -259,7 +259,7 @@ function stageController(req, res) {
   const sendStage = (stage) => {
     try {
       res.write(`data: ${stage}\n\n`);
-    } catch (err) {
+    } catch {
       // ignore broken pipe
     }
   };
@@ -273,7 +273,7 @@ function stageController(req, res) {
     stageEmitter.removeListener("stage", onStage);
     try {
       res.end();
-    } catch (err) {
+    } catch {
       // ignore
     }
   });
@@ -324,7 +324,7 @@ function playlistInfoController(req, res) {
   const sendPlaylistInfo = (info) => {
     try {
       res.write(`data: ${info}\n\n`);
-    } catch (err) {
+    } catch {
       // ignore broken pipe
     }
   };
@@ -339,7 +339,7 @@ function playlistInfoController(req, res) {
     playlistEmitter.removeListener("playlist", onPlaylist);
     try {
       res.end();
-    } catch (err) {
+    } catch {
       // ignore
     }
   });

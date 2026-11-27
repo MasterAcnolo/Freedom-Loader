@@ -147,7 +147,7 @@ module.exports = {
   /**
    * Backend Express / internal server port
    */
-  applicationPort: "8787",
+  applicationPort: process.env.FREEDOM_LOADER_PORT || "8787",
 
   /**
    * Indicates whether the app is running in development mode

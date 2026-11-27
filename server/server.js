@@ -78,38 +78,45 @@ app.get("/", rateLimit, (req, res) => {
  * - Binds the server to `config.applicationPort`
  * - Resolves with the HTTP server instance on successful startup
  * - Rejects on server binding or runtime errors
- * - Registers SIGINT/SIGTERM handlers for graceful shutdown
+ * - Uses a loopback-only bind by default; callers can override host/port for tests
  */
-async function startServer() {
+async function startServer({host = "127.0.0.1", port = config.applicationPort} = {}) {
   return new Promise((resolve, reject) => {
-    serverInstance = app.listen(config.applicationPort, "127.0.0.1" ,() => {
-      logger.info(`Express server ready at http://localhost:${config.applicationPort}`);
-      resolve(serverInstance);
+    if (serverInstance?.listening) {
+      return resolve(serverInstance);
+    }
+
+    const instance = app.listen(port, host);
+    serverInstance = instance;
+
+    instance.once("listening", () => {
+      logger.info(`Express server ready at http://${host}:${instance.address().port}`);
+      resolve(instance);
     });
 
-    serverInstance.on("error", (err) => {
+    instance.once("error", (err) => {
       logger.error("Express server error:", err);
+      if (serverInstance === instance) serverInstance = null;
       reject(err);
     });
   });
 }
 
 /**
- * Clean exit function called by Electron
+ * Stops Express and closes open SSE/HTTP connections.
  */
 function stopServer() {
-  if (serverInstance) {
-    try {
-      serverInstance.close(() => {
-        // logger.info("Express server closed cleanly");
-      });
-      serverInstance = null;
-    } catch (err) {
-      logger.error("Express server was not closed cleanly:", err);
-    }
-  } else {
-    logger.info("Express server was already closed");
-  }
+  const instance = serverInstance;
+  serverInstance = null;
+  if (!instance) return Promise.resolve();
+
+  return new Promise((resolve, reject) => {
+    instance.close((err) => {
+      if (err && err.code !== "ERR_SERVER_NOT_RUNNING") return reject(err);
+      resolve();
+    });
+    instance.closeAllConnections?.();
+  });
 }
 
 module.exports = { app, startServer, stopServer, uiAccessToken };

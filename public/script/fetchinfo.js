@@ -29,8 +29,8 @@ function formatSize(bytes) {
 async function fetchVideoInfo(url) {
   try {
     return await window.infoAPI.fetchInfo(url);
-  } catch (e) {
-    // return {error: e?.message || "Unable to fetch info"};
+  } catch{
+    // return {error: e?.message || " to fetch info"};
     return {error: "Unable to fetch info"};
   }
 }
